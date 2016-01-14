@@ -1,0 +1,43 @@
+html {
+	background-color: #ffffff;
+}
+form {
+	margin-bottom: 0px;
+}
+
+
+/* module */
+.module:hover {
+	opacity: 0.8;
+	filter: alpha(opacity=80); /* For IE8 and earlier */
+}
+
+
+/* list view */
+.list-view {
+	margin-bottom: 0px;
+}
+.list-view > thead > tr > th {
+	border-right: 1px solid #e0e4e8;
+	padding: 9px 15px;
+}
+.list-view > tbody > tr > td {
+	padding: 9px 15px;
+}
+.clickable_row:hover {
+	cursor: pointer;
+	background-color: #F7F8F9;
+}
+
+/* table */
+.table-hover > thead > tr > th {
+	background: #fafbfc;
+	border-right: 1px solid #e0e4e8;
+	border-bottom: 1px solid #e0e4e8;
+}
+.table-hover > thead > tr > th:last-child {
+	border-right: 0px;
+}
+.table_record:hover {
+	cursor: pointer;
+}
