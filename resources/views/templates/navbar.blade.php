@@ -16,7 +16,7 @@
 			</a>
 			<ul class="dropdown-menu pull-right">
 				<li>
-					<a href="/User/{{ Session::get('login_id') }}">
+					<a href="/form/user/{{ Session::get('login_id') }}">
 						<i class="fa fa-user"></i> Profile
 					</a>
 				</li>
@@ -29,7 +29,7 @@
 			</ul>
 		</li>
 	</ul>
-	<a class="navbar-brand" href="/App" style="font-size: 22px;">Web App</a>
+	<a class="navbar-brand" href="/app" style="font-size: 22px;">Web App</a>
 	<button type="button" class="btn btn-link pull-left nav-toggle visible-xs" data-toggle="class:slide-nav slide-nav-left" data-target="body">
 		<i class="fa fa-bars fa-lg text-default"></i>
 	</button>

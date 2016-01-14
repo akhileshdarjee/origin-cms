@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>{{ $title }} List</title>
+		<title>{{ ucwords($title) }} List</title>
 		@include('templates.headers')
 	</head>
 	<body class="navbar-fixed">
@@ -16,7 +16,7 @@
 								<div class="row">
 									<div class="col-md-6">
 										<div class="h4">
-											<span><i class="fa fa-list"></i> {{ $title }} List</span>
+											<span><i class="fa fa-list"></i> {{ ucwords($title) }} List</span>
 										</div>
 									</div>
 									<div class="col-md-6 col-md-push-5">
@@ -29,7 +29,7 @@
 							<div class="panel-body">
 								<div class="row text-small">
 									<div class="col-sm-4" style="line-height:30px;">
-										<strong>Total {{ $title }}(s)</strong> : <span class="badge bg-primary" id="row-count">{{ $count }}</span>
+										<strong>Total {{ ucwords($title) }}(s)</strong> : <span class="badge bg-primary" id="row-count">{{ $count }}</span>
 									</div>
 									<div class="col-sm-4 col-md-push-4">
 										<div class="input-group">
@@ -62,7 +62,7 @@
 										@if (count($rows) > 0)
 											@var $counter = 1
 											@foreach ($rows as $row)
-												<tr class="clickable_row" data-href="/{{ $module }}/{{ $row->$link_field }}">
+												<tr class="clickable_row" data-href="/form/{{ $module }}/{{ $row->$link_field }}">
 													<td data-field-name="row_check"><input type="checkbox" name="post[]" value="{{ $counter += 1 }}"></td>
 													@foreach ($columns as $column)
 														@var $tooltip = ucwords(str_replace("_", " ", $column))

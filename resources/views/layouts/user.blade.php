@@ -40,7 +40,7 @@
 									</div>
 								</div>
 							</header>
-							@var $action = "/User"
+							@var $action = "/form/user"
 							<form method="POST" action="{{ isset($data['tabUser']->id) ? $action."/".$data['tabUser']->login_id : $action }}" name="user" id="user" class="form-horizontal" enctype="multipart/form-data">
 								{!! csrf_field() !!}
 								<input type="hidden" name="id" id="id" class="form-control" data-mandatory="no" autocomplete="off" readonly>

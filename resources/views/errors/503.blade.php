@@ -7,13 +7,11 @@
 	<body>
 		@include('website.templates.navbar')
 		<div class="middle-box text-center animated fadeInDown">
-			<h1 class="under-text">Be right back</h1>
-			<div class="event-descri">
-				<div class="col-md-2 col-md-offset-5 text-center">
-					<a href="/">
-						<img src="/img/home_icon.png" class="text-center" alt="...">
-					</a>
-				</div>
+			<h1>Be right back</h1>
+			<div class="col-md-2 col-md-offset-5 text-center">
+				<a href="/" class="btn btn-primary">
+					<i class ="fa fa-home"> Back to Home</i>
+				</a>
 			</div>
 		</div>
 	</body>

@@ -57,8 +57,11 @@ $( document ).ready(function() {
 			return false;
 		}
 	});
+
 	if (bread) {
-		var breadcrumb = '<a class="navbar-brand" href="/List/' + app_route.split("/")[1] + '" style="font-size: 22px;">' + app_route.split("/")[1] + ' List</a>';
+		var module_name = app_route.split("/")[2];
+
+		var breadcrumb = '<a class="navbar-brand" href="/list/' + module_name + '" style="font-size: 22px;">' + module_name.toProperCase() + ' List</a>';
 		$(".navbar-brand").addClass("hidden-xs hidden-sm");
 		$(breadcrumb).insertAfter(".navbar-brand");
 	}

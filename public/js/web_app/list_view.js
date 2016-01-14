@@ -48,7 +48,7 @@ $( document ).ready(function() {
 	// on action button click
 	$("#action-button").on("click", function() {
 		if ($(this).data("action") == "new") {
-			window.location = table;
+			window.location = "/form" + table;
 		}
 		else {
 			remove_selected_row_data();
@@ -81,7 +81,7 @@ $( document ).ready(function() {
 
 				if (list_rows.length > 0) {
 					$.each(list_rows, function(index, row_data) {
-						list_records += '<tr class="clickable_row" data-href="/' + list_module + '/' + list_rows[index][list_link_field] + '">';
+						list_records += '<tr class="clickable_row" data-href="/form/' + list_module + '/' + list_rows[index][list_link_field] + '">';
 						list_records += '<td data-field-name="row_check"><input type="checkbox" name="post[]" value="' + (index + 2) + '"></td>';
 						$.each(list_columns, function(index, column_name) {
 							var field_value = row_data[column_name];

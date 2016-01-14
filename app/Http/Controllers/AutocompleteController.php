@@ -13,10 +13,11 @@ class AutocompleteController extends Controller
 {
 	public function getAutocomplete(Request $request) {
 
-		$status_modules = ['Client', 'Guest', 'Cook', 'Food', 'Laundry'];
+		$status_modules = ['User'];
 
-		$module = $request->get('module');
+		$module = ucwords($request->get('module'));
 		$field = $request->get('field');
+
 		if ($request->has('fetch_fields') && $request->get('fetch_fields')) {
 			$fetch_fields = $request->get('fetch_fields');
 		}
