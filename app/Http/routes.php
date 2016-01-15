@@ -43,11 +43,13 @@ Route::group(['middleware' => ['web']], function () {
 
 	Route::group(['middleware' => 'auth'], function () {
 
-		// App routes
-		Route::get('/app/{module}', 'Auth\AuthController@showApp');
-		Route::get('/app', function () {
-			return redirect('/app/modules');
-		});
+		// App routes...
+		Route::get('/app', 'AppController@show_home');
+
+		// App Home page module routes...
+		Route::get('/app/modules', 'ModuleController@show');
+		Route::get('/app/settings', 'SettingsController@show');
+		Route::post('/app/settings', 'SettingsController@save');
 
 		// List View...
 		Route::get('/list/{module_name}', 'ListViewController@showList');

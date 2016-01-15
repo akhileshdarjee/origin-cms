@@ -15,7 +15,7 @@ class PermController extends Controller
 
 	// table name in database(not included prefix 'tab')
 	private static $modules = [
-		'Band', 'Carousel', 'Voter', 'User'
+		'User'
 	];
 
 	// restrict data to this roles
@@ -33,9 +33,19 @@ class PermController extends Controller
 
 	// list all the modules of the roles based on permissions
 	public static function role_wise_modules($role = null, $action = null, $module = null) {
+		// eg.
+		// 'Customer' => (object) array(
+		// 	'Read' => array_values(array_diff(self::$modules, array('Expense', 'ExpenseCategory', 'Income', 'Order'))), 
+		// 	'Create' => array('Customer', 'Order', 'Review', 'Subscription'), 
+		// 	'Update' => array('Customer', 'Order', 'Review', 'Subscription'), 
+		// 	'Delete' => array('Guest', 'Booking', 'Feedback')
+		// ),
+		// ---------------------------------------
+
+
 		self::$role_modules_based_on_perm = (object) array(
 			'Website User' => (object) array(
-				'Create' => array('Band', 'Voter')
+				'Create' => array('')
 			),
 		);
 
@@ -44,8 +54,8 @@ class PermController extends Controller
 				$role_modules = self::$role_modules_based_on_perm->$role->$action;
 			}
 
-			if ($module && isset($role_modules) && $role_modules) {
-				if (in_array($module, $role_modules)) {
+			if ($module) {
+				if (isset($role_modules) && in_array($module, $role_modules)) {
 					return true;
 				}
 				else {
@@ -53,12 +63,7 @@ class PermController extends Controller
 				}
 			}
 			else {
-				if (isset($role_modules) && $role_modules) {
-					return $role_modules;
-				}
-				else {
-					return false;
-				}
+				return isset($role_modules) ? $role_modules : false;
 			}
 		}
 	}
@@ -68,6 +73,33 @@ class PermController extends Controller
 	public static function module_wise_permissions($role = null, $action = null, $module_name = null) {
 		$user_name = Session::get('user');
 		$user_login_id = Session::get('login_id');
+
+		// eg
+		// self::$module_permissions_based_on_role = array(
+		// 	'Client' => (object) array(
+		// 		'Read' => (object) array(
+		// 			'Client' => (object) array(
+		// 				'full_name' => $user_name
+		// 			), 
+		// 		),
+		// 		'Create' => (object) array(
+		// 			'Guest' => (object) array(
+		// 				'company' => $user_name
+		// 			), 
+		// 		),
+		// 		'Update' => (object) array(
+		// 			'Client' => (object) array(
+		// 				'full_name' => $user_name
+		// 			), 
+		// 		),  
+		// 		'Delete' => (object) array(
+		// 			'Guest' => (object) array(
+		// 				'company' => $user_name
+		// 			), 
+		// 		)
+		// 	),
+		// );
+		// -------------------------------------------------------------------
 
 		self::$module_permissions_based_on_role = array();
 

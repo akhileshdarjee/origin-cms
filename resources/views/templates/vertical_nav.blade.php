@@ -5,5 +5,12 @@
 				<i class="fa fa-th fa-lg"></i><span>Modules</span>
 			</a>
 		</li>
+		@if (Session::has('role') && Session::get('role') == "Administrator")
+			<li>
+				<a href="/app/settings" title="App Settings">
+					<i class="fa fa-cogs fa-lg"></i><span>Settings</span>
+				</a>
+			</li>
+		@endif
 	</ul>
 </nav>

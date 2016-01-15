@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Session;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -30,5 +31,22 @@ class ModuleController extends Controller
 		}
 
 		return (object) $module_wise_config;
+	}
+
+
+	// Show all modules based on user role
+	public function show() {
+		$user_role = Session::get('role');
+
+		if ($user_role == 'Administrator') {
+			$modules = self::modules_config();
+		}
+		else {
+			$modules = PermController::modules_config_based_on_roles($user_role, "Read");
+		}
+
+		if ($modules) {
+			return view('index', array('data' => $modules, 'file' => 'layouts.app.modules'));
+		}
 	}
 }

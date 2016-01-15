@@ -34,6 +34,17 @@ $( document ).ready(function() {
 		msgbox(msg, footer);
 	});
 
+	// bind save and reset button to form
+	$("#save_form").on('click', function() {
+		var form_id = get_form_id(form_title);
+		$("#" + form_id).submit();
+	});
+
+	$("#reset_form").on('click', function() {
+		var form_id = get_form_id(form_title);
+		$("#" + form_id)[0].reset();
+	});
+
 
 	// check if form_data is defined then set value to the form
 	if (typeof form_data != 'undefined' && form_data) {
@@ -153,6 +164,11 @@ function enable_save_button() {
 	$("#form-status").html('<b>Not Saved</b>');
 }
 
+
+// get form name from title
+function get_form_id(title) {
+	return title.replace(/ /g, "_").toLowerCase();
+}
 
 // show image files locally with uploading
 function read_image(input) {

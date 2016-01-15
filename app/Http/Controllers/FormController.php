@@ -41,53 +41,42 @@ class FormController extends Controller
 	}
 
 
-	// Shows new form
+	// Shows form view
 	public static function show_form($form_config) {
 		// Shows an existing record
 		if ($form_config['link_field_value']) {
 			$owner = self::get_from_session('login_id');
 			$data[$form_config['table_name']] = DB::table($form_config['table_name'])->where($form_config['link_field'], $form_config['link_field_value'])->first();
 
-			if ($data) {
+			if ($data && $data[$form_config['table_name']]) {
 				// if child tables set and found in db then attach it with data
 				if(isset($form_config['child_tables']) && isset($form_config['child_foreign_key'])) {
 					foreach ($form_config['child_tables'] as $child_table) {
 						$data[$child_table] = DB::table($child_table)->where($form_config['child_foreign_key'], $form_config['link_field_value'])->get();
 					}
 				}
-
-				return view($form_config['view'], ['data' => $data]);
 			}
 			else {
 				self::put_to_session('success', "false");
-				return redirect($form_config['list_view'])->with(['msg' => 'No record(s) found with the given data']);
+				abort('404');
 			}
 		}
 		// Shows a new form
 		else {
 			$user_role = self::get_from_session('role');
-
-			if ($user_role == "Guest") {
-				$user_login_id = self::get_from_session('login_id');
-
-				$bed_no = DB::table('tabBed')->where('guest_id', $user_login_id)->pluck('bed_no');
-				$guest_details = DB::table('tabGuest')->select('full_name', 'company')
-					->where('email_id', $user_login_id)->first();
-
-				$data = array(
-					$form_config['table_name'] => (object) array(
-						'bed_no' => $bed_no,
-						'guest_id' => $user_login_id,
-						'guest_name' => $guest_details->full_name,
-						'guest_company' => $guest_details->company
-					)
-				);
-
-				return view($form_config['view'], ['data' => $data]);
-			}
-
-			return view($form_config['view']);
 		}
+
+		$form_data = [
+			'data' => isset($data) ? $data : [],
+			'link_field' => $form_config['link_field'],
+			'record_identifier' => isset($form_config['record_identifier']) ? $form_config['record_identifier'] : $form_config['link_field'],
+			'title' => $form_config['module_label'],
+			'icon' => $form_config['module_icon'],
+			'file' => $form_config['view'],
+			'module' => $form_config['module']
+		];
+
+		return view('templates.form_view', $form_data);
 	}
 
 
