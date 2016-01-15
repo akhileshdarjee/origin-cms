@@ -48,11 +48,15 @@ Route::group(['middleware' => ['web']], function () {
 
 		// App Home page module routes...
 		Route::get('/app/modules', 'ModuleController@show');
+		Route::get('/app/reports', 'ReportController@show');
 		Route::get('/app/settings', 'SettingsController@show');
 		Route::post('/app/settings', 'SettingsController@save');
 
 		// List View...
 		Route::get('/list/{module_name}', 'ListViewController@showList');
+
+		// Report View...
+		Route::get('/app/report/{report_name}', 'ReportController@showReport');
 
 		// Autocomplete data...
 		Route::get('/getAutocomplete', 'AutocompleteController@getAutocomplete');

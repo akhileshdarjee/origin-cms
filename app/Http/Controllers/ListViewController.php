@@ -91,7 +91,8 @@ class ListViewController extends Controller
 				->get();
 		}
 		else {
-			return $record_query->orderBy('id', 'desc')->paginate(15);
+			$records_per_page = SettingsController::get_app_setting('list_view_records');
+			return $record_query->orderBy('id', 'desc')->paginate((int) $records_per_page);
 		}
 	}
 

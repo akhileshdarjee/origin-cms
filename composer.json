@@ -8,6 +8,7 @@
         "php": ">=5.5.9",
         "laravel/framework": "5.2.*",
         "laravel/socialite": "~2.0",
+        "maatwebsite/excel": "~2.0.0",
         "doctrine/dbal": "^2.5"
     },
     "require-dev": {
