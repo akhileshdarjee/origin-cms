@@ -74,25 +74,31 @@ class ReportController extends Controller
 
 		if ($request->has('filters') && $request->get('filters')) {
 			$filters = $request->get('filters');
-			if (isset($filters['company']) && $filters['company'] && $user_role != "Client") {
-				$query = $query->where('company', $filters['company']);
+			if (isset($filters['email']) && $filters['email']) {
+				$query = $query->where('email', $filters['email']);
+			}
+			if (isset($filters['role']) && $filters['role']) {
+				$query = $query->where('role', $filters['role']);
+			}
+			if (isset($filters['status']) && $filters['status']) {
+				$query = $query->where('status', $filters['status']);
 			}
 			if (isset($filters['from_date']) && isset($filters['to_date']) && $filters['from_date'] && $filters['to_date']) {
-				$guest_list = [];
-				$guest_records = DB::table('tabGuest')->get();
+				$user_list = [];
+				$user_records = DB::table('tabUser')->get();
 
-				if ($guest_records) {
-					foreach ($guest_records as $guest) {
-						if ((strtotime($guest->created_at) >= strtotime($filters['from_date']) && 
-							strtotime($guest->created_at) <= strtotime($filters['to_date']))) {
-								if (!in_array($guest->email_id, $guest_list)){
-									array_push($guest_list, $guest->email_id);
+				if ($user_records) {
+					foreach ($user_records as $user) {
+						if ((strtotime($user->created_at) >= strtotime($filters['from_date']) && 
+							strtotime($user->created_at) <= strtotime($filters['to_date']))) {
+								if (!in_array($user->email, $user_list)){
+									array_push($user_list, $user->email);
 								}
 						}
 					}
 				}
 
-				$query = $query->whereIn('email_id', $guest_list);
+				$query = $query->whereIn('email', $user_list);
 			}
 		}
 

@@ -2,29 +2,23 @@
 	<div class="row" id="report-filters">
 		<div class="col-md-3">
 			<div class="form-group">
-				<div class="input-group date datetimepicker" id="fromdate">
-					<input type="text" name="from_date" id="from_date" class="form-control" placeholder="From Date" autocomplete="off">
-					<span class="input-group-addon">
-						<span class="fa fa-calendar"></span>
-					</span>
-				</div>
+				<input type="text" name="email" id="email" class="form-control autocomplete" 
+				placeholder="Email" autocomplete="off" data-target-module="User" data-target-field="email">
 			</div>
 		</div>
 		<div class="col-md-3">
 			<div class="form-group">
-				<div class="input-group date datetimepicker" id="todate">
-					<input type="text" name="to_date" id="to_date" class="form-control" placeholder="To Date" autocomplete="off">
-					<span class="input-group-addon">
-						<span class="fa fa-calendar"></span>
-					</span>
-				</div>
+				<input type="text" name="role" id="role" class="form-control autocomplete" 
+				placeholder="Role" autocomplete="off" data-target-module="User" data-target-field="role">
 			</div>
 		</div>
 		<div class="col-md-3">
 			<div class="form-group">
-				<input type="text" name="company" id="company" class="form-control autocomplete" 
-				placeholder="Company" autocomplete="off" data-target-module="Client" data-target-field="full_name" 
-				value="{{ Session::get('role') == 'Client' ? Session::get('user') : '' }}">
+				<select name="status" id="status" class="form-control">
+					<option value="" default selected>Status</option>
+					<option value="Active">Active</option>
+					<option value="Inactive">Inactive</option>
+				</select>
 			</div>
 		</div>
 	</div>

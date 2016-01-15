@@ -175,7 +175,9 @@ class FormController extends Controller
 
 			// send email if come in email modules
 			if (in_array($form_config['module'], self::$email_modules) && $result) {
-				EmailController::send(null, $data['guest_id'], null, $data, $form_config['module']);
+				if (SettingsController::get_app_setting('email') == "Active") {
+					EmailController::send(null, $data['guest_id'], null, $data, $form_config['module']);
+				}
 			}
 
 			return $result;
@@ -476,7 +478,9 @@ class FormController extends Controller
 				$result = $user->insert($user_data);
 				$user_data['generated_password'] = $password;
 				// send password to user via email
-				EmailController::send(null, $request->email_id, "Basecamp Account Password", $user_data, $module);
+				if (SettingsController::get_app_setting('email') == "Active") {
+					EmailController::send(null, $request->email_id, "Basecamp Account Password", $user_data, $module);
+				}
 			}
 			elseif ($action == "update") {
 				$result = $user->where('login_id', $request->email_id)->update($user_data);
