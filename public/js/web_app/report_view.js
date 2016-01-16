@@ -12,6 +12,7 @@ $( document ).ready(function() {
 		});
 	}
 
+
 	// refresh the grid view of report
 	$("#refresh_report").on("click", function() {
 		var filter_found = false;
