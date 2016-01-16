@@ -4,7 +4,7 @@
 		<title>Web App</title>
 		@include('templates.headers')
 	</head>
-	<body class="navbar-fixed bg-white" data-url="/App">
+	<body class="navbar-fixed bg-white" data-url="/app">
 		@include('templates.navbar')
 		@include('templates.vertical_nav')
 		<section id="content">

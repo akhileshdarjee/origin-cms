@@ -39,7 +39,8 @@
 											<th>#</th>
 											@if (isset($columns) && $columns)
 												@foreach ($columns as $column)
-													<th name="{{ $column }}">{{ $column }}</th>
+													@var $col_head = str_replace("Id", "ID", ucwords(str_replace("_", " ", $column)))
+													<th name="{{ $column }}">{{ $col_head }}</th>
 												@endforeach
 											@endif
 										</tr>
@@ -76,5 +77,7 @@
 				msgbox("{{ Session::get('msg') }}");
 			</script>
 		@endif
+		<script src="/js/datatables/jquery.dataTables.min.js"></script>
+		<script src="/js/web_app/report_view.js"></script>
 	</body>
 </html>

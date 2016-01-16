@@ -38,7 +38,6 @@ elixir(function(mix) {
 		'../../../public/js/app.plugin.js',
 		'../../../public/js/web_app/web_app.js',
 		'../../../public/js/web_app/list_view.js',
-		'../../../public/js/web_app/report_view.js',
 		'../../../public/js/web_app/form.js'
 	]);
 });

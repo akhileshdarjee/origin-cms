@@ -1,18 +1,8 @@
 $( document ).ready(function() {
 
-	beautify_list_view('table#report-table');
-
-	// $('[data-ride="dataTable"]').DataTable({
-	// 	"bProcessing": true,
-	// 	"sScrollY": "300px",
-	// 	"bScrollCollapse": true,
-	// 	"bSort": true,
-	// 	"bPaginate": false,
-	// 	"bAutoWidth": false,
-	// 	"bScrollAutoCss": false,
-	// 	"oSearch": false,
-	// 	"bInfo": false
-	// });
+	var report_table = $('table#report-table').DataTable({
+		"processing": true
+	});
 
 	if ($("#from_date") && $("#to_date")) {
 		$(function () {
@@ -32,13 +22,6 @@ $( document ).ready(function() {
 		});
 
 		if (filter_found) {
-			var loading = '<tr class="text-center">\
-					<td colspan="' + $("table.datagrid").find("thead > tr > th").length + '">\
-						<div class="col-md-12"><i class="fa fa-circle-o-notch fa-spin fa-3x"></i></div>\
-					</td>\
-				</tr>';
-
-			$('table.datagrid').find('tbody').empty().append(loading);
 			refresh_grid_view();
 		}
 		else {
@@ -51,7 +34,7 @@ $( document ).ready(function() {
 	$("#download_report").on("click", function() {
 		var filters = "";
 
-		$.each($("#report-filters").find("input"), function() {
+		$.each($("#report-filters").find("input, select"), function() {
 			if ($(this).attr("name") && $(this).val()) {
 				filters += '&filters[' + $(this).attr("name") + ']=' + encodeURIComponent($(this).val().toString());
 			}
@@ -69,27 +52,26 @@ $( document ).ready(function() {
 			dataType: 'json',
 			success: function(data) {
 				var grid_rows = data;
-				var grid_records = "";
+
+				// clear the datatable
+				report_table.clear().draw();
 
 				if (grid_rows.length > 0) {
+					// add each row to datatable using api
 					$.each(grid_rows, function(grid_index, grid_data) {
-						grid_records += '<tr>';
-						grid_records += '<td>' + (grid_index + 1) + '</td>';
+						var record = [];
+						record.push(grid_index + 1);
+
 						$.each(grid_data, function(column_name, column_value) {
-							if (column_value) {
-								grid_records += '<td data-field-name="' + column_name + '">' + column_value + '</td>';
-							}
-							else {
-								grid_records += '<td data-field-name="' + column_name + '"></td>';
-							}
+							record.push(column_value);
 						});
-						grid_records += '</tr>';
+
+						// add new row to datatable using api
+						report_table.row.add(record).draw('false');
 					});
 				}
 
-				$('table#report-table').find('tbody').empty().append(grid_records);
 				$('#item-count').html(grid_rows.length);
-				beautify_list_view('table#report-table');
 			}
 		});
 	}
