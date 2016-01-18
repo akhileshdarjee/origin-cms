@@ -61,12 +61,12 @@ Route::group(['middleware' => ['web']], function () {
 		// Autocomplete data...
 		Route::get('/getAutocomplete', 'AutocompleteController@getAutocomplete');
 
-		// App routes...
-		Route::get('/form/user', 'UserController@getForm');
-		Route::post('/form/user', 'UserController@saveForm');
-		Route::get('/form/user/{login_id}', 'UserController@getForm');
-		Route::post('/form/user/{login_id}', 'UserController@saveForm');
-		Route::get('/form/user/Delete/{login_id}', 'UserController@deleteForm');
+		// App Form/Module routes...
+		Route::get('/form/{module_name}', 'FormActions@show');
+		Route::post('/form/{module_name}', 'FormActions@save');
+		Route::get('/form/{module_name}/{id}', 'FormActions@show');
+		Route::post('/form/{module_name}/{id}', 'FormActions@save');
+		Route::get('/form/{module_name}/delete/{id}', 'FormActions@delete');
 
 	});
 });

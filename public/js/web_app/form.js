@@ -21,7 +21,7 @@ $( document ).ready(function() {
 	// shows msgbox to delete the record permanently
 	$("#delete").on("click", function() {
 		var current_url = $("body").data("url").split("/");
-		var delete_path = "/" + current_url[1] + "/Delete/" + current_url[2];
+		var delete_path = "/" + current_url[1] + "/delete/" + current_url[2];
 		var msg = "Sure you want to delete this record permanently?";
 		var footer = '<span class="pull-right">\
 						<button class="btn btn-white btn-sm" data-dismiss="modal" id="no" name="no">\

@@ -34,8 +34,14 @@ class FormController extends Controller
 				return self::show_form($form_config);
 			}
 			else {
-				self::put_to_session('success', "false");
-				return back()->withInput()->with(['msg' => 'You are not authorized to view "'. $form_config['module_label'] . '" record(s)']);
+				$response_data = [
+					'status' => 'Error',
+					'status_code' => 401,
+					'message' => 'You are not authorized to view "'. $form_config['module_label'] . '" record(s)',
+					'data' => []
+				];
+
+				return $response_data;
 			}
 		}
 	}
@@ -46,7 +52,9 @@ class FormController extends Controller
 		// Shows an existing record
 		if ($form_config['link_field_value']) {
 			$owner = self::get_from_session('login_id');
-			$data[$form_config['table_name']] = DB::table($form_config['table_name'])->where($form_config['link_field'], $form_config['link_field_value'])->first();
+			$data[$form_config['table_name']] = DB::table($form_config['table_name'])
+				->where($form_config['link_field'], $form_config['link_field_value'])
+				->first();
 
 			if ($data && $data[$form_config['table_name']]) {
 				// if child tables set and found in db then attach it with data
@@ -57,8 +65,14 @@ class FormController extends Controller
 				}
 			}
 			else {
-				self::put_to_session('success', "false");
-				abort('404');
+				$response_data = [
+					'status' => 'Error',
+					'status_code' => 404,
+					'message' => 'Page not found',
+					'data' => []
+				];
+
+				return $response_data;
 			}
 		}
 		// Shows a new form
@@ -594,14 +608,6 @@ class FormController extends Controller
 		}
 
 		return implode($pass); //turn the array into a string
-	}
-
-
-	// get controller name which has called this controller function
-	// pass Route instance to this function
-	public static function get_controller_name($route) {
-		$route_action = $route->getAction();
-		return explode("@", class_basename($route_action['controller']))[0];
 	}
 
 
