@@ -16,8 +16,8 @@ class SettingsController extends Controller
 	public function show() {
 		if (Session::get('role') == 'Administrator') {
 			$data['tabSettings'] = self::get_app_setting();
-			$form_data = [
-				'data' => isset($data) ? $data : [],
+			$settings_data = [
+				'form_data' => isset($data) ? $data : [],
 				'title' => 'Settings',
 				'icon' => 'fa-cogs',
 				'file' => 'layouts.app.settings',
@@ -25,7 +25,7 @@ class SettingsController extends Controller
 				'module_type' => 'Single'
 			];
 
-			return view('templates.form_view', $form_data);
+			return view('templates.form_view', $settings_data);
 		}
 		else {
 			abort('403');
