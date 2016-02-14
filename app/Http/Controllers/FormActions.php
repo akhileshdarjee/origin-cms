@@ -74,6 +74,7 @@ class FormActions extends Controller
 			elseif ($action && $action == 'form_view') {
 				$form_view = $this->form_config['form_view'];
 				$form_link_field_value = $form_data['tab'.$this->form_config['module']][$this->form_config['link_field']];
+
 				return redirect($form_view.$form_link_field_value)
 					->with(['msg' => $response->message]);
 			}
@@ -92,6 +93,10 @@ class FormActions extends Controller
 		elseif (isset($response->status_code) && $response->status_code == 404) {
 			if ($action && $action == 'list_view') {
 				return redirect($this->form_config['list_view'])
+					->with(['msg' => $response->message]);
+			}
+			elseif ($action && $action == 'form_view') {
+				return redirect($form_config['form_view'].$form_config['link_field_value'])
 					->with(['msg' => $response->message]);
 			}
 			else {
