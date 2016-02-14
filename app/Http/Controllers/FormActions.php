@@ -46,7 +46,8 @@ class FormActions extends Controller
 	public function delete($module_name = null, $id = null) {
 		$this->set_form_config($module_name);
 		$this->form_config['link_field_value'] = $id;
-		return FormController::delete($this->form_config);
+		$delete_response = FormController::delete($this->form_config);
+		return $this->make_action_based_on_response($delete_response, 'list_view');
 	}
 
 
@@ -58,19 +59,41 @@ class FormActions extends Controller
 
 
 	// redirect to page based on api response
-	public function make_action_based_on_response($response) {
+	public function make_action_based_on_response($response, $action = null) {
 		$response = json_decode($response->getContent());
 
-		if (isset($response->status_code) && $response->status_code == 401) {
+		if (isset($response->status_code) && $response->status_code == 200) {
+			if ($action && $action == 'list_view') {
+				return redirect($this->form_config['list_view'])
+					->with(['msg' => $response->message]);
+			}
+			else {
+				$data = json_decode(json_encode($response->data), true);
+				return view('templates.form_view')->with($data);
+			}
+		}
+		elseif (isset($response->status_code) && $response->status_code == 400) {
+			self::put_to_session('success', "false");
+			return back()->withInput()->with(['msg' => $response->message]);
+		}
+		elseif (isset($response->status_code) && $response->status_code == 401) {
 			self::put_to_session('success', "false");
 			return back()->withInput()->with(['msg' => $response->message]);
 		}
 		elseif (isset($response->status_code) && $response->status_code == 404) {
-			abort('404');
+			if ($action && $action == 'list_view') {
+				return redirect($this->form_config['list_view'])
+					->with(['msg' => $response->message]);
+			}
+			else {
+				abort('404');
+			}
 		}
-		elseif (isset($response->status_code) && $response->status_code == 200) {
-			$data = json_decode(json_encode($response->data), true);
-			return view('templates.form_view')->with($data);
+		elseif (isset($response->status_code) && $response->status_code == 500) {
+			if ($action && $action == 'list_view') {
+				return redirect($this->form_config['list_view'])
+					->with(['msg' => $response->message]);
+			}
 		}
 	}
 }

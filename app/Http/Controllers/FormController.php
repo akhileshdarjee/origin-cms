@@ -17,8 +17,8 @@ class FormController extends Controller
 {
 	// define modules to create, update or delete user when module is saved
 	public static $user_via_modules = [];
-	public static $generate_no_modules = [];
 	public static $email_modules = [];
+	public static $slug_modules = [];
 	public static $link_field_value;
 
 
@@ -61,7 +61,9 @@ class FormController extends Controller
 				// if child tables set and found in db then attach it with data
 				if(isset($form_config['child_tables']) && isset($form_config['child_foreign_key'])) {
 					foreach ($form_config['child_tables'] as $child_table) {
-						$data[$child_table] = DB::table($child_table)->where($form_config['child_foreign_key'], $form_config['link_field_value'])->get();
+						$data[$child_table] = DB::table($child_table)
+							->where($form_config['child_foreign_key'], $form_config['link_field_value'])
+							->get();
 					}
 				}
 			}
@@ -127,7 +129,14 @@ class FormController extends Controller
 				}
 				else {
 					self::put_to_session('success', "false");
-					return back()->withInput()->with(['msg' => 'You are not authorized to update "'. $form_config['module_label'] . '" record(s)']);
+					$response_data = [
+						'status' => 'Unauthorized',
+						'status_code' => 401,
+						'message' => 'You are not authorized to update "'. $form_config['module_label'] . '" record(s)',
+						'data' => []
+					];
+
+					return Response::json($response_data);
 				}
 			}
 			else {
@@ -136,13 +145,39 @@ class FormController extends Controller
 				}
 				else {
 					self::put_to_session('success', "false");
-					return back()->withInput()->with(['msg' => 'You are not authorized to create "'. $form_config['module_label'] . '" record(s)']);
+					$response_data = [
+						'status' => 'Unauthorized',
+						'status_code' => 401,
+						'message' => 'You are not authorized to create "'. $form_config['module_label'] . '" record(s)',
+						'data' => []
+					];
+
+					return Response::json($response_data);
 				}
 			}
 		}
 
 		if ($result && self::get_from_session('success') == "true") {
 			$form_config['link_field_value'] = self::$link_field_value;
+
+			$form_data = [
+				'form_data' => isset($data) ? $data : [],
+				'link_field' => $form_config['link_field'],
+				'record_identifier' => isset($form_config['record_identifier']) ? $form_config['record_identifier'] : $form_config['link_field'],
+				'title' => $form_config['module_label'],
+				'icon' => $form_config['module_icon'],
+				'file' => $form_config['view'],
+				'module' => $form_config['module']
+			];
+
+			$response_data = [
+				'status' => 'OK',
+				'status_code' => 200,
+				'message' => 'Ok',
+				'data' => $form_data
+			];
+
+			return Response::json($response_data);
 			return redirect($form_config['form_view'].$form_config['link_field_value'])
 				->with(['msg' => $form_config['module_label'] . ': "' . $form_config['link_field_value'] . '" saved successfully']);
 		}
@@ -175,13 +210,6 @@ class FormController extends Controller
 		if ($result) {
 			self::put_to_session('success', "true");
 
-			// increase document no counter
-			if (in_array($form_config['module'], array_keys(self::$generate_no_modules))) {
-				DB::table('tabDocumentNo')
-					->where('document_name', $form_config['module'])
-					->increment('last_document_no');
-			}
-
 			$data = $form_data[$form_config['table_name']];
 			if (isset($data['avatar']) && $data['avatar']) {
 				$avatar = $request->file('avatar');
@@ -206,6 +234,14 @@ class FormController extends Controller
 		}
 		else {
 			self::put_to_session('success', "false");
+			$response_data = [
+				'status' => 'Internal Server Error',
+				'status_code' => 500,
+				'message' => 'Oops! Some problem occured while deleting. Please try again',
+				'data' => []
+			];
+
+			return Response::json($response_data);
 			return redirect($form_config['form_view'].$form_config['link_field_value'])
 				->with(['msg' => 'Oops! Some problem occured. Please try again']);
 		}
@@ -285,7 +321,14 @@ class FormController extends Controller
 			}
 			else {
 				self::put_to_session('success', "false");
-				return back()->withInput()->with(['msg' => 'You are not authorized to delete "'. $form_config['module_label'] . '" record(s)']);
+				$response_data = [
+					'status' => 'Unauthorized',
+					'status_code' => 401,
+					'message' => 'You are not authorized to delete "'. $form_config['module_label'] . '" record(s)',
+					'data' => []
+				];
+
+				return Response::json($response_data);
 			}
 		}
 	}
@@ -294,17 +337,23 @@ class FormController extends Controller
 	// Delete's record from database
 	public static function delete_record($form_config, $email_id = null) {
 		if ($form_config['link_field_value']) {
-			$data = DB::table($form_config['table_name'])->where($form_config['link_field'], $form_config['link_field_value'])->first();
+			$data = DB::table($form_config['table_name'])
+				->where($form_config['link_field'], $form_config['link_field_value'])
+				->first();
 
 			if ($data) {
 				// if record found then only delete it
-				$result = DB::table($form_config['table_name'])->where($form_config['link_field'], $form_config['link_field_value'])->delete();
+				$result = DB::table($form_config['table_name'])
+					->where($form_config['link_field'], $form_config['link_field_value'])
+					->delete();
 
 				if ($result) {
 					// delete child tables if found
 					if (isset($form_config['child_tables']) && isset($form_config['child_foreign_key'])) {
 						foreach ($form_config['child_tables'] as $child_table) {
-							DB::table($child_table)->where($form_config['child_foreign_key'], $form_config['link_field_value'])->delete();
+							DB::table($child_table)
+								->where($form_config['child_foreign_key'], $form_config['link_field_value'])
+								->delete();
 						}
 					}
 
@@ -314,11 +363,25 @@ class FormController extends Controller
 					}
 
 					self::put_to_session('success', "true");
-					return redirect($form_config['list_view'])->with(['msg' => $form_config['module_label'] . ': "' . $form_config['link_field_value'] . '" deleted successfully']);
+					$response_data = [
+						'status' => 'OK',
+						'status_code' => 200,
+						'message' => $form_config['module_label'] . ': "' . $form_config['link_field_value'] . '" deleted successfully',
+						'data' => []
+					];
+
+					return Response::json($response_data);
 				}
 				else {
 					self::put_to_session('success', "false");
-					return redirect($form_config['list_view'])->with(['msg' => 'Oops! Some problem occured while deleting. Please try again']);
+					$response_data = [
+						'status' => 'Internal Server Error',
+						'status_code' => 500,
+						'message' => 'Oops! Some problem occured while deleting. Please try again',
+						'data' => []
+					];
+
+					return Response::json($response_data);
 				}
 
 				// deletes the avatar file if any
@@ -328,12 +391,26 @@ class FormController extends Controller
 			}
 			else {
 				self::put_to_session('success', "false");
-				return redirect($form_config['list_view'])->with(['msg' => 'No record(s) found with the given data']);
+				$response_data = [
+					'status' => 'Not Found',
+					'status_code' => 404,
+					'message' => 'No record(s) found with the given data',
+					'data' => []
+				];
+
+				return Response::json($response_data);
 			}
 		}
 		else {
 			self::put_to_session('success', "false");
-			return redirect($form_config['list_view'])->with(['msg' => 'Cannot delete the record. "' . $form_config['link_field'] . '" is not set']);
+			$response_data = [
+				'status' => 'Bad Request',
+				'status_code' => 400,
+				'message' => 'Cannot delete the record. "' . $form_config['link_field'] . '" is not set',
+				'data' => []
+			];
+
+			return Response::json($response_data);
 		}
 	}
 
@@ -416,27 +493,25 @@ class FormController extends Controller
 					$data[$table]['created_at'] = $created_at;
 				}
 
-				// check if module come under generate no modules list
-				if (in_array($form_config['module'], array_keys(self::$generate_no_modules)) && $action == "create") {
-					$parent_field_name = implode(array_keys(self::$generate_no_modules[$form_config['module']]));
-					$prefix = self::$generate_no_modules[$form_config['module']][$parent_field_name];
+				// check if module come under slug modules list
+				if (in_array($form_config['module'], self::$slug_modules) && $action == "create") {
+					$parent_field_name = 'slug';
 
 					// check if generated no is already present in record
-					$valid_no = false;
+					$valid_slug = false;
 					do {
-						if ($form_config['module'] == "Booking") {
-							$generated_no = $prefix . self::generate_booking_no($parent_table, $data);
-						}
-						else {
-							$generated_no = $prefix . self::generate_password(6, "only_numbers");
-						}
-						$existing_no = DB::table($table)->where($parent_field_name, $generated_no)->pluck($parent_field_name);
-						if (!$existing_no) {
-							$valid_no = true;
-						}
-					} while ($valid_no == false);
+						$generated_slug = self::createSlug($data[$table]['title']);
 
-					$data[$table][$parent_field_name] = $generated_no;
+						$existing_slug = DB::table($table)
+							->where($parent_field_name, $generated_slug)
+							->pluck($parent_field_name);
+
+						if (!$existing_slug) {
+							$valid_slug = true;
+						}
+					} while ($valid_slug == false);
+
+					$data[$table][$parent_field_name] = $generated_slug;
 				}
 			}
 			else {
@@ -565,39 +640,6 @@ class FormController extends Controller
 	}
 
 
-	// generates booking no based on fixed logic
-	public static function generate_booking_no($table, $data) {
-		$basecamp_no = preg_replace("/[^0-9]/", "", $data[$table]['basecamp_name']);
-		$basecamp_no = sprintf("%02s", $basecamp_no);
-		$check_in_month = date('m', strtotime($data[$table]['check_in_date']));
-		$current_year = date('y');
-
-		if (date('d') == 01 && date('m') == 01) {
-			$current_year_records = DB::table($table)
-				->whereRaw('YEAR("created_at") = YEAR(CURDATE())')
-				->first();
-
-			if (!$current_year_records) {
-				DB::table('tabDocumentNo')
-					->where('document_name', $form_config['module'])
-					->update(['last_document_no', 1]);
-
-				$serial_no == '1';
-			}
-		}
-		else {
-			$serial_no = DB::table('tabDocumentNo')
-				->where('document_name', substr($table, 3))
-				->pluck('last_document_no');
-		}
-
-		$serial_no = sprintf("%03s", $serial_no);
-
-		$booking_no = $basecamp_no . $check_in_month . $current_year . (string) $serial_no;
-		return $booking_no;
-	}
-
-
 	// generates a new random password
 	public static function generate_password($length = null, $only_numbers = null) {
 		if ($only_numbers) {
@@ -619,34 +661,6 @@ class FormController extends Controller
 	}
 
 
-	// check if email id is already registered
-	public static function check_email_id($form_config, $email_id) {
-		$email_tables = ['tabClient', 'tabGuest', 'tabCook'];
-
-		foreach ($email_tables as $table_name) {
-			$query = DB::table($table_name)->where('email_id', $email_id);
-			if ($form_config['link_field_value'] && $table_name == $form_config['table_name']) {
-				$query = $query->where($form_config['link_field'], '!=', $form_config['link_field_value']);
-			}
-
-			$user_email_id = $query->pluck('email_id');
-
-			if ($user_email_id) {
-				break;
-			}
-		}
-
-		if ($user_email_id) {
-			Session::put('success', 'false');
-			return back()->withInput()->with(['msg' => 'Email ID: "' . $user_email_id . '" is already registered.']);
-		}
-		else {
-			Session::put('success', 'true');
-			return true;
-		}
-	}
-
-
 	// returns table column name and column type
 	public static function get_table_schema($table) {
 		$columns = DB::connection()
@@ -660,5 +674,112 @@ class FormController extends Controller
 		}
 
 		return $table_schema;
+	}
+
+
+	// create slug for given string
+	public static function createSlug($str, $options = array()) {
+		// Make sure string is in UTF-8 and strip invalid UTF-8 characters
+		$str = mb_convert_encoding((string)$str, 'UTF-8', mb_list_encodings());
+
+		$defaults = array(
+			'delimiter' => '-',
+			'limit' => null,
+			'lowercase' => true,
+			'replacements' => array(),
+			'transliterate' => false,
+		);
+
+		// Merge options
+		$options = array_merge($defaults, $options);
+
+		$char_map = array(
+			// Latin
+			'À' => 'A', 'Á' => 'A', 'Â' => 'A', 'Ã' => 'A', 'Ä' => 'A', 'Å' => 'A', 'Æ' => 'AE', 'Ç' => 'C', 
+			'È' => 'E', 'É' => 'E', 'Ê' => 'E', 'Ë' => 'E', 'Ì' => 'I', 'Í' => 'I', 'Î' => 'I', 'Ï' => 'I', 
+			'Ð' => 'D', 'Ñ' => 'N', 'Ò' => 'O', 'Ó' => 'O', 'Ô' => 'O', 'Õ' => 'O', 'Ö' => 'O', 'Ő' => 'O', 
+			'Ø' => 'O', 'Ù' => 'U', 'Ú' => 'U', 'Û' => 'U', 'Ü' => 'U', 'Ű' => 'U', 'Ý' => 'Y', 'Þ' => 'TH', 
+			'ß' => 'ss', 
+			'à' => 'a', 'á' => 'a', 'â' => 'a', 'ã' => 'a', 'ä' => 'a', 'å' => 'a', 'æ' => 'ae', 'ç' => 'c', 
+			'è' => 'e', 'é' => 'e', 'ê' => 'e', 'ë' => 'e', 'ì' => 'i', 'í' => 'i', 'î' => 'i', 'ï' => 'i', 
+			'ð' => 'd', 'ñ' => 'n', 'ò' => 'o', 'ó' => 'o', 'ô' => 'o', 'õ' => 'o', 'ö' => 'o', 'ő' => 'o', 
+			'ø' => 'o', 'ù' => 'u', 'ú' => 'u', 'û' => 'u', 'ü' => 'u', 'ű' => 'u', 'ý' => 'y', 'þ' => 'th', 
+			'ÿ' => 'y',
+
+			// Latin symbols
+			'©' => '(c)',
+
+			// Greek
+			'Α' => 'A', 'Β' => 'B', 'Γ' => 'G', 'Δ' => 'D', 'Ε' => 'E', 'Ζ' => 'Z', 'Η' => 'H', 'Θ' => '8',
+			'Ι' => 'I', 'Κ' => 'K', 'Λ' => 'L', 'Μ' => 'M', 'Ν' => 'N', 'Ξ' => '3', 'Ο' => 'O', 'Π' => 'P',
+			'Ρ' => 'R', 'Σ' => 'S', 'Τ' => 'T', 'Υ' => 'Y', 'Φ' => 'F', 'Χ' => 'X', 'Ψ' => 'PS', 'Ω' => 'W',
+			'Ά' => 'A', 'Έ' => 'E', 'Ί' => 'I', 'Ό' => 'O', 'Ύ' => 'Y', 'Ή' => 'H', 'Ώ' => 'W', 'Ϊ' => 'I',
+			'Ϋ' => 'Y',
+			'α' => 'a', 'β' => 'b', 'γ' => 'g', 'δ' => 'd', 'ε' => 'e', 'ζ' => 'z', 'η' => 'h', 'θ' => '8',
+			'ι' => 'i', 'κ' => 'k', 'λ' => 'l', 'μ' => 'm', 'ν' => 'n', 'ξ' => '3', 'ο' => 'o', 'π' => 'p',
+			'ρ' => 'r', 'σ' => 's', 'τ' => 't', 'υ' => 'y', 'φ' => 'f', 'χ' => 'x', 'ψ' => 'ps', 'ω' => 'w',
+			'ά' => 'a', 'έ' => 'e', 'ί' => 'i', 'ό' => 'o', 'ύ' => 'y', 'ή' => 'h', 'ώ' => 'w', 'ς' => 's',
+			'ϊ' => 'i', 'ΰ' => 'y', 'ϋ' => 'y', 'ΐ' => 'i',
+
+			// Turkish
+			'Ş' => 'S', 'İ' => 'I', 'Ç' => 'C', 'Ü' => 'U', 'Ö' => 'O', 'Ğ' => 'G',
+			'ş' => 's', 'ı' => 'i', 'ç' => 'c', 'ü' => 'u', 'ö' => 'o', 'ğ' => 'g', 
+
+			// Russian
+			'А' => 'A', 'Б' => 'B', 'В' => 'V', 'Г' => 'G', 'Д' => 'D', 'Е' => 'E', 'Ё' => 'Yo', 'Ж' => 'Zh',
+			'З' => 'Z', 'И' => 'I', 'Й' => 'J', 'К' => 'K', 'Л' => 'L', 'М' => 'M', 'Н' => 'N', 'О' => 'O',
+			'П' => 'P', 'Р' => 'R', 'С' => 'S', 'Т' => 'T', 'У' => 'U', 'Ф' => 'F', 'Х' => 'H', 'Ц' => 'C',
+			'Ч' => 'Ch', 'Ш' => 'Sh', 'Щ' => 'Sh', 'Ъ' => '', 'Ы' => 'Y', 'Ь' => '', 'Э' => 'E', 'Ю' => 'Yu',
+			'Я' => 'Ya',
+			'а' => 'a', 'б' => 'b', 'в' => 'v', 'г' => 'g', 'д' => 'd', 'е' => 'e', 'ё' => 'yo', 'ж' => 'zh',
+			'з' => 'z', 'и' => 'i', 'й' => 'j', 'к' => 'k', 'л' => 'l', 'м' => 'm', 'н' => 'n', 'о' => 'o',
+			'п' => 'p', 'р' => 'r', 'с' => 's', 'т' => 't', 'у' => 'u', 'ф' => 'f', 'х' => 'h', 'ц' => 'c',
+			'ч' => 'ch', 'ш' => 'sh', 'щ' => 'sh', 'ъ' => '', 'ы' => 'y', 'ь' => '', 'э' => 'e', 'ю' => 'yu',
+			'я' => 'ya',
+
+			// Ukrainian
+			'Є' => 'Ye', 'І' => 'I', 'Ї' => 'Yi', 'Ґ' => 'G',
+			'є' => 'ye', 'і' => 'i', 'ї' => 'yi', 'ґ' => 'g',
+
+			// Czech
+			'Č' => 'C', 'Ď' => 'D', 'Ě' => 'E', 'Ň' => 'N', 'Ř' => 'R', 'Š' => 'S', 'Ť' => 'T', 'Ů' => 'U', 
+			'Ž' => 'Z', 
+			'č' => 'c', 'ď' => 'd', 'ě' => 'e', 'ň' => 'n', 'ř' => 'r', 'š' => 's', 'ť' => 't', 'ů' => 'u',
+			'ž' => 'z', 
+
+			// Polish
+			'Ą' => 'A', 'Ć' => 'C', 'Ę' => 'e', 'Ł' => 'L', 'Ń' => 'N', 'Ó' => 'o', 'Ś' => 'S', 'Ź' => 'Z', 
+			'Ż' => 'Z', 
+			'ą' => 'a', 'ć' => 'c', 'ę' => 'e', 'ł' => 'l', 'ń' => 'n', 'ó' => 'o', 'ś' => 's', 'ź' => 'z',
+			'ż' => 'z',
+
+			// Latvian
+			'Ā' => 'A', 'Č' => 'C', 'Ē' => 'E', 'Ģ' => 'G', 'Ī' => 'i', 'Ķ' => 'k', 'Ļ' => 'L', 'Ņ' => 'N', 
+			'Š' => 'S', 'Ū' => 'u', 'Ž' => 'Z',
+			'ā' => 'a', 'č' => 'c', 'ē' => 'e', 'ģ' => 'g', 'ī' => 'i', 'ķ' => 'k', 'ļ' => 'l', 'ņ' => 'n',
+			'š' => 's', 'ū' => 'u', 'ž' => 'z'
+		);
+
+		// Make custom replacements
+		$str = preg_replace(array_keys($options['replacements']), $options['replacements'], $str);
+		
+		// Transliterate characters to ASCII
+		if ($options['transliterate']) {
+			$str = str_replace(array_keys($char_map), $char_map, $str);
+		}
+
+		// Replace non-alphanumeric characters with our delimiter
+		$str = preg_replace('/[^\p{L}\p{Nd}]+/u', $options['delimiter'], $str);
+
+		// Remove duplicate delimiters
+		$str = preg_replace('/(' . preg_quote($options['delimiter'], '/') . '){2,}/', '$1', $str);
+
+		// Truncate slug to max. characters
+		$str = mb_substr($str, 0, ($options['limit'] ? $options['limit'] : mb_strlen($str, 'UTF-8')), 'UTF-8');
+
+		// Remove delimiter from ends
+		$str = trim($str, $options['delimiter']);
+
+		return $options['lowercase'] ? mb_strtolower($str, 'UTF-8') : $str;
 	}
 }
