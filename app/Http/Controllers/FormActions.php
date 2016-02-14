@@ -21,8 +21,8 @@ class FormActions extends Controller
 	public function show($module_name = null, $id = null) {
 		$this->set_form_config($module_name);
 		$this->form_config['link_field_value'] = $id;
-		$response = FormController::show($this->form_config);
-		$this->make_action_based_on_response($response);
+		$show_response = FormController::show($this->form_config);
+		return $this->make_action_based_on_response($show_response);
 	}
 
 
@@ -59,13 +59,18 @@ class FormActions extends Controller
 
 	// redirect to page based on api response
 	public function make_action_based_on_response($response) {
-		if (isset($response['status_code']) && $response['status_code'] == 401) {
-			self::put_to_session('success', "false");
-			return back()->withInput()->with(['msg' => $response['message']]);
-		}
+		$response = json_decode($response->getContent());
 
-		if (isset($response['status_code']) && $response['status_code'] == 404) {
+		if (isset($response->status_code) && $response->status_code == 401) {
+			self::put_to_session('success', "false");
+			return back()->withInput()->with(['msg' => $response->message]);
+		}
+		elseif (isset($response->status_code) && $response->status_code == 404) {
 			abort('404');
+		}
+		elseif (isset($response->status_code) && $response->status_code == 200) {
+			$data = json_decode(json_encode($response->data), true);
+			return view('templates.form_view')->with($data);
 		}
 	}
 }

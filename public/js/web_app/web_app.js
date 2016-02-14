@@ -61,7 +61,7 @@ $( document ).ready(function() {
 	if (bread) {
 		var module_name = app_route.split("/")[2];
 
-		var breadcrumb = '<a class="navbar-brand" href="/list/' + module_name + '" style="font-size: 22px;">' + module_name.toProperCase() + ' List</a>';
+		var breadcrumb = '<a class="navbar-brand" href="/list/' + module_name + '" style="font-size: 22px;">' + module_name.replace(/ /g, "_").toProperCase() + ' List</a>';
 		$(".navbar-brand").addClass("hidden-xs hidden-sm");
 		$(breadcrumb).insertAfter(".navbar-brand");
 	}

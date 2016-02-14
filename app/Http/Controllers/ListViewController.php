@@ -97,7 +97,7 @@ class ListViewController extends Controller
 	}
 
 	public function show_list($request, $module_name) {
-		$table_name = 'tab'.ucwords($module_name);
+		$table_name = 'tab'.ucwords(camel_case($module_name));
 		$columns = $this->list_view_columns($table_name)['cols'];
 
 		if($request->ajax()) {

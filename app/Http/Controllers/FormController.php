@@ -6,6 +6,7 @@ use DB;
 use Auth;
 use File;
 use Session;
+use Response;
 use Mail;
 use Illuminate\Http\Request;
 
@@ -35,13 +36,13 @@ class FormController extends Controller
 			}
 			else {
 				$response_data = [
-					'status' => 'Error',
+					'status' => 'Unauthorized',
 					'status_code' => 401,
 					'message' => 'You are not authorized to view "'. $form_config['module_label'] . '" record(s)',
 					'data' => []
 				];
 
-				return $response_data;
+				return Response::json($response_data);
 			}
 		}
 	}
@@ -66,13 +67,13 @@ class FormController extends Controller
 			}
 			else {
 				$response_data = [
-					'status' => 'Error',
+					'status' => 'Not Found',
 					'status_code' => 404,
 					'message' => 'Page not found',
 					'data' => []
 				];
 
-				return $response_data;
+				return Response::json($response_data);
 			}
 		}
 		// Shows a new form
@@ -81,7 +82,7 @@ class FormController extends Controller
 		}
 
 		$form_data = [
-			'data' => isset($data) ? $data : [],
+			'form_data' => isset($data) ? $data : [],
 			'link_field' => $form_config['link_field'],
 			'record_identifier' => isset($form_config['record_identifier']) ? $form_config['record_identifier'] : $form_config['link_field'],
 			'title' => $form_config['module_label'],
@@ -90,7 +91,14 @@ class FormController extends Controller
 			'module' => $form_config['module']
 		];
 
-		return view('templates.form_view', $form_data);
+		$response_data = [
+			'status' => 'OK',
+			'status_code' => 200,
+			'message' => 'Ok',
+			'data' => $form_data
+		];
+
+		return Response::json($response_data);
 	}
 
 

@@ -1,5 +1,5 @@
 @var $action = "/form/user"
-<form method="POST" action="{{ isset($data['tabUser']->id) ? $action."/".$data['tabUser']->login_id : $action }}" name="user" id="user" class="form-horizontal" enctype="multipart/form-data">
+<form method="POST" action="{{ isset($form_data['tabUser']['id']) ? $action."/".$form_data['tabUser'][$record_identifier] : $action }}" name="user" id="user" class="form-horizontal" enctype="multipart/form-data">
 	{!! csrf_field() !!}
 	<input type="hidden" name="id" id="id" class="form-control" data-mandatory="no" autocomplete="off" readonly>
 	<div class="panel-body">
@@ -14,8 +14,8 @@
 							<label class="col-md-6 control-label">Avatar</label>
 							<div class="col-md-4 media">
 								<div class="bg-light pull-left text-center media-large thumb-large">
-								@if (isset($data['tabUser']->avatar) && $data['tabUser']->avatar)
-									<img src="{{ $data['tabUser']->avatar }}" alt="{{ $data['tabUser']->full_name }}">
+								@if (isset($form_data['tabUser']['avatar']) && $form_data['tabUser']['avatar'])
+									<img src="{{ $form_data['tabUser']['avatar'] }}" alt="{{ $form_data['tabUser']['full_name'] }}">
 								@else
 									<i class="fa fa-user inline fa fa-light fa fa-3x m-t-large m-b-large"></i>
 								@endif
@@ -54,6 +54,14 @@
 							<label class="col-md-6 control-label">Login ID</label>
 							<div class="col-md-6">
 								<input type="text" name="login_id" id="login_id" class="form-control" data-mandatory="yes" autocomplete="off">
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="col-md-3 control-label">Email</label>
+							<div class="col-md-6">
+								<input type="text" name="email" id="email" class="form-control" data-mandatory="yes" autocomplete="off">
 							</div>
 						</div>
 					</div>

@@ -3,7 +3,7 @@
 	<head>
 		<title>{{ ucwords($title) }} - Web App</title>
 		<script type="text/javascript">
-			var form_data = <?php echo isset($data) ? json_encode($data) : "false" ?>;
+			var form_data = <?php echo isset($form_data) ? json_encode($form_data) : "false" ?>;
 			var form_title = "{{ ucwords($title) }}";
 		</script>
 		@include('templates.headers')
@@ -24,10 +24,10 @@
 												@if (isset($module_type) && $module_type == "Single")
 													<i class="fa {{ $icon }}"></i> {{ $title }}
 												@else
-													<i class="fa {{ $icon }}"></i> {{ isset($data['tab'.$module]->id) ? $data['tab'.$module]->$record_identifier : "New $title" }}
+													<i class="fa {{ $icon }}"></i> {{ isset($form_data['tab'.$module]['id']) ? $form_data['tab'.$module][$record_identifier] : "New $title" }}
 												@endif
 											</span>
-											@if (isset($data['tabUser']->login_id))
+											@if (isset($form_data['tab'.$module]['id']))
 												<span class="text-mini m-l-large text-center" id="form-stats">
 													<i class="fa fa-circle text-success"></i>
 													<span class="m-l-mini h6" id="form-status"><b>Saved</b></span>
@@ -37,7 +37,7 @@
 									</div>
 									<div class="col-md-6 col-md-push-4">
 										<div style="line-height: 39px;">
-											@if (isset($data['tab'.$module]->id))
+											@if (isset($form_data['tab'.$module]['id']))
 												<a class="btn btn-danger btn-sm" id="delete" name="delete">
 													<i class="fa fa-trash-o"></i> Delete
 												</a>
