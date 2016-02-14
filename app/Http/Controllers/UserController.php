@@ -28,32 +28,6 @@ class UserController extends Controller
 		];
 	}
 
-	// public function saveForm(Request $request, $login_id = null) {
-	// 	// set the routing parameter to link field value
-	// 	$this->form_config['link_field_value'] = $login_id;
-	// 	$result = $this->before_save($request);
-
-	// 	if ($result && Session::get('success') == "true") {
-	// 		$result = FormController::save($request, $this->form_config);
-	// 		return $result;
-	// 	}
-	// 	else {
-	// 		return $result;
-	// 	}
-	// }
-
-	// public function getForm($login_id = null) {
-	// 	// set the routing parameter to link field value
-	// 	$this->form_config['link_field_value'] = $login_id;
-	// 	return FormController::show($this->form_config);
-	// }
-
-	// public function deleteForm($login_id, $delete_via = null) {
-	// 	// set the routing parameter to link field value
-	// 	$this->form_config['link_field_value'] = $login_id;
-	// 	return FormController::delete($this->form_config);
-	// }
-
 
 	// // define what should process before save
 	// public function before_save($request) {

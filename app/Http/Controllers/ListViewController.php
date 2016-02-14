@@ -27,6 +27,7 @@ class ListViewController extends Controller
 		}
 		else {
 			$user_role = $request->session()->get('role');
+			$module_name = ucwords(str_replace("_", " ", $module_name));
 
 			if ($user_role == 'Administrator') {
 				return $this->show_list($request, $module_name);
@@ -38,7 +39,8 @@ class ListViewController extends Controller
 					return $this->show_list($request, $module_name);
 				}
 				else {
-					return back()->withInput()->with(['msg' => 'You are not authorized to view "'. $module_name . '" record(s)']);
+					return back()->withInput()
+						->with(['msg' => 'You are not authorized to view "'. $module_name . '" record(s)']);
 				}
 			}
 		}
@@ -130,11 +132,11 @@ class ListViewController extends Controller
 					}
 				}
 
-				$module_controller = App::make(self::$controllers_path . "\\" . $module_name . "Controller");
+				$action_controller = App::make(self::$controllers_path . "\\FormActions");
 				foreach ($delete_list as $url) {
-					$link_field = explode("/", $url);
-					$link_field = end($link_field);
-					$module_controller->deleteForm($link_field);
+					$link_field_value = explode("/", $url);
+					$link_field_value = end($link_field_value);
+					$action_controller->delete($module_name, $link_field_value);
 				}
 
 				return $delete_list;

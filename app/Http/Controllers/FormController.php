@@ -7,7 +7,6 @@ use Auth;
 use File;
 use Session;
 use Response;
-use Mail;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -157,33 +156,7 @@ class FormController extends Controller
 			}
 		}
 
-		if ($result && self::get_from_session('success') == "true") {
-			$form_config['link_field_value'] = self::$link_field_value;
-
-			$form_data = [
-				'form_data' => isset($data) ? $data : [],
-				'link_field' => $form_config['link_field'],
-				'record_identifier' => isset($form_config['record_identifier']) ? $form_config['record_identifier'] : $form_config['link_field'],
-				'title' => $form_config['module_label'],
-				'icon' => $form_config['module_icon'],
-				'file' => $form_config['view'],
-				'module' => $form_config['module']
-			];
-
-			$response_data = [
-				'status' => 'OK',
-				'status_code' => 200,
-				'message' => 'Ok',
-				'data' => $form_data
-			];
-
-			return Response::json($response_data);
-			return redirect($form_config['form_view'].$form_config['link_field_value'])
-				->with(['msg' => $form_config['module_label'] . ': "' . $form_config['link_field_value'] . '" saved successfully']);
-		}
-		else {
-			return $result;
-		}
+		return $result;
 	}
 
 
@@ -192,14 +165,26 @@ class FormController extends Controller
 		// if record already exists in database while creating
 		if ($action == "create" && isset($record_exists) && $record_exists) {
 			self::put_to_session('success', "false");
-			return redirect($form_config['form_view'])
-				->with(['msg' => $form_config['module_label'] . ': "' . $request->$form_config['link_field'] . '" already exist']);
+			$response_data = [
+				'status' => 'Bad Request',
+				'status_code' => 500,
+				'message' => $form_config['module_label'] . ': "' . $request->$form_config['link_field'] . '" already exist',
+				'data' => []
+			];
+
+			return Response::json($response_data);
 		}
 		// if link field value is not matching the request link value
 		elseif ($action == "update" && $request->$form_config['link_field'] != $form_config['link_field_value']) {
 			self::put_to_session('success', "false");
-			return redirect($form_config['form_view'].$form_config['link_field_value'])
-				->with(['msg' => 'You cannot change "' . $form_config['link_field_label'] . '" for ' . $form_config['module_label']]);
+			$response_data = [
+				'status' => 'Bad Request',
+				'status_code' => 500,
+				'message' => 'You cannot change "' . $form_config['link_field_label'] . '" for ' . $form_config['module_label'],
+				'data' => []
+			];
+
+			return Response::json($response_data);
 		}
 		else {
 			$form_data = self::populate_data($request, $form_config, $action);
@@ -209,6 +194,7 @@ class FormController extends Controller
 		// if data is inserted into database then only save avatar, user, etc.
 		if ($result) {
 			self::put_to_session('success', "true");
+			$form_config['link_field_value'] = self::$link_field_value;
 
 			$data = $form_data[$form_config['table_name']];
 			if (isset($data['avatar']) && $data['avatar']) {
@@ -230,7 +216,29 @@ class FormController extends Controller
 				}
 			}
 
-			return $result;
+			// insert link field value to form data if not found
+			if (in_array($form_config['link_field'], $form_data)) {
+				$form_data[$form_config['link_field']] = $form_config['link_field_value'];
+			}
+
+			$form_view_data = [
+				'form_data' => isset($form_data) ? $form_data : [],
+				'link_field' => $form_config['link_field'],
+				'record_identifier' => isset($form_config['record_identifier']) ? $form_config['record_identifier'] : $form_config['link_field'],
+				'title' => $form_config['module_label'],
+				'icon' => $form_config['module_icon'],
+				'file' => $form_config['view'],
+				'module' => $form_config['module']
+			];
+
+			$response_data = [
+				'status' => 'OK',
+				'status_code' => 200,
+				'message' => $form_config['module_label'] . ': "' . $form_config['link_field_value'] . '" saved successfully',
+				'data' => $form_view_data
+			];
+
+			return Response::json($response_data);
 		}
 		else {
 			self::put_to_session('success', "false");
@@ -242,8 +250,6 @@ class FormController extends Controller
 			];
 
 			return Response::json($response_data);
-			return redirect($form_config['form_view'].$form_config['link_field_value'])
-				->with(['msg' => 'Oops! Some problem occured. Please try again']);
 		}
 	}
 
@@ -262,7 +268,8 @@ class FormController extends Controller
 					$form_config['link_field_value'] = ($form_config['link_field'] == "id") ? $result : $form_table_data[$form_config['link_field']];
 				}
 				else {
-					$result = DB::table($form_table)->where($form_config['link_field'], $form_config['link_field_value'])
+					$result = DB::table($form_table)
+						->where($form_config['link_field'], $form_config['link_field_value'])
 						->update($form_table_data);
 				}
 
@@ -295,7 +302,8 @@ class FormController extends Controller
 						elseif ($child_record['action'] == "delete") {
 							unset($child_record['action']);
 
-							$result = DB::table($form_table)->where($form_config['child_foreign_key'], $form_config['link_field_value'])
+							$result = DB::table($form_table)
+								->where($form_config['child_foreign_key'], $form_config['link_field_value'])
 								->where('id', $child_record['id'])->delete();
 						}
 					}

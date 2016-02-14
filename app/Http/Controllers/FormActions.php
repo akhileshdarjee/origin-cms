@@ -34,7 +34,8 @@ class FormActions extends Controller
 	public function save(Request $request, $module_name = null, $id = null) {
 		$this->set_form_config($module_name);
 		$this->form_config['link_field_value'] = $id;
-		return FormController::save($request, $this->form_config);
+		$save_response = FormController::save($request, $this->form_config);
+		return $this->make_action_based_on_response($save_response, 'form_view');
 	}
 
 
@@ -63,12 +64,20 @@ class FormActions extends Controller
 		$response = json_decode($response->getContent());
 
 		if (isset($response->status_code) && $response->status_code == 200) {
+			$data = json_decode(json_encode($response->data), true);
+			$form_data = isset($data['form_data']) ? $data['form_data'] : [];
+
 			if ($action && $action == 'list_view') {
 				return redirect($this->form_config['list_view'])
 					->with(['msg' => $response->message]);
 			}
+			elseif ($action && $action == 'form_view') {
+				$form_view = $this->form_config['form_view'];
+				$form_link_field_value = $form_data['tab'.$this->form_config['module']][$this->form_config['link_field']];
+				return redirect($form_view.$form_link_field_value)
+					->with(['msg' => $response->message]);
+			}
 			else {
-				$data = json_decode(json_encode($response->data), true);
 				return view('templates.form_view')->with($data);
 			}
 		}
@@ -92,6 +101,10 @@ class FormActions extends Controller
 		elseif (isset($response->status_code) && $response->status_code == 500) {
 			if ($action && $action == 'list_view') {
 				return redirect($this->form_config['list_view'])
+					->with(['msg' => $response->message]);
+			}
+			elseif ($action && $action == 'form_view') {
+				return redirect($form_config['form_view'].$form_config['link_field_value'])
 					->with(['msg' => $response->message]);
 			}
 		}
