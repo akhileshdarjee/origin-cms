@@ -96,7 +96,7 @@ class FormActions extends Controller
 					->with(['msg' => $response->message]);
 			}
 			elseif ($action && $action == 'form_view') {
-				return redirect($form_config['form_view'].$form_config['link_field_value'])
+				return redirect($this->form_config['form_view'].$this->form_config['link_field_value'])
 					->with(['msg' => $response->message]);
 			}
 			else {
@@ -109,7 +109,7 @@ class FormActions extends Controller
 					->with(['msg' => $response->message]);
 			}
 			elseif ($action && $action == 'form_view') {
-				return redirect($form_config['form_view'].$form_config['link_field_value'])
+				return redirect($this->form_config['form_view'].$this->form_config['link_field_value'])
 					->with(['msg' => $response->message]);
 			}
 		}

@@ -34,14 +34,8 @@ class FormController extends Controller
 				return self::show_form($form_config);
 			}
 			else {
-				$response_data = [
-					'status' => 'Unauthorized',
-					'status_code' => 401,
-					'message' => 'You are not authorized to view "'. $form_config['module_label'] . '" record(s)',
-					'data' => []
-				];
-
-				return Response::json($response_data);
+				$message = 'You are not authorized to view "'. $form_config['module_label'] . '" record(s)';
+				return self::send_response(401, $message);
 			}
 		}
 	}
@@ -67,14 +61,7 @@ class FormController extends Controller
 				}
 			}
 			else {
-				$response_data = [
-					'status' => 'Not Found',
-					'status_code' => 404,
-					'message' => 'Page not found',
-					'data' => []
-				];
-
-				return Response::json($response_data);
+				return self::send_response(404, 'Page Not Found');
 			}
 		}
 		// Shows a new form
@@ -92,14 +79,7 @@ class FormController extends Controller
 			'module' => $form_config['module']
 		];
 
-		$response_data = [
-			'status' => 'OK',
-			'status_code' => 200,
-			'message' => 'Ok',
-			'data' => $form_data
-		];
-
-		return Response::json($response_data);
+		return self::send_response(200, 'Ok', $form_data);
 	}
 
 
@@ -128,14 +108,9 @@ class FormController extends Controller
 				}
 				else {
 					self::put_to_session('success', "false");
-					$response_data = [
-						'status' => 'Unauthorized',
-						'status_code' => 401,
-						'message' => 'You are not authorized to update "'. $form_config['module_label'] . '" record(s)',
-						'data' => []
-					];
 
-					return Response::json($response_data);
+					$message = 'You are not authorized to update "'. $form_config['module_label'] . '" record(s)';
+					return self::send_response(401, $message);
 				}
 			}
 			else {
@@ -144,14 +119,9 @@ class FormController extends Controller
 				}
 				else {
 					self::put_to_session('success', "false");
-					$response_data = [
-						'status' => 'Unauthorized',
-						'status_code' => 401,
-						'message' => 'You are not authorized to create "'. $form_config['module_label'] . '" record(s)',
-						'data' => []
-					];
 
-					return Response::json($response_data);
+					$message = 'You are not authorized to create "'. $form_config['module_label'] . '" record(s)';
+					return self::send_response(401, $message);
 				}
 			}
 		}
@@ -165,26 +135,16 @@ class FormController extends Controller
 		// if record already exists in database while creating
 		if ($action == "create" && isset($record_exists) && $record_exists) {
 			self::put_to_session('success', "false");
-			$response_data = [
-				'status' => 'Bad Request',
-				'status_code' => 500,
-				'message' => $form_config['module_label'] . ': "' . $request->$form_config['link_field'] . '" already exist',
-				'data' => []
-			];
 
-			return Response::json($response_data);
+			$message = $form_config['module_label'] . ': "' . $request->$form_config['link_field'] . '" already exist';
+			return self::send_response(500, $message);
 		}
 		// if link field value is not matching the request link value
 		elseif ($action == "update" && $request->$form_config['link_field'] != $form_config['link_field_value']) {
 			self::put_to_session('success', "false");
-			$response_data = [
-				'status' => 'Bad Request',
-				'status_code' => 500,
-				'message' => 'You cannot change "' . $form_config['link_field_label'] . '" for ' . $form_config['module_label'],
-				'data' => []
-			];
 
-			return Response::json($response_data);
+			$message = 'You cannot change "' . $form_config['link_field_label'] . '" for ' . $form_config['module_label'];
+			return self::send_response(500, $message);
 		}
 		else {
 			$form_data = self::populate_data($request, $form_config, $action);
@@ -231,25 +191,12 @@ class FormController extends Controller
 				'module' => $form_config['module']
 			];
 
-			$response_data = [
-				'status' => 'OK',
-				'status_code' => 200,
-				'message' => $form_config['module_label'] . ': "' . $form_config['link_field_value'] . '" saved successfully',
-				'data' => $form_view_data
-			];
-
-			return Response::json($response_data);
+			$message = $form_config['module_label'] . ': "' . $form_config['link_field_value'] . '" saved successfully';
+			return self::send_response(200, $message, $form_view_data);
 		}
 		else {
 			self::put_to_session('success', "false");
-			$response_data = [
-				'status' => 'Internal Server Error',
-				'status_code' => 500,
-				'message' => 'Oops! Some problem occured while deleting. Please try again',
-				'data' => []
-			];
-
-			return Response::json($response_data);
+			return self::send_response(500, 'Oops! Some problem occured while deleting. Please try again');
 		}
 	}
 
@@ -329,14 +276,9 @@ class FormController extends Controller
 			}
 			else {
 				self::put_to_session('success', "false");
-				$response_data = [
-					'status' => 'Unauthorized',
-					'status_code' => 401,
-					'message' => 'You are not authorized to delete "'. $form_config['module_label'] . '" record(s)',
-					'data' => []
-				];
 
-				return Response::json($response_data);
+				$message = 'You are not authorized to delete "'. $form_config['module_label'] . '" record(s)';
+				return self::send_response(401, $message);
 			}
 		}
 	}
@@ -371,25 +313,13 @@ class FormController extends Controller
 					}
 
 					self::put_to_session('success', "true");
-					$response_data = [
-						'status' => 'OK',
-						'status_code' => 200,
-						'message' => $form_config['module_label'] . ': "' . $form_config['link_field_value'] . '" deleted successfully',
-						'data' => []
-					];
 
-					return Response::json($response_data);
+					$message = $form_config['module_label'] . ': "' . $form_config['link_field_value'] . '" deleted successfully';
+					return self::send_response(200, $message);
 				}
 				else {
 					self::put_to_session('success', "false");
-					$response_data = [
-						'status' => 'Internal Server Error',
-						'status_code' => 500,
-						'message' => 'Oops! Some problem occured while deleting. Please try again',
-						'data' => []
-					];
-
-					return Response::json($response_data);
+					return self::send_response(500, 'Oops! Some problem occured while deleting. Please try again');
 				}
 
 				// deletes the avatar file if any
@@ -399,26 +329,14 @@ class FormController extends Controller
 			}
 			else {
 				self::put_to_session('success', "false");
-				$response_data = [
-					'status' => 'Not Found',
-					'status_code' => 404,
-					'message' => 'No record(s) found with the given data',
-					'data' => []
-				];
-
-				return Response::json($response_data);
+				return self::send_response(404, 'No record(s) found with the given data');
 			}
 		}
 		else {
 			self::put_to_session('success', "false");
-			$response_data = [
-				'status' => 'Bad Request',
-				'status_code' => 400,
-				'message' => 'Cannot delete the record. "' . $form_config['link_field'] . '" is not set',
-				'data' => []
-			];
 
-			return Response::json($response_data);
+			$message = 'Cannot delete the record. "' . $form_config['link_field'] . '" is not set';
+			return self::send_response(400, $message);
 		}
 	}
 
@@ -682,6 +600,27 @@ class FormController extends Controller
 		}
 
 		return $table_schema;
+	}
+
+
+	// send json response based on http status code
+	public static function send_response($status_code, $message, $data = null) {
+		$http_status = [
+			200 => 'OK',
+			400 => 'Bad Request',
+			401 => 'Unauthorized',
+			404 => 'Not Found',
+			500 => 'Internal Server Error'
+		];
+
+		$response_data = [
+			'status' => $http_status[$status_code],
+			'status_code' => $status_code,
+			'message' => $message,
+			'data' => $data ? $data : []
+		];
+
+		return Response::json($response_data, $status_code);
 	}
 
 
