@@ -18,13 +18,14 @@ class UserController extends Controller
 		$this->form_config = [
 			'module' => 'User',
 			'module_label' => 'User',
-			'module_icon' => 'fa-user',
+			'module_icon' => 'fa fa-user',
 			'table_name' => 'tabUser',
 			'view' => 'layouts.user',
 			'list_view' => '/list/user',
 			'form_view' => '/form/user/',
 			'link_field' => 'login_id',
-			'link_field_label' => 'Login ID'
+			'link_field_label' => 'Login ID',
+			'record_identifier' => 'login_id'
 		];
 	}
 

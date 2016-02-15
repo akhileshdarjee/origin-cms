@@ -177,8 +177,8 @@ class FormController extends Controller
 			}
 
 			// insert link field value to form data if not found
-			if (in_array($form_config['link_field'], $form_data)) {
-				$form_data[$form_config['link_field']] = $form_config['link_field_value'];
+			if (!in_array($form_config['link_field'], $form_data)) {
+				$form_data[$form_config['table_name']][$form_config['link_field']] = $form_config['link_field_value'];
 			}
 
 			$form_view_data = [

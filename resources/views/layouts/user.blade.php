@@ -1,5 +1,5 @@
 @var $action = "/form/user"
-<form method="POST" action="{{ isset($form_data['tabUser']['id']) ? $action."/".$form_data['tabUser'][$record_identifier] : $action }}" name="user" id="user" class="form-horizontal" enctype="multipart/form-data">
+<form method="POST" action="{{ isset($form_data['tabUser']['id']) ? $action."/".$form_data['tabUser'][$link_field] : $action }}" name="user" id="user" class="form-horizontal" enctype="multipart/form-data">
 	{!! csrf_field() !!}
 	<input type="hidden" name="id" id="id" class="form-control" data-mandatory="no" autocomplete="off" readonly>
 	<div class="panel-body">

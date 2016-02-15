@@ -49,6 +49,11 @@ class ListViewController extends Controller
 	public function list_view_columns($table)
 	{
 		$list_view_columns = [
+			'tabModeOfPayment' => [
+				'link_field' => 'id',
+				'search_via' => 'name',
+				'cols' => ['name', 'status']
+			],
 			'tabUser' => [
 				'link_field' => 'login_id',
 				'search_via' => 'login_id',

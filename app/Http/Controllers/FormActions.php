@@ -60,18 +60,18 @@ class FormActions extends Controller
 
 
 	// redirect to page based on api response
-	public function make_action_based_on_response($response, $action = null) {
+	public function make_action_based_on_response($response, $view_type = null) {
 		$response = json_decode($response->getContent());
 
 		if (isset($response->status_code) && $response->status_code == 200) {
 			$data = json_decode(json_encode($response->data), true);
 			$form_data = isset($data['form_data']) ? $data['form_data'] : [];
 
-			if ($action && $action == 'list_view') {
+			if ($view_type && $view_type == 'list_view') {
 				return redirect($this->form_config['list_view'])
 					->with(['msg' => $response->message]);
 			}
-			elseif ($action && $action == 'form_view') {
+			elseif ($view_type && $view_type == 'form_view') {
 				$form_view = $this->form_config['form_view'];
 				$form_link_field_value = $form_data['tab'.$this->form_config['module']][$this->form_config['link_field']];
 
@@ -91,11 +91,11 @@ class FormActions extends Controller
 			return back()->withInput()->with(['msg' => $response->message]);
 		}
 		elseif (isset($response->status_code) && $response->status_code == 404) {
-			if ($action && $action == 'list_view') {
+			if ($view_type && $view_type == 'list_view') {
 				return redirect($this->form_config['list_view'])
 					->with(['msg' => $response->message]);
 			}
-			elseif ($action && $action == 'form_view') {
+			elseif ($view_type && $view_type == 'form_view') {
 				return redirect($this->form_config['form_view'].$this->form_config['link_field_value'])
 					->with(['msg' => $response->message]);
 			}
@@ -104,11 +104,11 @@ class FormActions extends Controller
 			}
 		}
 		elseif (isset($response->status_code) && $response->status_code == 500) {
-			if ($action && $action == 'list_view') {
+			if ($view_type && $view_type == 'list_view') {
 				return redirect($this->form_config['list_view'])
 					->with(['msg' => $response->message]);
 			}
-			elseif ($action && $action == 'form_view') {
+			elseif ($view_type && $view_type == 'form_view') {
 				return redirect($this->form_config['form_view'].$this->form_config['link_field_value'])
 					->with(['msg' => $response->message]);
 			}

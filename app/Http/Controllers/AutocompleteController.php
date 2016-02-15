@@ -15,7 +15,7 @@ class AutocompleteController extends Controller
 
 		$status_modules = ['User'];
 
-		$module = ucwords($request->get('module'));
+		$module = ucwords(str_replace(" ", "", $request->get('module')));
 		$field = $request->get('field');
 
 		if ($request->has('fetch_fields') && $request->get('fetch_fields')) {

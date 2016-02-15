@@ -62,7 +62,7 @@
 										@if (count($rows) > 0)
 											@var $counter = 1
 											@foreach ($rows as $row)
-												<tr class="clickable_row" data-href="/form/{{ $module }}/{{ $row->$link_field }}">
+												<tr class="clickable_row" data-href="/form/{{ strtolower(str_replace(" ", "_", $module)) }}/{{ $row->$link_field }}">
 													<td data-field-name="row_check"><input type="checkbox" name="post[]" value="{{ $counter += 1 }}"></td>
 													@foreach ($columns as $column)
 														@var $tooltip = ucwords(str_replace("_", " ", $column))

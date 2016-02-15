@@ -22,9 +22,9 @@
 										<div class="h4">
 											<span>
 												@if (isset($module_type) && $module_type == "Single")
-													<i class="fa {{ $icon }}"></i> {{ $title }}
+													<i class="{{ $icon }}"></i> {{ $title }}
 												@else
-													<i class="fa {{ $icon }}"></i> {{ isset($form_data['tab'.$module]['id']) ? $form_data['tab'.$module][$record_identifier] : "New $title" }}
+													<i class="{{ $icon }}"></i> {{ isset($form_data['tab'.$module]['id']) ? $form_data['tab'.$module][$record_identifier] : "New $title" }}
 												@endif
 											</span>
 											@if (isset($form_data['tab'.$module]['id']))
