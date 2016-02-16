@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App;
 use Session;
+use Exception;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -34,6 +35,17 @@ class FormActions extends Controller
 	public function save(Request $request, $module_name = null, $id = null) {
 		$this->set_form_config($module_name);
 		$this->form_config['link_field_value'] = $id;
+		$module_controller = App::make(self::$controllers_path . "\\" . ucwords(camel_case($module_name)) . "Controller");
+
+		if (method_exists($module_controller, 'before_save') && is_callable(array($module_controller, 'before_save'))) {
+			try {
+				call_user_func(array($module_controller, 'before_save'), $request);
+			}
+			catch(Exception $e) {
+				return back()->withInput()->with(['msg' => $e->getMessage()]);
+			}
+		}
+
 		$save_response = FormController::save($request, $this->form_config);
 		return $this->make_action_based_on_response($save_response, 'form_view');
 	}
@@ -47,6 +59,16 @@ class FormActions extends Controller
 	public function delete($module_name = null, $id = null) {
 		$this->set_form_config($module_name);
 		$this->form_config['link_field_value'] = $id;
+		$module_controller = App::make(self::$controllers_path . "\\" . ucwords(camel_case($module_name)) . "Controller");
+
+		if (method_exists($module_controller, 'before_delete') && is_callable(array($module_controller, 'before_delete'))) {
+			try {
+				call_user_func(array($module_controller, 'before_delete'), $this->form_config['link_field_value']);
+			}
+			catch(Exception $e) {
+				return back()->withInput()->with(['msg' => $e->getMessage()]);
+			}
+		}
 		$delete_response = FormController::delete($this->form_config);
 		return $this->make_action_based_on_response($delete_response, 'list_view');
 	}

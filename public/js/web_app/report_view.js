@@ -4,6 +4,12 @@ $( document ).ready(function() {
 		"processing": true
 	});
 
+
+	// make search and show entries element as per bootstrap
+	$("#report-table_filter").find("input").addClass("form-control");
+	$("#report-table_length").find("select").addClass("form-control");
+
+
 	if ($("#from_date") && $("#to_date")) {
 		$(function () {
 			$("#fromdate").on("dp.change", function (e) {

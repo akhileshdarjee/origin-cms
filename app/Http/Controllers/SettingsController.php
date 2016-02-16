@@ -19,7 +19,7 @@ class SettingsController extends Controller
 			$settings_data = [
 				'form_data' => isset($data) ? $data : [],
 				'title' => 'Settings',
-				'icon' => 'fa-cogs',
+				'icon' => 'fa fa-cogs',
 				'file' => 'layouts.app.settings',
 				'module' => 'Settings',
 				'module_type' => 'Single'

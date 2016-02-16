@@ -31,7 +31,9 @@
 									</div>
 								</div>
 							</header>
-							@include($file)
+							@if (file_exists(base_path('resources/views/layouts/reports/' . strtolower(str_replace(" ", "_", $title)) . '.blade.php')))
+								@include($file)
+							@endif
 							<div style="height: 375px; margin-bottom: 0px; padding: 0px;" class="panel-body scrollbar scroll-x scroll-y table-responsive b-t">
 								<table class="table table-striped table-bordered" id="report-table" data-report-name="{{ $title }}">
 									<thead class="panel-heading text-small">
