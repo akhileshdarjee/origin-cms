@@ -33,7 +33,7 @@ class UserController extends Controller
 
 	// define what should process before save
 	public function before_save($request) {
-		return $this->check_login_id($request->login_id, $request->email);
+		return $this->check_login_id($request);
 	}
 
 
@@ -44,24 +44,36 @@ class UserController extends Controller
 
 
 	// check if login id is already registered
-	public function check_login_id($login_id, $email) {
-		if ($login_id) {
-			$user_details = DB::table('tabUser')
-				->select('login_id', 'email');
+	public function check_login_id($request) {
+		if ($request->login_id) {
+			if ($request->id) {
+				$user_details = DB::table('tabUser')
+					->select('login_id', 'email')
+					->where('id', '!=', $request->id);
 
-			$user_details = $user_details->where(function($query) use ($login_id, $email) {
-				$query->where('login_id', $login_id)
-					->orWhere('email', $email);
-			});
+				$user_details = $user_details->where(function($query) use ($request) {
+					$query->where('login_id', $request->login_id)
+						->orWhere('email', $request->email);
+				});
+			}
+			else {
+				$user_details = DB::table('tabUser')
+					->select('login_id', 'email');
+
+				$user_details = $user_details->where(function($query) use ($request) {
+					$query->where('login_id', $request->login_id)
+						->orWhere('email', $request->email);
+				});
+			}
 
 			$user_details = $user_details->first();
 
 			if ($user_details) {
 				Session::put('success', 'false');
-				if ($user_details->login_id == $login_id) {
+				if ($user_details->login_id == $request->login_id) {
 					$msg = 'Login ID: "' . $user_details->login_id . '" is already registered.';
 				}
-				elseif ($user_details->email == $email) {
+				elseif ($user_details->email == $request->email) {
 					$msg = 'Email ID: "' . $user_details->email . '" is already registered.';
 				}
 
