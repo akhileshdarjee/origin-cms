@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use DB;
 use App;
 use Session;
+use Exception;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -23,24 +24,23 @@ class ListViewController extends Controller
 	public function showList(Request $request, $module_name)
 	{
 		if ($module_name == "report") {
-			return redirect('/app/reports');
+			return redirect()->route('show.app.reports');
 		}
 		else {
 			$user_role = $request->session()->get('role');
-			$module_name = ucwords(str_replace("_", " ", $module_name));
 
 			if ($user_role == 'Administrator') {
-				return $this->show_list($request, $module_name);
+				return $this->show_list($request, studly_case($module_name));
 			}
 			else {
-				$allowed = PermController::role_wise_modules($user_role, "Read", $module_name);
+				$allowed = PermController::role_wise_modules($user_role, "Read", studly_case($module_name));
 
 				if ($allowed) {
-					return $this->show_list($request, $module_name);
+					return $this->show_list($request, studly_case($module_name));
 				}
 				else {
 					return back()->withInput()
-						->with(['msg' => 'You are not authorized to view "'. $module_name . '" record(s)']);
+						->with(['msg' => 'You are not authorized to view "'. ucwords(str_replace("_", " ", $module_name)) . '" record(s)']);
 				}
 			}
 		}
@@ -61,7 +61,12 @@ class ListViewController extends Controller
 			],
 		];
 
-		return $list_view_columns[$table];
+		try {
+			return $list_view_columns[$table];
+		}
+		catch(Exception $e) {
+			return redirect()->route('show.app')->with(['msg' => $e->getMessage()]);
+		}
 	}
 
 	public function get_records($table, $search_text = null, $module_name = null) {
@@ -104,8 +109,13 @@ class ListViewController extends Controller
 	}
 
 	public function show_list($request, $module_name) {
-		$table_name = 'tab'.ucwords(camel_case($module_name));
-		$columns = $this->list_view_columns($table_name)['cols'];
+		$table_name = 'tab'.$module_name;
+		try {
+			$columns = $this->list_view_columns($table_name)['cols'];
+		}
+		catch(Exception $e) {
+			return redirect()->route('show.app')->with(['msg' => $e->getMessage()]);
+		}
 
 		if($request->ajax()) {
 			// send the autocomplete data to search box

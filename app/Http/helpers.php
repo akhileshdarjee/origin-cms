@@ -3,9 +3,7 @@
 namespace App\Http;
 
 use DB;
-use File;
 use Session;
-use Mail;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;

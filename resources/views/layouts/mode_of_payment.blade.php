@@ -29,6 +29,16 @@
 						</div>
 					</div>
 				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="col-md-6 control-label">Slug</label>
+							<div class="col-md-6">
+								<input type="text" name="slug" id="slug" class="form-control" data-mandatory="no" autocomplete="off">
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

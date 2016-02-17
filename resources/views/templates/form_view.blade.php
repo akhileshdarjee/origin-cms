@@ -72,9 +72,10 @@
 				msgbox("{{ Session::get('msg') }}");
 			</script>
 		@endif
-		@if (file_exists(public_path('/js/web_app/' . strtolower(str_replace(" ", "_", $title)) . '.js')))
+		<script src="/js/web_app/form.js"></script>
+		@if (file_exists(public_path('/js/web_app/' . snake_case($module) . '.js')))
 			<!-- Include client js file -->
-			<script type="text/javascript" src="/js/web_app/{{ strtolower(str_replace(" ", "_", $title)) }}.js"></script>
+			<script type="text/javascript" src="/js/web_app/{{ snake_case($module) }}.js"></script>
 		@endif
 	</body>
 </html>

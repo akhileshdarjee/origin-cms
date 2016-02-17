@@ -15,7 +15,8 @@ class CreateTabModeOfPayment extends Migration
 		Schema::create('tabModeOfPayment', function (Blueprint $table) {
 			$table->increments('id');
 			$table->string('name');
-			$table->string('status');
+			$table->string('status')->default('Active');
+			$table->string('slug')->nullable;
 			$table->string('owner');
 			$table->string('last_updated_by');
 			$table->timestamps();

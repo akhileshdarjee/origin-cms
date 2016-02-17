@@ -35,7 +35,7 @@ class FormActions extends Controller
 	public function save(Request $request, $module_name = null, $id = null) {
 		$this->set_form_config($module_name);
 		$this->form_config['link_field_value'] = $id;
-		$module_controller = App::make(self::$controllers_path . "\\" . ucwords(camel_case($module_name)) . "Controller");
+		$module_controller = App::make(self::$controllers_path . "\\" . studly_case($module_name) . "Controller");
 
 		if (method_exists($module_controller, 'before_save') && is_callable(array($module_controller, 'before_save'))) {
 			try {
@@ -59,7 +59,7 @@ class FormActions extends Controller
 	public function delete($module_name = null, $id = null) {
 		$this->set_form_config($module_name);
 		$this->form_config['link_field_value'] = $id;
-		$module_controller = App::make(self::$controllers_path . "\\" . ucwords(camel_case($module_name)) . "Controller");
+		$module_controller = App::make(self::$controllers_path . "\\" . studly_case($module_name) . "Controller");
 
 		if (method_exists($module_controller, 'before_delete') && is_callable(array($module_controller, 'before_delete'))) {
 			try {
@@ -76,7 +76,7 @@ class FormActions extends Controller
 
 	// get form config from specific controller
 	public function set_form_config($module_name) {
-		$module_controller = App::make(self::$controllers_path . "\\" . ucwords(camel_case($module_name)) . "Controller");
+		$module_controller = App::make(self::$controllers_path . "\\" . studly_case($module_name) . "Controller");
 		$this->form_config = $module_controller->form_config;
 	}
 
@@ -84,20 +84,20 @@ class FormActions extends Controller
 	// redirect to page based on api response
 	public function make_action_based_on_response($response, $view_type = null) {
 		$response = json_decode($response->getContent());
+		$module = snake_case($this->form_config['module']);
 
 		if (isset($response->status_code) && $response->status_code == 200) {
 			$data = json_decode(json_encode($response->data), true);
 			$form_data = isset($data['form_data']) ? $data['form_data'] : [];
 
 			if ($view_type && $view_type == 'list_view') {
-				return redirect($this->form_config['list_view'])
+				return redirect()->route('show.list', array('module_name' => $module))
 					->with(['msg' => $response->message]);
 			}
 			elseif ($view_type && $view_type == 'form_view') {
-				$form_view = $this->form_config['form_view'];
 				$form_link_field_value = $form_data['tab'.$this->form_config['module']][$this->form_config['link_field']];
 
-				return redirect($form_view.$form_link_field_value)
+				return redirect()->route('show.doc', array('module_name' => $module, 'id' => $form_link_field_value))
 					->with(['msg' => $response->message]);
 			}
 			else {
@@ -113,12 +113,17 @@ class FormActions extends Controller
 			return back()->withInput()->with(['msg' => $response->message]);
 		}
 		elseif (isset($response->status_code) && $response->status_code == 404) {
+			$data = json_decode(json_encode($response->data), true);
+			$form_data = isset($data['form_data']) ? $data['form_data'] : [];
+
 			if ($view_type && $view_type == 'list_view') {
-				return redirect($this->form_config['list_view'])
+				return redirect()->route('show.list', array('module_name' => $module))
 					->with(['msg' => $response->message]);
 			}
 			elseif ($view_type && $view_type == 'form_view') {
-				return redirect($this->form_config['form_view'].$this->form_config['link_field_value'])
+				$form_link_field_value = $form_data['tab'.$this->form_config['module']][$this->form_config['link_field']];
+
+				return redirect()->route('show.doc', array('module_name' => $module, 'id' => $form_link_field_value))
 					->with(['msg' => $response->message]);
 			}
 			else {
@@ -126,12 +131,17 @@ class FormActions extends Controller
 			}
 		}
 		elseif (isset($response->status_code) && $response->status_code == 500) {
+			$data = json_decode(json_encode($response->data), true);
+			$form_data = isset($data['form_data']) ? $data['form_data'] : [];
+
 			if ($view_type && $view_type == 'list_view') {
-				return redirect($this->form_config['list_view'])
+				return redirect()->route('show.list', array('module_name' => $module))
 					->with(['msg' => $response->message]);
 			}
 			elseif ($view_type && $view_type == 'form_view') {
-				return redirect($this->form_config['form_view'].$this->form_config['link_field_value'])
+				$form_link_field_value = $form_data['tab'.$this->form_config['module']][$this->form_config['link_field']];
+
+				return redirect()->route('show.doc', array('module_name' => $module, 'id' => $form_link_field_value))
 					->with(['msg' => $response->message]);
 			}
 		}

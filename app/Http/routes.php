@@ -23,20 +23,20 @@
 
 Route::group(['middleware' => ['web']], function () {
 	// Website routes...
-	Route::get('/', 'WebsiteController@showIndex');
+	Route::get('/', ['as' => 'show.website', 'uses' => 'WebsiteController@showIndex']);
 
 	// API calls
 
 	// Authentication routes...
-	Route::get('/login', 'Auth\AuthController@getLogin');
-	Route::post('/login', 'Auth\AuthController@postLogin');
-	Route::get('/logout', 'Auth\AuthController@getLogout');
+	Route::get('/login', ['as' => 'show.login', 'uses' => 'Auth\AuthController@getLogin']);
+	Route::post('/login', ['as' => 'post.login', 'uses' => 'Auth\AuthController@postLogin']);
+	Route::get('/logout', ['as' => 'logout', 'uses' => 'Auth\AuthController@getLogout']);
 
 	// Password Reset routes...
-	Route::get('password/email', 'Auth\PasswordController@getEmail');
-	Route::post('password/email', 'Auth\PasswordController@postEmail');
-	Route::get('password/reset/{token}', 'Auth\PasswordController@getReset');
-	Route::post('password/reset', 'Auth\PasswordController@postReset');
+	Route::get('password/email', ['as' => 'forgot.password', 'uses' => 'Auth\PasswordController@getEmail']);
+	Route::post('password/email', ['as' => 'forgot.password', 'uses' => 'Auth\PasswordController@postEmail']);
+	Route::get('password/reset/{token}', ['as' => 'reset.password', 'uses' => 'Auth\PasswordController@getReset']);
+	Route::post('password/reset', ['as' => 'reset.password', 'uses' => 'Auth\PasswordController@postReset']);
 
 	// Request that can be made without authorization
 
@@ -44,29 +44,29 @@ Route::group(['middleware' => ['web']], function () {
 	Route::group(['middleware' => 'auth'], function () {
 
 		// App routes...
-		Route::get('/app', 'AppController@show_home');
+		Route::get('/app', ['as' => 'show.app', 'uses' => 'AppController@show_home']);
 
 		// App Home page module routes...
-		Route::get('/app/modules', 'ModuleController@show');
-		Route::get('/app/reports', 'ReportController@show');
-		Route::get('/app/settings', 'SettingsController@show');
-		Route::post('/app/settings', 'SettingsController@save');
+		Route::get('/app/modules', ['as' => 'show.app.modules', 'uses' => 'ModuleController@show']);
+		Route::get('/app/reports', ['as' => 'show.app.reports', 'uses' => 'ReportController@show']);
+		Route::get('/app/settings', ['as' => 'show.app.settings', 'uses' => 'SettingsController@show']);
+		Route::post('/app/settings', ['as' => 'save.app.settings', 'uses' => 'SettingsController@save']);
 
 		// List View...
-		Route::get('/list/{module_name}', 'ListViewController@showList');
+		Route::get('/list/{module_name}', ['as' => 'show.list', 'uses' => 'ListViewController@showList']);
 
 		// Report View...
-		Route::get('/app/report/{report_name}', 'ReportController@showReport');
+		Route::get('/app/report/{report_name}', ['as' => 'show.report', 'uses' => 'ReportController@showReport']);
 
 		// Autocomplete data...
-		Route::get('/getAutocomplete', 'AutocompleteController@getAutocomplete');
+		Route::get('/getAutocomplete', ['as' => 'get.autocomplete', 'uses' => 'AutocompleteController@getAutocomplete']);
 
 		// App Form/Module routes...
-		Route::get('/form/{module_name}', 'FormActions@show');
-		Route::post('/form/{module_name}', 'FormActions@save');
-		Route::get('/form/{module_name}/{id}', 'FormActions@show');
-		Route::post('/form/{module_name}/{id}', 'FormActions@save');
-		Route::get('/form/{module_name}/delete/{id}', 'FormActions@delete');
+		Route::get('/form/{module_name}', ['as' => 'show.doc', 'uses' => 'FormActions@show']);
+		Route::post('/form/{module_name}', ['as' => 'create.doc', 'uses' => 'FormActions@save']);
+		Route::get('/form/{module_name}/{id}', ['as' => 'show.doc', 'uses' => 'FormActions@show']);
+		Route::post('/form/{module_name}/{id}', ['as' => 'update.doc', 'uses' => 'FormActions@save']);
+		Route::get('/form/{module_name}/delete/{id}', ['as' => 'delete.doc', 'uses' => 'FormActions@delete']);
 
 	});
 });

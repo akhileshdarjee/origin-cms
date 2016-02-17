@@ -22,7 +22,7 @@ class AuthController extends Controller
 	public function getLogin()
 	{
 		if (Auth::check()) {
-			return redirect('/app');
+			return redirect()->route('show.app');
 		}
 		else {
 			$this->put_app_settings_in_session();
@@ -54,10 +54,10 @@ class AuthController extends Controller
 			if ($user->role == "Administrator") {
 				$this->put_app_settings_in_session();
 			}
-			return redirect('/app');
+			return redirect()->route('show.app');
 		}
 
-		return redirect('/login')->with([
+		return redirect()->route('show.login')->with([
 			'msg' => 'Login ID or Password is incorrect',
 			'success' => 'false'
 		]);
@@ -109,7 +109,7 @@ class AuthController extends Controller
 		Session::forget('role');
 
 		if ($customer && Session::get('success') == "true") {
-			return redirect('/login')->with([
+			return redirect()->route('show.login')->with([
 				'msg' => 'Your Account has been successfully created. Please Login.',
 				'success' => 'true'
 			]);
@@ -135,10 +135,10 @@ class AuthController extends Controller
 
 		// if customer was logged in then redirect to website
 		if ($user_role == "Customer") {
-			return redirect('/');
+			return redirect()->route('show.website');
 		}
 		else {
-			return redirect('/login');
+			return redirect()->route('show.login');
 		}
 	}
 
@@ -194,15 +194,18 @@ class AuthController extends Controller
 					return Socialite::driver($driver)->redirect();
 				}
 				else {
-					return redirect('login')->with(['msg' => ucwords($driver) . ' Login is disabled']);
+					return redirect()->route('show.login')
+						->with(['msg' => ucwords($driver) . ' Login is disabled']);
 				}
 			}
 			else {
-				return redirect('login')->with(['msg' => 'Social Login is disabled']);
+				return redirect()->route('show.login')
+					->with(['msg' => 'Social Login is disabled']);
 			}
 		}
 		else {
-			return redirect('login')->with(['msg' => 'Please set App Settings']);
+			return redirect()->route('show.login')
+				->with(['msg' => 'Please set App Settings']);
 		}
 	}
 
@@ -213,7 +216,8 @@ class AuthController extends Controller
 			$user_profile = Socialite::driver($driver)->user();
 		}
 		catch (Exception $e) {
-			return redirect('login')->with(['msg' => 'Some problem occured. Please try again...!!!']);
+			return redirect()->route('show.login')
+				->with(['msg' => 'Some problem occured. Please try again...!!!']);
 		}
 
 		$common_defaults = $this->getSocialUserData('default');
@@ -245,7 +249,7 @@ class AuthController extends Controller
 
 		Auth::login($user, true);
 		$this->put_user_data_in_session((object) $user_details);
-		return redirect('/');
+		return redirect()->route('show.website');
 	}
 
 
@@ -259,7 +263,7 @@ class AuthController extends Controller
 
 		Auth::login($auth_user, true);
 		$this->put_user_data_in_session((object) $user_details);
-		return redirect('/');
+		return redirect()->route('show.website');
 	}
 
 

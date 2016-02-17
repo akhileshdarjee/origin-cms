@@ -49,7 +49,7 @@ class ModuleController extends Controller
 			$modules = self::modules_config();
 		}
 		else {
-			$modules = PermController::modules_config_based_on_roles($user_role, "Read");
+			$modules = self::modules_config(PermController::modules_config_based_on_roles($user_role, "Read"));
 		}
 
 		if ($modules) {

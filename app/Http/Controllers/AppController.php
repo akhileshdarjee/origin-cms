@@ -13,7 +13,8 @@ class AppController extends Controller
 {
 	// show home page based on app settings
 	public static function show_home() {
-		$redirect_to = SettingsController::get_app_setting('home_page');
-		return redirect('/app/' . $redirect_to);
+		$app_page = SettingsController::get_app_setting('home_page');
+		$app_page = 'show.app.' . $app_page;
+		return redirect()->route($app_page);
 	}
 }

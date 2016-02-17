@@ -33,7 +33,7 @@ class ReportController extends Controller
 		if ($request->has('download') && $request->get('download') == 'Yes') {
 			$columns = $this->report_view_columns($report_name);
 			$rows = $this->get_records($request, $report_name, $user_role, $user_name);
-			return $this->downloadReport($report_name, $columns, $rows);
+			return $this->downloadReport(studly_case($report_name), $columns, $rows);
 		}
 		else {
 			if ($request->ajax()) {
@@ -52,13 +52,13 @@ class ReportController extends Controller
 
 	public function report_view_columns($report_name)
 	{
-		$report_controller = App::make(self::$controllers_path . "\\Reports\\" . ucwords(camel_case($report_name)));
+		$report_controller = App::make(self::$controllers_path . "\\Reports\\" . studly_case($report_name));
 		return $report_controller->get_columns();
 	}
 
 
 	public function get_records($request, $report_name, $user_role, $user_name) {
-		$report_controller = App::make(self::$controllers_path . "\\Reports\\" . ucwords(camel_case($report_name)));
+		$report_controller = App::make(self::$controllers_path . "\\Reports\\" . studly_case($report_name));
 		return $report_controller->get_rows($request, $user_role, $user_name);
 	}
 
@@ -69,7 +69,7 @@ class ReportController extends Controller
 			'rows' => $rows,
 			'columns' => $columns,
 			'title' => ucwords(str_replace("_", " ", $report_name)),
-			'file' => 'layouts.reports.' . strtolower(str_replace(" ", "_", $report_name)),
+			'file' => 'layouts.reports.' . $report_name,
 			'count' => count($rows)
 		];
 
@@ -107,7 +107,7 @@ class ReportController extends Controller
 					$data = [];
 					array_push($data, $column_header);
 
-					foreach($data_sheet['details'] as $excel_row){
+					foreach($data_sheet['details'] as $excel_row) {
 						array_push($data, (array) $excel_row);
 					}
 

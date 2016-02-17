@@ -22,7 +22,7 @@ class UserController extends Controller
 			'module_icon' => 'fa fa-user',
 			'table_name' => 'tabUser',
 			'view' => 'layouts.user',
-			'list_view' => '/list/user',
+			'list_view' => 'show.list',
 			'form_view' => '/form/user/',
 			'link_field' => 'login_id',
 			'link_field_label' => 'Login ID',
@@ -34,12 +34,6 @@ class UserController extends Controller
 	// define what should process before save
 	public function before_save($request) {
 		return $this->check_login_id($request);
-	}
-
-
-	// define what should happen before delete
-	public function before_delete($login_id) {
-		return $this->check_user_role($login_id);
 	}
 
 
@@ -78,28 +72,6 @@ class UserController extends Controller
 				}
 
 				throw new Exception($msg);
-			}
-			else {
-				Session::put('success', 'true');
-				return true;
-			}
-		}
-		else {
-			throw new Exception("Login ID is not provided");
-		}
-	}
-
-
-	// check if role is not 'Administrator'
-	public function check_user_role($login_id) {
-		if ($login_id) {
-			$user_role = DB::table('tabUser')
-				->where('login_id', $login_id)
-				->pluck('role')[0];
-
-			if ($user_role == 'Administrator') {
-				Session::put('success', 'false');
-				throw new Exception("You cannot delete 'Administrator'");
 			}
 			else {
 				Session::put('success', 'true');
