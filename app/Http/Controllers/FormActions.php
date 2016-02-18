@@ -85,11 +85,10 @@ class FormActions extends Controller
 	public function make_action_based_on_response($response, $view_type = null) {
 		$response = json_decode($response->getContent());
 		$module = snake_case($this->form_config['module']);
+		$data = json_decode(json_encode($response->data), true);
+		$form_data = isset($data['form_data']) ? $data['form_data'] : [];
 
 		if (isset($response->status_code) && $response->status_code == 200) {
-			$data = json_decode(json_encode($response->data), true);
-			$form_data = isset($data['form_data']) ? $data['form_data'] : [];
-
 			if ($view_type && $view_type == 'list_view') {
 				return redirect()->route('show.list', array('module_name' => $module))
 					->with(['msg' => $response->message]);
@@ -105,17 +104,14 @@ class FormActions extends Controller
 			}
 		}
 		elseif (isset($response->status_code) && $response->status_code == 400) {
-			self::put_to_session('success', "false");
+			Session::put('success', "false");
 			return back()->withInput()->with(['msg' => $response->message]);
 		}
 		elseif (isset($response->status_code) && $response->status_code == 401) {
-			self::put_to_session('success', "false");
-			return back()->withInput()->with(['msg' => $response->message]);
+			Session::put('success', "false");
+			return redirect()->route('show.app')->with('msg', $response->message);
 		}
 		elseif (isset($response->status_code) && $response->status_code == 404) {
-			$data = json_decode(json_encode($response->data), true);
-			$form_data = isset($data['form_data']) ? $data['form_data'] : [];
-
 			if ($view_type && $view_type == 'list_view') {
 				return redirect()->route('show.list', array('module_name' => $module))
 					->with(['msg' => $response->message]);
@@ -131,9 +127,6 @@ class FormActions extends Controller
 			}
 		}
 		elseif (isset($response->status_code) && $response->status_code == 500) {
-			$data = json_decode(json_encode($response->data), true);
-			$form_data = isset($data['form_data']) ? $data['form_data'] : [];
-
 			if ($view_type && $view_type == 'list_view') {
 				return redirect()->route('show.list', array('module_name' => $module))
 					->with(['msg' => $response->message]);

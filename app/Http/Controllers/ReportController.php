@@ -22,30 +22,35 @@ class ReportController extends Controller
 			return view('index', array('data' => [], 'file' => 'layouts.app.reports'));
 		}
 		else {
-			return back()->withInput()->with(['msg' => 'You are not authorized to view "Reports" detail(s)']);
+			return back()->withInput()->with(['msg' => 'You are not authorized to view "Reports"']);
 		}
 	}
 
 	public function showReport(Request $request, $report_name) {
-		$user_role = Session::get('role');
-		$user_name = Session::get('user');
+		if (Session::get('role') == 'Administrator') {
+			$user_role = Session::get('role');
+			$user_name = Session::get('user');
 
-		if ($request->has('download') && $request->get('download') == 'Yes') {
-			$columns = $this->report_view_columns($report_name);
-			$rows = $this->get_records($request, $report_name, $user_role, $user_name);
-			return $this->downloadReport(studly_case($report_name), $columns, $rows);
-		}
-		else {
-			if ($request->ajax()) {
-				return $this->get_records($request, $report_name, $user_role, $user_name);
-			}
-			else {
+			if ($request->has('download') && $request->get('download') == 'Yes') {
 				$columns = $this->report_view_columns($report_name);
 				$rows = $this->get_records($request, $report_name, $user_role, $user_name);
-				$report_view_data = $this->prepare_report_view_data($rows, $columns, $report_name);
-
-				return view('templates.report_view', $report_view_data);
+				return $this->downloadReport(studly_case($report_name), $columns, $rows);
 			}
+			else {
+				if ($request->ajax()) {
+					return $this->get_records($request, $report_name, $user_role, $user_name);
+				}
+				else {
+					$columns = $this->report_view_columns($report_name);
+					$rows = $this->get_records($request, $report_name, $user_role, $user_name);
+					$report_view_data = $this->prepare_report_view_data($rows, $columns, $report_name);
+
+					return view('templates.report_view', $report_view_data);
+				}
+			}
+		}
+		else {
+			return redirect()->route('show.app')->with('msg', 'You are not authorized to view "Reports"');
 		}
 	}
 
@@ -68,7 +73,7 @@ class ReportController extends Controller
 		$report_view_data = [
 			'rows' => $rows,
 			'columns' => $columns,
-			'title' => ucwords(str_replace("_", " ", $report_name)),
+			'title' => awesome_case($report_name),
 			'file' => 'layouts.reports.' . $report_name,
 			'count' => count($rows)
 		];
@@ -99,7 +104,7 @@ class ReportController extends Controller
 					$column_header = $data_sheet['header'];
 
 					foreach ($column_header as $key => $value) {
-						$column_header[$key] = ucwords(str_replace("_", " ", $column_header[$key]));
+						$column_header[$key] = awesome_case($column_header[$key]);
 						if (strpos($column_header[$key], 'Id') !== false) {
 							$column_header[$key] = str_replace("Id", "ID", $column_header[$key]);
 						}

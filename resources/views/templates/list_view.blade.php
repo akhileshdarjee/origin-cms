@@ -33,10 +33,7 @@
 									</div>
 									<div class="col-sm-4 col-md-push-4">
 										<div class="input-group">
-											@var $item = ucwords(str_replace("_", " ", $search_via))
-											@if (strpos($item, 'Id') !== false)
-												@var $item = str_replace("Id", "ID", $item)
-											@endif
+											@var $item = str_replace("Id", "ID", awesome_case($search_via))
 											<input type="text" class="input-sm form-control autocomplete" id="search_text" 
 												data-target-field="{{ $search_via }}" data-target-module="{{ $module }}" placeholder="Search {{ $item }}" autocomplete="off">
 											<span class="input-group-btn">
@@ -65,10 +62,7 @@
 												<tr class="clickable_row" data-href="/form/{{ snake_case($module) }}/{{ $row->$link_field }}">
 													<td data-field-name="row_check"><input type="checkbox" name="post[]" value="{{ $counter += 1 }}"></td>
 													@foreach ($columns as $column)
-														@var $tooltip = ucwords(str_replace("_", " ", $column))
-														@if (strpos($tooltip, 'Id') !== false)
-															@var $tooltip = str_replace("Id", "ID", $tooltip)
-														@endif
+														@var $tooltip = str_replace("Id", "ID", awesome_case($column))
 														<td data-field-name="{{ $column }}" 
 															title="{{ $tooltip }} : {{ $row->$column }}">{{ $row->$column }}</td>
 													@endforeach

@@ -40,7 +40,7 @@ class ListViewController extends Controller
 				}
 				else {
 					return back()->withInput()
-						->with(['msg' => 'You are not authorized to view "'. ucwords(str_replace("_", " ", $module_name)) . '" record(s)']);
+						->with(['msg' => 'You are not authorized to view "'. awesome_case($module_name) . '" record(s)']);
 				}
 			}
 		}
@@ -179,7 +179,7 @@ class ListViewController extends Controller
 			'module' => $module_name,
 			'rows' => $rows,
 			'columns' => $columns,
-			'title' => trim(preg_replace('/(?<!\ )[A-Z]/', ' $0', $module_name)),
+			'title' => awesome_case($module_name),
 			'link_field' => $this->list_view_columns($table_name)['link_field'],
 			'search_via' => $this->list_view_columns($table_name)['search_via'],
 			'count' => DB::table($table_name)->count()

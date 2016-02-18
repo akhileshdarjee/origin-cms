@@ -19,8 +19,6 @@ class ModeOfPaymentController extends Controller
 			'module_icon' => 'fa fa-money',
 			'table_name' => 'tabModeOfPayment',
 			'view' => 'layouts.mode_of_payment',
-			'list_view' => '/list/mode_of_payment',
-			'form_view' => '/form/mode_of_payment/',
 			'link_field' => 'id',
 			'link_field_label' => 'ID',
 			'record_identifier' => 'name'

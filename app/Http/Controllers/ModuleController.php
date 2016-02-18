@@ -11,16 +11,16 @@ use App\Http\Controllers\Controller;
 class ModuleController extends Controller
 {
 	public static function modules_config($role_modules = null) {
-		// Module UI parts such as icon, color, etc
+		// Modules config such as icon, color, etc
 		$module_wise_config = array(
-			'mode_of_payment' => (object) array(
+			'ModeOfPayment' => (object) array(
 				'module_label' => 'Mode Of Payment', 
 				'href' => '/list/mode_of_payment', 
 				'icon' => 'fa fa-money', 
 				'bg_color' => '#00b16a', 
 				'icon_color' => '#ffffff'
 			),
-			'user' => (object) array(
+			'User' => (object) array(
 				'module_label' => 'User', 
 				'href' => '/list/user', 
 				'icon' => 'fa fa-user', 
@@ -31,13 +31,19 @@ class ModuleController extends Controller
 
 		if ($role_modules) {
 			$modules = array_keys($module_wise_config);
-			$excluded_modules = array_diff($modules, $role_modules);
-			foreach ($excluded_modules as $key => $value) {
-				unset($module_wise_config[$value]);
+			if (is_array($modules) && is_array($role_modules)) {
+				$excluded_modules = array_diff($modules, $role_modules);
+			}
+			else {
+				abort('404');
+			}
+
+			foreach ($excluded_modules as $module) {
+				unset($module_wise_config[$module]);
 			}
 		}
 
-		return (object) $module_wise_config;
+		return $module_wise_config;
 	}
 
 
@@ -49,7 +55,7 @@ class ModuleController extends Controller
 			$modules = self::modules_config();
 		}
 		else {
-			$modules = self::modules_config(PermController::modules_config_based_on_roles($user_role, "Read"));
+			$modules = PermController::modules_config_based_on_roles($user_role, "Read");
 		}
 
 		if ($modules) {

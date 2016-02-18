@@ -15,11 +15,11 @@ class PermController extends Controller
 
 	// table name in database(not included prefix 'tab')
 	private static $modules = [
-		'User'
+		'User', 'ModeOfPayment'
 	];
 
 	// restrict data to this roles
-	private static $roles = array('Website User');
+	private static $roles = array('Website User', 'Guest');
 
 	// set module actions
 	private static $permissions = array('Read', 'Create', 'Update', 'Delete');
@@ -46,6 +46,10 @@ class PermController extends Controller
 		self::$role_modules_based_on_perm = (object) array(
 			'Website User' => (object) array(
 				'Create' => array('')
+			),
+			'Guest' => (object) array(
+				'Read' => array('User'), 
+				'Update' => array('User')
 			),
 		);
 
@@ -91,7 +95,7 @@ class PermController extends Controller
 		// 			'Client' => (object) array(
 		// 				'full_name' => $user_name
 		// 			), 
-		// 		),  
+		// 		), 
 		// 		'Delete' => (object) array(
 		// 			'Guest' => (object) array(
 		// 				'company' => $user_name
@@ -101,7 +105,20 @@ class PermController extends Controller
 		// );
 		// -------------------------------------------------------------------
 
-		self::$module_permissions_based_on_role = array();
+		self::$module_permissions_based_on_role = array(
+			'Guest' => (object) array(
+				'Read' => (object) array(
+					'User' => (object) array(
+						'login_id' => $user_login_id
+					)
+				),
+				'Update' => (object) array(
+					'User' => (object) array(
+						'login_id' => $user_login_id
+					), 
+				)
+			),
+		);
 
 		if ($role && in_array($role, self::$roles)) {
 			if (isset(self::$module_permissions_based_on_role[$role]->$action->$module_name)) {

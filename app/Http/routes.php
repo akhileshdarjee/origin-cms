@@ -68,5 +68,13 @@ Route::group(['middleware' => ['web']], function () {
 		Route::post('/form/{module_name}/{id}', ['as' => 'update.doc', 'uses' => 'FormActions@save']);
 		Route::get('/form/{module_name}/delete/{id}', ['as' => 'delete.doc', 'uses' => 'FormActions@delete']);
 
+		// App API routes...
+		// Route::group(['prefix' => 'api'], function () {
+		// 	Route::get('/list/{module_name}', ['as' => 'send.doc.list', 'uses' => 'FormController@show']);
+		// 	Route::post('/doc/create/{module_name}', ['as' => 'create.doc', 'uses' => 'FormController@save']);
+		// 	Route::get('/doc/{module_name}/{id}', ['as' => 'show.doc', 'uses' => 'FormController@show']);
+		// 	Route::post('/doc/update/{module_name}/{id}', ['as' => 'update.doc', 'uses' => 'FormController@save']);
+		// 	Route::get('/doc/delete/{module_name}/{id}', ['as' => 'delete.doc', 'uses' => 'FormController@delete']);
+		// });
 	});
 });

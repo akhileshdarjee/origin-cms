@@ -31,7 +31,7 @@
 									</div>
 								</div>
 							</header>
-							@if (file_exists(base_path('resources/views/layouts/reports/' . strtolower(str_replace(" ", "_", $title)) . '.blade.php')))
+							@if (view()->exists('layouts/reports/' . strtolower(str_replace(" ", "_", $title))))
 								@include($file)
 							@endif
 							<div style="height: 375px; margin-bottom: 0px; padding: 0px;" class="panel-body scrollbar scroll-x scroll-y table-responsive b-t">
@@ -41,7 +41,7 @@
 											<th>#</th>
 											@if (isset($columns) && $columns)
 												@foreach ($columns as $column)
-													@var $col_head = str_replace("Id", "ID", ucwords(str_replace("_", " ", $column)))
+													@var $col_head = str_replace("Id", "ID", awesome_case($column))
 													<th name="{{ $column }}">{{ $col_head }}</th>
 												@endforeach
 											@endif

@@ -57,7 +57,8 @@ class SettingsController extends Controller
 			$auth_controller = App::make(env('CONTROLLERS_PATH') . "Auth\\AuthController");
 			$auth_controller->put_app_settings_in_session();
 
-			return redirect('/app/settings')->with(['msg' => 'App settings successfully saved']);
+			return redirect()->route('show.app.settings')
+				->with(['msg' => 'App settings successfully saved']);
 		}
 		else {
 			abort('403');

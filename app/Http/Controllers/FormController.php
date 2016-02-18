@@ -26,12 +26,12 @@ class FormController extends Controller
 		$user_role = self::get_from_session('role');
 
 		if ($user_role == 'Administrator') {
-			return self::show_form($form_config);
+			return self::show_form($form_config, $user_role);
 		}
 		else {
-			$allowed = PermController::role_wise_modules($user_role, "Read", $form_config['module']);
-			if ($allowed) {
-				return self::show_form($form_config);
+			$can_read = PermController::role_wise_modules($user_role, "Read", $form_config['module']);
+			if ($can_read) {
+				return self::show_form($form_config, $user_role);
 			}
 			else {
 				$message = 'You are not authorized to view "'. $form_config['module_label'] . '" record(s)';
@@ -42,13 +42,36 @@ class FormController extends Controller
 
 
 	// Shows form view
-	public static function show_form($form_config) {
+	public static function show_form($form_config, $user_role) {
 		// Shows an existing record
 		if ($form_config['link_field_value']) {
 			$owner = self::get_from_session('login_id');
 			$data[$form_config['table_name']] = DB::table($form_config['table_name'])
-				->where($form_config['link_field'], $form_config['link_field_value'])
-				->first();
+				->where($form_config['link_field'], $form_config['link_field_value']);
+
+			if ($user_role != 'Administrator') {
+				$role_permissions = PermController::module_wise_permissions($user_role, "Update", $form_config['module']);
+
+				if ($role_permissions) {
+					foreach ($role_permissions as $column_name => $column_value) {
+						if (is_array($column_value)) {
+							$data[$form_config['table_name']] = $data[$form_config['table_name']]
+								->whereIn($column_name, $column_value);
+						}
+						else {
+							$data[$form_config['table_name']] = $data[$form_config['table_name']]
+								->where($column_name, $column_value);
+						}
+					}
+				}
+				else {
+					$record_identifier = isset($form_config['record_identifier']) ? $form_config['record_identifier'] : $form_config['link_field_value'];
+					$message = 'You are not authorized to update "'. $record_identifier . '" record(s)';
+					return self::send_response(401, $message);
+				}
+			}
+
+			$data[$form_config['table_name']] = $data[$form_config['table_name']]->first();
 
 			if ($data && $data[$form_config['table_name']]) {
 				// if child tables set and found in db then attach it with data
@@ -66,7 +89,14 @@ class FormController extends Controller
 		}
 		// Shows a new form
 		else {
-			$user_role = self::get_from_session('role');
+			if ($user_role != 'Administrator') {
+				$can_create = PermController::role_wise_modules($user_role, "Create", $form_config['module']);
+
+				if (!$can_create) {
+					$message = 'You are not authorized to create "'. $form_config['module_label'] . '"';
+					return self::send_response(401, $message);
+				}
+			}
 		}
 
 		$form_data = [
@@ -137,14 +167,14 @@ class FormController extends Controller
 			self::put_to_session('success', "false");
 
 			$message = $form_config['module_label'] . ': "' . $request->$form_config['link_field'] . '" already exist';
-			return self::send_response(500, $message);
+			return self::send_response(400, $message);
 		}
 		// if link field value is not matching the request link value
 		elseif ($action == "update" && $request->$form_config['link_field'] != $form_config['link_field_value']) {
 			self::put_to_session('success', "false");
 
 			$message = 'You cannot change "' . $form_config['link_field_label'] . '" for ' . $form_config['module_label'];
-			return self::send_response(500, $message);
+			return self::send_response(400, $message);
 		}
 		else {
 			$form_data = self::populate_data($request, $form_config, $action);
@@ -206,7 +236,7 @@ class FormController extends Controller
 		}
 		else {
 			self::put_to_session('success', "false");
-			return self::send_response(500, 'Oops! Some problem occured while deleting. Please try again');
+			return self::send_response(500, 'Oops! Some problem occured while saving. Please try again');
 		}
 	}
 
@@ -214,20 +244,83 @@ class FormController extends Controller
 	// insert or updates records into the database
 	public static function save_data_into_db($form_data, $form_config, $action) {
 		DB::enableQueryLog();
+		$user_role = self::get_from_session('role');
+
 		// save parent data and child table data if found
 		foreach ($form_data as $form_table => $form_table_data) {
 
 			if ($form_table == $form_config['table_name']) {
 				// this is parent table
 				if ($action == "create") {
-					$result = DB::table($form_table)->insertGetId($form_table_data);
-					self::put_to_session("created_id", $result);
-					$form_config['link_field_value'] = ($form_config['link_field'] == "id") ? $result : $form_table_data[$form_config['link_field']];
+					$can_create = true;
+
+					if ($user_role != 'Administrator') {
+						$role_permissions = PermController::module_wise_permissions($user_role, "Create", $form_config['module']);
+
+						if ($role_permissions) {
+							foreach ($role_permissions as $column_name => $column_value) {
+								if (is_array($column_value)) {
+									if (!in_array($form_data[$form_table][$column_name], $column_value)) {
+										$can_create = false;
+									}
+								}
+								else {
+									if ($form_data[$form_table][$column_name] !== $column_value) {
+										$can_create = false;
+									}
+								}
+							}
+						}
+						else {
+							$record_identifier = isset($form_config['record_identifier']) ? $form_config['record_identifier'] : $form_config['link_field_value'];
+							$message = 'You are not authorized to create "'. $record_identifier . '" record';
+							return self::send_response(401, $message);
+						}
+					}
+
+					if ($can_create) {
+						$result = DB::table($form_table)->insertGetId($form_table_data);
+						$form_config['link_field_value'] = ($form_config['link_field'] == "id") ? $result : $form_table_data[$form_config['link_field']];
+					}
+					else {
+						return false;
+					}
 				}
 				else {
-					$result = DB::table($form_table)
-						->where($form_config['link_field'], $form_config['link_field_value'])
-						->update($form_table_data);
+					$can_update = true;
+
+					if ($user_role != 'Administrator') {
+						$role_permissions = PermController::module_wise_permissions($user_role, "Update", $form_config['module']);
+
+						if ($role_permissions) {
+							foreach ($role_permissions as $column_name => $column_value) {
+								if (is_array($column_value)) {
+									if (!in_array($form_data[$form_table][$column_name], $column_value)) {
+										$can_update = false;
+									}
+								}
+								else {
+									if ($form_data[$form_table][$column_name] !== $column_value) {
+										$can_update = false;
+									}
+								}
+							}
+						}
+						else {
+							$record_identifier = isset($form_config['record_identifier']) ? $form_config['record_identifier'] : $form_config['link_field_value'];
+							$message = 'You are not authorized to update "'. $record_identifier . '" record';
+							return self::send_response(401, $message);
+						}
+					}
+
+					if ($can_update) {
+						$result = DB::table($form_table)
+							->where($form_config['link_field'], $form_config['link_field_value'])
+							->update($form_table_data);
+					}
+					else {
+						return false;
+					}
 				}
 
 				self::$link_field_value = $form_config['link_field_value'];
@@ -298,8 +391,31 @@ class FormController extends Controller
 	public static function delete_record($form_config, $email_id = null) {
 		if ($form_config['link_field_value']) {
 			$data = DB::table($form_config['table_name'])
-				->where($form_config['link_field'], $form_config['link_field_value'])
-				->first();
+				->where($form_config['link_field'], $form_config['link_field_value']);
+
+			if ($user_role != 'Administrator') {
+				$role_permissions = PermController::module_wise_permissions($user_role, "Delete", $form_config['module']);
+
+				if ($role_permissions) {
+					foreach ($role_permissions as $column_name => $column_value) {
+						if (is_array($column_value)) {
+							$data[$form_config['table_name']] = $data[$form_config['table_name']]
+								->whereIn($column_name, $column_value);
+						}
+						else {
+							$data[$form_config['table_name']] = $data[$form_config['table_name']]
+								->where($column_name, $column_value);
+						}
+					}
+				}
+				else {
+					$record_identifier = isset($form_config['record_identifier']) ? $form_config['record_identifier'] : $form_config['link_field_value'];
+					$message = 'You are not authorized to delete "'. $record_identifier . '" record';
+					return self::send_response(401, $message);
+				}
+			}
+
+			$data = $data->first();
 
 			if ($data) {
 				// if record found then only delete it
@@ -580,27 +696,6 @@ class FormController extends Controller
 		else {
 			return false;
 		}
-	}
-
-
-	// generates a new random password
-	public static function generate_password($length = null, $only_numbers = null) {
-		if ($only_numbers) {
-			$alphabet = "0123456789";
-		}
-		else {
-			$alphabet = "abcdefghijklmnopqrstuwxyz_ABCDEFGHIJKLMNOPQRSTUWXYZ0123456789@#$.";
-		}
-
-		$pass = array(); //remember to declare $pass as an array
-		$alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
-		$length = $length ? $length : 10;
-		for ($i = 0; $i < $length; $i++) {
-			$n = rand(0, $alphaLength);
-			$pass[] = $alphabet[$n];
-		}
-
-		return implode($pass); //turn the array into a string
 	}
 
 
