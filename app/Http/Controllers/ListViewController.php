@@ -27,7 +27,7 @@ class ListViewController extends Controller
 			return redirect()->route('show.app.reports');
 		}
 		else {
-			$user_role = $request->session()->get('role');
+			$user_role = Session::get('role');
 
 			if ($user_role == 'Administrator') {
 				return $this->show_list($request, studly_case($module_name));
@@ -117,44 +117,14 @@ class ListViewController extends Controller
 			return redirect()->route('show.app')->with(['msg' => $e->getMessage()]);
 		}
 
-		if($request->ajax()) {
-			// send the autocomplete data to search box
-			if ($request->get('autocomplete') == "yes") {
-				$autocomplete_data = [];
-				$module_link_field = $this->list_view_columns($table_name)['link_field'];
-				$rows = $this->get_records($table_name);
-
-				foreach ($rows as $key => $value) {
-					array_push($autocomplete_data, $rows[$key]->$module_link_field);
-				}
-
-				return $autocomplete_data;
-			}
+		if ($request->ajax()) {
 			// prepare rows based on search criteria
-			else if (!empty($request->get('search'))) {
-				$search_text = $request->get('search');
-				return $this->prepare_list_view_data($module_name, $table_name, $columns, $search_text);
+			if ($request->has('search') && $request->get('search')) {
+				return $this->prepare_list_view_data($module_name, $table_name, $columns, $request->get('search'));
 			}
 			// delete the selected rows from the list view
-			elseif (!empty($request->get('delete_list'))) {
-				$delete_list = [];
-
-				foreach ($request->get('delete_list') as $url) {
-					$pos = strpos($url, '/', 1);
-					$delete_url = substr_replace($url, "/delete", $pos, 0);
-					if (!in_array($delete_url, $delete_list)) {
-						array_push($delete_list, $delete_url);
-					}
-				}
-
-				$action_controller = App::make(self::$controllers_path . "\\FormActions");
-				foreach ($delete_list as $url) {
-					$link_field_value = explode("/", $url);
-					$link_field_value = end($link_field_value);
-					$action_controller->delete($module_name, $link_field_value);
-				}
-
-				return $delete_list;
+			elseif ($request->has('delete_list') && !empty($request->get('delete_list'))) {
+				return $this->delete_selected_records($request->get('delete_list'), $module_name);
 			}
 			// return list of all rows for refresh list
 			else {
@@ -186,5 +156,28 @@ class ListViewController extends Controller
 		];
 
 		return $list_view_data;
+	}
+
+
+	// filter list view data based on filter value
+	public function delete_selected_records($delete_records, $module_name) {
+		$delete_list = [];
+
+		foreach ($delete_records as $url) {
+			$pos = strpos($url, '/', 1);
+			$delete_url = substr_replace($url, "/delete", $pos, 0);
+			if (!in_array($delete_url, $delete_list)) {
+				array_push($delete_list, $delete_url);
+			}
+		}
+
+		$action_controller = App::make(self::$controllers_path . "\\FormActions");
+		foreach ($delete_list as $url) {
+			$link_field_value = explode("/", $url);
+			$link_field_value = end($link_field_value);
+			$action_controller->delete($module_name, $link_field_value);
+		}
+
+		return $delete_list;
 	}
 }

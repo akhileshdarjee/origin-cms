@@ -114,7 +114,8 @@ class PermController extends Controller
 				),
 				'Update' => (object) array(
 					'User' => (object) array(
-						'login_id' => $user_login_id
+						'login_id' => $user_login_id,
+						'role' => 'Guest'
 					), 
 				)
 			),

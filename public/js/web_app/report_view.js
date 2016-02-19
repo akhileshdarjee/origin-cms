@@ -1,7 +1,9 @@
 $( document ).ready(function() {
 
 	var report_table = $('table#report-table').DataTable({
-		"processing": true
+		"bProcessing": true,
+		"sDom": "<'row'<'col-sm-6'l><'col-sm-6'f>r>t<'row'<'col-sm-6'i><'col col-sm-6'p>>",
+		"sPaginationType": "full_numbers",
 	});
 
 

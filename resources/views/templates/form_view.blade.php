@@ -73,7 +73,7 @@
 			</script>
 		@endif
 		<script src="/js/web_app/form.js"></script>
-		@if (file_exists(public_path('/js/web_app/' . snake_case($module) . '.js')))
+		@if (File::exists(public_path('/js/web_app/' . snake_case($module) . '.js')))
 			<!-- Include client js file -->
 			<script type="text/javascript" src="/js/web_app/{{ snake_case($module) }}.js"></script>
 		@endif

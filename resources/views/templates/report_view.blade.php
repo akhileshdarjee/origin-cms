@@ -36,7 +36,7 @@
 							@endif
 							<div style="height: 375px; margin-bottom: 0px; padding: 0px;" class="panel-body scrollbar scroll-x scroll-y table-responsive b-t">
 								<table class="table table-striped table-bordered" id="report-table" data-report-name="{{ $title }}">
-									<thead class="panel-heading text-small">
+									<thead class="panel-heading text-small remove-before">
 										<tr>
 											<th>#</th>
 											@if (isset($columns) && $columns)

@@ -3,6 +3,11 @@ String.prototype.toProperCase = function () {
 	return this.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 };
 
+// convert string to snake case
+String.prototype.toSnakeCase = function () {
+	return this.replace(/(.)([A-Z])/g, "$1_$2").toLowerCase();
+};
+
 // Prototyping for getting month long name and short name
 Date.prototype.getMonthName = function(lang) {
 	lang = lang && (lang in Date.locale) ? lang : 'en';
@@ -27,11 +32,11 @@ var app_route = window.location.pathname;
 var table = "/" + app_route.split("/").pop(-1);
 var form_changed = false;
 
-var money_list = ['total_amount', 'grand_total', 'rate', 'food_total_amount', 'laundry_total_amount'];
+var money_list = ['total_amount', 'grand_total', 'rate', 'amount', 'price'];
 var label_list = ['status', 'role'];
 var label_bg = {
 	status : {Active : 'bg-success', Inactive : 'bg-danger', Vacant : 'bg-success', Occupied : 'bg-danger'},
-	role : {Administrator : 'bg-inverse', Client : 'bg-primary', Cook : 'bg-warning', Guest : 'bg-info'}
+	role : {Administrator : 'bg-inverse', Guest : 'bg-info'}
 }
 
 // Setup ajax for making csrf token used by laravel
@@ -212,14 +217,14 @@ function set_date(date_element, date, date_format, add_days) {
 function beautify_list_view(table) {
 
 	// field defaults
-	var money_list = ['total_amount', 'grand_total', 'rate', 'food_total_amount', 'laundry_total_amount', 'debit', 'credit'];
-	var contact_list = ['contact_no', 'phone_no'];
+	var money_list = ['total_amount', 'grand_total', 'rate', 'amount', 'debit', 'credit', 'price'];
+	var contact_list = ['contact_no', 'phone_no', 'phone', 'mobile', 'mobile_no'];
 	var address_list = ['address', 'full_address', 'city', 'venue'];
 	var email_list = ['email_id', 'guest_id'];
 	var label_list = ['status', 'role'];
 	var label_bg = {
 		'status' : { 'Active' : 'bg-success', 'Inactive' : 'bg-danger', 'Vacant' : 'bg-success', 'Occupied' : 'bg-danger' }, 
-		'role' : { 'Administrator' : 'bg-inverse', 'Basecamp Admin' : 'bg-success', 'Client' : 'bg-primary', 'Cook' : 'bg-warning', 'Guest' : 'bg-info' }
+		'role' : { 'Administrator' : 'bg-inverse', 'Guest' : 'bg-info' }
 	}
 
 	var table = table ? table : "table.list-view";

@@ -16,8 +16,11 @@ class FormController extends Controller
 {
 	// define modules to create, update or delete user when module is saved
 	public static $user_via_modules = [];
+	// define modules to send email when create or update is performed
 	public static $email_modules = [];
+	// define modules to create slug when create or update is performed
 	public static $slug_modules = [];
+	// stores link field value globally across the controller
 	public static $link_field_value;
 
 
@@ -182,7 +185,7 @@ class FormController extends Controller
 		}
 
 		// if data is inserted into database then only save avatar, user, etc.
-		if ($result) {
+		if (is_bool($result) === true) {
 			self::put_to_session('success', "true");
 			$form_config['link_field_value'] = self::$link_field_value;
 
@@ -236,7 +239,7 @@ class FormController extends Controller
 		}
 		else {
 			self::put_to_session('success', "false");
-			return self::send_response(500, 'Oops! Some problem occured while saving. Please try again');
+			return $result;
 		}
 	}
 
@@ -258,15 +261,20 @@ class FormController extends Controller
 						$role_permissions = PermController::module_wise_permissions($user_role, "Create", $form_config['module']);
 
 						if ($role_permissions) {
+							$unsatisfied_rule = [];
 							foreach ($role_permissions as $column_name => $column_value) {
 								if (is_array($column_value)) {
 									if (!in_array($form_data[$form_table][$column_name], $column_value)) {
 										$can_create = false;
+										$unsatisfied_rule[$form_data[$form_table][$column_name]] = $column_value;
+										break;
 									}
 								}
 								else {
 									if ($form_data[$form_table][$column_name] !== $column_value) {
 										$can_create = false;
+										$unsatisfied_rule[$form_data[$form_table][$column_name]] = $column_value;
+										break;
 									}
 								}
 							}
@@ -283,7 +291,9 @@ class FormController extends Controller
 						$form_config['link_field_value'] = ($form_config['link_field'] == "id") ? $result : $form_table_data[$form_config['link_field']];
 					}
 					else {
-						return false;
+						list($column_name, $column_value) = array_divide($unsatisfied_rule);
+						$message = 'You are not authorized to create "'. ucwords($column_value) . '" ' . ucwords($column_name) . '(s)';
+						return self::send_response(401, $message);
 					}
 				}
 				else {
@@ -293,15 +303,20 @@ class FormController extends Controller
 						$role_permissions = PermController::module_wise_permissions($user_role, "Update", $form_config['module']);
 
 						if ($role_permissions) {
+							$unsatisfied_rule = [];
 							foreach ($role_permissions as $column_name => $column_value) {
 								if (is_array($column_value)) {
 									if (!in_array($form_data[$form_table][$column_name], $column_value)) {
 										$can_update = false;
+										$unsatisfied_rule[$form_data[$form_table][$column_name]] = $column_value;
+										break;
 									}
 								}
 								else {
 									if ($form_data[$form_table][$column_name] !== $column_value) {
 										$can_update = false;
+										$unsatisfied_rule[$form_data[$form_table][$column_name]] = $column_value;
+										break;
 									}
 								}
 							}
@@ -319,7 +334,9 @@ class FormController extends Controller
 							->update($form_table_data);
 					}
 					else {
-						return false;
+						list($column_name, $column_value) = array_divide($unsatisfied_rule);
+						$message = 'You are not authorized to update "'. ucwords($column_name) . '" as "' . ucwords($column_value) . '"';
+						return self::send_response(401, $message);
 					}
 				}
 
@@ -392,6 +409,8 @@ class FormController extends Controller
 		if ($form_config['link_field_value']) {
 			$data = DB::table($form_config['table_name'])
 				->where($form_config['link_field'], $form_config['link_field_value']);
+
+			$user_role = self::get_from_session('role');
 
 			if ($user_role != 'Administrator') {
 				$role_permissions = PermController::module_wise_permissions($user_role, "Delete", $form_config['module']);
@@ -625,7 +644,7 @@ class FormController extends Controller
 			}
 
 			if ($action == "create") {
-				$password = FormController::generate_password();
+				$password = generate_password();
 				$user_data["password"] = bcrypt($password);
 				$user_data["role"] = $module;
 				$user_data["owner"] = self::get_from_session('login_id');

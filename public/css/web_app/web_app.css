@@ -41,3 +41,8 @@ form {
 .table_record:hover {
 	cursor: pointer;
 }
+
+/* report */
+.remove-before.panel-heading:before  {
+	display: none;
+}
