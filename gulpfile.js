@@ -39,3 +39,7 @@ elixir(function(mix) {
 		'../../../public/js/web_app/web_app.js'
 	]);
 });
+
+elixir(function(mix) {
+	mix.version(['css/all.css', 'js/all.js']);
+});

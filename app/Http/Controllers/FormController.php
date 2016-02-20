@@ -53,7 +53,7 @@ class FormController extends Controller
 				->where($form_config['link_field'], $form_config['link_field_value']);
 
 			if ($user_role != 'Administrator') {
-				$role_permissions = PermController::module_wise_permissions($user_role, "Update", $form_config['module']);
+				$role_permissions = PermController::module_wise_permissions($user_role, "Read", $form_config['module']);
 
 				if ($role_permissions) {
 					foreach ($role_permissions as $column_name => $column_value) {
@@ -68,9 +68,7 @@ class FormController extends Controller
 					}
 				}
 				else {
-					$record_identifier = isset($form_config['record_identifier']) ? $form_config['record_identifier'] : $form_config['link_field_value'];
-					$message = 'You are not authorized to update "'. $record_identifier . '" record(s)';
-					return self::send_response(401, $message);
+					return self::send_response(404, 'Page Not Found');
 				}
 			}
 
@@ -87,7 +85,7 @@ class FormController extends Controller
 				}
 			}
 			else {
-				return self::send_response(404, 'Page Not Found');
+				return self::send_response(401, 'You are not authorized to view this record');
 			}
 		}
 		// Shows a new form
@@ -136,7 +134,7 @@ class FormController extends Controller
 			$allow_update = PermController::role_wise_modules($user_role, "Update", $form_config['module']);
 
 			if ($form_config['link_field_value']) {
-				if ($allow_update && $record_exists) {
+				if ($allow_update) {
 					$result = self::save_form($request, $form_config, "update");
 				}
 				else {
@@ -185,7 +183,7 @@ class FormController extends Controller
 		}
 
 		// if data is inserted into database then only save avatar, user, etc.
-		if (is_bool($result) === true) {
+		if (is_bool($result) === true && $result) {
 			self::put_to_session('success', "true");
 			$form_config['link_field_value'] = self::$link_field_value;
 
@@ -266,14 +264,14 @@ class FormController extends Controller
 								if (is_array($column_value)) {
 									if (!in_array($form_data[$form_table][$column_name], $column_value)) {
 										$can_create = false;
-										$unsatisfied_rule[$form_data[$form_table][$column_name]] = $column_value;
+										$unsatisfied_rule[$column_name] = $column_value;
 										break;
 									}
 								}
 								else {
 									if ($form_data[$form_table][$column_name] !== $column_value) {
 										$can_create = false;
-										$unsatisfied_rule[$form_data[$form_table][$column_name]] = $column_value;
+										$unsatisfied_rule[$column_name] = $column_value;
 										break;
 									}
 								}
@@ -292,7 +290,7 @@ class FormController extends Controller
 					}
 					else {
 						list($column_name, $column_value) = array_divide($unsatisfied_rule);
-						$message = 'You are not authorized to create "'. ucwords($column_value) . '" ' . ucwords($column_name) . '(s)';
+						$message = 'You are not authorized to create "'. ucwords($column_value[0]) . '" ' . ucwords($column_name[0]) . '(s)';
 						return self::send_response(401, $message);
 					}
 				}
@@ -308,14 +306,14 @@ class FormController extends Controller
 								if (is_array($column_value)) {
 									if (!in_array($form_data[$form_table][$column_name], $column_value)) {
 										$can_update = false;
-										$unsatisfied_rule[$form_data[$form_table][$column_name]] = $column_value;
+										$unsatisfied_rule[$column_name] = $column_value;
 										break;
 									}
 								}
 								else {
 									if ($form_data[$form_table][$column_name] !== $column_value) {
 										$can_update = false;
-										$unsatisfied_rule[$form_data[$form_table][$column_name]] = $column_value;
+										$unsatisfied_rule[$column_name] = $column_value;
 										break;
 									}
 								}
@@ -335,7 +333,7 @@ class FormController extends Controller
 					}
 					else {
 						list($column_name, $column_value) = array_divide($unsatisfied_rule);
-						$message = 'You are not authorized to update "'. ucwords($column_name) . '" as "' . ucwords($column_value) . '"';
+						$message = 'You are not authorized to update "'. ucwords($column_name[0]) . '" as "' . ucwords($column_value[0]) . '"';
 						return self::send_response(401, $message);
 					}
 				}

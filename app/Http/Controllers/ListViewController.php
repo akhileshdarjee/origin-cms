@@ -21,8 +21,7 @@ class ListViewController extends Controller
 	 * @param  string  $table
 	 * @return Response
 	 */
-	public function showList(Request $request, $module_name)
-	{
+	public function showList(Request $request, $module_name) {
 		if ($module_name == "report") {
 			return redirect()->route('show.app.reports');
 		}
@@ -39,15 +38,20 @@ class ListViewController extends Controller
 					return $this->show_list($request, studly_case($module_name));
 				}
 				else {
-					return back()->withInput()
-						->with(['msg' => 'You are not authorized to view "'. awesome_case($module_name) . '" record(s)']);
+					$msg = 'You are not authorized to view "'. awesome_case($module_name) . '" record(s)';
+
+					if (url()->current() === url()->previous()) {
+						return redirect()->route('show.app')->with('msg', $msg);
+					}
+					else {
+						return back()->with(['msg' => $msg]);
+					}
 				}
 			}
 		}
 	}
 
-	public function list_view_columns($table)
-	{
+	public function list_view_columns($table) {
 		$list_view_columns = [
 			'tabModeOfPayment' => [
 				'link_field' => 'id',

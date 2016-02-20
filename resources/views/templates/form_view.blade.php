@@ -72,7 +72,7 @@
 				msgbox("{{ Session::get('msg') }}");
 			</script>
 		@endif
-		<script src="/js/web_app/form.js"></script>
+		<script type="text/javascript" src="/js/web_app/form.js"></script>
 		@if (File::exists(public_path('/js/web_app/' . snake_case($module) . '.js')))
 			<!-- Include client js file -->
 			<script type="text/javascript" src="/js/web_app/{{ snake_case($module) }}.js"></script>

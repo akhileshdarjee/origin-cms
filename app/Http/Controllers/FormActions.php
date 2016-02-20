@@ -109,7 +109,16 @@ class FormActions extends Controller
 		}
 		elseif (isset($response->status_code) && $response->status_code == 401) {
 			Session::put('success', "false");
-			return redirect()->route('show.app')->with('msg', $response->message);
+			if ($view_type && $view_type == 'list_view') {
+				return redirect()->route('show.list', array('module_name' => $module))
+					->with(['msg' => $response->message]);
+			}
+			elseif ($view_type && $view_type == 'form_view') {
+				return back()->withInput()->with(['msg' => $response->message]);
+			}
+			else {
+				return redirect()->route('show.app')->with('msg', $response->message);
+			}
 		}
 		elseif (isset($response->status_code) && $response->status_code == 404) {
 			if ($view_type && $view_type == 'list_view') {
