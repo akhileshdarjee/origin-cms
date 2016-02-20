@@ -48,8 +48,8 @@ class PermController extends Controller
 				'Create' => array('')
 			),
 			'Guest' => (object) array(
-				'Read' => array('User'), 
-				'Update' => array('User')
+				'Read' => array('User', 'ModeOfPayment'), 
+				'Update' => array('User', 'ModeOfPayment')
 			),
 		);
 
@@ -110,13 +110,19 @@ class PermController extends Controller
 				'Read' => (object) array(
 					'User' => (object) array(
 						'login_id' => $user_login_id
-					)
+					),
+					'ModeOfPayment' => (object) array(
+						'name' => array('Credit Card', 'Debit Card')
+					),
 				),
 				'Update' => (object) array(
 					'User' => (object) array(
 						'login_id' => $user_login_id,
 						'role' => 'Guest'
 					), 
+					'ModeOfPayment' => (object) array(
+						'name' => array('Credit Card', 'Debit Card')
+					),
 				)
 			),
 		);

@@ -8,6 +8,21 @@ String.prototype.toSnakeCase = function () {
 	return this.replace(/(.)([A-Z])/g, "$1_$2").toLowerCase();
 };
 
+// check if string is a valid date
+String.prototype.isDate = function () {
+	var dateFormat;
+
+	if (toString.call(this) === '[object Date]') {
+		return true;
+	}
+	if (typeof this.replace === 'function') {
+		this.replace(/^\s+|\s+$/gm, '');
+	}
+
+	dateFormat = /(^\d{1,4}[\.|\\/|-]\d{1,2}[\.|\\/|-]\d{1,4})(\s*(?:0?[1-9]:[0-5]|1(?=[012])\d:[0-5])\d\s*[ap]m)?$/;
+	return dateFormat.test(this);
+};
+
 // Prototyping for getting month long name and short name
 Date.prototype.getMonthName = function(lang) {
 	lang = lang && (lang in Date.locale) ? lang : 'en';
@@ -524,4 +539,12 @@ function isUrl (obj) {
 	else {
 		return false;
 	}
+}
+
+
+// convert mysql date time to javascript date time
+function mysqlDateTimeToJSDate(datetime) {
+	// Split timestamp into [ Y, M, D, h, m, s ]
+	var t = datetime.split(/[- :]/);
+	return new Date(t[0], t[1]-1, t[2], t[3], t[4], t[5]);
 }

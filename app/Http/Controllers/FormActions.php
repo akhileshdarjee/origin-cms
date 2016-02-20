@@ -19,11 +19,19 @@ class FormActions extends Controller
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function show($module_name = null, $id = null) {
+	public function show(Request $request, $module_name = null, $id = null) {
 		$this->set_form_config($module_name);
 		$this->form_config['link_field_value'] = $id;
 		$show_response = FormController::show($this->form_config);
-		return $this->make_action_based_on_response($show_response);
+
+		if ($request->is('api/*')) {
+			// Send JSON response to API
+			return $show_response;
+		}
+		else {
+			// Returns response with view
+			return $this->make_action_based_on_response($show_response);
+		}
 	}
 
 
@@ -47,7 +55,15 @@ class FormActions extends Controller
 		}
 
 		$save_response = FormController::save($request, $this->form_config);
-		return $this->make_action_based_on_response($save_response, 'form_view');
+
+		if ($request->is('api/*')) {
+			// Send JSON response to API
+			return $save_response;
+		}
+		else {
+			// Returns response with view
+			return $this->make_action_based_on_response($save_response, 'form_view');
+		}
 	}
 
 
@@ -56,7 +72,7 @@ class FormActions extends Controller
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function delete($module_name = null, $id = null) {
+	public function delete(Request $request, $module_name = null, $id = null) {
 		$this->set_form_config($module_name);
 		$this->form_config['link_field_value'] = $id;
 		$module_controller = App::make(self::$controllers_path . "\\" . studly_case($module_name) . "Controller");
@@ -69,8 +85,17 @@ class FormActions extends Controller
 				return back()->withInput()->with(['msg' => $e->getMessage()]);
 			}
 		}
+
 		$delete_response = FormController::delete($this->form_config);
-		return $this->make_action_based_on_response($delete_response, 'list_view');
+
+		if ($request->is('api/*')) {
+			// Send JSON response to API
+			return $delete_response;
+		}
+		else {
+			// Returns response with view
+			return $this->make_action_based_on_response($delete_response, 'list_view');
+		}
 	}
 
 

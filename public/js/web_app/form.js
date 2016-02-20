@@ -45,49 +45,8 @@ $( document ).ready(function() {
 		$("#" + form_id)[0].reset();
 	});
 
-
-	// check if form_data is defined then set value to the form
-	if (typeof form_data != 'undefined' && form_data) {
-		$.each(form_data, function(table_name, table_data) {
-			$.each(table_data, function(field_name, value) {
-				var ignore_fields = ['avatar', 'created_at', 'updated_at', 'owner', 'last_updated_by'];
-				if(typeof value === 'string') {
-					if (field_name.includes("date")) {
-						$("#" + field_name).attr("data-field_value", value);
-						if (value.split(" ").length > 1) {
-							value = moment(value).format('DD-MM-YYYY');
-						}
-						else {
-							value = moment(value).format('DD-MM-YYYY');
-						}
-					}
-					if (ignore_fields.indexOf(field_name) == -1) {
-						if ($("#" + field_name)) {
-							$("#" + field_name).val(value);
-						}
-					}
-				}
-				else if (typeof value === 'object' && value) {
-					var idx = field_name + 1;
-					var child_record = value;
-					var table = $('table[data-table="' + table_name + '"]');
-					add_new_row(table, null, "none");
-
-					$.each(child_record, function(child_field, child_value) {
-						$('input[name="' + table_name + '[' + (idx - 1) + '][' + child_field + ']"]').val(child_value);
-					});
-
-					set_row_after_input($(table).find('tbody'));
-				}
-			});
-		});
-	}
-
-
-	// get all mandatory fields, show highlight if not input
+	set_doc_data();
 	initialize_mandatory_fields();
-
-	// Autocomplete
 	enable_autocomplete();
 
 	// validate forms for mandatory fields
@@ -180,5 +139,46 @@ function read_image(input) {
 		}
 
 		reader.readAsDataURL(input.files[0]);
+	}
+}
+
+
+// set data to form
+function set_doc_data() {
+	if (typeof doc.data != 'undefined' && doc.data) {
+		$.each(doc.data, function(table_name, table_data) {
+			$.each(table_data, function(field_name, value) {
+				var ignore_fields = ['avatar', 'created_at', 'updated_at', 'owner', 'last_updated_by'];
+				if(typeof value === 'string') {
+					if (moment(value, 'YYYY-MM-DD').isValid()) {
+						$("#" + field_name).attr("data-field_value", value);
+
+						if (value.split(" ").length > 1) {
+							value = moment(value).format('DD-MM-YYYY hh:mm A');
+						}
+						else {
+							value = moment(value).format('DD-MM-YYYY');
+						}
+					}
+					if (ignore_fields.indexOf(field_name) == -1) {
+						if ($("#" + field_name)) {
+							$("#" + field_name).val(value);
+						}
+					}
+				}
+				else if (typeof value === 'object' && value) {
+					var idx = field_name + 1;
+					var child_record = value;
+					var table = $('table[data-table="' + table_name + '"]');
+					add_new_row(table, null, "none");
+
+					$.each(child_record, function(child_field, child_value) {
+						$('input[name="' + table_name + '[' + (idx - 1) + '][' + child_field + ']"]').val(child_value);
+					});
+
+					set_row_after_input($(table).find('tbody'));
+				}
+			});
+		});
 	}
 }

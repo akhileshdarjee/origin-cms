@@ -21,7 +21,8 @@ class ModeOfPaymentController extends Controller
 			'view' => 'layouts.mode_of_payment',
 			'link_field' => 'id',
 			'link_field_label' => 'ID',
-			'record_identifier' => 'name'
+			'record_identifier' => 'name',
+			'slug_source' => 'name'
 		];
 	}
 }

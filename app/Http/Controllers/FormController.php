@@ -19,7 +19,7 @@ class FormController extends Controller
 	// define modules to send email when create or update is performed
 	public static $email_modules = [];
 	// define modules to create slug when create or update is performed
-	public static $slug_modules = [];
+	public static $slug_modules = ['ModeOfPayment'];
 	// stores link field value globally across the controller
 	public static $link_field_value;
 
@@ -183,7 +183,7 @@ class FormController extends Controller
 		}
 
 		// if data is inserted into database then only save avatar, user, etc.
-		if (is_bool($result) === true && $result) {
+		if (is_int($result) && $result) {
 			self::put_to_session('success', "true");
 			$form_config['link_field_value'] = self::$link_field_value;
 
@@ -244,12 +244,11 @@ class FormController extends Controller
 
 	// insert or updates records into the database
 	public static function save_data_into_db($form_data, $form_config, $action) {
-		DB::enableQueryLog();
+		// DB::enableQueryLog();
 		$user_role = self::get_from_session('role');
 
 		// save parent data and child table data if found
 		foreach ($form_data as $form_table => $form_table_data) {
-
 			if ($form_table == $form_config['table_name']) {
 				// this is parent table
 				if ($action == "create") {
@@ -264,14 +263,14 @@ class FormController extends Controller
 								if (is_array($column_value)) {
 									if (!in_array($form_data[$form_table][$column_name], $column_value)) {
 										$can_create = false;
-										$unsatisfied_rule[$column_name] = $column_value;
+										$unsatisfied_rule[$column_name] = $form_data[$form_table][$column_name];
 										break;
 									}
 								}
 								else {
 									if ($form_data[$form_table][$column_name] !== $column_value) {
 										$can_create = false;
-										$unsatisfied_rule[$column_name] = $column_value;
+										$unsatisfied_rule[$column_name] = $form_data[$form_table][$column_name];
 										break;
 									}
 								}
@@ -306,14 +305,14 @@ class FormController extends Controller
 								if (is_array($column_value)) {
 									if (!in_array($form_data[$form_table][$column_name], $column_value)) {
 										$can_update = false;
-										$unsatisfied_rule[$column_name] = $column_value;
+										$unsatisfied_rule[$column_name] = $form_data[$form_table][$column_name];
 										break;
 									}
 								}
 								else {
 									if ($form_data[$form_table][$column_name] !== $column_value) {
 										$can_update = false;
-										$unsatisfied_rule[$column_name] = $column_value;
+										$unsatisfied_rule[$column_name] = $form_data[$form_table][$column_name];
 										break;
 									}
 								}
@@ -389,6 +388,7 @@ class FormController extends Controller
 		}
 		else {
 			$allowed = PermController::role_wise_modules($user_role, "Delete", $form_config['module']);
+
 			if ($allowed) {
 				return self::delete_record($form_config, $email_id);
 			}
@@ -570,13 +570,13 @@ class FormController extends Controller
 				}
 
 				// check if module come under slug modules list
-				if (in_array($form_config['module'], self::$slug_modules)) {
+				if (in_array($form_config['module'], self::$slug_modules) && isset($form_config['slug_source']) && $form_config['slug_source']) {
 					$parent_field_name = 'slug';
 
 					// check if generated no is already present in record
 					$valid_slug = false;
 					do {
-						$generated_slug = str_slug($data[$table]['name'], "-");
+						$generated_slug = str_slug($data[$table][$form_config['slug_source']], "-");
 
 						$existing_slug = DB::table($table)
 							->where($parent_field_name, $generated_slug)

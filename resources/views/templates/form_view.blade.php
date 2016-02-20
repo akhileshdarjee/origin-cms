@@ -3,8 +3,11 @@
 	<head>
 		<title>{{ ucwords($title) }} - Web App</title>
 		<script type="text/javascript">
-			var form_data = <?php echo isset($form_data) ? json_encode($form_data) : "false" ?>;
-			var form_title = "{{ ucwords($title) }}";
+			window.doc = {
+				data: <?php echo isset($form_data) ? json_encode($form_data) : "false" ?>,
+				title: "{{ $title }}",
+				module: "{{ $module }}"
+			};
 		</script>
 		@include('templates.headers')
 	</head>
@@ -46,7 +49,12 @@
 									</div>
 								</div>
 							</header>
-							@include($file)
+							@var $action = "/form/" . snake_case($module)
+							<form method="POST" action="{{ isset($form_data['tab'.$module]['id']) ? $action."/".$form_data['tab'.$module][$link_field] : $action }}" name="{{ snake_case($module) }}" id="{{ snake_case($module) }}" class="form-horizontal" enctype="multipart/form-data">
+								{!! csrf_field() !!}
+								<input type="hidden" name="id" id="id" class="form-control" data-mandatory="no" autocomplete="off" readonly>
+								@include($file)
+							</form>
 							<footer class="panel-footer">
 								<div class="row">
 									<div class="col-md-3">&nbsp;</div>
