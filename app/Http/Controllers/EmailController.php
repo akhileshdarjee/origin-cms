@@ -48,7 +48,7 @@ class EmailController extends Controller
 		);
 
 		Mail::send($template, array('data' => $data), function ($message) use ($mail_config) {
-			$message->from($mail_config->from, "Basecamp");
+			$message->from($mail_config->from, "Web App");
 			$message->to($mail_config->to);
 			$message->cc($mail_config->cc);
 			$message->subject($mail_config->subject);

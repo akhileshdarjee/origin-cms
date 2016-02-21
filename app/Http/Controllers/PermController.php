@@ -15,7 +15,7 @@ class PermController extends Controller
 
 	// table name in database(not included prefix 'tab')
 	private static $modules = [
-		'User', 'ModeOfPayment'
+		'User'
 	];
 
 	// restrict data to this roles
@@ -48,8 +48,8 @@ class PermController extends Controller
 				'Create' => array('')
 			),
 			'Guest' => (object) array(
-				'Read' => array('User', 'ModeOfPayment'), 
-				'Update' => array('User', 'ModeOfPayment')
+				'Read' => array('User'), 
+				'Update' => array('User')
 			),
 		);
 
@@ -111,18 +111,12 @@ class PermController extends Controller
 					'User' => (object) array(
 						'login_id' => $user_login_id
 					),
-					'ModeOfPayment' => (object) array(
-						'name' => array('Credit Card', 'Debit Card')
-					),
 				),
 				'Update' => (object) array(
 					'User' => (object) array(
 						'login_id' => $user_login_id,
 						'role' => 'Guest'
 					), 
-					'ModeOfPayment' => (object) array(
-						'name' => array('Credit Card', 'Debit Card')
-					),
 				)
 			),
 		);

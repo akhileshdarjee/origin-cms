@@ -19,7 +19,7 @@ class FormController extends Controller
 	// define modules to send email when create or update is performed
 	public static $email_modules = [];
 	// define modules to create slug when create or update is performed
-	public static $slug_modules = ['ModeOfPayment'];
+	public static $slug_modules = [];
 	// stores link field value globally across the controller
 	public static $link_field_value;
 

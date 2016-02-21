@@ -53,11 +53,6 @@ class ListViewController extends Controller
 
 	public function list_view_columns($table) {
 		$list_view_columns = [
-			'tabModeOfPayment' => [
-				'link_field' => 'id',
-				'search_via' => 'name',
-				'cols' => ['name', 'status']
-			],
 			'tabUser' => [
 				'link_field' => 'login_id',
 				'search_via' => 'login_id',
@@ -65,12 +60,7 @@ class ListViewController extends Controller
 			],
 		];
 
-		try {
-			return $list_view_columns[$table];
-		}
-		catch(Exception $e) {
-			return redirect()->route('show.app')->with(['msg' => $e->getMessage()]);
-		}
+		return $list_view_columns[$table];
 	}
 
 	public function get_records($table, $search_text = null, $module_name = null) {
@@ -118,7 +108,7 @@ class ListViewController extends Controller
 			$columns = $this->list_view_columns($table_name)['cols'];
 		}
 		catch(Exception $e) {
-			return redirect()->route('show.app')->with(['msg' => $e->getMessage()]);
+			return redirect()->route('show.app')->with(['msg' => awesome_case($module_name) . ' List not found']);
 		}
 
 		if ($request->ajax()) {

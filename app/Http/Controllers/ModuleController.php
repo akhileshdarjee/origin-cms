@@ -13,13 +13,6 @@ class ModuleController extends Controller
 	public static function modules_config($role_modules = null) {
 		// Modules config such as icon, color, etc
 		$module_wise_config = array(
-			'ModeOfPayment' => (object) array(
-				'module_label' => 'Mode Of Payment', 
-				'href' => '/list/mode_of_payment', 
-				'icon' => 'fa fa-money', 
-				'bg_color' => '#00b16a', 
-				'icon_color' => '#ffffff'
-			),
 			'User' => (object) array(
 				'module_label' => 'User', 
 				'href' => '/list/user', 

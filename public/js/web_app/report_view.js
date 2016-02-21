@@ -12,20 +12,6 @@ $( document ).ready(function() {
 
 	enable_autocomplete();
 
-	// make theads scrollable
-	// var body = $('body');
-
-	// $.each($("table#report-table > thead > tr > th"), function(idx, heading) {
-	// 	$(heading).resizable({
-	// 		handles: "e,s,se",
-	// 		resize: function (event, ui) {
-	// 			var width = body.width(),
-	// 				diff = width - (width - (this.offsetRight + this.offsetWidth));
-
-	// 			body.width(diff).scrollRight(diff);
-	// 		}
-	// 	});
-	// });
 
 	// make search and show entries element as per bootstrap
 	$("#report-table_filter").find("input").addClass("form-control");
