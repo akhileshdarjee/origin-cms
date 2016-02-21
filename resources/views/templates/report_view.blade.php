@@ -8,10 +8,10 @@
 				background-color: transparent;
 			}
 			::-webkit-resizer:hover {
-				cursor: e-resize;
+				cursor: row-resize;
 			}
 			::-webkit-scrollbar-corner:hover {
-				cursor: e-resize;
+				cursor: row-resize;
 			}
 		</style>
 	</head>

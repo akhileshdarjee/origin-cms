@@ -4,6 +4,10 @@ $( document ).ready(function() {
 		"bProcessing": true,
 		"sDom": "<'row'<'col-sm-6'l><'col-sm-6'f>r>t<'row'<'col-sm-6'i><'col col-sm-6'p>>",
 		"sPaginationType": "full_numbers",
+		"bAutoWidth": false,
+		"oLanguage": {
+			"sEmptyTable": "No Data"
+		}
 	});
 
 	enable_autocomplete();
@@ -25,6 +29,11 @@ $( document ).ready(function() {
 
 	// make search and show entries element as per bootstrap
 	$("#report-table_filter").find("input").addClass("form-control");
+	$("#report-table_filter").find("input").attr("title", "Search in table");
+	$("#report-table_filter").find("input").tooltip({
+		"container": 'body',
+		"placement": 'bottom',
+	});
 	$("#report-table_length").find("select").addClass("form-control");
 
 
@@ -118,4 +127,7 @@ $( document ).ready(function() {
 
 		return filters;
 	}
+
+
+	$('table').find('.dataTables_empty').html("No Data");
 });

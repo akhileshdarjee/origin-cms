@@ -81,6 +81,13 @@ form {
 	overflow: auto;
 }
 
+.dataTables_empty {
+	font-size: 18px;
+	font-weight: 800;
+	padding: 17px !important;
+	text-align: center;
+}
+
 /* Tooltip show in one line */
 .tooltip-inner {
 	white-space: nowrap;

@@ -128,7 +128,7 @@ class ListViewController extends Controller
 			}
 			// delete the selected rows from the list view
 			elseif ($request->has('delete_list') && !empty($request->get('delete_list'))) {
-				return $this->delete_selected_records($request->get('delete_list'), $module_name);
+				return $this->delete_selected_records($request, $request->get('delete_list'), $module_name);
 			}
 			// return list of all rows for refresh list
 			else {
@@ -164,7 +164,7 @@ class ListViewController extends Controller
 
 
 	// filter list view data based on filter value
-	public function delete_selected_records($delete_records, $module_name) {
+	public function delete_selected_records($request, $delete_records, $module_name) {
 		$delete_list = [];
 
 		foreach ($delete_records as $url) {
@@ -179,7 +179,7 @@ class ListViewController extends Controller
 		foreach ($delete_list as $url) {
 			$link_field_value = explode("/", $url);
 			$link_field_value = end($link_field_value);
-			$action_controller->delete($module_name, $link_field_value);
+			$action_controller->delete($request, $module_name, $link_field_value);
 		}
 
 		return $delete_list;
