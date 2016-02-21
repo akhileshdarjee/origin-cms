@@ -21,7 +21,9 @@
 									</div>
 									<div class="col-md-6 col-md-push-5">
 										<div style="line-height: 39px;">
-											<button class="btn btn-primary btn-sm" id="action-button" data-action="new">New</button>
+											<button class="btn btn-primary btn-sm" id="action-button" data-action="new"
+												data-toggle="tooltip" data-placement="left" data-container="body" title="New {{ ucwords($title) }}">New
+											</button>
 										</div>
 									</div>
 								</div>
@@ -63,7 +65,7 @@
 													<td data-field-name="row_check"><input type="checkbox" name="post[]" value="{{ $counter += 1 }}"></td>
 													@foreach ($columns as $column)
 														@var $tooltip = str_replace("Id", "ID", awesome_case($column))
-														<td data-field-name="{{ $column }}" 
+														<td data-field-name="{{ $column }}" data-toggle="tooltip" data-placement="bottom" data-container="body"
 															title="{{ $tooltip }} : {{ $row->$column }}">{{ $row->$column }}</td>
 													@endforeach
 												</tr>

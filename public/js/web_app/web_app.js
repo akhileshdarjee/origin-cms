@@ -23,6 +23,23 @@ String.prototype.isDate = function () {
 	return dateFormat.test(this);
 };
 
+// check if string is a time
+String.prototype.isTime = function () {
+	var isValid = /^([0-1]?[0-9]|2[0-3]):([0-5][0-9])(:[0-5][0-9])?$/.test(this);
+	return isValid;
+};
+
+// check if string is a time
+String.prototype.isDateTime = function () {
+	var date = this.split(" ");
+
+	if (date[0].isDate() && date[1].isTime()) {
+		return true;
+	}
+
+	return false;
+};
+
 // Prototyping for getting month long name and short name
 Date.prototype.getMonthName = function(lang) {
 	lang = lang && (lang in Date.locale) ? lang : 'en';
@@ -45,14 +62,7 @@ Date.locale = {
 // set common global variables
 var app_route = window.location.pathname;
 var table = "/" + app_route.split("/").pop(-1);
-var form_changed = false;
 
-var money_list = ['total_amount', 'grand_total', 'rate', 'amount', 'price'];
-var label_list = ['status', 'role'];
-var label_bg = {
-	status : {Active : 'bg-success', Inactive : 'bg-danger', Vacant : 'bg-success', Occupied : 'bg-danger'},
-	role : {Administrator : 'bg-inverse', Guest : 'bg-info'}
-}
 
 // Setup ajax for making csrf token used by laravel
 $(function() {
@@ -105,8 +115,10 @@ $( document ).ready(function() {
 
 	// enable datepicker
 	$(function () {
-		$(".datepicker").datepicker({
-			'format': 'dd-mm-yyyy'
+		$("input.datepicker").each(function() {
+			$(this).datepicker({
+				'format': 'dd-mm-yyyy'
+			});
 		});
 	});
 
@@ -454,9 +466,7 @@ function getElementsByAttribute(rootNode, attributeName, attributeValues) {
 			if (i !== 0) {
 				xpathExpression += " or ";
 			}
-			xpathExpression += "contains(
-				concat(' ', @" + attributeName 
-				+ ", ' '), ' " + attributeList[i] + " ')";
+			xpathExpression += "contains(concat(' ', @" + attributeName	+ ", ' '), ' " + attributeList[i] + " ')";
 		}
 		xpathExpression += "]";
 		var xpathResult = document.evaluate(

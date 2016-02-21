@@ -32,18 +32,26 @@ class ReportController extends Controller
 			$user_name = Session::get('user');
 
 			if ($request->has('download') && $request->get('download') == 'Yes') {
-				$columns = $this->report_view_columns($report_name);
-				$rows = $this->get_records($request, $report_name, $user_role, $user_name);
-				return $this->downloadReport(studly_case($report_name), $columns, $rows);
+				$report_data = $this->get_data($request, $report_name, $user_role, $user_name);
+				return $this->downloadReport(studly_case($report_name), $report_data['columns'], $report_data['rows']);
 			}
 			else {
 				if ($request->ajax()) {
-					return $this->get_records($request, $report_name, $user_role, $user_name);
+					return $this->get_data($request, $report_name, $user_role, $user_name);
 				}
 				else {
-					$columns = $this->report_view_columns($report_name);
-					$rows = $this->get_records($request, $report_name, $user_role, $user_name);
-					$report_view_data = $this->prepare_report_view_data($rows, $columns, $report_name);
+					$report_data = $this->get_data($request, $report_name, $user_role, $user_name);
+
+					$report_view_data = array();
+
+					if (isset($report_data['module']) && $report_data['module']
+						&& isset($report_data['link_field']) && $report_data['link_field']
+						&& isset($report_data['record_identifier']) && $report_data['record_identifier']) {
+							$report_view_data = $this->prepare_report_view_data($report_name, $report_data['columns'], $report_data['rows'], $report_data['module'], $report_data['link_field'], $report_data['record_identifier']);
+					}
+					else {
+						$report_view_data = $this->prepare_report_view_data($report_name, $report_data['columns'], $report_data['rows']);
+					}
 
 					return view('templates.report_view', $report_view_data);
 				}
@@ -55,21 +63,14 @@ class ReportController extends Controller
 	}
 
 
-	public function report_view_columns($report_name)
-	{
+	public function get_data($request, $report_name, $user_role, $user_name) {
 		$report_controller = App::make(self::$controllers_path . "\\Reports\\" . studly_case($report_name));
-		return $report_controller->get_columns();
-	}
-
-
-	public function get_records($request, $report_name, $user_role, $user_name) {
-		$report_controller = App::make(self::$controllers_path . "\\Reports\\" . studly_case($report_name));
-		return $report_controller->get_rows($request, $user_role, $user_name);
+		return $report_controller->get_data($request, $user_role, $user_name);
 	}
 
 
 	// Returns an array of all data to be passed to report view
-	public function prepare_report_view_data($rows, $columns, $report_name) {
+	public function prepare_report_view_data($report_name, $columns, $rows, $module = null, $link_field = null, $record_identifier = null) {
 		$report_view_data = [
 			'rows' => $rows,
 			'columns' => $columns,
@@ -77,6 +78,12 @@ class ReportController extends Controller
 			'file' => 'layouts.reports.' . $report_name,
 			'count' => count($rows)
 		];
+
+		if ($module && $link_field && $record_identifier) {
+			$report_view_data['module'] = snake_case($module);
+			$report_view_data['link_field'] = $link_field;
+			$report_view_data['record_identifier'] = $record_identifier;
+		}
 
 		return $report_view_data;
 	}

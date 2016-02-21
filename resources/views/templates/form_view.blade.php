@@ -6,7 +6,8 @@
 			window.doc = {
 				data: <?php echo isset($form_data) ? json_encode($form_data) : "false" ?>,
 				title: "{{ $title }}",
-				module: "{{ $module }}"
+				module: "{{ $module }}",
+				changed: false
 			};
 		</script>
 		@include('templates.headers')

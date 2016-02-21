@@ -11,13 +11,8 @@ use App\Http\Controllers\Controller;
 
 class UserReport extends Controller
 {
-	// get all columns for report
-	public function get_columns() {
-		return array('full_name', 'login_id', 'email', 'role', 'status');
-	}
-
-	// get all rows for report
-	public function get_rows($request) {
+	// get all rows & colummns for report
+	public function get_data($request) {
 		$query = DB::table('tabUser')
 			->select(
 				'full_name', 'login_id', 'email', 'role', 'status'
@@ -53,7 +48,14 @@ class UserReport extends Controller
 			}
 		}
 
-		$result = $query->orderBy('id', 'desc')->get();
-		return $result;
+		$rows = $query->orderBy('id', 'desc')->get();
+
+		return array(
+			'rows' => $rows,
+			'columns' => array('full_name', 'login_id', 'email', 'role', 'status'),
+			'module' => 'User',
+			'link_field' => 'login_id',
+			'record_identifier' => 'login_id'
+		);
 	}
 }

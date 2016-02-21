@@ -6,6 +6,22 @@ $( document ).ready(function() {
 		"sPaginationType": "full_numbers",
 	});
 
+	enable_autocomplete();
+
+	// make theads scrollable
+	// var body = $('body');
+
+	// $.each($("table#report-table > thead > tr > th"), function(idx, heading) {
+	// 	$(heading).resizable({
+	// 		handles: "e,s,se",
+	// 		resize: function (event, ui) {
+	// 			var width = body.width(),
+	// 				diff = width - (width - (this.offsetRight + this.offsetWidth));
+
+	// 			body.width(diff).scrollRight(diff);
+	// 		}
+	// 	});
+	// });
 
 	// make search and show entries element as per bootstrap
 	$("#report-table_filter").find("input").addClass("form-control");
@@ -60,7 +76,7 @@ $( document ).ready(function() {
 			data: { 'filters': get_report_filters() },
 			dataType: 'json',
 			success: function(data) {
-				var grid_rows = data;
+				var grid_rows = data['rows'];
 
 				// clear the datatable
 				report_table.clear().draw();
@@ -72,6 +88,10 @@ $( document ).ready(function() {
 						record.push(grid_index + 1);
 
 						$.each(grid_data, function(column_name, column_value) {
+							if (data['module'] && data['link_field'] && data['record_identifier'] && (data['record_identifier'] == column_name)) {
+								column_value = '<a href="/form/' + data["module"].toSnakeCase() + '/' + grid_data[data["link_field"]] + '">' + column_value + '</a>';
+							}
+
 							record.push(column_value);
 						});
 

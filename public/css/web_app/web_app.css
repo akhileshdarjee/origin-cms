@@ -1,6 +1,7 @@
 html {
 	background-color: #ffffff;
 }
+
 form {
 	margin-bottom: 0px;
 }
@@ -17,13 +18,16 @@ form {
 .list-view {
 	margin-bottom: 0px;
 }
+
 .list-view > thead > tr > th {
 	border-right: 1px solid #e0e4e8;
 	padding: 9px 15px;
 }
+
 .list-view > tbody > tr > td {
 	padding: 9px 15px;
 }
+
 .clickable_row:hover {
 	cursor: pointer;
 	background-color: #F7F8F9;
@@ -35,9 +39,11 @@ form {
 	border-right: 1px solid #e0e4e8;
 	border-bottom: 1px solid #e0e4e8;
 }
+
 .table-hover > thead > tr > th:last-child {
 	border-right: 0px;
 }
+
 .table_record:hover {
 	cursor: pointer;
 }
@@ -45,4 +51,38 @@ form {
 /* report */
 .remove-before.panel-heading:before  {
 	display: none;
+}
+
+#report-table {
+	border: 2px solid #ddd;
+}
+
+#report-table.table-bordered > thead > tr > td, 
+#report-table.table-bordered > thead > tr > th {
+	border-bottom-width: 0px;
+}
+
+
+#report-table > thead > tr > th,
+#report-table > tbody > tr > th,
+#report-table > tfoot > tr > th,
+#report-table > thead > tr > td,
+#report-table > tbody > tr > td,
+#report-table > tfoot > tr > td {
+	border: 2px solid #ddd;
+}
+
+#report-table tbody tr:nth-of-type(even) {
+	background-color: #f9f9f9;
+}
+
+#report-table thead tr th {
+	resize: horizontal;
+	overflow: auto;
+}
+
+/* Tooltip show in one line */
+.tooltip-inner {
+	white-space: nowrap;
+	max-width: none;
 }

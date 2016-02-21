@@ -4,9 +4,13 @@ $( document ).ready(function() {
 
 	// if form has been changed then enable form save button
 	$('form').on('change input', 'input, select, textarea', function() {
-		initialize_mandatory_fields();
-		remove_mandatory_highlight(mandatory_fields);
-		enable_save_button();
+		change_doc();
+	});
+
+
+	// on change of datepicker date change form state
+	$('.datepicker').datepicker().on('changeDate', function(ev) {
+		change_doc();
 	});
 
 
@@ -36,12 +40,12 @@ $( document ).ready(function() {
 
 	// bind save and reset button to form
 	$("#save_form").on('click', function() {
-		var form_id = get_form_id(form_title);
+		var form_id = get_form_id(doc.title);
 		$("#" + form_id).submit();
 	});
 
 	$("#reset_form").on('click', function() {
-		var form_id = get_form_id(form_title);
+		var form_id = get_form_id(doc.title);
 		$("#" + form_id)[0].reset();
 	});
 
@@ -64,6 +68,15 @@ $( document ).ready(function() {
 		});
 	});
 });
+
+
+// calls required functions for changing doc state
+function change_doc() {
+	doc.changed = true;
+	initialize_mandatory_fields();
+	remove_mandatory_highlight(mandatory_fields);
+	enable_save_button();
+}
 
 
 // get all mandatory fields and highlight
@@ -117,7 +130,6 @@ function remove_mandatory_highlight(mandatory_fields) {
 
 // enable save button
 function enable_save_button() {
-	form_changed = true;
 	$("#save_form").removeClass("disabled");
 	$("#form-stats > i").removeClass("text-success").addClass("text-warning");
 	$("#form-status").html('<b>Not Saved</b>');
@@ -148,9 +160,9 @@ function set_doc_data() {
 	if (typeof doc.data != 'undefined' && doc.data) {
 		$.each(doc.data, function(table_name, table_data) {
 			$.each(table_data, function(field_name, value) {
-				var ignore_fields = ['avatar', 'created_at', 'updated_at', 'owner', 'last_updated_by'];
+				var ignore_fields = ['avatar', 'updated_at', 'owner', 'last_updated_by'];
 				if(typeof value === 'string') {
-					if (moment(value, 'YYYY-MM-DD').isValid()) {
+					if (value.isDate() || value.isDateTime()) {
 						$("#" + field_name).attr("data-field_value", value);
 
 						if (value.split(" ").length > 1) {
@@ -182,3 +194,43 @@ function set_doc_data() {
 		});
 	}
 }
+
+
+// create custom button
+window.doc.create = {
+	button: function (button_config) {
+		var button_text = button_config['text'];
+		var button_name = button_config['name'];
+
+		// get button class from given config or assign default classs
+		if(typeof button_config['class'] != 'undefined' && button_config['class']) {
+			var button_class = "btn " + button_config['class'];
+		}
+		else {
+			var button_class = "btn btn-primary";
+		}
+
+		// create button element with it's given config
+		var element = document.createElement("button");
+		element.setAttribute("type", "button");
+		element.setAttribute("name", button_name);
+		element.setAttribute("id", button_name);
+		element.setAttribute("class", button_class);
+
+		// set button loading text if given
+		if(typeof button_config['loading_text'] != 'undefined' && button_config['loading_text']) {
+			element.setAttribute("data-loading-text", button_config['loading_text']);
+		}
+		element.appendChild(document.createTextNode(button_text));
+
+		// append button on form title section
+		$(element).insertBefore($("section.main").find("header > .row").children().last());
+
+		// bind on click method to the dynamically created button if passed in button config
+		if (typeof button_config['on_click'] != 'undefined' && button_config['on_click']) {
+			$("#" + button_name).on("click", function() {
+				button_config['on_click']();
+			});
+		}
+	}
+};

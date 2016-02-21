@@ -114,6 +114,8 @@ function toggle_action_button() {
 		$(button_element).data("action", "delete");
 		$(button_element).attr("data-action", "delete");
 		$(button_element).html("Delete");
+		$(button_element).data("original-title", "Delete selected record(s)");
+		$(button_element).attr("data-original-title", "Delete selected record(s)");
 		$(button_element).removeClass("btn-primary");
 		$(button_element).addClass("btn-danger");
 	}
@@ -122,6 +124,9 @@ function toggle_action_button() {
 		$(button_element).data("action", "new");
 		$(button_element).attr("data-action", "new");
 		$(button_element).html("New");
+		var module_name = app_route.split("/").pop(-1).replace(/_/g, " ").toProperCase();
+		$(button_element).data("original-title", "New " + module_name);
+		$(button_element).attr("data-original-title", "New " + module_name);
 		$(button_element).removeClass("btn-danger");
 		$(button_element).addClass("btn-primary");
 	}

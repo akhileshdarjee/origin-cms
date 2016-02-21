@@ -123,7 +123,7 @@ Date.now = Date.now || function() { return +new Date; };
 		$(this).next('.combodate').find('select').addClass('form-control');
 	});
 	// datepicker
-	$(".datepicker").each(function(){ $(this).datepicker();});
+	// $(".datepicker").each(function(){ $(this).datepicker();});
 	// dropfile
 	$('.dropfile').each(function(){
 		var $dropbox = $(this);

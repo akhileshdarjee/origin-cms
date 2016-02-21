@@ -29,6 +29,7 @@ elixir(function(mix) {
 
 elixir(function(mix) {
 	mix.scripts([
+		'../../../public/js/jquery-ui.min.js',
 		'../../../public/js/bootstrap.js',
 		'../../../public/js/file-input/bootstrap.file-input.js',
 		'../../../public/js/bootstrap-typeahead.js',
