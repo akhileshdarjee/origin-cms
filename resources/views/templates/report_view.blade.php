@@ -3,17 +3,6 @@
 	<head>
 		<title>{{ $title }} - Report</title>
 		@include('templates.headers')
-		<style type="text/css">
-			::-webkit-resizer {
-				background-color: transparent;
-			}
-			::-webkit-resizer:hover {
-				cursor: row-resize;
-			}
-			::-webkit-scrollbar-corner:hover {
-				cursor: row-resize;
-			}
-		</style>
 	</head>
 	<body class="navbar-fixed">
 		@include('templates.navbar')

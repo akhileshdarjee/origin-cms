@@ -19,6 +19,7 @@ elixir(function(mix) {
 
 elixir(function(mix) {
 	mix.styles([
+		'../../../public/css/jquery-ui.min.css',
 		'../../../public/css/bootstrap.css',
 		'../../../public/css/font-awesome.min.css',
 		'../../../public/css/plugin.css',

@@ -76,11 +76,6 @@ form {
 	background-color: #f9f9f9;
 }
 
-#report-table thead tr th {
-	resize: horizontal;
-	overflow: auto;
-}
-
 .dataTables_empty {
 	font-size: 18px;
 	font-weight: 800;

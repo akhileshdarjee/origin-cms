@@ -10,8 +10,18 @@ $( document ).ready(function() {
 		}
 	});
 
-	enable_autocomplete();
 
+	// make theads scrollable
+	$.each($("table#report-table > thead > tr > th"), function(idx, heading) {
+		$(heading).resizable({
+			handles: "e",
+			create: function(event, ui) {
+				$(".ui-resizable-e").css("cursor","col-resize");
+			}
+		});
+	});
+
+	enable_autocomplete();
 
 	// make search and show entries element as per bootstrap
 	$("#report-table_filter").find("input").addClass("form-control");
