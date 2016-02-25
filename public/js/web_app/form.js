@@ -56,7 +56,7 @@ $( document ).ready(function() {
 	// validate forms for mandatory fields
 	$("form").submit(function( event ) {
 		$.each(mandatory_fields, function(index, field) {
-			if ($.trim($(field).val()) == "") {
+			if (!!trim($(field).val())) {
 				msg = "Please Enter " + $(field).attr("id").replace("_", " ").toProperCase();
 				msgbox(msg);
 				event.preventDefault();
@@ -107,7 +107,7 @@ function highlight_mandatory_fields(mandatory_fields) {
 		mandatory_fields = get_mandatory_fields();
 	}
 	$.each(mandatory_fields, function(index, field) {
-		if ($.trim($(this).val()) == "") {
+		if (!!trim($(this).val())) {
 			$(field).closest(".form-group").addClass("has-error");
 		}
 	});
@@ -203,7 +203,7 @@ window.doc.create = {
 		var button_name = button_config['name'];
 
 		// get button class from given config or assign default classs
-		if(typeof button_config['class'] != 'undefined' && button_config['class']) {
+		if(!!button_config['class']) {
 			var button_class = "btn " + button_config['class'];
 		}
 		else {
@@ -218,7 +218,7 @@ window.doc.create = {
 		element.setAttribute("class", button_class);
 
 		// set button loading text if given
-		if(typeof button_config['loading_text'] != 'undefined' && button_config['loading_text']) {
+		if(!!button_config['loading_text']) {
 			element.setAttribute("data-loading-text", button_config['loading_text']);
 		}
 		element.appendChild(document.createTextNode(button_text));
@@ -227,7 +227,7 @@ window.doc.create = {
 		$(element).insertBefore($("section.main").find("header > .row").children().last());
 
 		// bind on click method to the dynamically created button if passed in button config
-		if (typeof button_config['on_click'] != 'undefined' && button_config['on_click']) {
+		if (!!button_config['on_click']) {
 			$("#" + button_name).on("click", function() {
 				button_config['on_click']();
 			});

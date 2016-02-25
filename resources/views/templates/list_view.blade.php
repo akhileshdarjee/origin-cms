@@ -51,7 +51,9 @@
 								<table class="table list-view" data-module="{{ $module }}">
 									<thead class="panel-heading text-small">
 										<tr>
-											<th width="20" data-field-name="row_check"><input type="checkbox"></th>
+											<th width="20" data-field-name="row_check">
+												<input type="checkbox" id="check-all">
+											</th>
 											@foreach ($columns as $column)
 												<th name="{{ $column }}" id ="{{ $column }}">{{ $column }}</th>
 											@endforeach

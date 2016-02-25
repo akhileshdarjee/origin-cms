@@ -56,8 +56,6 @@ $( document ).ready(function() {
 	$("table > tbody > tr").on("change", 'input', function() {
 
 		if ($("#id").val()) {
-			console.log("hi");
-			console.log($(this).closest("tr").find("td#action > input"));
 			$(this).closest("tr").find("td#action > input").val("update");
 		}
 	});

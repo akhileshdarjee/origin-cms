@@ -20,7 +20,12 @@ String.prototype.isDate = function () {
 	}
 
 	dateFormat = /(^\d{1,4}[\.|\\/|-]\d{1,2}[\.|\\/|-]\d{1,4})(\s*(?:0?[1-9]:[0-5]|1(?=[012])\d:[0-5])\d\s*[ap]m)?$/;
-	return dateFormat.test(this);
+
+	if (dateFormat.test(this)) {
+		return !!new Date(this).getTime();
+	}
+
+	return false;
 };
 
 // check if string is a time
@@ -57,6 +62,16 @@ Date.locale = {
 		month_names_short: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 	}
 };
+
+Array.prototype.contains = function(obj) {
+	var i = this.length;
+	while (i--) {
+		if (this[i] === obj) {
+			return true;
+		}
+	}
+	return false;
+}
 
 
 // set common global variables
@@ -221,24 +236,6 @@ function msgbox(msg, footer, title) {
 	$('#message-box').modal('show');
 }
 
-// set date to the element
-function set_date(date_element, date, date_format, add_days) {
-	if (!$(date_element).val()) {
-		var date = date ? date : new Date();
-		var date_format = date_format ? date_format : 'DD-MM-YYYY hh:mm A';
-
-		if (add_days) {
-			var formatted_date = moment(date).add(add_days, 'days').format(date_format);
-		}
-		else {
-			var formatted_date = moment(date).format(date_format);
-		}
-
-		$(date_element).val(formatted_date);
-		$(date_element).closest("div.form-group").removeClass("has-error");
-	}
-}
-
 
 // add status labels, icon for money related fields
 function beautify_list_view(table) {
@@ -267,7 +264,7 @@ function beautify_list_view(table) {
 				heading = heading.replace("Id", "ID");
 			}
 
-			if ($.inArray(heading_name, money_list) >= 0) {
+			if (money_list.contains(heading_name)) {
 				$(this).html(heading + ' (<i class="fa fa-inr"></i>)');
 			}
 			else {
@@ -291,19 +288,19 @@ function beautify_list_view(table) {
 				var column_name = $(this).attr("data-field-name");
 				var column_value = $.trim($(this).html());
 				if ($.trim(column_value) != "") {
-					if ($.inArray(column_name, money_list) >= 0) {
+					if (money_list.contains(column_name)) {
 						$(this).html('<i class="fa fa-inr"></i> ' + column_value);
 					}
-					else if ($.inArray(column_name, contact_list) >= 0) {
+					else if (contact_list.contains(column_name)) {
 						$(this).html('<i class="fa fa-phone"></i> ' + column_value);
 					}
-					else if ($.inArray(column_name, address_list) >= 0) {
+					else if (address_list.contains(column_name)) {
 						$(this).html('<i class="fa fa-map-marker"></i> ' + column_value);
 					}
-					else if ($.inArray(column_name, email_list) >= 0) {
+					else if (email_list.contains(column_name)) {
 						$(this).html('<i class="fa fa-envelope"></i> ' + column_value);
 					}
-					else if ($.inArray(column_name, label_list) >= 0) {
+					else if (label_list.contains(column_name)) {
 						$(this).html('<span class="label ' + label_bg[column_name][column_value] + '">' + column_value +  '</span>');
 					}
 					else if (column_name.includes("date")) {
@@ -347,6 +344,7 @@ function rtrim(str) {
 	return str.replace(/\s+$/, "");
 }
 
+
 // Return a string only containing the letters a to z
 function onlyLetters(str) {
 	return str.toLowerCase().replace(/[^a-z]/g, "");
@@ -357,6 +355,7 @@ function onlyLetters(str) {
 function onlyLettersNums(str) {
 	return str.toLowerCase().replace(/[^a-z,0-9,-]/g, "");
 }
+
 
 // Removes an item from a given array
 function removeArrayItem(arr, item) {
@@ -372,24 +371,13 @@ function removeArrayItem(arr, item) {
 }
 
 
-// Does a given array contain a item
-function contains(a, obj) {
-	var i = a.length;
-	while (i--) {
-		if (a[i] === obj) {
-			return true;
-		}
-	}
-	return false;
-}
-
-
 // Does the node have a class
 function hasClass(node, className) {
 	if (node.className) {
 		return node.className.match(
 			new RegExp('(\\s|^)' + className + '(\\s|$)'));
-	} else {
+	}
+	else {
 		return false;
 	}
 }
