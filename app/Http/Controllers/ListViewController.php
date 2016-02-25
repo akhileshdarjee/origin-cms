@@ -126,19 +126,27 @@ class ListViewController extends Controller
 			}
 		}
 		else {
-			return view('templates.list_view', $this->prepare_list_view_data($module_name, $table_name, $columns));
+			try {
+				$list_view_data = $this->prepare_list_view_data($module_name, $table_name, $columns);
+			}
+			catch(Exception $e) {
+				return redirect()->route('show.app')->with('msg', $e->getMessage());
+			}
+
+			return view('templates.list_view', $list_view_data);
 		}
 	}
 
 
 	// prepare list view data
 	public function prepare_list_view_data($module_name, $table_name, $columns, $search_text = null) {
-		if ($search_text) {
-			$rows = $this->get_records($table_name, $search_text);
+		try {
+			$rows = $this->get_records($table_name, $search_text, $module_name);
 		}
-		else {
-			$rows = $this->get_records($table_name, null, $module_name);
+		catch(Exception $e) {
+			throw new Exception('"' . $table_name . '" table not found in database');
 		}
+
 		$list_view_data = [
 			'module' => $module_name,
 			'rows' => $rows,
