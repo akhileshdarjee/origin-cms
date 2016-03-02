@@ -12,6 +12,8 @@ use App\Http\Controllers\Controller;
 
 class SettingsController extends Controller
 {
+	public static $controllers_path = "App\\Http\\Controllers";
+
 	// Show app settings page
 	public function show() {
 		if (Session::get('role') == 'Administrator') {
@@ -39,7 +41,7 @@ class SettingsController extends Controller
 			$settings_data = $request->all();
 			unset($settings_data["_token"]);
 
-			if ($settings_data['social_login'] == "Inactive") {
+			if (isset($settings_data['social_login']) && $settings_data['social_login'] == "Inactive") {
 				$settings_data['facebook_login'] = $settings_data['google_login'] = "Inactive";
 			}
 
@@ -54,7 +56,7 @@ class SettingsController extends Controller
 			}
 
 			// putting new app settings in session
-			$auth_controller = App::make(env('CONTROLLERS_PATH') . "Auth\\AuthController");
+			$auth_controller = App::make(self::$controllers_path . "\\Auth\\AuthController");
 			$auth_controller->put_app_settings_in_session();
 
 			return redirect()->route('show.app.settings')

@@ -173,7 +173,7 @@ function enable_autocomplete() {
 				delete selected_item_data[data_field];
 
 				$.each(selected_item_data, function(key, value) {
-					var input_field = $('form').find('input[data-target-field="' + key + '"]');
+					var input_field = $('form').find('input[data-target-field="' + key + '"][data-target-module="' + data_module + '"]');
 					length = (input_field).length;
 					if (length > 1) {
 						$(input_field).last().val(value);

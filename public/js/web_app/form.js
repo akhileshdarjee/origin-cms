@@ -56,7 +56,7 @@ $( document ).ready(function() {
 	// validate forms for mandatory fields
 	$("form").submit(function( event ) {
 		$.each(mandatory_fields, function(index, field) {
-			if (!!trim($(field).val())) {
+			if (!trim($(field).val())) {
 				msg = "Please Enter " + $(field).attr("id").replace("_", " ").toProperCase();
 				msgbox(msg);
 				event.preventDefault();
@@ -107,7 +107,7 @@ function highlight_mandatory_fields(mandatory_fields) {
 		mandatory_fields = get_mandatory_fields();
 	}
 	$.each(mandatory_fields, function(index, field) {
-		if (!!trim($(this).val())) {
+		if (!trim($(this).val())) {
 			$(field).closest(".form-group").addClass("has-error");
 		}
 	});
@@ -118,7 +118,7 @@ function highlight_mandatory_fields(mandatory_fields) {
 function remove_mandatory_highlight(mandatory_fields) {
 	$.each(mandatory_fields, function() {
 		$parent_div = $(this).closest(".form-group");
-		if ($.trim($(this).val())) {
+		if (trim($(this).val())) {
 			$($parent_div).removeClass("has-error");
 		}
 		else {

@@ -50,12 +50,20 @@
 									</div>
 								</div>
 							</header>
-							@var $action = "/form/" . snake_case($module)
-							<form method="POST" action="{{ isset($form_data['tab'.$module]['id']) ? $action."/".$form_data['tab'.$module][$link_field] : $action }}" name="{{ snake_case($module) }}" id="{{ snake_case($module) }}" class="form-horizontal" enctype="multipart/form-data">
-								{!! csrf_field() !!}
-								<input type="hidden" name="id" id="id" class="form-control" data-mandatory="no" autocomplete="off" readonly>
+							@if (isset($module_type) && $module_type == "Single")
 								@include($file)
-							</form>
+							@else
+								@var $action = "/form/" . snake_case($module)
+								<form method="POST" action="{{ isset($form_data['tab'.$module]['id']) ? $action."/".$form_data['tab'.$module][$link_field] : $action }}" name="{{ snake_case($module) }}" id="{{ snake_case($module) }}" class="form-horizontal" enctype="multipart/form-data">
+									{!! csrf_field() !!}
+									<input type="hidden" name="id" id="id" class="form-control" data-mandatory="no" autocomplete="off" readonly>
+									@if (view()->exists(str_replace('.', '/', $file)))
+										@include($file)
+									@else
+										Please create '{{ str_replace('.', '/', $file) }}.blade.php' in views
+									@endif
+								</form>
+							@endif
 							<footer class="panel-footer">
 								<div class="row">
 									<div class="col-md-3">&nbsp;</div>

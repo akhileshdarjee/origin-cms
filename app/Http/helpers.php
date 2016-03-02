@@ -38,4 +38,19 @@
 
 		return implode($pass); //turn the array into a string
 	}
+
+
+	// show var dump output to web
+	function web_dump($var) {
+		ob_start();
+		var_dump($var);
+		$output = ob_get_clean();
+
+		// Add formatting
+		$output = preg_replace("/\]\=\>\n(\s+)/m", "] => ", $output);
+
+		$output = '<pre style="background: #FFFEEF; color: #000; border: 1px dashed #888; padding: 10px; margin: 10px 0; text-align: left;">'.$output.'</pre>';
+
+		echo $output;
+	}
 ?>
