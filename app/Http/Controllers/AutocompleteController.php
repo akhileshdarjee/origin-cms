@@ -46,8 +46,10 @@ class AutocompleteController extends Controller
 			}
 		}
 
+		$list_view = $this->check_list_view($request);
+
 		// only show active data for defined tables
-		if (in_array($module, $status_modules)) {
+		if (in_array($module, $status_modules) && !$list_view) {
 			$data = $data_query->where('status', 'Active')->get();
 		}
 		else {
@@ -64,5 +66,20 @@ class AutocompleteController extends Controller
 		$form_config = $module_controller->form_config;
 
 		return $form_config['table_name'];
+	}
+
+
+	// check is referer is list view
+	public function check_list_view($request) {
+		$base_url = url('/') . "/";
+		$referer = $request->server('HTTP_REFERER');
+		$request_path = str_replace($base_url, "", $referer);
+		$request_path = explode("/", $request_path);
+
+		if (isset($request_path[0]) && $request_path[0] === "list") {
+			return true;
+		}
+
+		return false;
 	}
 }
