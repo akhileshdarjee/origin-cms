@@ -1,4 +1,6 @@
-Start project for laravel 5.2.*, below are the commands to kickstart your project:  
+**Start project for laravel 5.2.* **  
+
+Below are the commands to kickstart your project:  
   
 1. `git clone -b master --single-branch https://gitlab.com/achieveee/laravel-crud.git`
 
@@ -15,18 +17,24 @@ Start project for laravel 5.2.*, below are the commands to kickstart your projec
 7. Now create database for your Laravel app and include it's config in '.env' file
 
 8. `php artisan migrate:refresh --seed`
-
-
-Now, you've completed the configuration step :v: 
-
-9. Serve it on your local server, `php artisan serve --port=8081`.
-
+  
+  
+**Permissions**
+  
+`sudo chown -R :www-data {app-directory-path}`  
+`sudo chmod -R ug+rw {app-directory-path}`
+  
+  
+Now, you've completed the configuration step :v:
+  
+9. Serve it on your local server, `php artisan serve --port=8081`
+  
 10. Hit this URL: http://localhost:8081/login  
-
+  
 > ## Login Credentials:
 
 **Login ID**: admin  
-**Password**: admin@111  
-
-
+**Password**: admin@111
+  
+  
 Enjoy...!!! :thumbsup:
