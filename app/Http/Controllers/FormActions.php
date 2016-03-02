@@ -119,7 +119,7 @@ class FormActions extends Controller
 					->with(['msg' => $response->message]);
 			}
 			elseif ($view_type && $view_type == 'form_view') {
-				$form_link_field_value = $form_data['tab'.$this->form_config['module']][$this->form_config['link_field']];
+				$form_link_field_value = $form_data[$this->form_config['table_name']][$this->form_config['link_field']];
 
 				return redirect()->route('show.doc', array('module_name' => $module, 'id' => $form_link_field_value))
 					->with(['msg' => $response->message]);
@@ -151,7 +151,7 @@ class FormActions extends Controller
 					->with(['msg' => $response->message]);
 			}
 			elseif ($view_type && $view_type == 'form_view') {
-				$form_link_field_value = $form_data['tab'.$this->form_config['module']][$this->form_config['link_field']];
+				$form_link_field_value = $form_data[$this->form_config['table_name']][$this->form_config['link_field']];
 
 				return redirect()->route('show.doc', array('module_name' => $module, 'id' => $form_link_field_value))
 					->with(['msg' => $response->message]);
@@ -166,9 +166,9 @@ class FormActions extends Controller
 					->with(['msg' => $response->message]);
 			}
 			elseif ($view_type && $view_type == 'form_view') {
-				if (isset($form_data['tab'.$this->form_config['module']]) && 
-					isset($form_data['tab'.$this->form_config['module']][$this->form_config['link_field']])) {
-						$form_link_field_value = $form_data['tab'.$this->form_config['module']][$this->form_config['link_field']];
+				if (isset($form_data[$this->form_config['table_name']]) && 
+					isset($form_data[$this->form_config['table_name']][$this->form_config['link_field']])) {
+						$form_link_field_value = $form_data[$this->form_config['table_name']][$this->form_config['link_field']];
 
 						return redirect()->route('show.doc', array('module_name' => $module, 'id' => $form_link_field_value))
 							->with(['msg' => $response->message]);

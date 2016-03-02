@@ -103,7 +103,8 @@ class ListViewController extends Controller
 	}
 
 	public function show_list($request, $module_name) {
-		$table_name = 'tab'.$module_name;
+		$table_name = $this->get_module_table($module_name);
+
 		try {
 			$columns = $this->list_view_columns($table_name)['cols'];
 		}
@@ -181,5 +182,14 @@ class ListViewController extends Controller
 		}
 
 		return $delete_list;
+	}
+
+
+	// get table name from module
+	public function get_module_table($module) {
+		$module_controller = App::make(self::$controllers_path . "\\" . studly_case($module) . "Controller");
+		$form_config = $module_controller->form_config;
+
+		return $form_config['table_name'];
 	}
 }

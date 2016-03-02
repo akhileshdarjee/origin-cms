@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use DB;
+use App;
 use Session;
 use Illuminate\Http\Request;
 
@@ -11,11 +12,14 @@ use App\Http\Controllers\Controller;
 
 class AutocompleteController extends Controller
 {
+	public static $controllers_path = "App\\Http\\Controllers";
+
 	public function getAutocomplete(Request $request) {
 
 		$status_modules = ['User'];
 
 		$module = ucwords(str_replace(" ", "", $request->get('module')));
+		$module_table = $this->get_module_table($module);
 		$field = $request->get('field');
 
 		if ($request->has('fetch_fields') && $request->get('fetch_fields')) {
@@ -24,7 +28,7 @@ class AutocompleteController extends Controller
 
 		$fetch_fields = (isset($fetch_fields)) ? $fetch_fields : $field;
 
-		$data_query = DB::table("tab".$module)->select($fetch_fields);
+		$data_query = DB::table($module_table)->select($fetch_fields);
 
 		// permission fields from perm controller
 		if (Session::get('role') != 'Administrator') {
@@ -51,5 +55,14 @@ class AutocompleteController extends Controller
 		}
 
 		return $data;
+	}
+
+
+	// get table name from module
+	public function get_module_table($module) {
+		$module_controller = App::make(self::$controllers_path . "\\" . studly_case($module) . "Controller");
+		$form_config = $module_controller->form_config;
+
+		return $form_config['table_name'];
 	}
 }

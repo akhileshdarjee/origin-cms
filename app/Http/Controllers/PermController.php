@@ -13,7 +13,7 @@ class PermController extends Controller
 {
 	// define permission manager variables
 
-	// table name in database(not included prefix 'tab')
+	// module name specified in controller
 	private static $modules = [
 		'User'
 	];

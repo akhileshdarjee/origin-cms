@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use DB;
+use Session;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -10,15 +11,11 @@ use App\Http\Controllers\Controller;
 
 class DashboardController extends Controller
 {
-	public static function show($module, $user_role) {
+	public static function show() {
 		$data = [];
 
-		if ($user_role == 'Administrator') {
-			$analytics = DB::table('tabCityAnalytics')
-				->select('city', 'created_at')
-				->get();
-
-			return view('index', array('data' => $analytics, 'file' => 'layouts.app.'.strtolower($module)));
+		if (Session::has('role') && Session::get('role') == 'Administrator') {
+			return view('index', array('data' => $data, 'file' => 'layouts.app.dashboard'));
 		}
 		else {
 			abort('404');
