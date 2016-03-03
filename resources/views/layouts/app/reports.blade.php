@@ -1,16 +1,18 @@
 <div class="row m-t-large m-b report-list">
-	<div class="col-md-3 report" data-href="/app/report/user_report">
-		<section class="panel text-center">
-			<div class="panel-body">
-				<a class="btn btn-circle btn-lg">
-					<i class="fa fa-user" style="background-color: #d35400; color: #ffffff;"></i>
-				</a>
-				<div class="h4">USER REPORT</div>
-				<div class="line m-l m-r"></div>
-				<small>List of all User(s)</small>
-			</div>
-		</section>
-	</div>
+	@foreach (config('reports') as $report_name => $report)
+		<div class="col-md-3 report" data-href="/app/report/{{ snake_case($report_name) }}">
+			<section class="panel text-center">
+				<div class="panel-body">
+					<a class="btn btn-circle btn-lg">
+						<i class="{{ $report['icon'] }}" style="background-color: {{ $report['bg_color'] }}; color: {{ $report['icon_color'] }};"></i>
+					</a>
+					<div class="h4">{{ $report['label'] }}</div>
+					<div class="line m-l m-r"></div>
+					<small>{{ $report['description'] }}</small>
+				</div>
+			</section>
+		</div>
+	@endforeach
 </div>
 <script type="text/javascript">
 	$( document ).ready(function() {
