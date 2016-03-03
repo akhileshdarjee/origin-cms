@@ -52,14 +52,7 @@ class ListViewController extends Controller
 	}
 
 	public function list_view_columns($table) {
-		$list_view_columns = [
-			'tabUser' => [
-				'link_field' => 'login_id',
-				'search_via' => 'login_id',
-				'cols' => ['login_id', 'full_name', 'role', 'status']
-			],
-		];
-
+		$list_view_columns = config('list_view');
 		return $list_view_columns[$table];
 	}
 

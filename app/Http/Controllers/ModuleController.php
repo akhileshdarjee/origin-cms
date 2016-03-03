@@ -12,15 +12,7 @@ class ModuleController extends Controller
 {
 	public static function modules_config($role_modules = null) {
 		// Modules config such as icon, color, etc
-		$module_wise_config = array(
-			'User' => (object) array(
-				'module_label' => 'User', 
-				'href' => '/list/user', 
-				'icon' => 'fa fa-user', 
-				'bg_color' => '#d35400', 
-				'icon_color' => '#ffffff'
-			),
-		);
+		$module_wise_config = config('modules');
 
 		if ($role_modules) {
 			$modules = array_keys($module_wise_config);

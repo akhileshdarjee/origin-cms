@@ -22,6 +22,7 @@ class UserController extends Controller
 			'module_icon' => 'fa fa-user',
 			'table_name' => 'tabUser',
 			'view' => 'layouts.user',
+			'avatar_folder' => '/images/user',
 			'link_field' => 'login_id',
 			'link_field_label' => 'Login ID',
 			'record_identifier' => 'login_id'
