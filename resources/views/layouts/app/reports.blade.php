@@ -1,16 +1,16 @@
 <div class="row m-t-large m-b report-list">
 	@foreach (config('reports') as $report_name => $report)
 		<div class="col-md-3 report" data-href="/app/report/{{ snake_case($report_name) }}">
-			<section class="panel text-center">
-				<div class="panel-body">
-					<a class="btn btn-circle btn-lg">
-						<i class="{{ $report['icon'] }}" style="background-color: {{ $report['bg_color'] }}; color: {{ $report['icon_color'] }};"></i>
-					</a>
+			<div class="ibox-content text-center p-md report-box">
+				<div class="ibox float-e-margins">
+					<button class="btn btn-white btn-circle btn-xl" style="background-color: {{ $report['bg_color'] }}; border-color: {{ $report['bg_color'] }}; color: {{ $report['icon_color'] }};">
+						<i class="{{ $report['icon'] }}"></i>
+					</button>
 					<div class="h4">{{ $report['label'] }}</div>
-					<div class="line m-l m-r"></div>
+					<div class="hr-line-dashed"></div>
 					<small>{{ $report['description'] }}</small>
 				</div>
-			</section>
+			</div>
 		</div>
 	@endforeach
 </div>

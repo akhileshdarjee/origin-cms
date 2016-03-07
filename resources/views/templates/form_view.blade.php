@@ -2,6 +2,16 @@
 <html lang="en">
 	<head>
 		<title>{{ ucwords($title) }} - Web App</title>
+
+		<!-- DatePicker -->
+		<link rel="stylesheet" type="text/css" href="/css/plugins/datapicker/datepicker3.css">
+
+		<!-- ClockPicker -->
+		<link rel="stylesheet" type="text/css" href="/css/plugins/clockpicker/clockpicker.css">
+
+		<!-- DateRange Picker -->
+		<link rel="stylesheet" type="text/css" href="/css/plugins/daterangepicker/daterangepicker-bs3.css">
+
 		<script type="text/javascript">
 			window.doc = {
 				data: <?php echo isset($form_data) ? json_encode($form_data) : "false" ?>,
@@ -12,74 +22,103 @@
 		</script>
 		@include('templates.headers')
 	</head>
-	<body class="navbar-fixed">
-		@include('templates.navbar')
-		@include('templates.vertical_nav')
-		<section id="content" class="content-sidebar bg-white">
-			<section class="main">
-				<div class="row">
-					<div class="col-md-12">
-						<section>
-							<header class="panel-heading">
-								<div class="row">
-									<div class="col-md-6">
-										<div class="h4">
-											<span>
-												@if (isset($module_type) && $module_type == "Single")
-													<i class="{{ $icon }}"></i> {{ $title }}
-												@else
-													<i class="{{ $icon }}"></i> {{ isset($form_data['tab'.$module]['id']) ? $form_data['tab'.$module][$record_identifier] : "New $title" }}
-												@endif
-											</span>
-											@if (isset($form_data['tab'.$module]['id']))
-												<span class="text-mini m-l-large text-center" id="form-stats">
-													<i class="fa fa-circle text-success"></i>
-													<span class="m-l-mini h6" id="form-status"><b>Saved</b></span>
-												</span>
-											@endif
-										</div>
+	<body class="fixed-sidebar">
+		<div id="wrapper">
+			@include('templates.vertical_nav')
+			<div id="page-wrapper" class="gray-bg">
+				@include('templates.navbar')
+				@if (!isset($module_type))
+					<div class="row wrapper border-bottom white-bg page-heading app-breadcrumb">
+						<div class="col-sm-10">
+							<ol class="breadcrumb">
+								<li>
+									<a href="/app">Home</a>
+								</li>
+								<li>
+									<a href="/list/{{ $module }}">{{ $title }}</a>
+								</li>
+								<li class="active">
+									<strong>{{ isset($data['tab'.$module]->id) ? $data['tab'.$module]->$record_identifier : "New $title" }}</strong>
+								</li>
+							</ol>
+						</div>
+					</div>
+				@endif
+				<div class="wrapper wrapper-content">
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="ibox float-e-margins">
+								<div class="ibox-title floatbox-title">
+									<div class="form-name">
+										@if (isset($module_type) && $module_type == "Single")
+											<i class="{{ $icon }}"></i> {{ $title }}
+										@else
+											<i class="{{ $icon }}"></i> {{ isset($form_data['tab'.$module]['id']) ? $form_data['tab'.$module][$record_identifier] : "New $title" }}
+										@endif
 									</div>
-									<div class="col-md-6 col-md-push-4">
-										<div style="line-height: 39px;">
-											@if (isset($form_data['tab'.$module]['id']))
-												<a class="btn btn-danger btn-sm" id="delete" name="delete">
-													<i class="fa fa-trash-o"></i> Delete
-												</a>
-											@endif
-										</div>
+									<div class="form-status">
+										@if (isset($form_data['tab'.$module]['id']))
+											<small>
+												<span class="text-center" id="form-stats">
+													<i class="fa fa-circle text-success"></i>
+													<span id="form-status">Saved</span>
+												</span>
+											</small>
+										@endif
+									</div>
+									<div class="ibox-tools">
+										<!-- Form action buttons -->
+										@if (isset($form_data['tab'.$module]['id']))
+											<button type="button" class="btn btn-danger btn-sm" id="delete" name="delete">
+												Delete
+											</button>
+										@endif
 									</div>
 								</div>
-							</header>
-							@if (isset($module_type) && $module_type == "Single")
-								@include($file)
-							@else
-								@var $action = "/form/" . snake_case($module)
-								<form method="POST" action="{{ isset($form_data['tab'.$module]['id']) ? $action."/".$form_data['tab'.$module][$link_field] : $action }}" name="{{ snake_case($module) }}" id="{{ snake_case($module) }}" class="form-horizontal" enctype="multipart/form-data">
-									{!! csrf_field() !!}
-									<input type="hidden" name="id" id="id" class="form-control" data-mandatory="no" autocomplete="off" readonly>
-									@if (view()->exists(str_replace('.', '/', $file)))
+								<div class="ibox-content">
+									@if (isset($module_type) && $module_type == "Single")
 										@include($file)
 									@else
-										Please create '{{ str_replace('.', '/', $file) }}.blade.php' in views
+										@var $action = "/form/" . snake_case($module)
+										<form method="POST" action="{{ isset($form_data['tab'.$module]['id']) ? $action."/".$form_data['tab'.$module][$link_field] : $action }}" name="{{ snake_case($module) }}" id="{{ snake_case($module) }}" class="form-horizontal" enctype="multipart/form-data">
+											{!! csrf_field() !!}
+											<input type="hidden" name="id" id="id" class="form-control" data-mandatory="no" autocomplete="off" readonly>
+											@if (view()->exists(str_replace('.', '/', $file)))
+												@include($file)
+											@else
+												Please create '{{ str_replace('.', '/', $file) }}.blade.php' in views
+											@endif
+										</form>
 									@endif
-								</form>
-							@endif
-							<footer class="panel-footer">
-								<div class="row">
-									<div class="col-md-3">&nbsp;</div>
-									<div class="col-md-8">
-										<button type="reset" class="btn btn-white" id="reset_form">Reset</button>
-										<button type="submit" class="btn btn-primary disabled" id="save_form">
-											<i class="fa fa-save"></i> Save changes
-										</button>
+								</div>
+								<div class="ibox-content">
+									<div class="row">
+										<div class="col-md-3">&nbsp;</div>
+										<div class="col-md-8">
+											<button type="reset" class="btn btn-white" id="reset_form">Reset</button>
+											<button type="submit" class="btn btn-primary disabled" id="save_form">
+												<i class="fa fa-save"></i> Save changes
+											</button>
+										</div>
 									</div>
 								</div>
-							</footer>
-						</section>
+								</form>
+							</div>
+						</div>
 					</div>
 				</div>
-			</section>
-		</section>
+				<div class="footer">
+					<div>
+						<span class="pull-right">
+							Made with <i class="fa fa-heart fa-lg" style="color: #d90429;"></i> by 
+							<strong>
+								<a href="http://www.achieveee.com/" target="_blank" style="color: #676a6c;">Achieveee</a>
+							</strong>
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
 		<a href="#" class="back-to-top">
 			<i class="fa fa-chevron-up"></i>
 		</a>
@@ -89,6 +128,19 @@
 				msgbox("{{ Session::get('msg') }}");
 			</script>
 		@endif
+
+		<!-- Input Mask-->
+		<script type="text/javascript" src="/js/plugins/jasny/jasny-bootstrap.min.js"></script>
+
+		<!-- Date picker -->
+		<script type="text/javascript" src="/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+
+		<!-- Clock picker -->
+		<script type="text/javascript" src="/js/plugins/clockpicker/clockpicker.js"></script>
+
+		<!-- Date range picker -->
+		<script type="text/javascript" src="/js/plugins/daterangepicker/daterangepicker.js"></script>
+
 		<script type="text/javascript" src="/js/web_app/form.js"></script>
 		@if (File::exists(public_path('/js/web_app/' . snake_case($module) . '.js')))
 			<!-- Include client js file -->

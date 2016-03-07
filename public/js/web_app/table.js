@@ -1,5 +1,5 @@
 $( document ).ready(function() {
-	$(".new_row").on("click", function() {
+	$("#new_row").on("click", function() {
 		var table = $("#" + $(this).data("target"));
 		add_new_row(table);
 		$(table).find("tr:last > td:eq(3) > input").focus();
@@ -13,8 +13,8 @@ $( document ).ready(function() {
 		var table = $(this).closest("table");
 
 		if ($("#id").val()) {
-			// if ID present the record already exists in db
-			// At that time if row is deleted then set action to delete and hide the row
+			// if ID is present, means the record already exists in db
+			// At that time if row is deleted then set action as delete and hide the row
 			$(this).closest("tr.table_record").find("td#action").find("input").val("delete");
 			$(this).closest("tr.table_record").hide();
 		}
@@ -76,7 +76,7 @@ function add_new_row(table, idx, action) {
 
 	// add row html
 	add_row(table, idx ? idx : $(tbody).find("tr").length + 1, action);
-	show_total_badge($("." + $(table).attr("id")).find(".new_row").data("target"));
+	show_total_badge($("#new_row").data("target"));
 }
 
 
@@ -93,51 +93,63 @@ function add_row(table, idx, action) {
 			rows += '<td class="text-center"></td>';
 		}
 		else if ($(heads).attr("id") == "remove") {
-			rows += '<td id="remove_row" class="text-center" style="cursor: pointer;" data-idx="' + idx + '">\
-				<i class="fa fa-times fa-lg text-danger text"></i></td>';
+			rows += '<td class="text-center" data-idx="' + idx + '">\
+				<button class="btn btn-danger" id="remove_row">\
+					<i class="fa fa-times"></i>\
+				</button>\
+			</td>';
 		}
 		else if ($(heads).attr("id") == "action") {
 			rows += '<td id="action" style="display: none;">\
 				<input type="text" class="form-control input-sm" name="' + table_name + '[' + (idx - 1) + '][action]" value="' + row_action + '">\
-				</td>';
+			</td>';
 
 			$(this).find('input[name="' + table_name + '[' + (idx - 1) + '][action]"]').val(row_action);
 		}
 		else if ($(heads).attr("id") == "row_id") {
 			rows += '<td id="row_id" style="display: none;">\
 				<input type="text" class="form-control input-sm" name="' + table_name + '[' + (idx - 1) + '][id]">\
-				</td>';
+			</td>';
 		}
 		else {
 			var field_type = $(heads).data("field-type");
-			var field_name = $(heads).data("field-name");
 			var target_module = $(heads).data("target-module");
-			var target_field = $(heads).data("target-field");
+			var target_field = $(heads).data("field-name");
 			var readonly = ($(heads).data("readonly") == "yes") ? "readonly" : "";
-			var hidden = ($(heads).data("hidden") == "yes") ? "style='display: none;'" : "";
 
 			if (field_type == "link") {
 				rows += '<td data-field-type="link">\
 					<input type="text" class="form-control input-sm autocomplete" \
-					name="' + table_name + '[' + (idx - 1) + '][' + field_name + ']" \
+					name="' + table_name + '[' + (idx - 1) + '][' + target_field + ']" \
 					autocomplete="off" data-target-module="' + target_module + '" data-target-field="' + target_field + '"' + readonly + '>\
-					</td>';
+				</td>';
+			}
+			else if (field_type == "avatar") {
+				rows += '<td data-field-type="avatar">\
+					<div class="col-md-12 media">\
+						<div class="pull-left text-center avatar-box">\
+							<i class="fa fa-picture-o inline fa-2x avatar"></i>\
+						</div>\
+						<div class="media-body text-left">\
+							<label title="Upload image file" class="btn btn-primary btn-xs">\
+								<input type="file" accept="image/*" name="' + table_name + '[' + (idx - 1) + '][' + target_field + ']" class="hide">\
+								Change\
+							</label>\
+						</div>\
+					</div>\
+				</td>';
 			}
 			else if (field_type == "select") {
 				rows += '<td data-field-type="select">\
-					<select class="form-control input-sm" name="' + table_name + '[' + (idx - 1) + '][' + field_name + ']">';
-
-				$.each($(heads).data("options").split(","), function(index, option) {
-					rows += '<option value="' + option + '">' + option + '</option>';
-				});
-
-				rows += '</select></td>';
+					<select class="form-control input-sm" name="' + table_name + '[' + (idx - 1) + '][' + target_field + ']">\
+					</select>\
+				</td>';
 			}
 			else if (field_type == "text" || field_type == "money") {
-				rows += '<td data-field-type="' + field_type + '"' + hidden + '>\
-					<input type="text" name="' + table_name + '[' + (idx - 1) + '][' + field_name + ']" \
+				rows += '<td data-field-type="' + field_type + '">\
+					<input type="text" name="' + table_name + '[' + (idx - 1) + '][' + target_field + ']" \
 					class="form-control input-sm" data-target-module="' + target_module + '" data-target-field="' + target_field + '" autocomplete="off"' + readonly + '>\
-					</td>';
+				</td>';
 			}
 		}
 	});

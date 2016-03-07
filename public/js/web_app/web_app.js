@@ -3,48 +3,6 @@ String.prototype.toProperCase = function () {
 	return this.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 };
 
-// convert string to snake case
-String.prototype.toSnakeCase = function () {
-	return this.replace(/(.)([A-Z])/g, "$1_$2").toLowerCase();
-};
-
-// check if string is a valid date
-String.prototype.isDate = function () {
-	var dateFormat;
-
-	if (toString.call(this) === '[object Date]') {
-		return true;
-	}
-	if (typeof this.replace === 'function') {
-		this.replace(/^\s+|\s+$/gm, '');
-	}
-
-	dateFormat = /(^\d{1,4}[\.|\\/|-]\d{1,2}[\.|\\/|-]\d{1,4})(\s*(?:0?[1-9]:[0-5]|1(?=[012])\d:[0-5])\d\s*[ap]m)?$/;
-
-	if (dateFormat.test(this)) {
-		return !!new Date(this).getTime();
-	}
-
-	return false;
-};
-
-// check if string is a time
-String.prototype.isTime = function () {
-	var isValid = /^([0-1]?[0-9]|2[0-3]):([0-5][0-9])(:[0-5][0-9])?$/.test(this);
-	return isValid;
-};
-
-// check if string is a time
-String.prototype.isDateTime = function () {
-	var date = this.split(" ");
-
-	if (date[0].isDate() && date[1].isTime()) {
-		return true;
-	}
-
-	return false;
-};
-
 // Prototyping for getting month long name and short name
 Date.prototype.getMonthName = function(lang) {
 	lang = lang && (lang in Date.locale) ? lang : 'en';
@@ -63,21 +21,10 @@ Date.locale = {
 	}
 };
 
-Array.prototype.contains = function(obj) {
-	var i = this.length;
-	while (i--) {
-		if (this[i] === obj) {
-			return true;
-		}
-	}
-	return false;
-}
-
-
 // set common global variables
 var app_route = window.location.pathname;
 var table = "/" + app_route.split("/").pop(-1);
-
+var form_changed = false;
 
 // Setup ajax for making csrf token used by laravel
 $(function() {
@@ -92,33 +39,47 @@ $( document ).ready(function() {
 	// set body data url
 	$("body").attr("data-url", app_route);
 
-	// toggle breadcrumb
-	var breadcrumb_ignore_list = ['/app', '/list', '/login', '/password'];
-	var bread = true;
-
-	$.each(breadcrumb_ignore_list, function(index, ignored) {
-		if (app_route.indexOf(ignored) >= 0) {
-			bread = false;
-			return false;
+	// back to top
+	var amountScrolled = 300;
+	$(window).scroll(function() {
+		if ($(window).scrollTop() > amountScrolled) {
+			$('a.back-to-top').fadeIn('slow');
+		}
+		else {
+			$('a.back-to-top').fadeOut('slow');
 		}
 	});
 
-	if (bread) {
-		var module_name = app_route.split("/")[2];
+	$('a.back-to-top').click(function() {
+		$('body, html').animate({
+			scrollTop: 0
+		}, 400);
+		return false;
+	});
 
-		var breadcrumb = '<a class="navbar-brand" href="/list/' + module_name + '" style="font-size: 22px;">' + module_name.replace(/_/g, " ").toProperCase() + ' List</a>';
-		$(".navbar-brand").addClass("hidden-xs hidden-sm");
-		$(breadcrumb).insertAfter(".navbar-brand");
-	}
-	else {
+
+	// set today date on event button
+	var today_date = new Date();
+	var date_element = '<span class="button-date">' + ("0" + today_date.getDate()).slice(-2) + '</span>';
+	$('button[data-href="/List/Event"]').append(date_element);
+
+
+	// toggle breadcrumb
+	var breadcrumb_ignore_list = ['/App', '/App/Modules', '/App/Dashboard', '/App/Charts', '/App/Reports', '/login', '/step'];
+	if ((breadcrumb_ignore_list.indexOf(app_route) >= 0) || app_route.split("/")[1] == "List") {
 		if ($(".navbar-brand").length > 1) {
 			$(".navbar-brand:last").remove();
 		}
 	}
+	else {
+		var breadcrumb = '<a class="navbar-brand" href="/List/' + app_route.split("/")[1] + '" style="font-size: 22px;">' + app_route.split("/")[1] + ' List</a>';
+		$(".navbar-brand").addClass("hidden-xs hidden-sm");
+		$(breadcrumb).insertAfter(".navbar-brand");
+	}
 
 
 	// toggle vertical nav active
-	$.each($("nav > ul > li"), function(index, navbar) {
+	$.each($("nav > div > ul > li"), function(index, navbar) {
 		if ($(this).find('a').attr('href') == app_route) {
 			$(this).addClass('active');
 		}
@@ -126,19 +87,50 @@ $( document ).ready(function() {
 			$(this).removeClass('active');
 		}
 	});
-	
 
-	// enable datepicker
+
+	// module click navigate to list view
+	$(".module-btn").on("click", function() {
+		window.location = $(this).data("href");
+	});
+
+
+	// enable date picker
 	$(function () {
-		$("input.datepicker").each(function() {
-			$(this).datepicker({
-				'format': 'dd-mm-yyyy'
-			});
+		$(".date").datepicker({
+			format: 'dd-mm-yyyy',
+			todayBtn: "linked",
+			keyboardNavigation: false,
+			forceParse: false,
+			autoclose: true
 		});
 	});
 
+
+	// enable datetime picker
+	$(function () {
+		$(".datetimepicker").datetimepicker({
+			icons: {
+				time: 'fa fa-clock-o',
+				date: 'fa fa-calendar',
+				up: 'fa fa-chevron-up',
+				down: 'fa fa-chevron-down',
+				previous: 'fa fa-chevron-left',
+				next: 'fa fa-chevron-right',
+				today: 'fa fa-crosshairs',
+				clear: 'fa fa-trash',
+				close: 'fa fa-times'
+			},
+			format: 'DD-MM-YYYY hh:mm A',
+			allowInputToggle: true,
+		});
+	});
+
+	// Autocomplete
+	enable_autocomplete();
+
 	// allow only numbers to text box
-	$('body').on('input change', '.numbers-only', function() {
+	$('.numbers-only').on("input change", function() { 
 		this.value = this.value.replace(/[^0-9\.]/g,'');
 	});
 });
@@ -173,7 +165,7 @@ function enable_autocomplete() {
 				delete selected_item_data[data_field];
 
 				$.each(selected_item_data, function(key, value) {
-					var input_field = $('form').find('input[data-target-field="' + key + '"][data-target-module="' + data_module + '"]');
+					var input_field = $('form').find('input[data-target-field="' + key + '"]');
 					length = (input_field).length;
 					if (length > 1) {
 						$(input_field).last().val(value);
@@ -236,19 +228,64 @@ function msgbox(msg, footer, title) {
 	$('#message-box').modal('show');
 }
 
+// set date to the element
+function set_date(date_element, date, date_format, add_days) {
+	if (!$(date_element).val()) {
+		var date = date ? date : new Date();
+		var date_format = date_format ? date_format : 'DD-MM-YYYY hh:mm A';
+
+		if (add_days) {
+			var formatted_date = moment(date).add(add_days, 'days').format(date_format);
+		}
+		else {
+			var formatted_date = moment(date).format(date_format);
+		}
+
+		$(date_element).val(formatted_date);
+		$(date_element).closest("div.form-group").removeClass("has-error");
+	}
+}
+
 
 // add status labels, icon for money related fields
 function beautify_list_view(table) {
 
 	// field defaults
-	var money_list = ['total_amount', 'grand_total', 'rate', 'amount', 'debit', 'credit', 'price'];
-	var contact_list = ['contact_no', 'phone_no', 'phone', 'mobile', 'mobile_no'];
-	var address_list = ['address', 'full_address', 'city', 'venue'];
-	var email_list = ['email_id', 'guest_id'];
-	var label_list = ['status', 'role'];
+	var money_list = [
+		'amount', 'sub_total', 'total_amount', 'grand_total', 'rate', 'price', 'selling_price', 
+		'cost', 'mrp', 'delivery_charges', 'paid_amount'
+	];
+	var contact_list = ['contact_no', 'phone_no', 'mobile', 'mobile_no', 'phone', 'contact'];
+	var address_list = ['address', 'full_address', 'permanent_address'];
+	var email_list = ['email_id', 'email'];
+	var detail_list = ['description'];
+	var label_list = ['status', 'role', 'gender', 'customer_type'];
+	var percent_list = ['female_margin_percentage', 'male_margin_percentage'];
+
 	var label_bg = {
-		'status' : { 'Active' : 'bg-success', 'Inactive' : 'bg-danger', 'Vacant' : 'bg-success', 'Occupied' : 'bg-danger' }, 
-		'role' : { 'Administrator' : 'bg-inverse', 'Guest' : 'bg-info' }
+		'gender': {
+			'Male': 'label-info', 
+			'Female': 'label-warning'
+		},
+		'status': {
+			'Active' : 'label-success', 
+			'Inactive' : 'label-danger', 
+			'Vacant' : 'label-success', 
+			'Occupied' : 'label-danger'
+		}, 
+		'role': {
+			'Administrator' : 'label-primary', 
+			'Customer' : 'label-default', 
+			'Inventory Manager' : 'label-primary', 
+			'Customer Service Manager' : 'label-warning', 
+			'Product Content Manager' : 'label-info', 
+			'Experience Content Manager' : 'label-success', 
+			'Marketing Manager' : 'label-inverse'
+		},
+		'customer_type': {
+			'Individual': 'label-warning',
+			'Organisation': 'label-success'
+		}
 	}
 
 	var table = table ? table : "table.list-view";
@@ -264,7 +301,7 @@ function beautify_list_view(table) {
 				heading = heading.replace("Id", "ID");
 			}
 
-			if (money_list.contains(heading_name)) {
+			if ($.inArray(heading_name, money_list) >= 0) {
 				$(this).html(heading + ' (<i class="fa fa-inr"></i>)');
 			}
 			else {
@@ -284,265 +321,38 @@ function beautify_list_view(table) {
 	else {
 		// make table rows
 		$.each($(tbody).find("tr > td"), function() {
-			if ($(this).attr("data-field-name")) {
+			if ($(this).attr("data-field-name") && $.trim($(this).html())) {
 				var column_name = $(this).attr("data-field-name");
-				var column_value = $.trim($(this).html());
-				if ($.trim(column_value) != "") {
-					if (money_list.contains(column_name)) {
-						$(this).html('<i class="fa fa-inr"></i> ' + column_value);
-					}
-					else if (contact_list.contains(column_name)) {
-						$(this).html('<i class="fa fa-phone"></i> ' + column_value);
-					}
-					else if (address_list.contains(column_name)) {
-						$(this).html('<i class="fa fa-map-marker"></i> ' + column_value);
-					}
-					else if (email_list.contains(column_name)) {
-						$(this).html('<i class="fa fa-envelope"></i> ' + column_value);
-					}
-					else if (label_list.contains(column_name)) {
-						$(this).html('<span class="label ' + label_bg[column_name][column_value] + '">' + column_value +  '</span>');
-					}
-					else if (column_name.includes("date")) {
-						$(this).html('<i class="fa fa-calendar"></i> ' + moment(column_value).format('DD-MM-YYYY'));
-					}
+				var column_value = $(this).html();
+				if ($.inArray(column_name, money_list) >= 0) {
+					$(this).html('<i class="fa fa-inr iconify"></i> ' + column_value);
+				}
+				else if ($.inArray(column_name, contact_list) >= 0) {
+					$(this).html('<i class="fa fa-phone iconify"></i> ' + column_value);
+				}
+				else if ($.inArray(column_name, address_list) >= 0) {
+					$(this).html('<i class="fa fa-map-marker iconify"></i> ' + column_value);
+				}
+				else if ($.inArray(column_name, email_list) >= 0) {
+					$(this).html('<i class="fa fa-envelope iconify"></i> ' + column_value);
+				}
+				else if ($.inArray(column_name, detail_list) >= 0) {
+					$(this).html('<i class="fa fa-align-justify iconify"></i> ' + column_value);
+				}
+				else if ($.inArray(column_name, label_list) >= 0) {
+					$(this).html('<span class="label ' + label_bg[column_name][column_value] + '">' + column_value +  '</span>');
+				}
+				else if ($.inArray(column_name, percent_list) >= 0) {
+					$(this).html('<small>' + column_value + '%</small>\
+						<div class="progress progress-mini">\
+							<div style="width: ' + column_value + '%;" class="progress-bar"></div>\
+						</div>'
+					);
+				}
+				else if (column_name.includes("date")) {
+					$(this).html('<i class="fa fa-calendar iconify"></i> ' + moment(column_value).format('DD-MM-YYYY hh:mm A'));
 				}
 			}
 		});
 	}
-}
-
-
-// copies selected text in the browser
-function copyit(theField) {
-	var selectedText = document.selection;
-	if (selectedText.type == 'Text') {
-		var newRange = selectedText.createRange();
-		theField.focus();
-		theField.value = newRange.text;
-	}
-	else {
-		msgbox('Select text in the page and then try again');
-	}
-}
-
-
-// Removes any white space to the right and left of the string
-function trim(str) {
-	return str.replace(/^\s+|\s+$/g, "");
-}
-
-
-// Removes any white space to the left of the string
-function ltrim(str) {
-	return str.replace(/^\s+/, "");
-}
-
-
-// Removes any white space to the right of the string
-function rtrim(str) {
-	return str.replace(/\s+$/, "");
-}
-
-
-// Return a string only containing the letters a to z
-function onlyLetters(str) {
-	return str.toLowerCase().replace(/[^a-z]/g, "");
-};
-
-
-// Return a string only containing the letters a to z and numbers
-function onlyLettersNums(str) {
-	return str.toLowerCase().replace(/[^a-z,0-9,-]/g, "");
-}
-
-
-// Removes an item from a given array
-function removeArrayItem(arr, item) {
-	var i = 0;
-	while (i < arr.length) {
-		if (arr[i] == item) {
-			arr.splice(i, 1);
-		}
-		else {
-			i++;
-		}
-	}
-}
-
-
-// Does the node have a class
-function hasClass(node, className) {
-	if (node.className) {
-		return node.className.match(
-			new RegExp('(\\s|^)' + className + '(\\s|$)'));
-	}
-	else {
-		return false;
-	}
-}
-
-
-// Add a class to an node
-function addClass(node, className) {
-	if (hasClass(node, className)) node.className += " " + className;
-}
-
-
-// Removes a class from an node
-function removeClass(node, className) {
-	if (hasClass(node, className)) {
-		var reg = new RegExp('(\\s|^)' + className + '(\\s|$)');
-		node.className = node.className.replace(reg, ' ');
-	}
-}
-
-
-// Get elements by class name (Backwards compatible version)
-function getElementsByClassName(rootNode, className) {
-	var returnElements = [];
-	if (rootNode.getElementsByClassName) {
-		// Native getElementsByClassName 
-		returnElements = rootNode.getElementsByClassName(className);
-	}
-	else if (document.evaluate) {
-		// XPath 
-		var xpathExpression;
-		xpathExpression = ".//*[contains(concat(' ', @class, ' '), ' " 
-			+ className + " ')]";
-		var xpathResult = document.evaluate(
-			xpathExpression, rootNode, null, 0, null);
-		var node;
-		while ((node = xpathResult.iterateNext())) {
-			returnElements.push(node);
-		}
-	}
-	else {
-		// Slower DOM fallback 
-		className = className.replace(/\-/g, "\\-");
-		var elements = rootNode.getElementsByTagName("*");
-		for (var x = 0; x < elements.length; x++) {
-			if (elements[x].className.match("(^|\\s)" + className 
-				+ "(\\s|$)")) {
-				returnElements.push(elements[x]);
-			}
-		}
-	}
-
-	return returnElements;
-}
-
-
-// Get elements by attribute (Backwards compatible version)
-function getElementsByAttribute(rootNode, attributeName, attributeValues) {
-
-	var attributeList = attributeValues.split(" ");
-	var returnElements = [];
-	if (rootNode.querySelectorAll) {
-		var selector = '';
-		for (var i = 0; i < attributeList.length; i++) {
-			selector += '[' + attributeName 
-				+ '*= "' + attributeList[i] + '"], ';
-		}
-		returnElements = rootNode.querySelectorAll(
-			selector.substring(0, selector.length - 2));
-	}
-	else if (document.evaluatex) {
-		// XPath 
-		var xpathExpression = ".//*[";
-		for (var i = 0; i < attributeList.length; i++) {
-			if (i !== 0) {
-				xpathExpression += " or ";
-			}
-			xpathExpression += "contains(concat(' ', @" + attributeName	+ ", ' '), ' " + attributeList[i] + " ')";
-		}
-		xpathExpression += "]";
-		var xpathResult = document.evaluate(
-			xpathExpression, rootNode, null, 0, null);
-		var node;
-		while ((node = xpathResult.iterateNext())) {
-			returnElements.push(node);
-		}
-	}
-	else {
-		// Slower fallback 
-		attributeName = attributeName.replace(/\-/g, "\\-");
-		var elements = rootNode.getElementsByTagName("*");
-		for (var x = 0; x < elements.length; x++) {
-			if (elements[x][attributeName]) {
-				var found = false;
-				for (var y = 0; y < attributeList.length; y++) {
-					if (elements[x][attributeName].match("(^|\\s)" 
-						+ attributeList[y] + "(\\s|$)")) {
-						found = true;
-					}
-				}
-				if (found)
-					returnElements.push(elements[x]);
-			}
-		}
-	}
-
-	return returnElements;
-}
-
-
-// Is an object a string
-function isString(obj) {
-	return typeof (obj) == 'string';
-}
-
-
-// Is an object a array
-function isArray(obj) {
-	return obj && !(obj.propertyIsEnumerable('length')) 
-		&& typeof obj === 'object' 
-		&& typeof obj.length === 'number';
-}
-
-
-// Is an object a int
-function isInt(obj) {
-	var re = /^\d+$/;
-	return re.test(obj);
-}
-
-
-// Is an object a email address
-function isEmail(obj) {
-	if (isString(obj)) {
-		return obj.match(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/ig);
-	}
-	else {
-		return false;
-	}
-}
-
-
-// Is an object a URL
-function isUrl (obj) {
-	if (isString(obj)) {
-		var re = new RegExp("^(http|https)\://([a-zA-Z0-9\.\-]+(\:" +
-			"[a-zA-Z0-9\.&%\$\-]+)*@)*((25[0-5]|2[0-4][0-9]|" +
-			"[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2" +
-			"[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\." +
-			"(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|" +
-			"[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]" +
-			"{1}[0-9]{1}|[0-9])|localhost|([a-zA-Z0-9\-]+\.)*[a-zA-Z" +
-			"0-9\-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name" +
-			"|pro|aero|coop|museum|[a-zA-Z]{2}))(\:[0-9]+)*(/($|[a-z" +
-			"A-Z0-9\.\,\?\'\\\+&%\$#\=~_\-]+))*$");
-		return obj.match(re);
-	}
-	else {
-		return false;
-	}
-}
-
-
-// convert mysql date time to javascript date time
-function mysqlDateTimeToJSDate(datetime) {
-	// Split timestamp into [ Y, M, D, h, m, s ]
-	var t = datetime.split(/[- :]/);
-	return new Date(t[0], t[1]-1, t[2], t[3], t[4], t[5]);
 }

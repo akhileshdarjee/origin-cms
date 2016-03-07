@@ -1,37 +1,7 @@
 $( document ).ready(function() {
-
-	var report_table = $('table#report-table').DataTable({
-		"bProcessing": true,
-		"sDom": "<'row'<'col-sm-6'l><'col-sm-6'f>r>t<'row'<'col-sm-6'i><'col col-sm-6'p>>",
-		"sPaginationType": "full_numbers",
-		"bAutoWidth": false,
-		"oLanguage": {
-			"sEmptyTable": "No Data"
-		}
+	var report_table = $('table.report-table').DataTable({
+		"processing": true
 	});
-
-
-	// make theads scrollable
-	$.each($("table#report-table > thead > tr > th"), function(idx, heading) {
-		$(heading).resizable({
-			handles: "e",
-			create: function(event, ui) {
-				$(".ui-resizable-e").css("cursor","col-resize");
-			}
-		});
-	});
-
-	enable_autocomplete();
-
-	// make search and show entries element as per bootstrap
-	$("#report-table_filter").find("input").addClass("form-control");
-	$("#report-table_filter").find("input").attr("title", "Search in table");
-	$("#report-table_filter").find("input").tooltip({
-		"container": 'body',
-		"placement": 'bottom',
-	});
-	$("#report-table_length").find("select").addClass("form-control");
-
 
 	if ($("#from_date") && $("#to_date")) {
 		$(function () {
@@ -41,9 +11,8 @@ $( document ).ready(function() {
 		});
 	}
 
-
 	// refresh the grid view of report
-	$("#refresh_report").on("click", function() {
+	$("#apply_filters").on("click", function() {
 		var filter_found = false;
 		$.each($("#report-filters").find("input, select"), function() {
 			if ($(this).val()) {
@@ -81,7 +50,7 @@ $( document ).ready(function() {
 			data: { 'filters': get_report_filters() },
 			dataType: 'json',
 			success: function(data) {
-				var grid_rows = data['rows'];
+				var grid_rows = data;
 
 				// clear the datatable
 				report_table.clear().draw();
@@ -93,10 +62,6 @@ $( document ).ready(function() {
 						record.push(grid_index + 1);
 
 						$.each(grid_data, function(column_name, column_value) {
-							if (data['module'] && data['link_field'] && data['record_identifier'] && (data['record_identifier'] == column_name)) {
-								column_value = '<a href="/form/' + data["module"].toSnakeCase() + '/' + grid_data[data["link_field"]] + '">' + column_value + '</a>';
-							}
-
 							record.push(column_value);
 						});
 
@@ -123,7 +88,4 @@ $( document ).ready(function() {
 
 		return filters;
 	}
-
-
-	$('table').find('.dataTables_empty').html("No Data");
 });

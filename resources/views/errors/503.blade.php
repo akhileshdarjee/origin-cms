@@ -1,17 +1,26 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Web App | 503 Error | Page Not Found</title>
-		@include('website.templates.headers')
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>MAST Box | 503 Error | Service Unavailable</title>
+		<script type="text/javascript" src="/js/jquery.js"></script>
+		<script type="text/javascript" src="/js/bootstrap.js"></script>
+		<!-- Roboto font -->
+		<link href="http://fonts.googleapis.com/css?family=Roboto:700,500,400,300,100&ampamp;subset=latin,latin-ext,cyrillic,cyrillic-ext%22" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="/css/animate.css">
+		<link rel="stylesheet" type="text/css" href="/css/style.css">
 	</head>
-	<body>
-		@include('website.templates.navbar')
+	<body class="gray-bg">
 		<div class="middle-box text-center animated fadeInDown">
-			<h1>Be right back</h1>
-			<div class="col-md-2 col-md-offset-5 text-center">
-				<a href="/" class="btn btn-primary">
-					<i class ="fa fa-home"> Back to Home</i>
-				</a>
+			<h1>503</h1>
+			<h3 class="font-bold">Service Unavailable</h3>
+			<div class="error-desc">
+				Be right back.
+				<br /><br />
+				<a href="/App/Modules" class="btn btn-primary">Back to Home</a>
 			</div>
 		</div>
 	</body>

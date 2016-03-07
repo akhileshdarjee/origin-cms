@@ -1,51 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
+		<meta charset="utf-8">
+		<meta name="description" content="Web App">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<meta name="csrf-token" content="{{ csrf_token() }}" />
+
 		<title>Login - Web App</title>
-		@include('templates.headers')
+
+		<!-- Roboto font -->
+		<link href="http://fonts.googleapis.com/css?family=Roboto:700,500,400,300,100&ampamp;subset=latin,latin-ext,cyrillic,cyrillic-ext%22" rel="stylesheet">
+
+		<link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css">
+
+		<link rel="stylesheet" type="text/css" href="/css/animate.css">
+		<link rel="stylesheet" type="text/css" href="/css/style.css">
+		<link rel="stylesheet" type="text/css" href="/css/web_app/web_app.css">
+		<style type="text/css">
+			.centrify {
+				position: absolute;
+				left: 50%;
+				top: 50%;
+				margin-left: -15px;
+				margin-top: -15px;
+			}
+		</style>
 	</head>
-	<body bgcolor="white">
-		<header id="header" class="navbar bg bg-black">
-			<a class="navbar-brand" href="/">Web App</a>
-		</header>
-		<section id="content">
-			<div class="main padder">
-				<div class="row">
-					<div class="col-sm-4 col-sm-offset-4 m-t-large">
-						<section class="panel">
-							<header class="panel-heading">
-								<h4><i class="fa fa-user"></i> <strong>Sign In</strong></h4>
-							</header>
-							<form action="/login" method="POST" name="login" id="login" class="panel-body">
-								@if (Session::has('msg'))
-									<div class="block">
-										<div class="alert alert-danger">
-											<button type="button" class="close" data-dismiss="alert">
-												<i class="fa fa-times"></i>
-											</button>
-											<strong>
-												<i class="fa fa-exclamation-triangle fa-lg"></i> {{ Session::get('msg') }}
-											</strong>
-										</div>
-									</div>
-								@endif
-								{!! csrf_field() !!}
-								<div class="block">
-									<label class="control-label">Login ID</label>
-									<input type="text" name="login_id" id="login_id" placeholder="you@example.com" class="form-control" data-mandatory="yes">
+	<body class="gray-bg">
+		<div class="text-center">
+			<h1 class="logo-name">Web App</h1>
+		</div>
+		<div class="middle-box text-center loginscreen animated fadeInDown" style="padding-top: 0px;">
+			<div class="ibox-content">
+				<h3>Welcome to Web App</h3>
+				<form action="/login" method="POST" name="login" id="login" class="m-t" role="form">
+					@if (Session::has('msg'))
+						@if (Session::has('success') && Session::get('success') == "true")
+							<div class="block">
+								<div class="alert navy-bg alert-dismissable">
+									<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+									<strong>
+										<i class="fa fa-check fa-lg"></i> {{ Session::get('msg') }}
+									</strong>
 								</div>
-								<div class="block">
-									<label class="control-label">Password</label>
-									<input type="password" name="password" id="password" placeholder="Password" class="form-control" data-mandatory="yes">
+							</div>
+						@else
+							<div class="block">
+								<div class="alert red-bg alert-dismissable">
+									<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+									<strong>
+										<i class="fa fa-exclamation-triangle fa-lg"></i> {{ Session::get('msg') }}
+									</strong>
 								</div>
-								<a href="/password/email" class="pull-right m-t-small">Forgot Password?</a>
-								<button type="submit" class="btn btn-info" data-loading-text="Signing In...">Sign In</button>
-							</form>
-						</section>
+							</div>
+						@endif
+					@endif
+					{!! csrf_field() !!}
+					<div class="form-group">
+						<div class="input-group">
+							<span class="input-group-addon">
+								<i class="fa fa-envelope"></i>
+							</span>
+							<input type="text" name="login_id" id="login_id" class="form-control" placeholder="Login ID">
+						</div>
+						<div class="text-danger" id="alert" style="text-align: left; display: none;">Please Enter Login ID</div>
 					</div>
-				</div>
+					<div class="form-group">
+						<div class="input-group">
+							<span class="input-group-addon">
+								<i class="fa fa-key"></i>
+							</span>
+							<input type="password" name="password" id="password" class="form-control" placeholder="Password">
+						</div>
+						<div class="text-danger" id="alert" style="text-align: left; display: none;">Please Enter Password</div>
+					</div>
+					<button type="submit" class="btn btn-primary block full-width m-b">Login</button>
+					<a href="/password/email"><small>Forgot password?</small></a>
+				</form>
 			</div>
-		</section>
-		@include('templates.msgbox')
+		</div>
+		<!-- Mainly scripts -->
+		<script type="text/javascript" src="/js/jquery.js"></script>
+		<script type="text/javascript" src="/js/bootstrap.js"></script>
+		<script type="text/javascript" src="/js/web_app/login.js"></script>
 	</body>
 </html>

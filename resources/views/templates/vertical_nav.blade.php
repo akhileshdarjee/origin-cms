@@ -1,21 +1,71 @@
-<nav id="nav" class="nav-primary hidden-xs nav-vertical">
-	<ul class="nav" data-spy="affix" data-offset-top="50">
-		<li>
-			<a href="/app/modules" data-toggle="tooltip" data-placement="right" title="Check to see all Module(s)">
-				<i class="fa fa-th fa-lg"></i><span>Modules</span>
-			</a>
-		</li>
-		<li>
-			<a href="/app/reports" data-toggle="tooltip" data-placement="right" title="App Reports">
-				<i class="fa fa-list fa-lg"></i><span>Reports</span>
-			</a>
-		</li>
-		@if (Session::has('role') && Session::get('role') == "Administrator")
-			<li>
-				<a href="/app/settings" data-toggle="tooltip" data-placement="right" title="App Settings">
-					<i class="fa fa-cogs fa-lg"></i><span>Settings</span>
+<nav class="navbar-default navbar-static-side" role="navigation">
+	<div class="sidebar-collapse">
+		<ul class="nav metismenu" id="side-menu">
+			<li class="app-name">
+				<a href="/app" class="text-center" style="margin-left: -10px; color: #ffffff; font-size: 18px;">
+					APP
 				</a>
 			</li>
-		@endif
-	</ul>
+			<li class="nav-header">
+				<div class="dropdown profile-element">
+					<span>
+						<img alt="image" class="img-circle" src="{{ Session::get('avatar') }}" width="48px" title="{{ Session::get('user') }}" />
+					</span>
+					<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+						<span class="clear">
+							<span class="block m-t-xs">
+								<strong class="font-bold">{{ Session::get('user') }}</strong>
+							</span>
+							<span class="text-muted text-xs block">
+								{{ Session::get('role') }} <b class="caret"></b>
+							</span>
+						</span>
+					</a>
+					<ul class="dropdown-menu m-t-xs">
+						<li>
+							<a href="/form/user/{{ Session::get('login_id') }}">
+								<i class="fa fa-user"></i> Profile
+							</a>
+						</li>
+						@if (Session::has('role') && Session::get('role') == "Administrator")
+							<li>
+								<a href="/app/settings">
+									<i class="fa fa-cogs"></i> Settings
+								</a>
+							</li>
+						@endif
+						<li class="divider"></li>
+						<li>
+							<a href="/logout">
+								<i class="fa fa-power-off"></i> Logout
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="logo-element">
+					App
+				</div>
+			</li>
+			<li title="Modules">
+				<a href="/app/modules">
+					<i class="fa fa-diamond fa-lg"></i>
+					<span class="nav-label">Modules</span>
+				</a>
+			</li>
+			<li title="Reports">
+				<a href="/app/reports">
+					<i class="fa fa-sitemap fa-lg"></i>
+					<span class="nav-label">Reports</span>
+				</a>
+			</li>
+			@if (Session::has('role') && Session::get('role') == "Administrator")
+				<li title="Settings">
+					<a href="/app/settings">
+						<i class="fa fa-cogs fa-lg"></i>
+						<span class="nav-label">Settings</span>
+					</a>
+				</li>
+			@endif
+		</ul>
+	</div>
 </nav>

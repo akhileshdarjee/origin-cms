@@ -8,23 +8,26 @@
 				<div class="col-md-6">
 					<div class="form-group">
 						<label class="col-md-6 control-label">Avatar</label>
-						<div class="col-md-4 media">
-							<div class="bg-light pull-left text-center media-large thumb-large">
-							@if (isset($form_data['tabUser']['avatar']) && $form_data['tabUser']['avatar'])
-								<img src="{{ $form_data['tabUser']['avatar'] }}" alt="{{ $form_data['tabUser']['full_name'] }}">
+						<div class="col-md-6 media">
+							<div class="pull-left text-center avatar-box">
+							@if (isset($data['tabUser']->avatar) && $data['tabUser']->avatar)
+								<img src="{{ $data['tabUser']->avatar }}" alt="{{ $data['tabUser']->full_name }}">
 							@else
-								<i class="fa fa-user inline fa fa-light fa fa-3x m-t-large m-b-large"></i>
+								<i class="fa fa-picture-o inline fa-2x avatar"></i>
 							@endif
 							</div>
 							<div class="media-body">
-								<input type="file" title="Change" name="avatar" id="avatar" class="btn btn-sm btn-primary m-b-small">
+								<label title="Upload image file" for="avatar" class="btn btn-primary btn-sm">
+									<input type="file" accept="image/*" name="avatar" id="avatar" class="hide">
+									Change
+								</label>
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="col-md-6">
 					<div class="form-group">
-						<label class="col-md-3 control-label">Status</label>
+						<label class="col-md-4 control-label">Status</label>
 						<div class="col-md-4">
 							<select name="status" id="status" class="form-control" data-mandatory="yes">
 								<option value="Active">Active</option>
@@ -66,7 +69,7 @@
 				<div class="col-md-6">
 					<div class="form-group">
 						<label class="col-md-6 control-label">Role</label>
-						<div class="col-md-4">
+						<div class="col-md-6">
 							<select name="role" id="role" class="form-control" data-mandatory="yes">
 								<option value="Administrator">Administrator</option>
 								<option value="Guest">Guest</option>

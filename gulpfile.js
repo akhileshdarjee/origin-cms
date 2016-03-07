@@ -22,7 +22,12 @@ elixir(function(mix) {
 		'../../../public/css/jquery-ui.min.css',
 		'../../../public/css/bootstrap.css',
 		'../../../public/css/font-awesome.min.css',
-		'../../../public/css/plugin.css',
+		'../../../public/css/plugins/toastr/toastr.min.css',
+		'../../../public/js/plugins/gritter/jquery.gritter.css',
+		'../../../public/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css',
+		'../../../public/css/plugins/datapicker/datepicker3.css',
+		'../../../public/css/bootstrap-datetimepicker.css',
+		'../../../public/css/animate.css',
 		'../../../public/css/style.css',
 		'../../../public/css/web_app/web_app.css'
 	]);
@@ -32,12 +37,19 @@ elixir(function(mix) {
 	mix.scripts([
 		'../../../public/js/jquery-ui.min.js',
 		'../../../public/js/bootstrap.js',
-		'../../../public/js/file-input/bootstrap.file-input.js',
+		'../../../public/js/plugins/metisMenu/jquery.metisMenu.js',
+		'../../../public/js/plugins/slimscroll/jquery.slimscroll.min.js',
+		'../../../public/js/plugins/pace/pace.min.js',
+		'../../../public/js/plugins/peity/jquery.peity.min.js',
+		'../../../public/js/plugins/gritter/jquery.gritter.min.js',
+		'../../../public/js/plugins/sparkline/jquery.sparkline.min.js',
+		'../../../public/js/plugins/chartJs/Chart.min.js',
+		'../../../public/js/plugins/toastr/toastr.min.js',
 		'../../../public/js/bootstrap-typeahead.js',
-		'../../../public/js/bootstrap-datepicker.js',
 		'../../../public/js/moment.js',
-		'../../../public/js/app.js',
-		'../../../public/js/app.plugin.js',
+		'../../../public/js/plugins/datapicker/bootstrap-datepicker.js',
+		'../../../public/js/bootstrap-datetimepicker.js',
+		'../../../public/js/inspinia.js',
 		'../../../public/js/web_app/web_app.js'
 	]);
 });

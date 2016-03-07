@@ -1,79 +1,238 @@
-html {
-	background-color: #ffffff;
+body, .badge, .label {
+	font-family: 'Roboto', sans-serif;
 }
 
-form {
-	margin-bottom: 0px;
+body.mini-navbar .app-name {
+	display: none;
+}
+
+.logo-name {
+	margin-top: 0px;
+	font-weight: 900;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-weight: 300;
+}
+
+.label {
+	font-weight: normal;
+}
+
+h3, h4, h5 {
+	margin-top: 5px;
+	font-weight: 700;
+}
+
+.btn {
+	font-weight: 400;
+}
+
+button.dim, .font-bold, .badge, .logo-element, .branding, .unread td, .client-link {
+	font-weight: 700;
+}
+
+.landing-page .comments-avatar .commens-name, .landing-page .services h2, .landing-page li.pricing-title {
+	font-weight: 700;
+}
+
+.nav > li > a, .fc-header-title h2, .animation-text-box h2, a.forum-item-title, .nav-tabs > li > a {
+	font-weight: 700;
+}
+
+.dropdown-menu > li > a.font-bold, .lock-word span, .project-title a, .faq-question, .issue-info a, .product-imitation {
+	font-weight: 700;
+}
+
+.product-name, .product-price, .vote-actions, .vote-actions a, .vote-title, .landing-page .btn-primary {
+	font-weight: 700;
+}
+
+.skin-setttings .title, .default-skin, .blue-skin, .ultra-skin {
+	font-weight: 700;
+}
+
+.ibox-heading h3, .landing-page h1, .landing-page .features-text-alone h1 {
+	font-weight: 300;
 }
 
 
-/* module */
-.module:hover {
-	opacity: 0.8;
-	filter: alpha(opacity=80); /* For IE8 and earlier */
+
+/* social buttons */
+.btn-facebook {
+	color: #fff;
+	background-color: #3b5998;
+	border-color: #3b5998;
+	font-weight: 400;
+}
+.btn-twitter {
+	color: #fff;
+	background-color: #4099ff;
+	border-color: #4099ff;
+	font-weight: 400;
+}
+.btn-google-plus {
+	color: #fff;
+	background-color: #d34836;
+	border-color: #d34836;
+	font-weight: 400;
+}
+.btn-facebook:hover {
+	color: #fff;
+	opacity: 0.9;
+	filter: alpha(opacity=90); /* For IE8 and earlier */
+}
+.btn-twitter:hover {
+	color: #fff;
+	opacity: 0.9;
+	filter: alpha(opacity=90); /* For IE8 and earlier */
+}
+.btn-google-plus:hover {
+	color: #fff;
+	opacity: 0.9;
+	filter: alpha(opacity=90); /* For IE8 and earlier */
 }
 
 
-/* list view */
-.list-view {
-	margin-bottom: 0px;
+/* Back to top */
+a.back-to-top {
+	display: none;
+	text-align: center;
+	line-height: 50px;
+	width: 50px;
+	height: 50px;
+	position: fixed;
+	z-index: 999;
+	right: 20px;
+	bottom: 20px;
+	background-color: #1ab394;
+	color: #fff;
+	border-radius: 3px;
+}
+a.back-to-top:hover {
+	color: #fff;
 }
 
-.list-view > thead > tr > th {
-	border-right: 1px solid #e0e4e8;
-	padding: 9px 15px;
+
+/* Today date on button */
+.button-date {
+	position: absolute;
+	font-size: 14px;
+	top: 50%;
+	margin-top: -6px;
+	display: inline-block;
+	width: 16px;
+	left: 50%;
+	margin-left: -9px;
 }
 
-.list-view > tbody > tr > td {
-	padding: 9px 15px;
+
+/* Breadcrumb */
+.app-breadcrumb {
+	padding: 15px !important; 
+}
+
+/* Avatar */
+.media > .avatar-box > img {
+	width: 100px;
+	height: 100px;
+}
+.media .avatar {
+	padding: 35px;
+	background-color: #f0f4f7;
+}
+
+/* Modules */
+.app-module:nth-child(6n+1) {
+	clear: both;
+}
+
+.app-module .module-label {
+	font-size: 15px;
+}
+
+.module-btn {
+	width: 80px;
+	height: 70px;
+	font-size: 30px;
+	position: relative;
+}
+
+/* List View */
+.list-view tbody tr td {
+	border-top: none;
+	border-bottom: 1px solid #e7eaec;
+	padding: 10px !important;
+	vertical-align: middle !important;
+}
+
+.link-field a {
+	font-size: 14px !important;
+	color: #676a6c !important;
+	font-weight: 600 !important;
+}
+
+.link-field a:hover {
+	text-decoration: underline;
 }
 
 .clickable_row:hover {
 	cursor: pointer;
-	background-color: #F7F8F9;
 }
 
-/* table */
-.table-hover > thead > tr > th {
-	background: #fafbfc;
-	border-right: 1px solid #e0e4e8;
-	border-bottom: 1px solid #e0e4e8;
+.iconify {
+	color: #c1c3c4;
 }
 
-.table-hover > thead > tr > th:last-child {
-	border-right: 0px;
+.list-header th {
+	vertical-align: middle !important;
 }
 
-.table_record:hover {
+.list-checkbox {
+	text-align: center;
+}
+
+#row-count {
+	font-weight: 700;
+}
+
+/* Form View */
+.floatbox-title {
+	min-height: 67px;
+}
+.floatbox-title .form-status {
+	display: inline-block;
+	margin: 0 0 7px;
+	padding: 10px 10px 10px 20px;
+	text-overflow: ellipsis;
+	float: left;
+	font-weight: 500;
+}
+
+.floatbox-title .form-name, .form-status {
+	margin-top: 5px;
+}
+
+.floatbox-title .form-name {
+	display: inline-block;
+	font-size: 25px;
+	margin: 0 0 7px;
+	padding: 0;
+	text-overflow: ellipsis;
+	float: left;
+}
+
+
+/* Report */
+.report-box:hover {
 	cursor: pointer;
+	-webkit-box-shadow: 0px 0px 7px 0px rgba(133,133,133,1);
+	-moz-box-shadow: 0px 0px 7px 0px rgba(133,133,133,1);
+	box-shadow: 0px 0px 7px 0px rgba(133,133,133,1);
 }
 
-/* report */
-.remove-before.panel-heading:before  {
-	display: none;
-}
-
-#report-table {
-	border: 2px solid #ddd;
-}
-
-#report-table.table-bordered > thead > tr > td, 
-#report-table.table-bordered > thead > tr > th {
-	border-bottom-width: 0px;
-}
-
-
-#report-table > thead > tr > th,
-#report-table > tbody > tr > th,
-#report-table > tfoot > tr > th,
-#report-table > thead > tr > td,
-#report-table > tbody > tr > td,
-#report-table > tfoot > tr > td {
-	border: 2px solid #ddd;
-}
-
-#report-table tbody tr:nth-of-type(even) {
-	background-color: #f9f9f9;
+.dataTable > thead > tr > th {
+	white-space: nowrap;
 }
 
 .dataTables_empty {
@@ -82,6 +241,7 @@ form {
 	padding: 17px !important;
 	text-align: center;
 }
+
 
 /* Tooltip show in one line */
 .tooltip-inner {
