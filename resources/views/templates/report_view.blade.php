@@ -2,8 +2,6 @@
 <html lang="en">
 	<head>
 		<title>{{ ucwords($title) }} - Web App</title>
-		<!-- DatePicker -->
-		<link rel="stylesheet" type="text/css" href="/css/plugins/datapicker/datepicker3.css">
 		<!-- Data Tables -->
 		<link rel="stylesheet" type="text/css" href="/css/plugins/dataTables/dataTables.bootstrap.css">
 		<link rel="stylesheet" type="text/css" href="/css/plugins/dataTables/dataTables.responsive.css">
@@ -102,16 +100,6 @@
 					</div>
 				</div>
 			</div>
-			<div class="footer">
-				<div>
-					<span class="pull-right">
-						Made with <i class="fa fa-heart fa-lg" style="color: #d90429;"></i> by 
-						<strong>
-							<a href="http://www.achieveee.com/" target="_blank" style="color: #676a6c;">Achieveee</a>
-						</strong>
-					</span>
-				</div>
-			</div>
 		</div>
 		@include('templates.msgbox')
 		@if (Session::has('msg'))
@@ -124,8 +112,6 @@
 		<script type="text/javascript" src="/js/plugins/dataTables/dataTables.bootstrap.js"></script>
 		<script type="text/javascript" src="/js/plugins/dataTables/dataTables.responsive.js"></script>
 		<script type="text/javascript" src="/js/plugins/dataTables/dataTables.tableTools.min.js"></script>
-		<!-- Date picker -->
-		<script type="text/javascript" src="/js/plugins/datapicker/bootstrap-datepicker.js"></script>
 		<script type="text/javascript" src="/js/web_app/report_view.js"></script>
 	</body>
 </html>

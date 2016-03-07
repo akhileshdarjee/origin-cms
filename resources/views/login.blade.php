@@ -29,7 +29,7 @@
 	</head>
 	<body class="gray-bg">
 		<div class="text-center">
-			<h1 class="logo-name">Web App</h1>
+			<h1 class="logo-name">APP</h1>
 		</div>
 		<div class="middle-box text-center loginscreen animated fadeInDown" style="padding-top: 0px;">
 			<div class="ibox-content">

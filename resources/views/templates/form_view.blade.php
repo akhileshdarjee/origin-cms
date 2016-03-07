@@ -2,16 +2,6 @@
 <html lang="en">
 	<head>
 		<title>{{ ucwords($title) }} - Web App</title>
-
-		<!-- DatePicker -->
-		<link rel="stylesheet" type="text/css" href="/css/plugins/datapicker/datepicker3.css">
-
-		<!-- ClockPicker -->
-		<link rel="stylesheet" type="text/css" href="/css/plugins/clockpicker/clockpicker.css">
-
-		<!-- DateRange Picker -->
-		<link rel="stylesheet" type="text/css" href="/css/plugins/daterangepicker/daterangepicker-bs3.css">
-
 		<script type="text/javascript">
 			window.doc = {
 				data: <?php echo isset($form_data) ? json_encode($form_data) : "false" ?>,
@@ -35,10 +25,10 @@
 									<a href="/app">Home</a>
 								</li>
 								<li>
-									<a href="/list/{{ $module }}">{{ $title }}</a>
+									<a href="/list/{{ snake_case($module) }}">{{ $title }}</a>
 								</li>
 								<li class="active">
-									<strong>{{ isset($data['tab'.$module]->id) ? $data['tab'.$module]->$record_identifier : "New $title" }}</strong>
+									<strong>{{ isset($form_data['tab'.$module]['id']) ? $form_data['tab'.$module][$record_identifier] : "New $title" }}</strong>
 								</li>
 							</ol>
 						</div>
@@ -128,19 +118,6 @@
 				msgbox("{{ Session::get('msg') }}");
 			</script>
 		@endif
-
-		<!-- Input Mask-->
-		<script type="text/javascript" src="/js/plugins/jasny/jasny-bootstrap.min.js"></script>
-
-		<!-- Date picker -->
-		<script type="text/javascript" src="/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-
-		<!-- Clock picker -->
-		<script type="text/javascript" src="/js/plugins/clockpicker/clockpicker.js"></script>
-
-		<!-- Date range picker -->
-		<script type="text/javascript" src="/js/plugins/daterangepicker/daterangepicker.js"></script>
-
 		<script type="text/javascript" src="/js/web_app/form.js"></script>
 		@if (File::exists(public_path('/js/web_app/' . snake_case($module) . '.js')))
 			<!-- Include client js file -->

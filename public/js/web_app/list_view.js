@@ -1,6 +1,7 @@
 $( document ).ready(function() {
 
 	beautify_list_view();
+	enable_autocomplete();
 
 	// refresh the list view
 	$("#refresh_list").on("click", function() {
@@ -8,11 +9,12 @@ $( document ).ready(function() {
 		$("#search_text").val("");
 	});
 
-
 	// on row click show the record form view
-	// $("table").on("click" , '.clickable_row', function() {
-	// 	window.location = $(this).data("href");
-	// });
+	$("table.list-view").on("click" , '.clickable_row', function(e) {
+		if ($(e.target).attr('data-field-name') != "row_check" && e.target.type != "checkbox") {
+			window.location = $(this).data("href");
+		}
+	});
 
 
 	// Check all checkboxes in list view on parent check
@@ -30,20 +32,15 @@ $( document ).ready(function() {
 	});
 
 
-	// convert date format of modified date
-	$.each($(".modified_date"), function(index, field) {
-		$(field).html(moment($(field).html()).format("hh:mm A - DD.MM.YYYY"));
-	});
-
-
 	// refresh the data list based on search criteria
 	$("#search").on("click", function() {
-		if ($.trim($("#search_text").val())) {
+		if (trim($("#search_text").val())) {
 			refresh_table_list($("#search_text").val());
 		}
 		else {
 			msgbox("Please enter any text in search box");
 			$('#message-box').on('hidden.bs.modal', function (e) {
+				$("#search_text").val("");
 				$("#search_text").focus();
 			});
 		}
@@ -53,7 +50,7 @@ $( document ).ready(function() {
 	// on action button click
 	$("#action-button").on("click", function() {
 		if ($(this).data("action") == "new") {
-			window.location = table;
+			window.location = "/form" + table;
 		}
 		else {
 			remove_selected_row_data();
@@ -90,24 +87,14 @@ function refresh_table_list(search) {
 
 			if (list_rows.length > 0) {
 				$.each(list_rows, function(index, row_data) {
-					list_records += '<tr class="clickable_row" data-href="/' + list_module + '/' + list_rows[index][list_link_field] + '">';
+					list_records += '<tr class="clickable_row" data-href="/form/' + list_module.toSnakeCase() + '/' + list_rows[index][list_link_field] + '">';
 					list_records += '<td data-field-name="row_check" class="list-checkbox">\
-						<input type="checkbox" name="post[]" value="' + (index + 1) + '" data-link-field="' + list_rows[index][list_link_field] + '">\
+						<input type="checkbox" name="post[]" value="' + (index + 2) + '">\
 					</td>';
 
 					$.each(list_columns, function(index, column_name) {
 						var field_value = row_data[column_name];
-						if (column_name == list_link_field) {
-							list_records += '<td data-field-name="' + column_name + '" class="link-field">\
-								<a href="/' + list_module + '/' + list_rows[index][list_link_field] + '">' + field_value + '</a> <br>\
-								<small>Last Modified:\
-									<i class="fa fa-clock-o"></i> <span id="modified_date">' + moment(row_data["updated_at"]).format("hh:mm A - DD.MM.YYYY") + '</span>\
-								</small>\
-							</td>';
-						}
-						else {
-							list_records += '<td data-field-name="' + column_name + '">' + field_value + '</td>';
-						}
+						list_records += '<td data-field-name="' + column_name + '">' + field_value + '</td>';
 					});
 					list_records += '</tr>';
 				});
@@ -132,6 +119,8 @@ function toggle_action_button() {
 		$(button_element).data("action", "delete");
 		$(button_element).attr("data-action", "delete");
 		$(button_element).html("Delete");
+		$(button_element).data("original-title", "Delete selected record(s)");
+		$(button_element).attr("data-original-title", "Delete selected record(s)");
 		$(button_element).removeClass("btn-primary");
 		$(button_element).addClass("btn-danger");
 	}
@@ -140,6 +129,9 @@ function toggle_action_button() {
 		$(button_element).data("action", "new");
 		$(button_element).attr("data-action", "new");
 		$(button_element).html("New");
+		var module_name = app_route.split("/").pop(-1).replace(/_/g, " ").toProperCase();
+		$(button_element).data("original-title", "New " + module_name);
+		$(button_element).attr("data-original-title", "New " + module_name);
 		$(button_element).removeClass("btn-danger");
 		$(button_element).addClass("btn-primary");
 	}
@@ -168,15 +160,15 @@ function remove_selected_row_data() {
 			type: 'GET',
 			url: app_route,
 			data: data,
-			success: function() {
+			success: function(data) {
 				msgbox("Record(s) deleted successfully");
 				update_record_count();
 				$.each(checked_rows, function(index, row) {
 					$('tr[data-href="' + row + '"]').remove();
 				});
-				toggle_check_all_box();
+				toggle_action_button();
 			},
-			error: function() {
+			error: function(data) {
 				msgbox("Some problem occured. Please try again");
 			}
 		});
@@ -190,7 +182,7 @@ function get_checked_rows() {
 	$.each($("table.list-view > tbody > tr").find("input[type='checkbox']"), function(index, element) {
 		if ($(element).is(":checked")) {
 			var link_field = $(element).data("link-field");
-			if ($.inArray(link_field, checked_rows) == -1) {
+			if (checked_rows.contains(link_field)) {
 				checked_rows.push($(this).closest('tr.clickable_row').data('href'));
 			}
 		}

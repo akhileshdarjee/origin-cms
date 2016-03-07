@@ -102,8 +102,8 @@
 						<label class="col-md-2 control-label">Home Page</label>
 						<div class="col-md-2">
 							<select name="home_page" id="home_page" class="form-control" data-mandatory="yes">
-								<option value="Modules">Modules</option>
-								<option value="Reports">Reports</option>
+								<option value="modules">Modules</option>
+								<option value="reports">Reports</option>
 							</select>
 						</div>
 					</div>

@@ -10,8 +10,8 @@
 						<label class="col-md-6 control-label">Avatar</label>
 						<div class="col-md-6 media">
 							<div class="pull-left text-center avatar-box">
-							@if (isset($data['tabUser']->avatar) && $data['tabUser']->avatar)
-								<img src="{{ $data['tabUser']->avatar }}" alt="{{ $data['tabUser']->full_name }}">
+							@if (isset($form_data['tabUser']['avatar']) && $form_data['tabUser']['avatar'])
+								<img src="{{ $form_data['tabUser']['avatar'] }}" alt="{{ $form_data['tabUser']['full_name'] }}">
 							@else
 								<i class="fa fa-picture-o inline fa-2x avatar"></i>
 							@endif

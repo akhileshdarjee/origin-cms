@@ -53,10 +53,7 @@
 											<thead class="panel-heading text-small">
 												<tr class="list-header">
 													<th data-field-name="row_check" class="list-checkbox" valign="middle">
-														<div class="checkbox">
-															<input type="checkbox" id="check-all">
-															<label for="check-all"></label>
-														</div>
+														<input type="checkbox" id="check-all">
 													</th>
 													@foreach ($columns as $column)
 														<th name="{{ $column }}" id ="{{ $column }}" valign="middle">{{ $column }}</th>
@@ -69,10 +66,7 @@
 													@foreach ($rows as $row)
 														<tr class="clickable_row" data-href="/form/{{ snake_case($module) }}/{{ $row->$link_field }}">
 															<td data-field-name="row_check" class="list-checkbox">
-																<div class="checkbox">
-																	<input type="checkbox" name="post[]" value="{{ $counter += 1 }}">
-																	<label for="check-all"></label>
-																</div>
+																<input type="checkbox" name="post[]" value="{{ $counter += 1 }}">
 															</td>
 															@foreach ($columns as $column)
 																@var $tooltip = str_replace("Id", "ID", awesome_case($column))
