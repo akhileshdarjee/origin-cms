@@ -11,7 +11,7 @@ $( document ).ready(function() {
 
 	// on row click show the record form view
 	$("table.list-view").on("click" , '.clickable_row', function(e) {
-		if ($(e.target).attr('data-field-name') != "row_check" && e.target.type != "checkbox") {
+		if ($(e.target).closest('td').attr('data-field-name') != "row_check" && e.target.type != "checkbox") {
 			window.location = $(this).data("href");
 		}
 	});
