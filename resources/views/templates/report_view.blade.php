@@ -99,6 +99,19 @@
 						</div>
 					</div>
 				</div>
+				<div class="footer">
+					<div>
+						<span class="pull-left">
+							<strong>Copyright</strong> Achieveee &copy; 2011-{{ date('Y') }}
+						</span>
+						<span class="pull-right">
+							Made with <i class="fa fa-heart fa-lg" style="color: #d90429;"></i> by 
+							<strong>
+								<a href="http://www.achieveee.com/" target="_blank" style="color: #676a6c;">Achieveee</a>
+							</strong>
+						</span>
+					</div>
+				</div>
 			</div>
 		</div>
 		@include('templates.msgbox')

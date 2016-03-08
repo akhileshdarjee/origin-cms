@@ -89,7 +89,10 @@ function refresh_table_list(search) {
 				$.each(list_rows, function(index, row_data) {
 					list_records += '<tr class="clickable_row" data-href="/form/' + list_module.toSnakeCase() + '/' + list_rows[index][list_link_field] + '">';
 					list_records += '<td data-field-name="row_check" class="list-checkbox">\
-						<input type="checkbox" name="post[]" value="' + (index + 2) + '">\
+						<div class="checkbox">\
+							<input type="checkbox" name="post[]" value="' + (index + 2) + '" id="check-' + (index + 2) + '">\
+							<label for="check-' + (index + 2) + '">\
+						</div>\
 					</td>';
 
 					$.each(list_columns, function(index, column_name) {
@@ -181,10 +184,7 @@ function get_checked_rows() {
 	var checked_rows = [];
 	$.each($("table.list-view > tbody > tr").find("input[type='checkbox']"), function(index, element) {
 		if ($(element).is(":checked")) {
-			var link_field = $(element).data("link-field");
-			if (checked_rows.contains(link_field)) {
-				checked_rows.push($(this).closest('tr.clickable_row').data('href'));
-			}
+			checked_rows.push($(this).closest('tr.clickable_row').data('href'));
 		}
 	});
 

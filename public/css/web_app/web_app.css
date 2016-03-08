@@ -192,6 +192,10 @@ a.back-to-top:hover {
 	text-align: center;
 }
 
+.checkbox {
+	margin-top: 0px;
+}
+
 #row-count {
 	font-weight: 700;
 }
