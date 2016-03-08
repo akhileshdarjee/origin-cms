@@ -39,6 +39,7 @@ elixir(function(mix) {
 		'../../../public/js/bootstrap.js',
 		'../../../public/js/plugins/metisMenu/jquery.metisMenu.js',
 		'../../../public/js/plugins/slimscroll/jquery.slimscroll.min.js',
+		'../../../public/js/inspinia.js',
 		'../../../public/js/plugins/pace/pace.min.js',
 		'../../../public/js/plugins/peity/jquery.peity.min.js',
 		'../../../public/js/plugins/gritter/jquery.gritter.min.js',
@@ -49,7 +50,6 @@ elixir(function(mix) {
 		'../../../public/js/moment.js',
 		'../../../public/js/plugins/datapicker/bootstrap-datepicker.js',
 		'../../../public/js/bootstrap-datetimepicker.js',
-		'../../../public/js/inspinia.js',
 		'../../../public/js/web_app/web_app.js'
 	]);
 });
