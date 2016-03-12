@@ -44,8 +44,7 @@ class AuthController extends Controller
 		];
 
 		if (Auth::attempt($credentials)) {
-			$user = DB::table('tabUser')
-				->select('full_name', 'avatar', 'role', 'login_id')
+			$user = User::select('full_name', 'avatar', 'role', 'login_id')
 				->where('login_id', $credentials['login_id'])
 				->first();
 
@@ -79,8 +78,7 @@ class AuthController extends Controller
 		];
 
 		if (Auth::attempt($credentials)) {
-			$user = DB::table('tabUser')
-				->select('full_name', 'avatar', 'role', 'login_id')
+			$user = User::select('full_name', 'avatar', 'role', 'login_id')
 				->where('login_id', $credentials['login_id'])
 				->first();
 
