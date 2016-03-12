@@ -188,7 +188,7 @@ function set_doc_data() {
 					add_new_row(table, null, "none");
 
 					$.each(child_record, function(child_field, child_value) {
-						$('input[name="' + table_name + '[' + (idx - 1) + '][' + child_field + ']"]').val(child_value);
+						$('[name="' + table_name + '[' + (idx - 1) + '][' + child_field + ']"]').val(child_value);
 					});
 
 					set_row_after_input($(table).find('tbody'));
