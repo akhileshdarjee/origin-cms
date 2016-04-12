@@ -286,7 +286,7 @@ function beautify_list_view(table) {
 	var label_list = ['status', 'role'];
 	var label_bg = {
 		'status' : { 'Active' : 'label-success', 'Inactive' : 'label-danger', 'Vacant' : 'label-success', 'Occupied' : 'label-danger' }, 
-		'role' : { 'Administrator' : 'label-inverse', 'Guest' : 'label-info' }
+		'role' : { 'Administrator' : 'label-inverse', 'Customer' : 'label-info' }
 	}
 
 	var table = table ? table : "table.list-view";

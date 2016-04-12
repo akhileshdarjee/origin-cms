@@ -6,7 +6,6 @@ use DB;
 use Auth;
 use File;
 use Session;
-use Response;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -14,6 +13,8 @@ use App\Http\Controllers\Controller;
 
 class FormController extends Controller
 {
+	// define field names having file
+	public static $file_fields = [];
 	// define modules to create, update or delete user when module is saved
 	public static $user_via_modules = [];
 	// define modules to send email when create or update is performed
@@ -72,15 +73,93 @@ class FormController extends Controller
 				}
 			}
 
-			$data[$form_config['table_name']] = $data[$form_config['table_name']]->first();
+			if (isset($form_config['parent_foreign_map'])) {
+				$data_query = DB::table($form_config['table_name']);
+				$fetch_field = '';
+
+				foreach ($form_config['parent_foreign_map'] as $foreign_table => $foreign_details) {
+					$foreign_key = $foreign_details['foreign_key'];
+					$foreign_field = $foreign_details['fetch_field'];
+
+					if (end($form_config['parent_foreign_map']) !== $foreign_details) {
+						$fetch_field .= $foreign_field . ',';
+					}
+					else {
+						$fetch_field .= $foreign_field;
+					}
+
+					$data_query = $data_query
+						->leftJoin($foreign_table, $form_config['table_name'].'.'.$foreign_key, '=', $foreign_table.'.id');
+				}
+
+				$data[$form_config['table_name']] = $data_query
+					->select(DB::raw($form_config['table_name'] . '.*, ' . $fetch_field))
+					->where($form_config['table_name'].'.'.$form_config['link_field'], $form_config['link_field_value'])
+					->first();
+			}
+			else {
+				$data[$form_config['table_name']] = $data[$form_config['table_name']]->first();
+			}
 
 			if ($data && $data[$form_config['table_name']]) {
 				// if child tables set and found in db then attach it with data
-				if(isset($form_config['child_tables']) && isset($form_config['child_foreign_key'])) {
-					foreach ($form_config['child_tables'] as $child_table) {
-						$data[$child_table] = DB::table($child_table)
-							->where($form_config['child_foreign_key'], $form_config['link_field_value'])
-							->get();
+				if (isset($form_config['child_tables']) && isset($form_config['child_foreign_key'])) {
+					if (isset($form_config['child_foreign_map']) && $form_config['child_foreign_map']) {
+						foreach ($form_config['child_tables'] as $child_table) {
+							$child_foreign_map = $form_config['child_foreign_map'];
+
+							if (in_array($child_table, array_keys($child_foreign_map))) {
+								$data_query = DB::table($child_table);
+
+								$foreign_table = array_keys($child_foreign_map[$child_table]);
+
+								if (count($foreign_table) > 1) {
+									$fetch_field = '';
+									foreach (array_values($foreign_table) as $index => $table_name) {
+										$foreign_key = $child_foreign_map[$child_table][$table_name]['foreign_key'];
+										$foreign_field = $child_foreign_map[$child_table][$table_name]['fetch_field'];
+
+										if ($index === count($foreign_table) - 1) {
+											$fetch_field .= $foreign_field;
+										}
+										else {
+											$fetch_field .= $foreign_field . ',';
+										}
+
+										$data_query = $data_query
+											->leftJoin($table_name, $child_table.'.'.$foreign_key, '=', $table_name.'.id');
+									}
+								}
+								else {
+									$foreign_table = $foreign_table[0];
+									$foreign_key = $child_foreign_map[$child_table][$foreign_table]['foreign_key'];
+									$fetch_field = $child_foreign_map[$child_table][$foreign_table]['fetch_field'];
+
+									$data_query = $data_query
+										->leftJoin($foreign_table, $child_table.'.'.$foreign_key, '=', $foreign_table.'.id');
+								}
+
+								$data[$child_table] = $data_query
+									->select(DB::raw($child_table . '.*, ' . $fetch_field))
+									->where($form_config['child_foreign_key'], $form_config['link_field_value'])
+									->orderBy($child_table . '.id', 'asc')
+									->get();
+							}
+							else {
+								$data[$child_table] = DB::table($child_table)
+									->where($form_config['child_foreign_key'], $form_config['link_field_value'])
+									->orderBy($child_table . '.id', 'asc')
+									->get();
+							}
+						}
+					}
+					else {
+						foreach ($form_config['child_tables'] as $child_table) {
+							$data[$child_table] = DB::table($child_table)
+								->where($form_config['child_foreign_key'], $form_config['link_field_value'])
+								->orderBy($child_table . '.id', 'asc')
+								->get();
+						}
 					}
 				}
 			}
@@ -186,21 +265,25 @@ class FormController extends Controller
 		if (is_int($result) && $result) {
 			self::put_to_session('success', "true");
 			$form_config['link_field_value'] = self::$link_field_value;
-
 			$data = $form_data[$form_config['table_name']];
-			if (isset($data['avatar']) && $data['avatar'] && isset($form_config['avatar_folder'])) {
-				$avatar = $request->file('avatar');
-				$folder_path = $form_config['avatar_folder'] ? $form_config['avatar_folder'] : '/images';
 
-				if ($avatar) {
-					$avatar->move(public_path().$folder_path, $data['avatar']);
-				}
-				else {
-					// fallback code for saving avatar, error mostly caused in ajax form submit with image
-					$folder_path = $form_config['avatar_folder'] ? $form_config['avatar_folder'] : '/images';
-					$file_name = explode("/", $data['avatar']);
-					$file_name = end($file_name);
-					move_uploaded_file($_FILES["avatar"]["tmp_name"], public_path().$folder_path."/".$file_name);
+			// save image files
+			if (isset($form_config['avatar_folder']) && $form_config['avatar_folder'] && self::$file_fields) {
+				foreach($request->files->all() as $field_name => $files) {
+					if (is_array($files)) {
+						foreach ($files as $idx => $child_details) {
+							foreach ($child_details as $child_field => $file) {
+								if ($file) {
+									$file->move(public_path().$form_config['avatar_folder'], $form_data[$field_name][$idx][$child_field]);
+								}
+							}
+						}
+					}
+					else {
+						if ($files) {
+							$files->move(public_path().$form_config['avatar_folder'], $data[$field_name]);
+						}
+					}
 				}
 			}
 
@@ -490,15 +573,46 @@ class FormController extends Controller
 		$form_data = $request->all();
 		unset($form_data["_token"]);
 
-		if (isset($form_data['avatar']) && $form_data['avatar']) {
-			if ($request->hasFile('avatar') && isset($form_config['avatar_folder']) && $form_config['avatar_folder']) {
-				$form_data['avatar'] = self::create_avatar_path($request->file('avatar'), $form_config['avatar_folder']);
-			}
-			else {
-				if (isset($_FILES['avatar'])) {
-					$form_data['avatar'] = self::create_avatar_path($_FILES['avatar'], $form_config['avatar_folder']);
+		foreach($request->files->all() as $field_name => $files) {
+			if (is_array($files)) {
+				foreach ($files as $idx => $child_details) {
+					foreach ($child_details as $child_field => $file) {
+						if ($file) {
+							self::$file_fields[$field_name][$idx] = $child_field;
+						}
+					}
 				}
 			}
+			else {
+				array_push(self::$file_fields, $field_name);
+			}
+		}
+
+		$file_counter = 0;
+
+		foreach (self::$file_fields as $index => $field) {
+			if (is_string($field)) {
+				if (isset($form_data[$field]) && $form_data[$field]) {
+					if (isset($form_config['avatar_folder']) && $form_config['avatar_folder']) {
+						$form_data[$field] = self::create_avatar_path($request->file($field), $form_config['avatar_folder'], $file_counter);
+					}
+					else {
+						if (isset($_FILES[$field])) {
+							$form_data[$field] = self::create_avatar_path($_FILES[$field], $form_config['avatar_folder'], $file_counter);
+						}
+					}
+				}
+			}
+			elseif (is_array($field)) {
+				foreach ($field as $idx => $child_field_name) {
+					if (isset($form_config['avatar_folder']) && $form_config['avatar_folder']) {
+						$form_data[$index][$idx][$child_field_name] = self::create_avatar_path($request->file($index)[$idx][$child_field_name], $form_config['avatar_folder'], $file_counter);
+						$file_counter++;
+					}
+				}
+			}
+
+			$file_counter++;
 		}
 
 		// get the table schema
@@ -520,12 +634,12 @@ class FormController extends Controller
 				if (isset($form_config['child_tables']) && in_array($column, $form_config['child_tables'])) {
 					$data[$column] = $value;
 				}
-				else {
-					$data[$form_config['table_name']][$column] = $value;
-				}
+				elseif (isset($table_schema[$column])) {
+ 					$data[$form_config['table_name']][$column] = $value;
+ 				}
 			}
 			else {
-				if ($form_config['link_field_value']) {
+				if ($form_config['link_field_value'] && isset($table_schema[$column])) {
 					$data[$form_config['table_name']][$column] = null;
 				}
 			}
@@ -533,8 +647,7 @@ class FormController extends Controller
 
 
 		$data = self::merge_common_data($data, $form_config, $action);
-		// echo json_encode($data);
-		// exit();
+		// web_dump($data);
 		return $data;
 	}
 
@@ -591,6 +704,9 @@ class FormController extends Controller
 				}
 			}
 			else {
+				// get the table schema
+				$table_schema = self::get_table_schema($table);
+
 				foreach (array_values($table_data) as $index => $child_record) {
 					if (isset($data[$table][$index]['id']) && $data[$table][$index]['id']) {
 						$data[$table][$index]['id'] = (int) $data[$table][$index]['id'];
@@ -602,6 +718,17 @@ class FormController extends Controller
 					if (isset($form_config['copy_parent_fields']) && isset($data[$parent_table])) {
 						foreach ($form_config['copy_parent_fields'] as $parent_field => $child_field) {
 							$data[$table][$index][$child_field] = $data[$parent_table][$parent_field];
+						}
+					}
+
+					// remove invalid columns from child table data
+					$child_columns = array_keys($table_schema);
+					// provide ignored fields
+					array_push($child_columns, 'action');
+
+					foreach ($child_record as $column_name => $column_value) {
+						if (!in_array($column_name, $child_columns)) {
+							unset($data[$table][$index][$column_name]);
 						}
 					}
 
@@ -665,9 +792,14 @@ class FormController extends Controller
 
 
 	// creates avatar name
-	public static function create_avatar_path($avatar_file, $avatar_folder) {
+	public static function create_avatar_path($avatar_file, $avatar_folder, $index) {
 		/* custom avatar file name */
-		$avatar_name = date('YmdHis').".".$avatar_file->getClientOriginalExtension();
+		if ($index) {
+			$avatar_name = date('YmdHis')."(" . $index . ").".$avatar_file->getClientOriginalExtension();
+		}
+		else {
+			$avatar_name = date('YmdHis').".".$avatar_file->getClientOriginalExtension();
+		}
 		/* full avatar path */
 		$avatar_full_path = $avatar_folder ."/". $avatar_name;
 
@@ -749,6 +881,6 @@ class FormController extends Controller
 			'data' => $data ? $data : []
 		];
 
-		return Response::json($response_data, $status_code);
+		return response()->json($response_data, $status_code);
 	}
 }

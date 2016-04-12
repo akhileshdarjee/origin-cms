@@ -43,7 +43,7 @@ $( document ).ready(function() {
 	});
 
 	// on input blur make row as simplebox
-	$("table").on("blur", 'input', function() {
+	$("table").on("blur", 'input, select, textarea', function() {
 		$.each($(this).closest("table").find("tbody > tr"), function() {
 			$(this).find("input").addClass("simple-box");
 		});
@@ -53,7 +53,7 @@ $( document ).ready(function() {
 
 
 	// set action update if input is changed
-	$("table > tbody > tr").on("change", 'input', function() {
+	$("table > tbody > tr").on("change", 'input, select, textarea', function() {
 		if ($("#id").val()) {
 			$(this).closest("tr").find("td#action > input").val("update");
 		}

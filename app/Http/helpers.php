@@ -52,5 +52,6 @@
 		$output = '<pre style="background: #FFFEEF; color: #000; border: 1px dashed #888; padding: 10px; margin: 10px 0; text-align: left;">'.$output.'</pre>';
 
 		echo $output;
+		exit();
 	}
 ?>
