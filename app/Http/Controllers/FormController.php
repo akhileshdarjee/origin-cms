@@ -626,7 +626,7 @@ class FormController extends Controller
 				$value = date('Y-m-d H:i:s', strtotime($value));
 			}
 			// checking is array is important to eliminate convert type for child tables
-			elseif (!is_array($value)) {
+			elseif (!is_array($value) && $value && isset($table_schema[$column])) {
 				self::convert_type($value, $table_schema[$column]);
 			}
 
