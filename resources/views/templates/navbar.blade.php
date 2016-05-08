@@ -12,7 +12,7 @@
 		</div>
 		<ul class="nav navbar-top-links navbar-right">
 			<li>
-				<span class="m-r-sm text-muted welcome-message">Welcome to Restaurant Call Centre</span>
+				<span class="m-r-sm text-muted welcome-message">Welcome to Web App</span>
 			</li>
 			<li>
 				<a href="/logout">
