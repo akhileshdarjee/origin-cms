@@ -8,7 +8,7 @@
 		<div id="wrapper">
 			@include('templates.vertical_nav')
 			<div id="page-wrapper" class="gray-bg">
-				@include('templates.navbar')
+				@include('templates.navbar', ['title' => $title. ' List'])
 				<div class="row wrapper border-bottom white-bg page-heading app-breadcrumb">
 					<div class="col-sm-10">
 						<ol class="breadcrumb">

@@ -269,6 +269,11 @@ a.back-to-top:hover {
 	background-color: transparent !important;
 }
 
+.highlight {
+	background-color: yellow;
+	text-decoration: underline;
+}
+
 .open > .dropdown-menu.dropdown-left {
 	right: 0;
 	left: auto;

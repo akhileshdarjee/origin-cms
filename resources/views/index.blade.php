@@ -8,7 +8,7 @@
 		<div id="wrapper">
 			@include('templates.vertical_nav')
 			<div id="page-wrapper" class="gray-bg">
-				@include('templates.navbar')
+				@include('templates.navbar', ['title' => ucwords(last(explode(".", $file)))])
 				<div class="row dashboard-header">
 					@include($file, ['data' => $data])
 				</div>
