@@ -36,6 +36,7 @@ elixir(function(mix) {
 elixir(function(mix) {
 	mix.scripts([
 		'../../../public/js/jquery-ui.min.js',
+		'../../../public/js/jquery.highlight.js',
 		'../../../public/js/bootstrap.js',
 		'../../../public/js/plugins/metisMenu/jquery.metisMenu.js',
 		'../../../public/js/plugins/slimscroll/jquery.slimscroll.min.js',

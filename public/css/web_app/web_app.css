@@ -268,3 +268,19 @@ a.back-to-top:hover {
 	cursor: pointer;
 	background-color: transparent !important;
 }
+
+.open > .dropdown-menu.dropdown-left {
+	right: 0;
+	left: auto;
+}
+
+@media print {
+	.printable {
+		display: block;
+		width: 100%;
+		margin: 0 !important;
+	}
+	.non-printable {
+		display: none !important;
+	}
+}

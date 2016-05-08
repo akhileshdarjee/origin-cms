@@ -36,6 +36,27 @@ class FormActions extends Controller
 
 
 	/**
+	 * Copy the form values to a new form
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function copy(Request $request, $module_name = null, $id = null) {
+		$this->set_form_config($module_name);
+		$this->form_config['link_field_value'] = $id;
+		$show_response = FormController::show($this->form_config);
+
+		if ($request->is('api/*')) {
+			// Send JSON response to API
+			return $show_response;
+		}
+		else {
+			// Returns response with view
+			return $this->make_action_based_on_response($show_response);
+		}
+	}
+
+
+	/**
 	 * Stores/Saves the form value to the database
 	 *
 	 * @return \Illuminate\Http\Response
@@ -125,6 +146,25 @@ class FormActions extends Controller
 					->with(['msg' => $response->message]);
 			}
 			else {
+				if (debug_backtrace()[1]['function'] === "copy") {
+					// remove link field value from parent table
+					if ($this->form_config['link_field'] != "id") {
+						unset($data['form_data'][$this->form_config['table_name']][$this->form_config['link_field']]);
+					}
+
+					unset($data['form_data'][$this->form_config['table_name']]['id']);
+
+					// remove child foreign key from child tables
+					if (isset($this->form_config['child_tables']) && isset($this->form_config['child_foreign_key'])) {
+						foreach ($this->form_config['child_tables'] as $child_table) {
+							foreach ($data['form_data'][$child_table] as $idx => $child_record) {
+								unset($data['form_data'][$child_table][$idx]['id']);
+								unset($data['form_data'][$child_table][$idx][$this->form_config['child_foreign_key']]);
+							}
+						}
+					}
+				}
+
 				return view('templates.form_view')->with($data);
 			}
 		}

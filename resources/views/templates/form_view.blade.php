@@ -15,10 +15,10 @@
 	<body class="fixed-sidebar">
 		<div id="wrapper">
 			@include('templates.vertical_nav')
-			<div id="page-wrapper" class="gray-bg">
-				@include('templates.navbar')
+			<div id="page-wrapper" class="gray-bg printable">
+				@include('templates.navbar', ['title' => isset($form_data['tab'.$module]['id']) ? $form_data['tab'.$module][$record_identifier] : $title])
 				@if (!isset($module_type))
-					<div class="row wrapper border-bottom white-bg page-heading app-breadcrumb">
+					<div class="row wrapper border-bottom white-bg page-heading app-breadcrumb non-printable">
 						<div class="col-sm-10">
 							<ol class="breadcrumb">
 								<li>
@@ -46,24 +46,47 @@
 											<i class="{{ $icon }}"></i> {{ isset($form_data['tab'.$module]['id']) ? $form_data['tab'.$module][$record_identifier] : "New $title" }}
 										@endif
 									</div>
-									<div class="form-status">
-										@if (isset($form_data['tab'.$module]['id']))
+									@if (isset($form_data['tab'.$module]['id']))
+										<div class="form-status non-printable">
 											<small>
 												<span class="text-center" id="form-stats">
 													<i class="fa fa-circle text-success"></i>
 													<span id="form-status">Saved</span>
 												</span>
 											</small>
-										@endif
-									</div>
-									<div class="ibox-tools">
-										<!-- Form action buttons -->
-										@if (isset($form_data['tab'.$module]['id']))
-											<button type="button" class="btn btn-danger btn-sm" id="delete" name="delete">
-												Delete
-											</button>
-										@endif
-									</div>
+										</div>
+										<div class="ibox-tools non-printable">
+											<!-- Form action buttons -->
+											<div class="btn-group">
+												<button data-toggle="dropdown" class="btn btn-success dropdown-toggle">
+													File <span class="caret"></span>
+												</button>
+												<ul class="dropdown-menu dropdown-left">
+													<li>
+														<a href="/form/{{ snake_case($module) }}/draft/{{ $form_data['tab'.$module][$link_field] }}">
+															Duplicate
+														</a>
+													</li>
+													<li>
+														<a href="#" id="delete" name="delete">
+															Delete
+														</a>
+													</li>
+													<li>
+														<a href="#" id="print-page">
+															Print
+														</a>
+													</li>
+													<li class="divider"></li>
+													<li>
+														<a href="/form/{{ snake_case($module) }}">
+															New {{ $title }}
+														</a>
+													</li>
+												</ul>
+											</div>
+										</div>
+									@endif
 								</div>
 								<div class="ibox-content">
 									@if (isset($module_type) && $module_type == "Single")
@@ -81,24 +104,26 @@
 										</form>
 									@endif
 								</div>
-								<div class="ibox-content">
+								<div class="ibox-content non-printable">
 									<div class="row">
 										<div class="col-md-3">&nbsp;</div>
 										<div class="col-md-8">
 											<button type="reset" class="btn btn-white" id="reset_form">Reset</button>
-											<button type="submit" class="btn btn-primary disabled" id="save_form">
-												<i class="fa fa-save"></i> Save changes
+											<button type="submit" class="btn btn-success disabled" id="save_form">
+												<i class="fa fa-save"></i> Save Changes
 											</button>
 										</div>
 									</div>
 								</div>
-								</form>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="footer">
+				<div class="footer non-printable">
 					<div>
+						<span class="pull-left">
+							<strong>Copyright</strong> Achieveee &copy; 2011-{{ date('Y') }}
+						</span>
 						<span class="pull-right">
 							Made with <i class="fa fa-heart fa-lg" style="color: #d90429;"></i> by 
 							<strong>
@@ -119,6 +144,7 @@
 			</script>
 		@endif
 		<script type="text/javascript" src="/js/web_app/form.js"></script>
+		<script type="text/javascript" src="/js/web_app/table.js"></script>
 		@if (File::exists(public_path('/js/web_app/' . snake_case($module) . '.js')))
 			<!-- Include client js file -->
 			<script type="text/javascript" src="/js/web_app/{{ snake_case($module) }}.js"></script>

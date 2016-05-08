@@ -90,6 +90,12 @@ $( document ).ready(function() {
 	// set body data url
 	$("body").attr("data-url", app_route);
 
+	// highlight text
+	$("#top-search").on("input change", function() {
+		$('body').removeHighlight();
+		$('body').highlight($(this).val());
+	});
+
 	// back to top
 	var amountScrolled = 300;
 	$(window).scroll(function() {
@@ -214,10 +220,10 @@ function enable_autocomplete() {
 					var input_field = $('form').find('input[data-target-field="' + key + '"][data-target-module="' + data_module + '"]');
 					length = (input_field).length;
 					if (length > 1) {
-						$(input_field).last().val(value);
+						$(input_field).last().val(value).trigger('change');
 					}
 					else {
-						$(input_field).val(value);
+						$(input_field).val(value).trigger('change');
 					}
 
 					initialize_mandatory_fields();
