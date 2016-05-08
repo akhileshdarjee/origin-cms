@@ -66,6 +66,7 @@ Route::group(['middleware' => ['web']], function () {
 		Route::get('/form/{module_name}', ['as' => 'show.doc', 'uses' => 'FormActions@show']);
 		Route::post('/form/{module_name}', ['as' => 'create.doc', 'uses' => 'FormActions@save']);
 		Route::get('/form/{module_name}/{id}', ['as' => 'show.doc', 'uses' => 'FormActions@show']);
+		Route::get('/form/{module_name}/draft/{id}', ['as' => 'copy.doc', 'uses' => 'FormActions@copy']);
 		Route::post('/form/{module_name}/{id}', ['as' => 'update.doc', 'uses' => 'FormActions@save']);
 		Route::get('/form/{module_name}/delete/{id}', ['as' => 'delete.doc', 'uses' => 'FormActions@delete']);
 
