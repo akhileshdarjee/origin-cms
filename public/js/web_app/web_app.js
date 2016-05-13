@@ -220,7 +220,13 @@ function enable_autocomplete() {
 					var input_field = $('form').find('input[data-target-field="' + key + '"][data-target-module="' + data_module + '"]');
 
 					if (input_field.length > 1) {
-						$(field).closest('tr').find('input[data-target-field="' + key + '"][data-target-module="' + data_module + '"]').val(value).trigger('change');
+						// when autocomplete for same module is present in parent and child
+						if ($(field).closest('tr').find('input[data-target-field="' + key + '"][data-target-module="' + data_module + '"]').length) {
+							$(field).closest('tr').find('input[data-target-field="' + key + '"][data-target-module="' + data_module + '"]').val(value).trigger('change');
+						}
+						else {
+							$(input_field).val(value).trigger('change');
+						}
 					}
 					else {
 						$(input_field).val(value).trigger('change');
