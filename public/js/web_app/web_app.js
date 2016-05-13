@@ -149,7 +149,7 @@ $( document ).ready(function() {
 
 	// enable date picker
 	$(function () {
-		$("input.datepicker").datepicker({
+		$(".date").datepicker({
 			format: 'dd-mm-yyyy',
 			todayBtn: "linked",
 			keyboardNavigation: false,
@@ -161,7 +161,7 @@ $( document ).ready(function() {
 
 	// enable datetime picker
 	$(function () {
-		$("input.datetimepicker").datetimepicker({
+		$(".datetimepicker").datetimepicker({
 			icons: {
 				time: 'fa fa-clock-o',
 				date: 'fa fa-calendar',
@@ -218,9 +218,9 @@ function enable_autocomplete() {
 
 				$.each(selected_item_data, function(key, value) {
 					var input_field = $('form').find('input[data-target-field="' + key + '"][data-target-module="' + data_module + '"]');
-					length = (input_field).length;
-					if (length > 1) {
-						$(input_field).last().val(value).trigger('change');
+
+					if (input_field.length > 1) {
+						$(field).closest('tr').find('input[data-target-field="' + key + '"][data-target-module="' + data_module + '"]').val(value).trigger('change');
 					}
 					else {
 						$(input_field).val(value).trigger('change');

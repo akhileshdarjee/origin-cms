@@ -619,11 +619,14 @@ class FormController extends Controller
 		$table_schema = self::get_table_schema($form_config['table_name']);
 
 		foreach ($form_data as $column => $value) {
-			if (isset($table_schema[$column]) && $table_schema[$column] == "date") {
+			if (isset($table_schema[$column]) && $table_schema[$column] == "date" && $value) {
 				$value = date('Y-m-d', strtotime($value));
 			}
-			elseif (isset($table_schema[$column]) && $table_schema[$column] == "datetime") {
+			elseif (isset($table_schema[$column]) && $table_schema[$column] == "datetime" && $value) {
 				$value = date('Y-m-d H:i:s', strtotime($value));
+			}
+			elseif (isset($table_schema[$column]) && $table_schema[$column] == "time" && $value) {
+				$value = date('H:i:s', strtotime($value));
 			}
 			// checking is array is important to eliminate convert type for child tables
 			elseif (!is_array($value) && $value && isset($table_schema[$column])) {
