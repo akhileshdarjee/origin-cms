@@ -444,7 +444,13 @@ class FormController extends Controller
 							$id = $child_record['id'];
 							unset($child_record['id']);
 
-							$result = DB::table($form_table)->where('id', $id)->update($child_record);
+							if (isset($child_record['avatar']) && !$child_record['avatar']) {
+								unset($child_record['avatar']);
+							}
+
+							$result = DB::table($form_table)
+								->where('id', $id)
+								->update($child_record);
 						}
 						elseif ($child_record['action'] == "delete") {
 							unset($child_record['action']);

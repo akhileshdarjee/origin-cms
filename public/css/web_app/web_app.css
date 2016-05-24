@@ -56,6 +56,30 @@ button.dim, .font-bold, .badge, .logo-element, .branding, .unread td, .client-li
 	font-weight: 300;
 }
 
+.default-avatar {
+	width: 48px;
+	height: 48px;
+	background: #e1e5e9;
+	display: block;
+	border-radius: 50%;
+	position: relative;
+	text-align: center;
+	margin-bottom: 0;
+}
+
+.default-avatar i {
+	position: absolute;
+	top: 50%;
+	width: 100%;
+	left: 0px;
+	margin-top: -6px;
+}
+
+.user-avatar, .user-avatar > img {
+	width: 48px;
+	height: 48px;
+	display: inline-block;
+}
 
 
 /* social buttons */

@@ -188,7 +188,13 @@ function set_doc_data() {
 					add_new_row(table, null, "none");
 
 					$.each(child_record, function(child_field, child_value) {
-						$('[name="' + table_name + '[' + (idx - 1) + '][' + child_field + ']"]').val(child_value);
+						if (child_field == "avatar" && child_value) {
+							var img_element = '<img src="' + child_value + '" alt="">';
+							$("[data-table='" + table_name + "']").find('tr[idx="' +  (idx + 1) + '"] > td[data-field-type="file"]').find(".media-large").empty().append(img_element);
+						}
+						else {
+							$('[name="' + table_name + '[' + idx + '][' + child_field + ']"]').val(child_value);
+						}
 					});
 
 					set_row_after_input($(table).find('tbody'));

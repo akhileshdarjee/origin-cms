@@ -8,9 +8,15 @@
 			</li>
 			<li class="nav-header">
 				<div class="dropdown profile-element">
-					<span>
-						<img alt="image" class="img-circle" src="{{ Session::get('avatar') }}" width="48px" title="{{ Session::get('user') }}" />
-					</span>
+					@if (Session::get('avatar'))
+						<span class="user-avatar">
+							<img alt="image" class="img-circle" src="{{ Session::get('avatar') }}" title="{{ Session::get('user') }}" />
+						</span>
+					@else
+						<span class="default-avatar">
+							<i class="fa fa-user fa-lg"></i>
+						</span>
+					@endif
 					<a data-toggle="dropdown" class="dropdown-toggle" href="#">
 						<span class="clear">
 							<span class="block m-t-xs">
