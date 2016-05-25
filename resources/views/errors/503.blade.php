@@ -20,7 +20,7 @@
 			<div class="error-desc">
 				Be right back.
 				<br /><br />
-				<a href="/App/Modules" class="btn btn-primary">Back to Home</a>
+				<a href="/app" class="btn btn-primary">Back to Home</a>
 			</div>
 		</div>
 	</body>

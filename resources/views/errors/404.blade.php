@@ -21,7 +21,7 @@
 				Sorry, but the page you are looking for has not been found. 
 				Try checking the URL for error, then hit the refresh button on your browser or try found something else in our app.
 				<br /><br />
-				<a href="/App/Modules" class="btn btn-primary">Back to Home</a>
+				<a href="/app" class="btn btn-primary">Back to Home</a>
 			</div>
 		</div>
 	</body>
