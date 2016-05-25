@@ -164,8 +164,9 @@ function set_doc_data() {
 		$.each(doc.data, function(table_name, table_data) {
 			$.each(table_data, function(field_name, value) {
 				var ignore_fields = ['avatar', 'updated_at', 'owner', 'last_updated_by'];
-				if(typeof value === 'string') {
-					if (value.isDate() || value.isDateTime()) {
+
+				if (typeof value === 'string' || typeof value === 'number') {
+					if (typeof value === 'string' && (value.isDate() || value.isDateTime())) {
 						$("#" + field_name).attr("data-field_value", value);
 
 						if (value.split(" ").length > 1) {

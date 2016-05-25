@@ -311,7 +311,8 @@ class FormController extends Controller
 				'title' => $form_config['module_label'],
 				'icon' => $form_config['module_icon'],
 				'file' => $form_config['view'],
-				'module' => $form_config['module']
+				'module' => $form_config['module'],
+				'table_name' => $form_config['table_name']
 			];
 
 			$form_identifier = isset($form_config['record_identifier']) ? $form_data[$form_config['table_name']][$form_config['record_identifier']] : $form_config['link_field_value'];

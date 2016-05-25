@@ -16,7 +16,7 @@
 		<div id="wrapper">
 			@include('templates.vertical_nav')
 			<div id="page-wrapper" class="gray-bg printable">
-				@include('templates.navbar', ['title' => isset($form_data['tab'.$module]['id']) ? $form_data['tab'.$module][$record_identifier] : $title])
+				@include('templates.navbar', ['title' => isset($form_data[$table_name]['id']) ? $form_data[$table_name][$record_identifier] : $title])
 				@if (!isset($module_type))
 					<div class="row wrapper border-bottom white-bg page-heading app-breadcrumb non-printable">
 						<div class="col-sm-10">
@@ -28,7 +28,7 @@
 									<a href="/list/{{ snake_case($module) }}">{{ $title }}</a>
 								</li>
 								<li class="active">
-									<strong>{{ isset($form_data['tab'.$module]['id']) ? $form_data['tab'.$module][$record_identifier] : "New $title" }}</strong>
+									<strong>{{ isset($form_data[$table_name]['id']) ? $form_data[$table_name][$record_identifier] : "New $title" }}</strong>
 								</li>
 							</ol>
 						</div>
@@ -43,10 +43,10 @@
 										@if (isset($module_type) && $module_type == "Single")
 											<i class="{{ $icon }}"></i> {{ $title }}
 										@else
-											<i class="{{ $icon }}"></i> {{ isset($form_data['tab'.$module]['id']) ? $form_data['tab'.$module][$record_identifier] : "New $title" }}
+											<i class="{{ $icon }}"></i> {{ isset($form_data[$table_name]['id']) ? $form_data[$table_name][$record_identifier] : "New $title" }}
 										@endif
 									</div>
-									@if (isset($form_data['tab'.$module]['id']))
+									@if (isset($form_data[$table_name]['id']))
 										<div class="form-status non-printable">
 											<small>
 												<span class="text-center" id="form-stats">
@@ -63,7 +63,7 @@
 												</button>
 												<ul class="dropdown-menu dropdown-left">
 													<li>
-														<a href="/form/{{ snake_case($module) }}/draft/{{ $form_data['tab'.$module][$link_field] }}">
+														<a href="/form/{{ snake_case($module) }}/draft/{{ $form_data[$table_name][$link_field] }}">
 															Duplicate
 														</a>
 													</li>
@@ -93,7 +93,7 @@
 										@include($file)
 									@else
 										@var $action = "/form/" . snake_case($module)
-										<form method="POST" action="{{ isset($form_data['tab'.$module]['id']) ? $action."/".$form_data['tab'.$module][$link_field] : $action }}" name="{{ snake_case($module) }}" id="{{ snake_case($module) }}" class="form-horizontal" enctype="multipart/form-data">
+										<form method="POST" action="{{ isset($form_data[$table_name]['id']) ? $action."/".$form_data[$table_name][$link_field] : $action }}" name="{{ snake_case($module) }}" id="{{ snake_case($module) }}" class="form-horizontal" enctype="multipart/form-data">
 											{!! csrf_field() !!}
 											<input type="hidden" name="id" id="id" class="form-control" data-mandatory="no" autocomplete="off" readonly>
 											@if (view()->exists(str_replace('.', '/', $file)))
