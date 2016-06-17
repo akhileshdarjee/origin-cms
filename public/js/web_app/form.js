@@ -8,17 +8,17 @@ $( document ).ready(function() {
 	});
 
 
-	// on change of datepicker date change form state
-	$('.datepicker').datepicker().on('changeDate', function(ev) {
-		change_doc();
-	});
-
-
 	// show images files
 	$("form").on("change", "input[type='file']", function() {
 		if ($(this).val()) {
 			read_image(this);
 		}
+	});
+
+
+	// print the current page
+	$("#print-page").on("click", function() {
+		window.print();
 	});
 
 

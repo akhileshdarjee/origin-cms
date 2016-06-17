@@ -789,7 +789,7 @@ class FormController extends Controller
 				$user_data['generated_password'] = $password;
 				// send password to user via email
 				if (SettingsController::get_app_setting('email') == "Active") {
-					EmailController::send(null, $request->email_id, "Basecamp Account Password", $user_data, $module);
+					EmailController::send(null, $request->email_id, "Account Registration", $user_data, $module);
 				}
 			}
 			elseif ($action == "update") {

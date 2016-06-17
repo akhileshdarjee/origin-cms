@@ -41,17 +41,19 @@
 											data-toggle="tooltip" data-placement="bottom" data-container="body" title="Download Report in Excel format">
 											<i class="fa fa-download"></i> Download
 										</a>
-										<a class="btn btn-primary btn-sm" id="refresh_report" name="refresh_report"
-											data-toggle="tooltip" data-placement="bottom" data-container="body" title="Filter Report">
-											<i class="fa fa-filter"></i> Filter
-										</a>
+										@if (view()->exists('layouts/reports/' . strtolower(str_replace(" ", "_", $title))))
+											<a class="btn btn-primary btn-sm" id="refresh_report" name="refresh_report"
+												data-toggle="tooltip" data-placement="bottom" data-container="body" title="Filter Report">
+												<i class="fa fa-filter"></i> Filter
+											</a>
+										@endif
 									</div>
 								</div>
-								<div class="ibox-content">
-									@if (view()->exists('layouts/reports/' . strtolower(str_replace(" ", "_", $title))))
+								@if (view()->exists('layouts/reports/' . strtolower(str_replace(" ", "_", $title))))
+									<div class="ibox-content">
 										@include($file)
-									@endif
-								</div>
+									</div>
+								@endif
 								<div class="ibox-content">
 									<div style="height: 375px; margin-bottom: 0px; padding: 0px;" class="panel-body scrollbar scroll-x scroll-y table-responsive b-t">
 										<table class="table table-bordered" id="report-table" data-report-name="{{ $title }}">

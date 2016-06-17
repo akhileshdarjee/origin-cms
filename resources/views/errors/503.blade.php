@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>MAST Box | 503 Error | Service Unavailable</title>
+		<title>Web App | 503 Error | Service Unavailable</title>
 		<script type="text/javascript" src="/js/jquery.js"></script>
 		<script type="text/javascript" src="/js/bootstrap.js"></script>
 		<!-- Roboto font -->

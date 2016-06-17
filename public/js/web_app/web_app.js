@@ -73,6 +73,21 @@ Array.prototype.contains = function(obj) {
 	return false;
 }
 
+Array.prototype.random = function () {
+	return this[Math.floor((Math.random()*this.length))];
+}
+
+// get object from localstorage
+Storage.prototype.getObject = function(key) {
+	var value = this.getItem(key);
+	return value && JSON.parse(value);
+}
+
+// set object in localstorage
+Storage.prototype.setObject = function(key, value) {
+	this.setItem(key, JSON.stringify(value));
+}
+
 // set common global variables
 var app_route = window.location.pathname;
 var table = "/" + app_route.split("/").pop(-1);
@@ -149,19 +164,21 @@ $( document ).ready(function() {
 
 	// enable date picker
 	$(function () {
-		$(".date").datepicker({
+		$("body").find(".date").datepicker({
 			format: 'dd-mm-yyyy',
 			todayBtn: "linked",
 			keyboardNavigation: false,
 			forceParse: false,
 			autoclose: true
+		}).on('changeDate', function(ev) {
+			change_doc();
 		});
 	});
 
 
 	// enable datetime picker
 	$(function () {
-		$(".datetimepicker").datetimepicker({
+		$("body").find(".datetimepicker").datetimepicker({
 			icons: {
 				time: 'fa fa-clock-o',
 				date: 'fa fa-calendar',
@@ -175,7 +192,16 @@ $( document ).ready(function() {
 			},
 			format: 'DD-MM-YYYY hh:mm A',
 			allowInputToggle: true,
+		}).on("dp.change", function(e) {
+			change_doc();
 		});
+	});
+
+	// enable clock picker
+	$("body").find('.clockpicker').clockpicker({
+		afterDone: function() {
+			change_doc();
+		}
 	});
 
 	// Autocomplete
@@ -263,24 +289,32 @@ function enable_autocomplete() {
 
 
 // msgbox
-function msgbox(msg, footer, title) {
+function msgbox(msg, footer, title, size) {
 	$("#message-box").on("show.bs.modal", function (e) {
-		$(".modal-title").html(title ? title : "Message");
-		$(".modal-body").html(msg);
+		if (size == "large") {
+			$(this).find(".modal-dialog").addClass("modal-lg");
+		}
+		else if (size == "small") {
+			$(this).find(".modal-dialog").addClass("modal-sm");
+		}
+
+		$(this).find(".modal-title").html(title ? title : "Message");
+		$(this).find(".modal-body").html(msg);
 		if (footer) {
-			$(".modal-footer").html(footer);
-			$(".modal-footer").show();
+			$(this).find(".modal-footer").html(footer);
+			$(this).find(".modal-footer").show();
 		}
 		else {
-			$(".modal-footer").html("");
-			$(".modal-footer").hide();
+			$(this).find(".modal-footer").html("");
+			$(this).find(".modal-footer").hide();
 		}
 	})
 	.on('hidden.bs.modal', function (e) {
-		$(".modal-title").html("Message");
-		$(".modal-body").html("");
-		$(".modal-footer").html("");
-		$(".modal-footer").hide();
+		$(this).find(".modal-dialog").removeClass("modal-lg modal-sm");
+		$(this).find(".modal-title").html("Message");
+		$(this).find(".modal-body").html("");
+		$(this).find(".modal-footer").html("");
+		$(this).find(".modal-footer").hide();
 	});
 
 	$('#message-box').modal('show');
@@ -353,8 +387,14 @@ function beautify_list_view(table) {
 					else if (label_list.contains(column_name)) {
 						$(this).html('<span class="label ' + label_bg[column_name][column_value] + '">' + column_value +  '</span>');
 					}
-					else if (column_name.includes("date")) {
+					else if (column_value.isDate()) {
 						$(this).html('<i class="fa fa-calendar"></i> ' + moment(column_value).format('DD-MM-YYYY'));
+					}
+					else if (column_value.isDateTime()) {
+						$(this).html('<i class="fa fa-calendar"></i> ' + moment(column_value).format('DD-MM-YYYY hh:mm A'));
+					}
+					else if (column_value.isTime()) {
+						$(this).html('<i class="fa fa-clock-o"></i> ' + column_value);
 					}
 				}
 			}

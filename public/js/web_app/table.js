@@ -85,6 +85,7 @@ function add_row(table, idx, action) {
 	var thead = $(table).find("thead");
 	var tbody = $(table).find("tbody");
 	var row_action = action ? action : "create";
+	var field_types = [];
 
 	var rows = '<tr class="table_record">';
 
@@ -118,6 +119,8 @@ function add_row(table, idx, action) {
 			var target_field = $(heads).data("target-field");
 			var readonly = ($(heads).data("readonly") == "yes") ? "readonly" : "";
 			var hidden = ($(heads).data("hidden") == "yes") ? "style='display: none;'" : "";
+
+			field_types.push(field_type);
 
 			if (field_type == "link") {
 				rows += '<td data-field-type="link">\
@@ -164,6 +167,15 @@ function add_row(table, idx, action) {
 	$(tbody).append(rows);
 	maintain_idx(tbody);
 	enable_autocomplete();
+
+	if (field_types.contains("time")) {
+		$.each($("table > tbody > tr").find(".clockpicker"), function(idx, element) {
+			$(element).clockpicker();
+			$(element).find("input").on("change", function() {
+				$(this).closest("tr").find("td#action > input").val("update");
+			});
+		});
+	}
 }
 
 
