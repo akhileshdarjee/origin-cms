@@ -154,10 +154,34 @@ function add_row(table, idx, action) {
 
 				rows += '</select></td>';
 			}
+			else if (field_type == "time") {
+				rows += '<td data-field-type="time">\
+					<div class="input-group clockpicker" data-autoclose="true">\
+						<span class="input-group-addon">\
+							<i class="fa fa-clock-o"></i>\
+						</span>\
+						<input type="text" name="' + table_name + '[' + (idx - 1) + '][' + field_name + ']" class="form-control input-sm" autocomplete="off">\
+					</div>\
+				</td>';
+			}
 			else if (field_type == "text" || field_type == "money") {
-				rows += '<td data-field-type="' + field_type + '">\
-					<input type="text" name="' + table_name + '[' + (idx - 1) + '][' + field_name + ']" \
-					class="form-control input-sm" data-target-module="' + target_module + '" data-target-field="' + target_field + '" autocomplete="off"' + readonly + '>\
+				if (target_module && target_field) {
+					rows += '<td data-field-type="' + field_type + '"' + hidden + '>\
+						<input type="text" name="' + table_name + '[' + (idx - 1) + '][' + field_name + ']" \
+						class="form-control input-sm" data-target-module="' + target_module + '" data-target-field="' + target_field + '" autocomplete="off"' + readonly + '>\
+					</td>';
+				}
+				else {
+					rows += '<td data-field-type="' + field_type + '"' + hidden + '>\
+						<input type="text" name="' + table_name + '[' + (idx - 1) + '][' + field_name + ']" \
+						class="form-control input-sm" autocomplete="off"' + readonly + '>\
+					</td>';
+				}
+			}
+			else if (field_type == "textarea") {
+				rows += '<td data-field-type="textarea">\
+					<textarea rows="5" cols="8" name="' + table_name + '[' + (idx - 1) + '][' + field_name + ']" \
+					class="form-control input-sm" autocomplete="off"></textarea>\
 				</td>';
 			}
 		}

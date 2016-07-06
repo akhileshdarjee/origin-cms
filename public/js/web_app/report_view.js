@@ -6,8 +6,11 @@ $( document ).ready(function() {
 		"sPaginationType": "full_numbers",
 		"bAutoWidth": false,
 		"oLanguage": {
-			"sEmptyTable": "No Data"
-		}
+			"sEmptyTable": "No Data",
+			"sProcessing": '<div class="sk-spinner sk-spinner-double-bounce"><div class="sk-double-bounce1"></div><div class="sk-double-bounce2"></div></div>'
+		},
+		"scrollY": 375,
+		"scrollX": true,
 	});
 
 
@@ -97,7 +100,9 @@ $( document ).ready(function() {
 								column_value = '<a href="/form/' + data["module"].toSnakeCase() + '/' + grid_data[data["link_field"]] + '">' + column_value + '</a>';
 							}
 
-							record.push(column_value);
+							if (columns.contains(column_name)) {
+								record.push(column_value);
+							}
 						});
 
 						// add new row to datatable using api

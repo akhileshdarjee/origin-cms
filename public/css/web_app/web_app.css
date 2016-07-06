@@ -259,7 +259,7 @@ a.back-to-top:hover {
 	box-shadow: 0px 0px 7px 0px rgba(133,133,133,1);
 }
 
-.dataTable > thead > tr > th {
+.dataTable > thead > tr > th, .dataTable > tbody > tr > td {
 	white-space: nowrap;
 }
 

@@ -55,7 +55,7 @@
 									</div>
 								@endif
 								<div class="ibox-content">
-									<div style="height: 375px; margin-bottom: 0px; padding: 0px;" class="panel-body scrollbar scroll-x scroll-y table-responsive b-t">
+									<div class="table-responsive">
 										<table class="table table-bordered" id="report-table" data-report-name="{{ $title }}">
 											<thead class="panel-heading text-small">
 												<tr>

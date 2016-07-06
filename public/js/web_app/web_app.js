@@ -222,7 +222,7 @@ function enable_autocomplete() {
 		var data_field = $(field).data("target-field");
 		var item_data = {};
 		var module_fields = {};
-		$.each($("form").find('input[data-target-module="' + data_module + '"]'), function(index, element) {
+		$.each($("body").find('input[data-target-module="' + data_module + '"]'), function(index, element) {
 			if (module_fields[data_module]) {
 				module_fields[data_module].push($(element).data("target-field"));
 			}
@@ -243,7 +243,7 @@ function enable_autocomplete() {
 				delete selected_item_data[data_field];
 
 				$.each(selected_item_data, function(key, value) {
-					var input_field = $('form').find('input[data-target-field="' + key + '"][data-target-module="' + data_module + '"]');
+					var input_field = $('body').find('input[data-target-field="' + key + '"][data-target-module="' + data_module + '"]');
 
 					if (input_field.length > 1) {
 						// when autocomplete for same module is present in parent and child
@@ -258,8 +258,12 @@ function enable_autocomplete() {
 						$(input_field).val(value).trigger('change');
 					}
 
-					initialize_mandatory_fields();
-					remove_mandatory_highlight(mandatory_fields);
+					if (typeof initialize_mandatory_fields === 'function') { 
+						initialize_mandatory_fields(); 
+					}
+					if (typeof remove_mandatory_highlight === 'function') { 
+						remove_mandatory_highlight(mandatory_fields); 
+					}
 				});
 			},
 			displayField: data_field,

@@ -50,7 +50,12 @@ class AutocompleteController extends Controller
 
 		// only show active data for defined tables
 		if (in_array($module, $status_modules) && !$list_view) {
-			$data = $data_query->where('status', 'Active')->get();
+			$data_query = $data_query->where('status', 'Active');
+		}
+
+		// show only unique rows for list view
+		if ($list_view) {
+			$data = $data_query->groupBy($field)->get();
 		}
 		else {
 			$data = $data_query->get();
