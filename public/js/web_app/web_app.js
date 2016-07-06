@@ -171,7 +171,9 @@ $( document ).ready(function() {
 			forceParse: false,
 			autoclose: true
 		}).on('changeDate', function(ev) {
-			change_doc();
+			if (typeof change_doc === "function") {
+				change_doc();
+			}
 		});
 	});
 
@@ -193,14 +195,18 @@ $( document ).ready(function() {
 			format: 'DD-MM-YYYY hh:mm A',
 			allowInputToggle: true,
 		}).on("dp.change", function(e) {
-			change_doc();
+			if (typeof change_doc === "function") {
+				change_doc();
+			}
 		});
 	});
 
 	// enable clock picker
 	$("body").find('.clockpicker').clockpicker({
 		afterDone: function() {
-			change_doc();
+			if (typeof change_doc === "function") {
+				change_doc();
+			}
 		}
 	});
 
