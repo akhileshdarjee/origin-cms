@@ -1,5 +1,9 @@
 <div class="row m-t-large m-b report-list">
 	@foreach (config('reports') as $report_name => $report)
+		@if (isset($report['allowed_roles']) && $report['allowed_roles'] && !in_array(Session::get('role'), $report['allowed_roles']))
+			{{-- */continue;/* --}}
+		@endif
+
 		<div class="col-md-3 report" data-href="/app/report/{{ snake_case($report_name) }}">
 			<div class="ibox-content text-center p-md report-box">
 				<div class="ibox float-e-margins">

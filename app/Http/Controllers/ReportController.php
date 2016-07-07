@@ -31,6 +31,12 @@ class ReportController extends Controller
 			$user_role = Session::get('role');
 			$user_name = Session::get('user');
 
+			$report_config = config('reports')[studly_case($report_name)];
+
+			if (isset($report_config['allowed_roles']) && !in_array($user_role, $report_config['allowed_roles'])) {
+				return redirect()->route('show.app')->with('msg', 'You are not authorized to view "' . awesome_case($report_name) . '"');
+			}
+
 			if ($request->has('download') && $request->get('download') == 'Yes') {
 				$report_data = $this->get_data($request, $report_name, $user_role, $user_name);
 				return $this->downloadReport(studly_case($report_name), $report_data['columns'], $report_data['rows']);
