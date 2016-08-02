@@ -27,6 +27,7 @@ elixir(function(mix) {
 		'../../../public/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css',
 		'../../../public/css/plugins/datapicker/datepicker3.css',
 		'../../../public/css/bootstrap-datetimepicker.css',
+		'../../../public/css/plugins/clockpicker/clockpicker.css',
 		'../../../public/css/animate.css',
 		'../../../public/css/style.css',
 		'../../../public/css/web_app/web_app.css'
@@ -51,6 +52,7 @@ elixir(function(mix) {
 		'../../../public/js/moment.js',
 		'../../../public/js/plugins/datapicker/bootstrap-datepicker.js',
 		'../../../public/js/bootstrap-datetimepicker.js',
+		'../../../public/js/plugins/clockpicker/clockpicker.js',
 		'../../../public/js/web_app/web_app.js'
 	]);
 });

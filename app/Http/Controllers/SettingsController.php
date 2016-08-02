@@ -24,7 +24,8 @@ class SettingsController extends Controller
 				'icon' => 'fa fa-cogs',
 				'file' => 'layouts.app.settings',
 				'module' => 'Settings',
-				'module_type' => 'Single'
+				'module_type' => 'Single',
+				'table_name' => 'tabSettings'
 			];
 
 			return view('templates.form_view', $settings_data);
