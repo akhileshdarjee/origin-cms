@@ -47,15 +47,18 @@ class AutocompleteController extends Controller
 		}
 
 		$list_view = $this->check_list_view($request);
+		$report_view = $this->check_report_view($request);
 
 		// only show active data for defined tables
-		if (in_array($module, $status_modules) && !$list_view) {
+		if (in_array($module, $status_modules) && !$list_view && !$report_view) {
 			$data_query = $data_query->where('status', 'Active');
 		}
 
 		// show only unique rows for list view
-		if ($list_view) {
-			$data = $data_query->groupBy($field)->get();
+		if ($list_view || $report_view) {
+			$data = $data_query->groupBy($field)
+				->whereNotNull($field)
+				->get();
 		}
 		else {
 			$data = $data_query->get();
@@ -82,6 +85,21 @@ class AutocompleteController extends Controller
 		$request_path = explode("/", $request_path);
 
 		if (isset($request_path[0]) && $request_path[0] === "list") {
+			return true;
+		}
+
+		return false;
+	}
+
+
+	// check is referer is report view
+	public function check_report_view($request) {
+		$base_url = url('/') . "/";
+		$referer = $request->server('HTTP_REFERER');
+		$request_path = str_replace($base_url, "", $referer);
+		$request_path = explode("/", $request_path);
+
+		if (isset($request_path[1]) && $request_path[1] === "report") {
 			return true;
 		}
 

@@ -85,13 +85,24 @@ $( document ).ready(function() {
 			dataType: 'json',
 			success: function(data) {
 				var grid_rows = data['rows'];
+				var columns = data['columns'];
+				var rows = [];
+
+				$.each(grid_rows, function(grid_index, grid_data) {
+					var row = {};
+					$.each(columns, function(idx, column) {
+						row[column] = grid_data[column];
+					});
+
+					rows.push(row);
+				});
 
 				// clear the datatable
 				report_table.clear().draw();
 
-				if (grid_rows.length > 0) {
+				if (rows.length > 0) {
 					// add each row to datatable using api
-					$.each(grid_rows, function(grid_index, grid_data) {
+					$.each(rows, function(grid_index, grid_data) {
 						var record = [];
 						record.push(grid_index + 1);
 
@@ -110,7 +121,7 @@ $( document ).ready(function() {
 					});
 				}
 
-				$('#item-count').html(grid_rows.length);
+				$('#item-count').html(rows.length);
 			}
 		});
 	}
