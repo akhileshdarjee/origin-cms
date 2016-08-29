@@ -105,6 +105,15 @@ class ReportController extends Controller
 			$filename = $report_name . "-" . date('Y-m-d H:i:s');
 		}
 
+		// remove row property if not included in columns
+		foreach($rows as $index => $row) {
+			foreach ($row as $key => $value) {
+				if (!in_array($key, $columns)) {
+					unset($rows[$index]->$key);
+				}
+			}
+		}
+
 		$data_to_export['sheets'][] = [
 			'header' => $columns,
 			'sheet_title' => $report_name,
