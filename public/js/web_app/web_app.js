@@ -45,6 +45,12 @@ String.prototype.isDateTime = function () {
 	return false;
 };
 
+// check if the string is a url/link
+String.prototype.isURL = function() {
+	var pattern = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+	return pattern.test(this);
+}
+
 // Prototyping for getting month long name and short name
 Date.prototype.getMonthName = function(lang) {
 	lang = lang && (lang in Date.locale) ? lang : 'en';
@@ -405,6 +411,9 @@ function beautify_list_view(table) {
 					}
 					else if (column_value.isTime()) {
 						$(this).html('<i class="fa fa-clock-o"></i> ' + column_value);
+					}
+					else if (column_value && trim(column_value).isURL()) {
+						$(this).html('<a href="' + column_value + '" target="_blank">' + column_value + '</a>');
 					}
 				}
 			}

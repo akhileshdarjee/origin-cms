@@ -82,6 +82,8 @@
 																		&& isset($record_identifier) && $record_identifier
 																		&& $column == $record_identifier)
 																			<a href="/form/{{ $module }}/{{ $row->$link_field }}">{{ (isset($row->$column) && $row->$column) ? $row->$column : "" }}</a>
+																	@elseif (filter_var($row->$column, FILTER_VALIDATE_URL))
+																		<a href="{{ $row->$column }}" target="_blank">{{ $row->$column }}</a>
 																	@else
 																		{{ (isset($row->$column) && $row->$column) ? $row->$column : "" }}
 																	@endif
