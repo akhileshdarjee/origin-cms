@@ -97,7 +97,10 @@
 									</div>
 								</div>
 								<div class="ibox-content">
-									<strong>Total : <span class="badge bg-primary" id="item-count">{{ $count }}</span> item(s)</strong>
+									<strong>
+										Total : <span class="badge bg-primary" id="item-count">{{ $count }}</span>
+										{{ (isset($module) && $module) ? awesome_case($module) : 'item' }}(s)
+									</strong>
 								</div>
 							</div>
 						</div>
