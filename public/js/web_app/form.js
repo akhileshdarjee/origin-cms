@@ -183,22 +183,8 @@ function set_doc_data() {
 					}
 				}
 				else if (typeof value === 'object' && value) {
-					var idx = field_name + 1;
-					var child_record = value;
-					var table = $('table[data-table="' + table_name + '"]');
-					add_new_row(table, null, "none");
-
-					$.each(child_record, function(child_field, child_value) {
-						if (child_field == "avatar" && child_value) {
-							var img_element = '<img src="' + child_value + '" alt="">';
-							$("[data-table='" + table_name + "']").find('tr[idx="' +  (idx + 1) + '"] > td[data-field-type="file"]').find(".media-large").empty().append(img_element);
-						}
-						else {
-							$('[name="' + table_name + '[' + idx + '][' + child_field + ']"]').val(child_value);
-						}
-					});
-
-					set_row_after_input($(table).find('tbody'));
+					add_new_rows(table_name, table_data);
+					return false;
 				}
 			});
 		});

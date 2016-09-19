@@ -87,6 +87,7 @@ $( document ).ready(function() {
 				var grid_rows = data['rows'];
 				var columns = data['columns'];
 				var rows = [];
+				var table_rows = [];
 
 				$.each(grid_rows, function(grid_index, grid_data) {
 					var row = {};
@@ -119,9 +120,11 @@ $( document ).ready(function() {
 							}
 						});
 
-						// add new row to datatable using api
-						report_table.row.add(record).draw('false');
+						table_rows.push(record);
 					});
+
+					// add multiple rows to datatable using api
+					report_table.rows.add(table_rows).draw('false');
 				}
 
 				$('#item-count').html(rows.length);

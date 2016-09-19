@@ -719,36 +719,41 @@ class FormController extends Controller
 				$table_schema = self::get_table_schema($table);
 
 				foreach (array_values($table_data) as $index => $child_record) {
-					if (isset($data[$table][$index]['id']) && $data[$table][$index]['id']) {
-						$data[$table][$index]['id'] = (int) $data[$table][$index]['id'];
+					if ($child_record['action'] == "none") {
+						unset($data[$table][$index]);
 					}
-					// insert foreign key of child table which connects to parent table link field
-					if (isset($data[$parent_table]) && isset($data[$parent_table][$form_config['link_field']])) {
-						$data[$table][$index][$form_config['child_foreign_key']] = $data[$parent_table][$form_config['link_field']];
-					}
-					if (isset($form_config['copy_parent_fields']) && isset($data[$parent_table])) {
-						foreach ($form_config['copy_parent_fields'] as $parent_field => $child_field) {
-							$data[$table][$index][$child_field] = $data[$parent_table][$parent_field];
+					else {
+						if (isset($data[$table][$index]['id']) && $data[$table][$index]['id']) {
+							$data[$table][$index]['id'] = (int) $data[$table][$index]['id'];
 						}
-					}
-
-					// remove invalid columns from child table data
-					$child_columns = array_keys($table_schema);
-					// provide ignored fields
-					array_push($child_columns, 'action');
-
-					foreach ($child_record as $column_name => $column_value) {
-						if (!in_array($column_name, $child_columns)) {
-							unset($data[$table][$index][$column_name]);
+						// insert foreign key of child table which connects to parent table link field
+						if (isset($data[$parent_table]) && isset($data[$parent_table][$form_config['link_field']])) {
+							$data[$table][$index][$form_config['child_foreign_key']] = $data[$parent_table][$form_config['link_field']];
 						}
-					}
+						if (isset($form_config['copy_parent_fields']) && isset($data[$parent_table])) {
+							foreach ($form_config['copy_parent_fields'] as $parent_field => $child_field) {
+								$data[$table][$index][$child_field] = $data[$parent_table][$parent_field];
+							}
+						}
 
-					$data[$table][$index]['last_updated_by'] = $last_updated_by;
-					$data[$table][$index]['updated_at'] = $updated_at;
+						// remove invalid columns from child table data
+						$child_columns = array_keys($table_schema);
+						// provide ignored fields
+						array_push($child_columns, 'action');
 
-					if ($action == "create") {
-						$data[$table][$index]['owner'] = $owner;
-						$data[$table][$index]['created_at'] = $created_at;
+						foreach ($child_record as $column_name => $column_value) {
+							if (!in_array($column_name, $child_columns)) {
+								unset($data[$table][$index][$column_name]);
+							}
+						}
+
+						$data[$table][$index]['last_updated_by'] = $last_updated_by;
+						$data[$table][$index]['updated_at'] = $updated_at;
+
+						if ($action == "create") {
+							$data[$table][$index]['owner'] = $owner;
+							$data[$table][$index]['created_at'] = $created_at;
+						}
 					}
 				}
 			}

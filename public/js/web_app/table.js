@@ -87,28 +87,28 @@ function add_row(table, idx, action) {
 	var row_action = action ? action : "create";
 	var field_types = [];
 
-	var rows = '<tr class="table_record">';
+	var row = '<tr class="table_record">';
 
 	$.each($(thead).find("tr > th"), function(index, heads) {
 		if ($(heads).attr("id") == "sr_no" && index == 0) {
-			rows += '<td class="text-center"></td>';
+			row += '<td class="text-center"></td>';
 		}
 		else if ($(heads).attr("id") == "remove") {
-			rows += '<td class="text-center" data-idx="' + idx + '">\
+			row += '<td class="text-center" data-idx="' + idx + '">\
 				<button class="btn btn-danger" id="remove_row">\
 					<i class="fa fa-times"></i>\
 				</button>\
 			</td>';
 		}
 		else if ($(heads).attr("id") == "action") {
-			rows += '<td id="action" style="display: none;">\
+			row += '<td id="action" style="display: none;">\
 				<input type="text" class="form-control input-sm" name="' + table_name + '[' + (idx - 1) + '][action]" value="' + row_action + '">\
 			</td>';
 
 			$(this).find('input[name="' + table_name + '[' + (idx - 1) + '][action]"]').val(row_action);
 		}
 		else if ($(heads).attr("id") == "row_id") {
-			rows += '<td id="row_id" style="display: none;">\
+			row += '<td id="row_id" style="display: none;">\
 				<input type="text" class="form-control input-sm" name="' + table_name + '[' + (idx - 1) + '][id]">\
 			</td>';
 		}
@@ -123,14 +123,14 @@ function add_row(table, idx, action) {
 			field_types.push(field_type);
 
 			if (field_type == "link") {
-				rows += '<td data-field-type="link">\
+				row += '<td data-field-type="link">\
 					<input type="text" class="form-control input-sm autocomplete" \
 					name="' + table_name + '[' + (idx - 1) + '][' + field_name + ']" \
 					autocomplete="off" data-target-module="' + target_module + '" data-target-field="' + target_field + '"' + readonly + '>\
 				</td>';
 			}
 			else if (field_type == "avatar") {
-				rows += '<td data-field-type="avatar">\
+				row += '<td data-field-type="avatar">\
 					<div class="col-md-12 media">\
 						<div class="pull-left text-center avatar-box">\
 							<i class="fa fa-picture-o inline fa-2x avatar"></i>\
@@ -145,17 +145,17 @@ function add_row(table, idx, action) {
 				</td>';
 			}
 			else if (field_type == "select") {
-				rows += '<td data-field-type="select">\
+				row += '<td data-field-type="select">\
 					<select class="form-control input-sm" name="' + table_name + '[' + (idx - 1) + '][' + field_name + ']">';
 
 				$.each($(heads).data("options").split(","), function(index, option) {
-					rows += '<option value="' + option + '">' + option + '</option>';
+					row += '<option value="' + option + '">' + option + '</option>';
 				});
 
-				rows += '</select></td>';
+				row += '</select></td>';
 			}
 			else if (field_type == "time") {
-				rows += '<td data-field-type="time">\
+				row += '<td data-field-type="time">\
 					<div class="input-group clockpicker" data-autoclose="true">\
 						<span class="input-group-addon">\
 							<i class="fa fa-clock-o"></i>\
@@ -166,29 +166,29 @@ function add_row(table, idx, action) {
 			}
 			else if (field_type == "text" || field_type == "money") {
 				if (target_module && target_field) {
-					rows += '<td data-field-type="' + field_type + '"' + hidden + '>\
+					row += '<td data-field-type="' + field_type + '"' + hidden + '>\
 						<input type="text" name="' + table_name + '[' + (idx - 1) + '][' + field_name + ']" \
 						class="form-control input-sm" data-target-module="' + target_module + '" data-target-field="' + target_field + '" autocomplete="off"' + readonly + '>\
 					</td>';
 				}
 				else {
-					rows += '<td data-field-type="' + field_type + '"' + hidden + '>\
+					row += '<td data-field-type="' + field_type + '"' + hidden + '>\
 						<input type="text" name="' + table_name + '[' + (idx - 1) + '][' + field_name + ']" \
 						class="form-control input-sm" autocomplete="off"' + readonly + '>\
 					</td>';
 				}
 			}
 			else if (field_type == "textarea") {
-				rows += '<td data-field-type="textarea">\
+				row += '<td data-field-type="textarea">\
 					<textarea rows="5" cols="8" name="' + table_name + '[' + (idx - 1) + '][' + field_name + ']" \
 					class="form-control input-sm" autocomplete="off"></textarea>\
 				</td>';
 			}
 		}
 	});
-	rows += '</tr>';
+	row += '</tr>';
 
-	$(tbody).append(rows);
+	$(tbody).append(row);
 	maintain_idx(tbody);
 	enable_autocomplete();
 
@@ -234,4 +234,155 @@ function set_row_after_input(tbody) {
 function show_total_badge(target) {
 	var total_rows = $("." + target).find("table#" + target).find("tbody > tr:visible").length;
 	$("." + target).find("#total_badge").html(total_rows);
+}
+
+
+// add multiple rows for table at the time of loading
+function add_new_rows(table_name, records) {
+	var table = $('table[data-table="' + table_name + '"]');
+	var thead = $(table).find("thead");
+	var tbody = $(table).find("tbody");
+	var field_types = [];
+	var rows = '';
+
+	// remove empty row
+	if ($(tbody).find("tr").hasClass("odd")) {
+		$(tbody).empty();
+	}
+
+	$.each(records, function(idx, value) {
+		rows += '<tr class="table_record">';
+
+		$.each($(thead).find("tr > th"), function(index, heads) {
+			var field_type = $(heads).data("field-type");
+			var field_name = $(heads).data("field-name");
+			var target_module = $(heads).data("target-module");
+			var target_field = $(heads).data("target-field");
+			var readonly = ($(heads).data("readonly") == "yes") ? "readonly" : "";
+			var hidden = ($(heads).data("hidden") == "yes") ? "style='display: none;'" : "";
+			field_types.push(field_type);
+
+			// get value for the field
+			if (value[field_name] && (value[field_name].isDate() || value[field_name].isDateTime())) {
+				if (child_value.split(" ").length > 1) {
+					field_value = moment(value[field_name]).format('DD-MM-YYYY hh:mm A');
+				}
+				else {
+					field_value = moment(value[field_name]).format('DD-MM-YYYY');
+				}
+			}
+			else if (value[field_name] && value[field_name].isTime()) {
+				field_value = moment(value[field_name], ["HH:mm:ss"]).format('HH:mm');
+			}
+			else {
+				field_value = value[field_name] || '';
+			}
+
+			// set default table values
+			if ($(heads).attr("id") == "sr_no") {
+				rows += '<td class="text-center" style="vertical-align: middle;">' + (idx + 1) + '</td>';
+			}
+			else if ($(heads).attr("id") == "remove") {
+				rows += '<td class="text-center" data-idx="' + (idx + 1) + '">\
+					<button type="button" class="btn btn-danger" id="remove_row">\
+						<i class="fa fa-times"></i>\
+					</button>\
+				</td>';
+			}
+			else if ($(heads).attr("id") == "action") {
+				rows += '<td id="action" style="display: none;">\
+					<input type="text" class="form-control input-sm" name="' + table_name + '[' + idx + '][action]" value="none">\
+				</td>';
+			}
+			else if ($(heads).attr("id") == "row_id") {
+				rows += '<td id="row_id" style="display: none;">\
+					<input type="text" class="form-control input-sm" name="' + table_name + '[' + idx + '][id]" value="' + value["id"] + '">\
+				</td>';
+			}
+			// set field value
+			else {
+				if (field_type == "link") {
+					rows += '<td data-field-type="link">\
+						<input type="text" class="form-control input-sm autocomplete" \
+						name="' + table_name + '[' + idx + '][' + field_name + ']" \
+						autocomplete="off" data-target-module="' + target_module + '" data-target-field="' + target_field + '"' + readonly + ' value="' + field_value + '">\
+					</td>';
+				}
+				else if (field_type == "avatar") {
+					rows += '<td data-field-type="avatar">\
+						<div class="col-md-12 media">\
+							<div class="pull-left text-center avatar-box">\
+								<i class="fa fa-picture-o inline fa-2x avatar"></i>\
+							</div>\
+							<div class="media-body text-left">\
+								<label title="Upload image file" class="btn btn-primary btn-xs">\
+									<input type="file" accept="image/*" name="' + table_name + '[' + idx + '][' + field_name + ']" class="hide">\
+									Change\
+								</label>\
+							</div>\
+						</div>\
+					</td>';
+				}
+				else if (field_type == "select") {
+					rows += '<td data-field-type="select">\
+						<select class="form-control input-sm" name="' + table_name + '[' + idx + '][' + field_name + ']">';
+
+					$.each($(heads).data("options").split(","), function(index, option) {
+						if (option == value["field_name"]) {
+							rows += '<option value="' + option + '" default selected>' + option + '</option>';
+						}
+						else {
+							rows += '<option value="' + option + '">' + option + '</option>';
+						}
+					});
+
+					rows += '</select></td>';
+				}
+				else if (field_type == "time") {
+					rows += '<td data-field-type="time">\
+						<div class="input-group clockpicker" data-autoclose="true">\
+							<span class="input-group-addon">\
+								<i class="fa fa-clock-o"></i>\
+							</span>\
+							<input type="text" name="' + table_name + '[' + idx + '][' + field_name + ']" class="form-control input-sm" autocomplete="off" value="' + field_value + '">\
+						</div>\
+					</td>';
+				}
+				else if (field_type == "text" || field_type == "money") {
+					if (target_module && target_field) {
+						rows += '<td data-field-type="' + field_type + '"' + hidden + '>\
+							<input type="text" name="' + table_name + '[' + idx + '][' + field_name + ']" \
+							class="form-control input-sm" data-target-module="' + target_module + '" data-target-field="' + target_field + '" autocomplete="off"' + readonly + ' value="' + field_value + '">\
+						</td>';
+					}
+					else {
+						rows += '<td data-field-type="' + field_type + '"' + hidden + '>\
+							<input type="text" name="' + table_name + '[' + idx + '][' + field_name + ']" \
+							class="form-control input-sm" autocomplete="off"' + readonly + ' value="' + field_value + '">\
+						</td>';
+					}
+				}
+				else if (field_type == "textarea") {
+					rows += '<td data-field-type="textarea">\
+						<textarea rows="5" cols="8" name="' + table_name + '[' + idx + '][' + field_name + ']" \
+						class="form-control input-sm" autocomplete="off">' + field_value + '</textarea>\
+					</td>';
+				}
+			}
+		});
+
+		rows += '</tr>';
+	});
+
+	$(tbody).append(rows);
+	enable_autocomplete();
+
+	if (field_types.contains("time")) {
+		$.each($("table > tbody > tr").find(".clockpicker"), function(idx, element) {
+			$(element).clockpicker();
+			$(element).find("input").on("change", function() {
+				$(this).closest("tr").find("td#action > input").val("update");
+			});
+		});
+	}
 }
