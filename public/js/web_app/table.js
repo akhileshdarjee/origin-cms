@@ -290,8 +290,17 @@ function add_new_rows(table_name, records) {
 				</td>';
 			}
 			else if ($(heads).attr("id") == "action") {
+				// while showing data
+				if (value["id"]) {
+					var action = "none";
+				}
+				// while copying data
+				else {
+					var action = "create";
+				}
+
 				rows += '<td id="action" style="display: none;">\
-					<input type="text" class="form-control input-sm" name="' + table_name + '[' + idx + '][action]" value="none">\
+					<input type="text" class="form-control input-sm" name="' + table_name + '[' + idx + '][action]" value="' + action + '">\
 				</td>';
 			}
 			else if ($(heads).attr("id") == "row_id") {

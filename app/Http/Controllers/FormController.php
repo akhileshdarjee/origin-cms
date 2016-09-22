@@ -771,10 +771,24 @@ class FormController extends Controller
 			$result = $user->where('login_id', $request)->delete();
 		}
 		else {
+			if (isset($request->full_name)) {
+				$full_name = $request->full_name;
+			}
+			elseif (isset($request->name)) {
+				$full_name = $request->name;
+			}
+
+			if (isset($request->email_id)) {
+				$email_id = $request->email_id;
+			}
+			elseif (isset($request->email)) {
+				$email_id = $request->email;
+			}
+
 			$user_data = array(
-				"full_name" => $request->full_name,
-				"login_id" => $request->email_id,
-				"email" => $request->email_id,
+				"full_name" => $full_name,
+				"login_id" => $email_id,
+				"email" => $email_id,
 				"status" => ($module == "Guest") ? "Inactive" : $request->status,
 				"last_updated_by" => self::get_from_session('login_id'), 
 				"updated_at" => date('Y-m-d H:i:s')
@@ -785,7 +799,7 @@ class FormController extends Controller
 			}
 
 			if ($action == "create") {
-				$password = generate_password();
+				$password = generate_password(10);
 				$user_data["password"] = bcrypt($password);
 				$user_data["role"] = $module;
 				$user_data["owner"] = self::get_from_session('login_id');
