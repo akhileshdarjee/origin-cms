@@ -263,7 +263,7 @@ class FormController extends Controller
 		}
 
 		// if data is inserted into database then only save avatar, user, etc.
-		if (is_int($result) && $result) {
+		if ((is_int($result) || is_bool($result)) && $result) {
 			self::put_to_session('success', "true");
 			$form_config['link_field_value'] = self::$link_field_value;
 			$data = $form_data[$form_config['table_name']];
@@ -296,7 +296,8 @@ class FormController extends Controller
 			// send email if come in email modules
 			if (in_array($form_config['module'], self::$email_modules) && $result) {
 				if (SettingsController::get_app_setting('email') == "Active") {
-					EmailController::send(null, $data['guest_id'], null, $data, $form_config['module']);
+					$to = isset($data['email']) ? $data['email'] : $data['email_id'];
+					EmailController::send(null, $to, null, $data, $form_config['module']);
 				}
 			}
 
