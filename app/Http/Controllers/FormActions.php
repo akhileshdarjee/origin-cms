@@ -131,6 +131,7 @@ class FormActions extends Controller
 	public function make_action_based_on_response($response, $view_type = null) {
 		$response = json_decode($response->getContent());
 		$module = snake_case($this->form_config['module']);
+		$module_controller = App::make(self::$controllers_path . "\\" . studly_case($module) . "Controller");
 		$data = json_decode(json_encode($response->data), true);
 		$form_data = isset($data['form_data']) ? $data['form_data'] : [];
 
