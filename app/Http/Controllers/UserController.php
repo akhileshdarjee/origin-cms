@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use DB;
+use Auth;
 use Session;
 use Exception;
+use App\User;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -79,6 +81,74 @@ class UserController extends Controller
 		}
 		else {
 			throw new Exception("Login ID is not provided");
+		}
+	}
+
+
+	// verify email address of user
+	public function verifyUserEmail(Request $request, $token) {
+		if ($token) {
+			$user = User::where('email_confirmation_code', $token)->first();
+
+			if ($user) {
+				$update_details = [
+					'email_confirmation_code' => null,
+					'email_confirmed' => 1,
+					'status' => 'Active',
+					'first_login' => 1
+				];
+
+				$result = User::where('id', $user->id)
+					->update($update_details);
+
+				if ($result) {
+					$msg = "Email verified successfully. Please change password to continue";
+					return $this->process_first_login($user, $msg);
+				}
+				else {
+					$msg = "Some error occured while verifying email. Please try again.";
+				}
+			}
+			else {
+				$msg = "Invalid Token or Token Expired";
+			}
+		}
+		else {
+			$msg = "Please provide token to verify email address";
+		}
+
+		if ($request->ajax()) {
+			return response()->json([
+				'msg' => $msg
+			], 200);
+		}
+		else {
+			return redirect()->route('show.login')->with(['msg' => $msg]);
+		}
+	}
+
+
+	// ask user to reset password after first login
+	public function process_first_login($user, $msg = null) {
+		$email = $user->email ? $user->email : $user->login_id;
+
+		if ($email) {
+			Auth::logout();
+			Session::flush();
+			$token = strtolower(str_random(64));
+			$data = [
+				'email' => $email,
+				'token' => $token,
+				'created_at' => date('Y-m-d H:i:s')
+			];
+
+			$result = DB::table('password_resets')
+				->insert($data);
+
+			if ($result) {
+				$msg = $msg ? $msg : "This is your first login. Please change your password";
+				return redirect('password/reset/' . $token)->with(['first_login_msg' => $msg]);
+			}
 		}
 	}
 }

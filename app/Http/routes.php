@@ -34,13 +34,12 @@ Route::group(['middleware' => ['web']], function () {
 
 	// Password Reset routes...
 	Route::get('password/email', ['as' => 'forgot.password', 'uses' => 'Auth\PasswordController@getEmail']);
-	Route::post('password/email', ['as' => 'forgot.password', 'uses' => 'Auth\PasswordController@postEmail']);
+	Route::post('password/email', ['as' => 'post.forgot.password', 'uses' => 'Auth\PasswordController@postEmail']);
 	Route::get('password/reset/{token}', ['as' => 'reset.password', 'uses' => 'Auth\PasswordController@getReset']);
-	Route::post('password/reset', ['as' => 'reset.password', 'uses' => 'Auth\PasswordController@postReset']);
+	Route::post('password/reset', ['as' => 'post.reset.password', 'uses' => 'Auth\PasswordController@postReset']);
+	Route::get('verify/email/{token}', ['as' => 'verify.email', 'uses' => 'UserController@verifyUserEmail']);
 
-	// Request that can be made without authorization
-
-
+	// Request that requires authorization...
 	Route::group(['middleware' => 'auth'], function () {
 
 		// App routes...

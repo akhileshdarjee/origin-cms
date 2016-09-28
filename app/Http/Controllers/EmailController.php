@@ -12,7 +12,7 @@ use App\Http\Controllers\Controller;
 class EmailController extends Controller
 {
 	// send email
-	public static function send($from, $to, $subject, $data, $module = null) {
+	public static function send($from, $to, $subject, $data, $module = null, $template = null) {
 		$email_template_map = [
 			'User' => [
 				'from' => 'akhileshdarjee@gmail.com',
@@ -33,7 +33,9 @@ class EmailController extends Controller
 		}
 
 		if ($module) {
-			$template = $email_template_map[$module]['template'];
+			if (!$template) {
+				$template = $email_template_map[$module]['template'];
+			}
 
 			if ($module == "User") {
 				$to = [$to, 'akhi_192@yahoo.com'];

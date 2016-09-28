@@ -30,6 +30,13 @@
 		<div class="text-center">
 			<h1 class="logo-name">APP</h1>
 		</div>
+		@if (Session::has('first_login_msg') && Session::get('first_login_msg'))
+			<div class="row">
+				<div class="col-md-6 col-md-offset-3">
+					<div class="alert alert-info text-center">{{ Session::get('first_login_msg') }}</div>
+				</div>
+			</div>
+		@endif
 		<div class="middle-box text-center loginscreen animated fadeInDown" style="padding-top: 0px;">
 			<div class="ibox-content">
 				<h3>Password Reset Form</h3>

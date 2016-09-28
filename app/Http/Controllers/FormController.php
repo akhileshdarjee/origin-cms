@@ -800,21 +800,29 @@ class FormController extends Controller
 			}
 
 			if ($action == "create") {
-				$password = generate_password(10);
+				if (isset($request->password) && $request->password) {
+					$password = $request->password;
+				}
+				else {
+					$password = generate_password(10);
+				}
+
 				$user_data["password"] = bcrypt($password);
+				$user_data["email_confirmation_code"] = str_random(30);
 				$user_data["role"] = $module;
 				$user_data["owner"] = self::get_from_session('login_id');
 				$user_data["created_at"] = date('Y-m-d H:i:s');
 
 				$result = $user->insert($user_data);
 				$user_data['generated_password'] = $password;
-				// send password to user via email
+
+				// send verification email
 				if (SettingsController::get_app_setting('email') == "Active") {
-					EmailController::send(null, $request->email_id, "Account Registration", $user_data, $module);
+					EmailController::send('akhileshdarjee@gmail.com', $email_id, "Account Registration", $user_data, $module, 'emails.verify_email');
 				}
 			}
 			elseif ($action == "update") {
-				$result = $user->where('login_id', $request->email_id)->update($user_data);
+				$result = $user->where('login_id', $email_id)->update($user_data);
 			}
 		}
 
