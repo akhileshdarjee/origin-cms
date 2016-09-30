@@ -337,7 +337,7 @@ function add_new_rows(table_name, records) {
 						<select class="form-control input-sm" name="' + table_name + '[' + idx + '][' + field_name + ']">';
 
 					$.each($(heads).data("options").split(","), function(index, option) {
-						if (option == value["field_name"]) {
+						if (option == value[field_name]) {
 							rows += '<option value="' + option + '" default selected>' + option + '</option>';
 						}
 						else {
