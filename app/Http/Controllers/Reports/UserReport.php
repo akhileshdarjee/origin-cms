@@ -30,21 +30,8 @@ class UserReport extends Controller
 				$query = $query->where('status', $filters['status']);
 			}
 			if (isset($filters['from_date']) && isset($filters['to_date']) && $filters['from_date'] && $filters['to_date']) {
-				$user_list = [];
-				$user_records = DB::table('tabUser')->get();
-
-				if ($user_records) {
-					foreach ($user_records as $user) {
-						if ((strtotime($user->created_at) >= strtotime($filters['from_date']) && 
-							strtotime($user->created_at) <= strtotime($filters['to_date']))) {
-								if (!in_array($user->email, $user_list)){
-									array_push($user_list, $user->email);
-								}
-						}
-					}
-				}
-
-				$query = $query->whereIn('email', $user_list);
+				$query = $query->where('created_at', '>=', date('Y-m-d H:i:s', strtotime($filters['from_date'])))
+					->where('created_at', '<=', date('Y-m-d H:i:s', strtotime($filters['to_date'])));
 			}
 		}
 
