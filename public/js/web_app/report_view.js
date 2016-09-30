@@ -95,6 +95,7 @@ $( document ).ready(function() {
 						row[column] = grid_data[column];
 					});
 
+					row['id'] = grid_data['id'];
 					rows.push(row);
 				});
 
