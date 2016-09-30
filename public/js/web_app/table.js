@@ -95,7 +95,7 @@ function add_row(table, idx, action) {
 		}
 		else if ($(heads).attr("id") == "remove") {
 			row += '<td class="text-center" data-idx="' + idx + '">\
-				<button class="btn btn-danger" id="remove_row">\
+				<button type="button" class="btn btn-danger" id="remove_row">\
 					<i class="fa fa-times"></i>\
 				</button>\
 			</td>';
