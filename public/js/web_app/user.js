@@ -1,6 +1,6 @@
 $( document ).ready(function() {
 	if ($("#id").val()) {
-		var status_bar = '<div class="ibox-content">\
+		var status_bar = '<div class="x_content">\
 			<div class="row">\
 				<div class="col-md-3 col-sm-12">\
 					Email Confirmed: ';

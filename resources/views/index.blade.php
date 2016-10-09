@@ -1,37 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>Web App</title>
+		<title>{{ awesome_case(last(explode(".", $file))) }} - Web App</title>
 		@include('templates.headers')
+		<script type="text/javascript">
+			window.doc = {
+				data: <?php echo isset($data) ? json_encode($data) : "false" ?>,
+			};
+		</script>
 	</head>
-	<body data-url="/app" class="fixed-sidebar">
-		<div id="wrapper">
-			@include('templates.vertical_nav')
-			<div id="page-wrapper" class="gray-bg">
-				@include('templates.navbar', ['title' => ucwords(last(explode(".", $file)))])
-				<div class="row dashboard-header">
+	<body class="nav-md">
+		<div class="container body">
+			<div class="main_container">
+				@include('templates.vertical_nav')
+				@include('templates.navbar')
+				<!-- page content -->
+				<div class="right_col" role="main">
 					@include($file, ['data' => $data])
 				</div>
-				<div class="footer">
-					<div>
-						<span class="pull-left">
-							<strong>Copyright</strong> Achieveee &copy; 2011-{{ date('Y') }}
-						</span>
-						<span class="pull-right">
-							Made with <i class="fa fa-heart fa-lg" style="color: #d90429;"></i> by 
-							<strong>
-								<a href="http://www.achieveee.com/" target="_blank" style="color: #676a6c;">Achieveee</a>
-							</strong>
-						</span>
-					</div>
-				</div>
+				<!-- /page content -->
+				@include('templates.footer')
 			</div>
 		</div>
-		@include('templates.msgbox')
-		@if (Session::has('msg'))
-			<script type="text/javascript">
-				msgbox("{{ Session::get('msg') }}");
-			</script>
-		@endif
 	</body>
 </html>

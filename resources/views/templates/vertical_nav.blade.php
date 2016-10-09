@@ -1,77 +1,73 @@
-<nav class="navbar-default navbar-static-side" role="navigation">
-	<div class="sidebar-collapse">
-		<ul class="nav metismenu" id="side-menu">
-			<li class="app-name">
-				<a href="/app" class="text-center" style="margin-left: -10px; color: #ffffff; font-size: 18px;">
-					APP
-				</a>
-			</li>
-			<li class="nav-header">
-				<div class="dropdown profile-element">
-					@if (Session::get('avatar'))
-						<span class="user-avatar">
-							<img alt="image" class="img-circle" src="{{ Session::get('avatar') }}" title="{{ Session::get('user') }}" />
-						</span>
-					@else
-						<span class="default-avatar">
-							<i class="fa fa-user fa-lg"></i>
-						</span>
+<div class="col-md-3 left_col">
+	<div class="left_col scroll-view">
+		<div class="navbar nav_title" style="border: 0;">
+			<a href="/app" class="site_title">
+				<i class="fa fa-eye"></i> <span>Web App</span>
+			</a>
+		</div>
+		<div class="clearfix"></div>
+		<!-- menu profile quick info -->
+		<div class="profile">
+			<div class="profile_pic">
+				@if (Session::get('avatar'))
+					<img alt="{{ Session::get('user') }}" class="img-circle profile_img" src="{{ Session::get('avatar') }}" title="{{ Session::get('user') }}" />
+				@else
+					<span class="default-avatar">
+						<i class="fa fa-user fa-lg"></i>
+					</span>
+				@endif
+			</div>
+			<div class="profile_info">
+				<span>Welcome,</span>
+				<h2>{{ Session::get('user') }}</h2>
+			</div>
+		</div>
+		<!-- /menu profile quick info -->
+		<br />
+		<!-- sidebar menu -->
+		<div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+			<div class="menu_section">
+				<h3>&nbsp;</h3>
+				<ul class="nav side-menu">
+					<li title="Modules">
+						<a href="/app/modules">
+							<i class="fa fa-diamond fa-lg"></i>
+							<span class="nav-label">Modules</span>
+						</a>
+					</li>
+					<li title="Reports">
+						<a href="/app/reports">
+							<i class="fa fa-sitemap fa-lg"></i>
+							<span class="nav-label">Reports</span>
+						</a>
+					</li>
+					@if (Session::has('role') && Session::get('role') == "Administrator")
+						<li title="Settings">
+							<a href="/app/settings">
+								<i class="fa fa-cogs fa-lg"></i>
+								<span class="nav-label">Settings</span>
+							</a>
+						</li>
 					@endif
-					<a data-toggle="dropdown" class="dropdown-toggle" href="#">
-						<span class="clear">
-							<span class="block m-t-xs">
-								<strong class="font-bold">{{ Session::get('user') }}</strong>
-							</span>
-							<span class="text-muted text-xs block">
-								{{ Session::get('role') }} <b class="caret"></b>
-							</span>
-						</span>
-					</a>
-					<ul class="dropdown-menu m-t-xs">
-						<li>
-							<a href="/form/user/{{ Session::get('login_id') }}">
-								<i class="fa fa-user"></i> Profile
-							</a>
-						</li>
-						@if (Session::has('role') && Session::get('role') == "Administrator")
-							<li>
-								<a href="/app/settings">
-									<i class="fa fa-cogs"></i> Settings
-								</a>
-							</li>
-						@endif
-						<li class="divider"></li>
-						<li>
-							<a href="/logout">
-								<i class="fa fa-power-off"></i> Logout
-							</a>
-						</li>
-					</ul>
-				</div>
-				<div class="logo-element">
-					App
-				</div>
-			</li>
-			<li title="Modules">
-				<a href="/app/modules">
-					<i class="fa fa-diamond fa-lg"></i>
-					<span class="nav-label">Modules</span>
-				</a>
-			</li>
-			<li title="Reports">
-				<a href="/app/reports">
-					<i class="fa fa-sitemap fa-lg"></i>
-					<span class="nav-label">Reports</span>
-				</a>
-			</li>
-			@if (Session::has('role') && Session::get('role') == "Administrator")
-				<li title="Settings">
-					<a href="/app/settings">
-						<i class="fa fa-cogs fa-lg"></i>
-						<span class="nav-label">Settings</span>
-					</a>
-				</li>
-			@endif
-		</ul>
+				</ul>
+			</div>
+		</div>
+		<!-- /sidebar menu -->
+		<!-- /menu footer buttons -->
+		<div class="sidebar-footer hidden-small">
+			<a data-toggle="tooltip" data-placement="top" title="Settings">
+				<span class="fa fa-cogs" aria-hidden="true"></span>
+			</a>
+			<a data-toggle="tooltip" data-placement="top" title="FullScreen">
+				<span class="fa fa-arrows-alt" aria-hidden="true"></span>
+			</a>
+			<a data-toggle="tooltip" data-placement="top" title="Lock">
+				<span class="fa fa-lock" aria-hidden="true"></span>
+			</a>
+			<a data-toggle="tooltip" data-placement="top" title="Logout">
+				<span class="fa fa-sign-out" aria-hidden="true"></span>
+			</a>
+		</div>
+		<!-- /menu footer buttons -->
 	</div>
-</nav>
+</div>

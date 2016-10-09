@@ -207,15 +207,6 @@ $( document ).ready(function() {
 		});
 	});
 
-	// enable clock picker
-	$("body").find('.clockpicker').clockpicker({
-		afterDone: function() {
-			if (typeof change_doc === "function") {
-				change_doc();
-			}
-		}
-	});
-
 	// Autocomplete
 	enable_autocomplete();
 	
@@ -348,7 +339,7 @@ function beautify_list_view(table) {
 	var label_list = ['status', 'role'];
 	var label_bg = {
 		'status' : { 'Active' : 'label-success', 'Inactive' : 'label-danger', 'Vacant' : 'label-success', 'Occupied' : 'label-danger' }, 
-		'role' : { 'Administrator' : 'label-inverse', 'Customer' : 'label-info' }
+		'role' : { 'Administrator' : 'label-default', 'Customer' : 'label-info' }
 	}
 
 	var table = table ? table : "table.list-view";
