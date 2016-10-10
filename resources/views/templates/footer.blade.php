@@ -1,7 +1,7 @@
 <!-- footer content -->
 <footer>
 	<div class="pull-right">
-		Sharingan CMS {{ date('Y') }}</a>
+		Origin CMS {{ date('Y') }}</a>
 	</div>
 	<div class="clearfix"></div>
 </footer>

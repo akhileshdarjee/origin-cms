@@ -48,7 +48,7 @@
 							<div class="clearfix"></div>
 							<div class="separator">
 								<div>
-									<h1><i class="fa fa-eye"></i> Sharingan CMS</h1>
+									<h1><i class="fa fa-eye"></i> Origin CMS</h1>
 								</div>
 							</div>
 						</form>
