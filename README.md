@@ -1,4 +1,4 @@
-Start project for laravel 5.2.*, below are the commands to kickstart your project:  
+Below are the commands to kickstart your project for laravel 5.2.*:  
   
 1. `git clone https://github.com/akhileshdarjee/origin-cms.git`
 
