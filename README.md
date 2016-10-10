@@ -1,6 +1,6 @@
 Start project for laravel 5.2.*, below are the commands to kickstart your project:  
   
-1. `git clone -b inspinia --single-branch https://gitlab.com/achieveee/laravel-crud.git`
+1. `git clone https://github.com/akhileshdarjee/origin-cms.git`
 
 2. Now firstly change git origin url to your app git repo url as later you might end in getting git push errors.
 
