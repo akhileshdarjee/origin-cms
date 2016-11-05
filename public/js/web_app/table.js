@@ -263,7 +263,7 @@ function add_new_rows(table_name, records) {
 			field_types.push(field_type);
 
 			// get value for the field
-			if (value[field_name] && (value[field_name].isDate() || value[field_name].isDateTime())) {
+			if (value[field_name] && typeof value[field_name] === 'string' && (value[field_name].isDate() || value[field_name].isDateTime())) {
 				if (child_value.split(" ").length > 1) {
 					field_value = moment(value[field_name]).format('DD-MM-YYYY hh:mm A');
 				}
@@ -271,7 +271,7 @@ function add_new_rows(table_name, records) {
 					field_value = moment(value[field_name]).format('DD-MM-YYYY');
 				}
 			}
-			else if (value[field_name] && value[field_name].isTime()) {
+			else if (value[field_name] && typeof value[field_name] === 'string' && value[field_name].isTime()) {
 				field_value = moment(value[field_name], ["HH:mm:ss"]).format('HH:mm');
 			}
 			else {

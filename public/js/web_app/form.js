@@ -176,6 +176,10 @@ function set_doc_data() {
 							value = moment(value).format('DD-MM-YYYY');
 						}
 					}
+					else if (typeof value === 'string' && value.isTime()) {
+						$("#" + field_name).attr("data-field_value", value);
+						value = moment(value, ["HH:mm:ss"]).format('HH:mm:ss');
+					}
 					if (ignore_fields.indexOf(field_name) == -1) {
 						if ($("#" + field_name)) {
 							$("#" + field_name).val(value);
