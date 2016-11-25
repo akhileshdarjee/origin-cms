@@ -429,18 +429,24 @@ class FormController extends Controller
 				foreach ($form_table_data as $child_record) {
 					if ($action == "create") {
 						unset($child_record['action']);
-						if (!isset($child_record[$form_config['child_foreign_key']])) {
-							$child_record[$form_config['child_foreign_key']] = $form_config['link_field_value'];
+
+						if (count($child_record)) {
+							if (!isset($child_record[$form_config['child_foreign_key']])) {
+								$child_record[$form_config['child_foreign_key']] = $form_config['link_field_value'];
+							}
+							$result = DB::table($form_table)->insert($child_record);
 						}
-						$result = DB::table($form_table)->insert($child_record);
 					}
 					else {
 						if ($child_record['action'] == "create") {
 							unset($child_record['action']);
-							$child_record['owner'] = self::get_from_session('login_id');
-							$child_record['created_at'] = date('Y-m-d H:i:s');
 
-							$result = DB::table($form_table)->insert($child_record);
+							if (count($child_record)) {
+								$child_record['owner'] = self::get_from_session('login_id');
+								$child_record['created_at'] = date('Y-m-d H:i:s');
+
+								$result = DB::table($form_table)->insert($child_record);
+							}
 						}
 						elseif ($child_record['action'] == "update") {
 							unset($child_record['action']);

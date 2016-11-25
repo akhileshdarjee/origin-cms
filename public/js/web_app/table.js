@@ -250,7 +250,13 @@ function add_new_rows(table_name, records) {
 		$(tbody).empty();
 	}
 
+	var tbody_len = $(tbody).find("tr").length;
+
 	$.each(records, function(idx, value) {
+		if (tbody_len) {
+			idx = tbody_len;
+		}
+
 		rows += '<tr class="table_record">';
 
 		$.each($(thead).find("tr > th"), function(index, heads) {
@@ -381,6 +387,10 @@ function add_new_rows(table_name, records) {
 		});
 
 		rows += '</tr>';
+
+		if (tbody_len) {
+			tbody_len++;
+		}
 	});
 
 	$(tbody).append(rows);
