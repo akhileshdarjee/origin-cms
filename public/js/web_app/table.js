@@ -91,7 +91,7 @@ function add_row(table, idx, action) {
 
 	$.each($(thead).find("tr > th"), function(index, heads) {
 		if ($(heads).attr("id") == "sr_no" && index == 0) {
-			row += '<td class="text-center"></td>';
+			row += '<td class="text-center" style="vertical-align: middle;"></td>';
 		}
 		else if ($(heads).attr("id") == "remove") {
 			row += '<td class="text-center" data-idx="' + idx + '">\
