@@ -205,17 +205,18 @@ function add_row(table, idx, action) {
 	// set clockpicker inside table elements
 	if (field_types.contains("time")) {
 		$.each($("table > tbody > tr").find(".clockpicker"), function(idx, element) {
-			$(element).clockpicker();
-			$(element).find("input").on("change", function() {
-				var doc_records = doc.data[table_name].length;
-				var tab_records = $(table).find("tbody > tr").length;
+			$(element).clockpicker({
+				afterDone: function() {
+					var doc_records = doc.data[table_name].length;
+					var tab_records = $(table).find("tbody > tr").length;
 
-				if ($.trim($('body').find('[name="id"]').val()) && doc_records == tab_records) {
-					$(this).closest("tr").find("td#action > input").val("update");
-				}
+					if ($.trim($('body').find('[name="id"]').val()) && doc_records == tab_records) {
+						$(element).closest("tr").find("td#action > input").val("update");
+					}
 
-				if (typeof change_doc === "function") {
-					change_doc();
+					if (typeof change_doc === "function") {
+						change_doc();
+					}
 				}
 			});
 		});
@@ -230,14 +231,12 @@ function add_row(table, idx, action) {
 				keyboardNavigation: false,
 				forceParse: false,
 				autoclose: true
-			});
-
-			$(element).find("input").on("change", function() {
+			}).on('changeDate', function(ev) {
 				var doc_records = doc.data[table_name].length;
 				var tab_records = $(table).find("tbody > tr").length;
 
 				if ($.trim($('body').find('[name="id"]').val()) && doc_records == tab_records) {
-					$(this).closest("tr").find("td#action > input").val("update");
+					$(element).closest("tr").find("td#action > input").val("update");
 				}
 
 				if (typeof change_doc === "function") {
