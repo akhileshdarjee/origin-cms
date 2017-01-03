@@ -154,6 +154,16 @@ function add_row(table, idx, action) {
 
 				row += '</select></td>';
 			}
+			else if (field_type == "date") {
+				rows += '<td data-field-type="date">\
+					<div class="input-group date" data-autoclose="true">\
+						<span class="input-group-addon">\
+							<i class="fa fa-calendar"></i>\
+						</span>\
+						<input type="text" name="' + table_name + '[' + (idx - 1) + '][' + field_name + ']" class="form-control input-sm" autocomplete="off">\
+					</div>\
+				</td>';
+			}
 			else if (field_type == "time") {
 				row += '<td data-field-type="time">\
 					<div class="input-group clockpicker" data-autoclose="true">\
@@ -195,6 +205,22 @@ function add_row(table, idx, action) {
 	if (field_types.contains("time")) {
 		$.each($("table > tbody > tr").find(".clockpicker"), function(idx, element) {
 			$(element).clockpicker();
+			$(element).find("input").on("change", function() {
+				$(this).closest("tr").find("td#action > input").val("update");
+			});
+		});
+	}
+
+	if (field_types.contains("date")) {
+		$.each($("table > tbody > tr").find(".date"), function(idx, element) {
+			$(element).datepicker({
+				format: 'dd-mm-yyyy',
+				todayBtn: "linked",
+				keyboardNavigation: false,
+				forceParse: false,
+				autoclose: true
+			});
+
 			$(element).find("input").on("change", function() {
 				$(this).closest("tr").find("td#action > input").val("update");
 			});
