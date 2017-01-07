@@ -14,7 +14,7 @@ class CreateTabSettings extends Migration
 	{
 		Schema::create('tabSettings', function (Blueprint $table) {
 			$table->increments('id');
-			$table->string('field_name')->unique();
+			$table->string('field_name');
 			$table->string('field_value');
 			$table->string('module');
 			$table->string('owner');

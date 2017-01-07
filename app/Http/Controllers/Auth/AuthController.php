@@ -49,10 +49,8 @@ class AuthController extends Controller
 				->first();
 
 			$this->put_user_data_in_session($user);
+			$this->put_app_settings_in_session();
 
-			if ($user->role == "Administrator") {
-				$this->put_app_settings_in_session();
-			}
 			return redirect()->route('show.app');
 		}
 
@@ -168,6 +166,7 @@ class AuthController extends Controller
 		// puts app settings data into session
 		$settings = DB::table('tabSettings')
 			->select('field_name', 'field_value')
+			->where('owner', Session::get('login_id'))
 			->get();
 
 		$app_settings = [];

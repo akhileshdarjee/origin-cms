@@ -820,11 +820,16 @@ class FormController extends Controller
 				$user_data["created_at"] = date('Y-m-d H:i:s');
 
 				$result = $user->insert($user_data);
-				$user_data['generated_password'] = $password;
 
-				// send verification email
-				if (SettingsController::get_app_setting('email') == "Active") {
-					EmailController::send('akhileshdarjee@gmail.com', $email_id, "Account Registration", $user_data, $module, 'emails.verify_email');
+				if ($result) {
+					// save user specific app settings
+					$settings_created = UserController::create_user_settings($user_data["login_id"]);
+					$user_data['generated_password'] = $password;
+
+					// send verification email
+					if (SettingsController::get_app_setting('email') == "Active") {
+						EmailController::send('akhileshdarjee@gmail.com', $email_id, "Account Registration", $user_data, $module, 'emails.verify_email');
+					}
 				}
 			}
 			elseif ($action == "update") {

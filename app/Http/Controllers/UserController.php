@@ -38,6 +38,14 @@ class UserController extends Controller
 	}
 
 
+	// put all functions to be performed after save
+	public function after_save($data) {
+		if (!isset($data['tabUser']['id'])) {
+			self::create_user_settings($data['tabUser']['login_id']);
+		}
+	}
+
+
 	// check if login id is already registered
 	public function check_login_id($request) {
 		if ($request->login_id) {
@@ -150,5 +158,16 @@ class UserController extends Controller
 				return redirect('password/reset/' . $token)->with(['first_login_msg' => $msg]);
 			}
 		}
+	}
+
+
+	// create user specific app settings
+	public static function create_user_settings($login_id) {
+		$settings = array(
+			['field_name' => 'home_page', 'field_value' => 'modules', 'module' => 'Other', 'owner' => $login_id, 'last_updated_by' => $login_id, 'created_at' => date("Y-m-d H:i:s"), "updated_at" => date("Y-m-d H:i:s")],
+			['field_name' => 'list_view_records', 'field_value' => '15', 'module' => 'Other', 'owner' => $login_id, 'last_updated_by' => $login_id, 'created_at' => date("Y-m-d H:i:s"), "updated_at" => date("Y-m-d H:i:s")]
+		);
+
+		DB::table('tabSettings')->insert($settings);
 	}
 }
