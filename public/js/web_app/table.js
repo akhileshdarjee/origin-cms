@@ -201,7 +201,7 @@ function add_row(table, idx, action) {
 	$(tbody).append(row);
 	maintain_idx(tbody);
 	enable_autocomplete();
-	set_pickers_in_table(field_types);
+	set_pickers_in_table(table_name, table, field_types);
 }
 
 
@@ -404,12 +404,12 @@ function add_new_rows(table_name, records) {
 
 	$(tbody).append(rows);
 	enable_autocomplete();
-	set_pickers_in_table(field_types);
+	set_pickers_in_table(table_name, table, field_types);
 }
 
 
 // set datepicker, clockpicker in child table
-function set_pickers_in_table(field_types) {
+function set_pickers_in_table(table_name, table, field_types) {
 		// set clockpicker inside table elements
 	if (field_types.contains("time")) {
 		$.each($("table > tbody > tr").find(".clockpicker"), function(idx, element) {
