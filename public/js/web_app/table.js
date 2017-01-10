@@ -371,9 +371,16 @@ function add_new_rows(table_name, records) {
 				else if (field_type == "avatar") {
 					rows += '<td data-field-type="avatar">\
 						<div class="col-md-12 media">\
-							<div class="pull-left text-center avatar-box">\
-								<i class="fa fa-picture-o inline fa-2x avatar"></i>\
-							</div>\
+							<div class="pull-left text-center avatar-box">';
+
+					if (value['avatar']) {
+						rows += '<img src="' + value["avatar"] + '" alt="Image">';
+					}
+					else {
+						rows += '<i class="fa fa-picture-o inline fa-2x avatar"></i>';
+					}
+
+					rows += '</div>\
 							<div class="media-body text-left">\
 								<label title="Upload image file" class="btn btn-primary btn-xs">\
 									<input type="file" accept="image/*" name="' + table_name + '[' + idx + '][' + field_name + ']" class="hide">\
