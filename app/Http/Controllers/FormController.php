@@ -288,6 +288,26 @@ class FormController extends Controller
 				}
 			}
 
+			// update activity
+			$activity_data = [
+				'module' => $form_config['module_label'],
+				'icon' => $form_config['module_icon'],
+				'user' => Session::get('user'),
+				'user_id' => Session::get('user_id'),
+				'login_id' => Session::get('login_id'),
+				'action' => ucwords($action),
+				'form_id' => $form_config['link_field_value']
+			];
+
+			if (isset($form_config['record_identifier']) && $data[$form_config['record_identifier']]) {
+				$activity_data['record_identifier'] = $data[$form_config['record_identifier']];
+			}
+			else {
+				$activity_data['record_identifier'] = $data['id'];
+			}
+
+			ActivityController::save($activity_data);
+
 			// create user if modules come under user_via_modules
 			if (in_array($form_config['module'], self::$user_via_modules) && $result) {
 				self::user_form_action($request, $form_config['module'], $action, isset($data['avatar']) ? $data['avatar'] : "");
@@ -534,6 +554,7 @@ class FormController extends Controller
 
 			if ($data) {
 				// if record found then only delete it
+				$record_identifier = isset($form_config['record_identifier']) ? $data->$form_config['record_identifier'] : $form_config['link_field_value'];
 				$result = DB::table($form_config['table_name'])
 					->where($form_config['link_field'], $form_config['link_field_value'])
 					->delete();
@@ -547,6 +568,19 @@ class FormController extends Controller
 								->delete();
 						}
 					}
+
+					// update activity
+					$activity_data = [
+						'module' => $form_config['module_label'],
+						'icon' => $form_config['module_icon'],
+						'user' => Session::get('user'),
+						'user_id' => Session::get('user_id'),
+						'login_id' => Session::get('login_id'),
+						'action' => 'Delete',
+						'record_identifier' => $record_identifier
+					];
+
+					ActivityController::save($activity_data);
 
 					// delete user if modules come under user_via_modules
 					if (in_array($form_config['module'], self::$user_via_modules)) {

@@ -307,6 +307,22 @@ a.back-to-top:hover {
 	left: auto;
 }
 
+.name_title {
+	width: 19%;
+}
+
+.mce-edit-area {
+	border-width: 1px 1px 0px 0px !important;
+}
+
+.no-mar {
+	margin: 0px !important;
+}
+
+.vertical-timeline-content:before {
+	border-right: 7px solid #f3f3f4;
+}
+
 @media print {
 	.printable {
 		display: block;

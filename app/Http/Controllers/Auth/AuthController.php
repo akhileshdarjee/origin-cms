@@ -9,6 +9,7 @@ use App\User;
 use Validator;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\AppController;
+use App\Http\Controllers\ActivityController;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
 
@@ -30,10 +31,10 @@ class AuthController extends Controller
 		}
 	}
 
+
 	/**
 	 * Handle a login request to the application.
 	 *
-	 * @param  LoginRequest  $request
 	 * @return Response
 	 */
 	public function postLogin(Request $request) {
@@ -44,20 +45,36 @@ class AuthController extends Controller
 		];
 
 		if (Auth::attempt($credentials)) {
-			$user = User::select('full_name', 'avatar', 'role', 'login_id')
+			$user = User::select('id', 'full_name', 'avatar', 'role', 'login_id', 'email')
 				->where('login_id', $credentials['login_id'])
 				->first();
 
-			$this->put_user_data_in_session($user);
-			$this->put_app_settings_in_session();
-
-			return redirect()->route('show.app');
+			return $this->afterSuccessLogin($user);
 		}
 
 		return redirect()->route('show.login')->with([
 			'msg' => 'Login ID or Password is incorrect',
 			'success' => 'false'
 		]);
+	}
+
+
+	// functions to be performed after successful login of user
+	public function afterSuccessLogin($user) {
+		$this->put_user_data_in_session($user);
+		$this->put_app_settings_in_session();
+
+		$activity_data = [
+			'module' => 'Auth',
+			'icon' => 'fa fa-sign-in',
+			'user' => $user->full_name,
+			'user_id' => $user->id,
+			'login_id' => $user->login_id,
+			'action' => "Login",
+		];
+
+		ActivityController::save($activity_data);
+		return redirect()->route('show.app');
 	}
 
 
@@ -76,7 +93,7 @@ class AuthController extends Controller
 		];
 
 		if (Auth::attempt($credentials)) {
-			$user = User::select('full_name', 'avatar', 'role', 'login_id')
+			$user = User::select('id', 'full_name', 'avatar', 'role', 'login_id')
 				->where('login_id', $credentials['login_id'])
 				->first();
 
@@ -125,6 +142,16 @@ class AuthController extends Controller
 	 * @return Response
 	 */
 	public function getLogout(Request $request) {
+		$activity_data = [
+			'module' => 'Auth',
+			'icon' => 'fa fa-sign-out',
+			'user' => Session::get('user'),
+			'user_id' => Session::get('user_id'),
+			'login_id' => Session::get('login_id'),
+			'action' => "Logout",
+		];
+
+		ActivityController::save($activity_data);
 		$user_role = Session::get('role');
 		Auth::logout();
 		Session::flush();
@@ -146,6 +173,7 @@ class AuthController extends Controller
 	public function put_user_data_in_session($user) {
 		// puts all user related data into session
 		$user_data = [
+			'user_id' => $user->id,
 			'user' => $user->full_name,
 			'role' => $user->role,
 			'login_id' => $user->login_id,

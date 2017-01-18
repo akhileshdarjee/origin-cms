@@ -41,6 +41,14 @@
 							<span class="nav-label">Reports</span>
 						</a>
 					</li>
+					@if (Session::get('role') == "Administrator")
+						<li title="Activities">
+							<a href="/app/activities">
+								<i class="fa fa-bell fa-lg"></i>
+								<span class="nav-label">Activities</span>
+							</a>
+						</li>
+					@endif
 					<li title="Settings">
 						<a href="/app/settings">
 							<i class="fa fa-cogs fa-lg"></i>
