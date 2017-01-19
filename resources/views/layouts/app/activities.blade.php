@@ -38,15 +38,13 @@
 					</div>
 				</div>
 			</div>
-			@if (count($data) > 20)
-				<div class="ibox-content">
-					<div class="row">
-						<div class="col-sm-5 text-right pull-right">
-							{!! $data->render() !!}
-						</div>
+			<div class="ibox-content">
+				<div class="row">
+					<div class="col-sm-5 text-right pull-right">
+						{{ $data->links() }}
 					</div>
 				</div>
-			@endif
+			</div>
 		</div>
 	</div>
 </div>
