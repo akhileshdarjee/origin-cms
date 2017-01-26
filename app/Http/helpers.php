@@ -54,4 +54,108 @@
 		echo $output;
 		exit();
 	}
+
+
+	// get translation text
+	function _t($text) {
+		$lang = Session::get('locale');
+		App::setLocale($lang);
+		$lang_text = trans($lang . '.' . $text);
+
+		if (strpos($lang_text, $lang . '.') !== false) {
+			return $text;
+		}
+		else {
+			return $lang_text;
+		}
+	}
+
+
+	// create description for activity
+	function make_act_desc($activity_data) {
+		$desc = false;
+
+		$user = '<a class="text-primary" href="/form/user/' . $activity_data->user_id . '" target="_blank">';
+		$user .= '<strong>' . _t($activity_data->user) . '</strong></a>';
+
+		if ($activity_data->module == "Auth") {
+			if ($activity_data->action == "Login") {
+				$desc = $user . " " . _t("logged in");
+			}
+			else {
+				$desc = $user . " " . _t("logged out");
+			}
+		}
+		else {
+			if ($activity_data->form_id) {
+				$activity_link = '<a class="text-primary" href="/form/' . snake_case($activity_data->module) . '/' . $activity_data->form_id . '" target="_blank">';
+				$activity_link .= '<strong>' . _t($activity_data->module) . ': ' . _t($activity_data->record_identifier) . '</strong></a>';
+			}
+
+			if ($activity_data->action == "Create") {
+				$desc = _t("New") . " " . $activity_link . " " . _t("created by") . " " . $user;
+			}
+			elseif ($activity_data->action == "Update") {
+				$desc = $activity_link . " " . _t("updated by") . " " . $user;
+			}
+			elseif ($activity_data->action == "Delete") {
+				$desc = '<strong>' . _t($activity_data->module) . ': ' . _t($activity_data->record_identifier) . '</strong>';
+				$desc .= ' ' . _t('deleted by') . ' ' . $user;
+			}
+		}
+
+		return $desc;
+	}
+
+
+	// convert hours to minutes
+	function h2m($hours) { 
+		$minutes = 0;
+
+		if (strpos($hours, ':') !== false) {
+			// Split hours and minutes. 
+			list($hours, $minutes) = explode(':', $hours);
+		}
+
+		return $hours * 60 + $minutes;
+	}
+
+
+	// convert time to human readable format
+	function human_readable($time) {
+		$time = explode(":", $time);
+		$hours = $time[0];
+		$minutes = $time[1];
+		$seconds = $time[2];
+
+		$duration = '';
+
+		if ((int) $hours) {
+			$duration .= (int) $hours . ' hrs';
+		}
+		if ((int) $minutes) {
+			$duration .= ' ' . (int) $minutes . ' mins';
+		}
+		if ((int) $seconds) {
+			$duration .= ' ' . (int) $seconds . ' sec';
+		}
+
+		return $duration;
+	}
+
+
+	function insert_into_object($obj, $key, $value, $after) {
+		$new_object = array();
+
+		foreach((array) $obj as $k => $v) {
+			$new_object[$k] = $v;
+
+			if ($after == $k){
+				$new_object[$key] = $value;
+			}
+		}
+
+		$new_object = (object) $new_object;
+		return $new_object;
+	}
 ?>
