@@ -44,7 +44,7 @@ class ModuleController extends Controller
 		}
 
 		if ($modules) {
-			return view('index', array('data' => $modules, 'file' => 'layouts.app.modules'));
+			return view('layouts.app.modules')->with(['data' => $modules]);
 		}
 	}
 }

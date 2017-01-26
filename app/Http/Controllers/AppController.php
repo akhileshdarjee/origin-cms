@@ -15,6 +15,7 @@ class AppController extends Controller
 	public static function show_home() {
 		$app_page = SettingsController::get_app_setting('home_page');
 		$app_page = 'show.app.' . $app_page;
+
 		if (Session::has('msg') && Session::get('msg')) {
 			return redirect()->route($app_page)->with('msg', Session::get('msg'));
 		}

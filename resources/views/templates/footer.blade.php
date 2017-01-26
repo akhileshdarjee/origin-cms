@@ -1,9 +1,12 @@
 <!-- footer content -->
-<footer>
-	<div class="pull-right">
-		Origin CMS {{ date('Y') }}</a>
+<footer class="main-footer">
+	<div class="pull-right hidden-xs">
+		Made with <i class="fa fa-heart fa-lg" style="color: #d90429;"></i> by 
+		<strong>
+			<a href="https://www.facebook.com/mr.multitalented" target="_blank" style="color: #676a6c;">Akhilesh Darjee</a>
+		</strong>
 	</div>
-	<div class="clearfix"></div>
+	<strong>Origin CMS</strong> - {{ date('Y') }}
 </footer>
 <!-- /footer content -->
 @include('templates.msgbox')

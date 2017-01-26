@@ -12,7 +12,7 @@ return [
 	*/
 
 	'tabUser' => [
-		'link_field' => 'login_id',
+		'link_field' => 'id',
 		'search_via' => 'login_id',
 		'cols' => ['login_id', 'full_name', 'role', 'status']
 	],

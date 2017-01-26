@@ -1,61 +1,3 @@
-body, .badge, .label {
-	font-family: 'Roboto', sans-serif;
-}
-
-body.mini-navbar .app-name {
-	display: none;
-}
-
-.logo-name {
-	margin-top: 0px;
-	font-weight: 900;
-}
-
-h1, h2, h3, h4, h5, h6 {
-	font-weight: 300;
-}
-
-.label {
-	font-weight: normal;
-}
-
-h3, h4, h5 {
-	margin-top: 5px;
-	font-weight: 700;
-}
-
-.btn {
-	font-weight: 400;
-}
-
-button.dim, .font-bold, .badge, .logo-element, .branding, .unread td, .client-link {
-	font-weight: 700;
-}
-
-.landing-page .comments-avatar .commens-name, .landing-page .services h2, .landing-page li.pricing-title {
-	font-weight: 700;
-}
-
-.nav > li > a, .fc-header-title h2, .animation-text-box h2, a.forum-item-title, .nav-tabs > li > a {
-	font-weight: 700;
-}
-
-.dropdown-menu > li > a.font-bold, .lock-word span, .project-title a, .faq-question, .issue-info a, .product-imitation {
-	font-weight: 700;
-}
-
-.product-name, .product-price, .vote-actions, .vote-actions a, .vote-title, .landing-page .btn-primary {
-	font-weight: 700;
-}
-
-.skin-setttings .title, .default-skin, .blue-skin, .ultra-skin {
-	font-weight: 700;
-}
-
-.ibox-heading h3, .landing-page h1, .landing-page .features-text-alone h1 {
-	font-weight: 300;
-}
-
 .default-avatar {
 	width: 48px;
 	height: 48px;
@@ -222,32 +164,6 @@ a.back-to-top:hover {
 
 #row-count {
 	font-weight: 700;
-}
-
-/* Form View */
-.floatbox-title {
-	min-height: 67px;
-}
-.floatbox-title .form-status {
-	display: inline-block;
-	margin: 0 0 7px;
-	padding: 10px 10px 10px 20px;
-	text-overflow: ellipsis;
-	float: left;
-	font-weight: 500;
-}
-
-.floatbox-title .form-name, .form-status {
-	margin-top: 5px;
-}
-
-.floatbox-title .form-name {
-	display: inline-block;
-	font-size: 25px;
-	margin: 0 0 7px;
-	padding: 0;
-	text-overflow: ellipsis;
-	float: left;
 }
 
 

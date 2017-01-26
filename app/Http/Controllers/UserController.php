@@ -25,8 +25,8 @@ class UserController extends Controller
 			'table_name' => 'tabUser',
 			'view' => 'layouts.user',
 			'avatar_folder' => '/images/user',
-			'link_field' => 'login_id',
-			'link_field_label' => 'Login ID',
+			'link_field' => 'id',
+			'link_field_label' => 'ID',
 			'record_identifier' => 'login_id'
 		];
 	}

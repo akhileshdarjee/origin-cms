@@ -152,7 +152,7 @@ $( document ).ready(function() {
 
 
 	// toggle vertical nav active
-	$.each($("nav > div > ul > li"), function(index, navbar) {
+	$.each($(".treeview"), function(index, navbar) {
 		if ($(this).find('a').attr('href') == app_route) {
 			$(this).addClass('active');
 		}
@@ -206,6 +206,31 @@ $( document ).ready(function() {
 			}
 		});
 	});
+
+
+	// enable wyswig editor
+	tinymce.init({
+		selector: ".tinymce",
+		theme: "modern",
+		height : 250,
+		plugins: [
+			'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+			'searchreplace wordcount visualblocks visualchars code fullscreen',
+			'insertdatetime media nonbreaking save table contextmenu directionality',
+			'emoticons template paste textcolor colorpicker textpattern imagetools codesample toc jbimages'
+		],
+		toolbar1: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image jbimages',
+		toolbar2: 'print preview media | forecolor backcolor emoticons | codesample',
+		relative_urls: false,
+		setup : function(ed) {
+			ed.on('change', function(e) {
+				if (typeof change_doc === "function") {
+					change_doc();
+				}
+			});
+		}
+	});
+
 
 	// Autocomplete
 	enable_autocomplete();

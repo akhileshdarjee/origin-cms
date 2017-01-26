@@ -24,11 +24,9 @@ elixir(function(mix) {
 		'../../../public/css/font-awesome.min.css',
 		'../../../public/css/animate.css',
 		'../../../public/css/bootstrap-datetimepicker.css',
-		'../../../public/vendors/nprogress/nprogress.css',
-		'../../../public/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css',
-		'../../../public/vendors/normalize-css/normalize.css',
-		'../../../public/css/custom.min.css',
-		'../../../public/css/web_app/web_app.css'
+		'../../../public/css/AdminLTE.min.css',
+		'../../../public/css/skins/skin-blue.min.css',
+		'../../../public/plugins/pace/pace.min.css'
 	]);
 });
 
@@ -36,44 +34,32 @@ elixir(function(mix) {
 	mix.scripts([
 		'../../../public/js/jquery-ui.min.js',
 		'../../../public/js/bootstrap.min.js',
-		'../../../public/vendors/fastclick/lib/fastclick.js',
+		'../../../public/plugins/slimScroll/jquery.slimscroll.min.js',
+		'../../../public/plugins/pace/pace.min.js',
 		'../../../public/js/bootstrap-typeahead.js',
 		'../../../public/js/moment.js',
-		'../../../public/vendors/nprogress/nprogress.js',
-		'../../../public/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js',
 		'../../../public/js/bootstrap-datetimepicker.js',
-		'../../../public/js/custom.min.js',
+		'../../../public/js/tinymce/tinymce.min.js',
+		'../../../public/js/app.min.js',
 		'../../../public/js/web_app/web_app.js'
 	]);
 });
 
 elixir(function(mix) {
 	mix.styles([
-		'../../../public/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css',
-		'../../../public/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css',
-		'../../../public/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css',
-		'../../../public/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css',
-		'../../../public/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css'
+		'../../../public/plugins/datatables/dataTables.bootstrap.css',
 	], 'public/css/web_app/app-report.css');
 });
 
 elixir(function(mix) {
 	mix.scripts([
-		'../../../public/vendors/datatables.net/js/jquery.dataTables.min.js',
-		'../../../public/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js',
-		'../../../public/vendors/datatables.net-buttons/js/dataTables.buttons.min.js',
-		'../../../public/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js',
-		'../../../public/vendors/datatables.net-buttons/js/buttons.flash.min.js',
-		'../../../public/vendors/datatables.net-buttons/js/buttons.html5.min.js',
-		'../../../public/vendors/datatables.net-buttons/js/buttons.print.min.js',
-		'../../../public/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js',
-		'../../../public/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js',
-		'../../../public/vendors/datatables.net-responsive/js/dataTables.responsive.min.js',
-		'../../../public/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js',
-		'../../../public/vendors/datatables.net-scroller/js/dataTables.scroller.min.js',
+		'../../../public/plugins/datatables/jquery.dataTables.min.js',
+		'../../../public/plugins/datatables/dataTables.bootstrap.min.js',
 		'../../../public/js/web_app/report_view.js'
 	], 'public/js/web_app/app-report.js');
 });
+
+/* Versioning */
 
 elixir(function(mix) {
 	mix.version(['css/all.css', 'js/all.js', 'css/web_app/app-report.css', 'js/web_app/app-report.js']);
