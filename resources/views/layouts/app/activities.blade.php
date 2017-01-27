@@ -1,56 +1,55 @@
-<div class="row animated fadeInRight">
-	<div class="col-md-12">
-		<div class="ibox float-e-margins">
-			<div class="ibox-title">
-				<h5><i class="fa fa-bell"></i> Activities</h5>
-			</div>
-			<div class="ibox-content">
-				<div class="row">
-					<div class="col-md-8 col-md-offset-2">
-						<div id="vertical-timeline" class="vertical-container light-timeline no-margins">
-							@foreach($data as $activity)
-								<div class="vertical-timeline-block">
-									@if ($activity->action == "Create")
-										@var $icon_bg = "blue-bg"
-									@elseif ($activity->action == "Update")
-										@var $icon_bg = "yellow-bg"
-									@elseif ($activity->action == "Delete")
-										@var $icon_bg = "red-bg"
-									@else
-										@var $icon_bg = "navy-bg"
-									@endif
-									<div class="vertical-timeline-icon {{ $icon_bg }}">
-										<i class="{{ $activity->icon }}"></i>
-									</div>
-									<div class="vertical-timeline-content gray-bg">
-										<small class="pull-right">
-											{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $activity->created_at)->diffForHumans() }}
-										</small>
-										<p class="no-mar">{!! nl2br($activity->description) !!}</p>
-										<small class="text-muted">
-											@var $activity_dt = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $activity->created_at)
-											{{ $activity_dt->toFormattedDateString() }} at {{ $activity_dt->format('h:i A') }}
-										</small>
-									</div>
-								</div>
-							@endforeach
-						</div>
-					</div>
+@extends('app')
+
+@section('title', 'Activities - Origin CMS')
+
+@section('body')
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+			<div class="box">
+				<div class="box-header with-border">
+					<h3 class="box-title">
+						<i class="fa fa-bell"></i> Activities
+					</h3>
 				</div>
-			</div>
-			<div class="ibox-content">
-				<div class="row">
-					<div class="col-sm-5 text-right pull-right">
-						{{ $data->links() }}
+				<!-- /.box-header -->
+				<div class="box-body">
+					<ul class="timeline">
+						@foreach($data as $activity)
+							@if ($activity->action == "Create")
+								@var $icon_bg = "bg-blue"
+							@elseif ($activity->action == "Update")
+								@var $icon_bg = "bg-yellow"
+							@elseif ($activity->action == "Delete")
+								@var $icon_bg = "bg-red"
+							@else
+								@var $icon_bg = "gray-bg"
+							@endif
+							<li>
+								<i class="fa {{ $activity->icon }} {{ $icon_bg }}"></i>
+								<div class="timeline-item bg-gray">
+									<span class="time">
+										<i class="fa fa-clock-o"></i> 
+										{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $activity->created_at)->diffForHumans() }}
+									</span>
+									<div class="timeline-body no-border">{!! nl2br(make_act_desc($activity)) !!}</div>
+									<small class="text-muted">
+										@var $activity_dt = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $activity->created_at)
+										{{ $activity_dt->toFormattedDateString() }} at {{ $activity_dt->format('h:i A') }}
+									</small>
+								</div>
+							</li>
+						@endforeach
+					</ul>
+				</div>
+				<!-- /.box-body -->
+				<div class="box-footer clearfix">
+					<div class="row">
+						<div class="col-sm-12 text-right pull-right">
+							{{ $data->links() }}
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
-<script type="text/javascript">
-	$( document ).ready(function() {
-		// set pagination attributes
-		$(".pagination").attr("class", "pagination pagination-small m-t-none m-b-none");
-	});
-</script>
+@endsection

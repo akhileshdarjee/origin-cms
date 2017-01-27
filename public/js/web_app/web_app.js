@@ -323,15 +323,9 @@ function enable_autocomplete() {
 // msgbox
 function msgbox(msg, footer, title, size) {
 	$("#message-box").on("show.bs.modal", function (e) {
-		if (size == "large") {
-			$(this).find(".modal-dialog").addClass("modal-lg");
-		}
-		else if (size == "small") {
-			$(this).find(".modal-dialog").addClass("modal-sm");
-		}
-
 		$(this).find(".modal-title").html(title ? title : "Message");
 		$(this).find(".modal-body").html(msg);
+
 		if (footer) {
 			$(this).find(".modal-footer").html(footer);
 			$(this).find(".modal-footer").show();
@@ -342,7 +336,6 @@ function msgbox(msg, footer, title, size) {
 		}
 	})
 	.on('hidden.bs.modal', function (e) {
-		$(this).find(".modal-dialog").removeClass("modal-lg modal-sm");
 		$(this).find(".modal-title").html("Message");
 		$(this).find(".modal-body").html("");
 		$(this).find(".modal-footer").html("");

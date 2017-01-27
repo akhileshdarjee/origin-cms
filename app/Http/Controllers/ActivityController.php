@@ -12,12 +12,16 @@ use App\Http\Controllers\Controller;
 class ActivityController extends Controller
 {
 	public function show() {
-		$data = DB::table('tabActivity')
-			->select('icon', 'form_id', 'module', 'action', 'description', 'created_at')
-			->orderBy('id', 'desc')
-			->paginate(20);
+		if (Session::get('role') == "Administrator") {
+			$activities = DB::table('tabActivity')
+				->orderBy('id', 'desc')
+				->paginate(20);
 
-		return view('index', array('data' => $data, 'file' => 'layouts.app.activities'));
+			return view('layouts.app.activities')->with(['data' => $activities]);
+		}
+		else {
+			abort('403');
+		}
 	}
 
 

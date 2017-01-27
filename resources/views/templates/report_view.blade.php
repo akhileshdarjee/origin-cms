@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>{{ ucwords($title) }} - Web App</title>
+		<title>{{ ucwords($title) }} - Origin CMS</title>
 		@include('templates.headers')
 		<link type="text/css" rel="stylesheet" href="{{ elixir('css/web_app/app-report.css') }}">
 	</head>

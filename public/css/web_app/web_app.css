@@ -93,11 +93,6 @@ a.back-to-top:hover {
 }
 
 
-/* Breadcrumb */
-.app-breadcrumb {
-	padding: 15px !important; 
-}
-
 /* Avatar */
 .media > .avatar-box > img {
 	width: 100px;
@@ -112,16 +107,37 @@ a.back-to-top:hover {
 .app-module:nth-child(6n+1) {
 	clear: both;
 }
-
-.app-module .module-label {
-	font-size: 15px;
+.m-b {
+	margin-bottom: 15px;
 }
-
 .module-btn {
 	width: 80px;
 	height: 70px;
 	font-size: 30px;
 	position: relative;
+	display: inline-block;
+	text-decoration: none;
+	text-align: center;
+	padding-top: 6px;
+	cursor: pointer;
+	border-radius: 5px;
+	font-weight: 600;
+	margin-bottom: 16px !important;
+	line-height: 58px;
+}
+.module-label, .module-label a {
+	font-size: 15px;
+	margin-top: 0px;
+	font-weight: 700;
+	margin-bottom: 10px;
+	color: #676a6c;
+	text-decoration: none;
+}
+
+/* Breadcrumb */
+.app-breadcrumb {
+	right: auto !important;
+	font-size: 16px !important;
 }
 
 /* List View */
@@ -164,6 +180,27 @@ a.back-to-top:hover {
 
 #row-count {
 	font-weight: 700;
+}
+
+
+/* Form View */
+.floatbox-title .form-status {
+	display: inline-block;
+	text-overflow: ellipsis;
+	font-size: 15px;
+	font-weight: 500;
+}
+
+.floatbox-title .form-name, .form-status {
+	margin-top: 5px;
+}
+
+.floatbox-title .form-name {
+	display: inline-block;
+	font-size: 25px;
+	padding: 0;
+	text-overflow: ellipsis;
+	float: left;
 }
 
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>404 Error | Page Not Found | Web App</title>
+		<title>404 Error | Page Not Found | Origin CMS</title>
 		@include('templates.headers')
 	</head>
 	<body class="nav-md">

@@ -16,7 +16,7 @@
 					@if (Session::has('msg'))
 						@if (Session::has('success') && Session::get('success') == "true")
 							<div class="block">
-								<div class="alert alert-success alert-dismissable">
+								<div class="alert alert-success alert-dismissible">
 									<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
 									<strong>
 										<i class="fa fa-check fa-lg"></i> {{ Session::get('msg') }}
@@ -25,7 +25,7 @@
 							</div>
 						@else
 							<div class="block">
-								<div class="alert alert-danger alert-dismissable">
+								<div class="alert alert-danger alert-dismissible">
 									<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
 									<strong>
 										<i class="fa fa-exclamation-triangle fa-lg"></i> {{ Session::get('msg') }}

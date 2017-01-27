@@ -3,7 +3,7 @@
 	<head>
 		<meta name="viewport" content="width=device-width" />
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<title>Registration - Web App</title>
+		<title>Registration - Origin CMS</title>
 	</head>
 	<body style="font-family: 'Open Sans', sans-serif;">
 		<table style="background-color: #f6f6f6; width: 100%;">
@@ -17,7 +17,7 @@
 									<table cellpadding="0" cellspacing="0" style="width: 100%;">
 										<tr>
 											<td style="background-color: #1ab394; color: #ffffff; text-align: center; padding: 40px; font-size: 40px; font-weight: bold;">
-												Web App
+												Origin CMS
 											</td>
 										</tr>
 										<tr>

@@ -133,7 +133,7 @@ function remove_mandatory_highlight(mandatory_fields) {
 function enable_save_button() {
 	form_changed = true;
 	$("#save_form").removeClass("disabled");
-	$("#form-stats > i").removeClass("text-success").addClass("text-warning");
+	$("#form-stats > i").removeClass("text-success").addClass("text-yellow");
 	$("#form-status").html('<b>Not Saved</b>');
 }
 
@@ -217,13 +217,13 @@ window.doc.create = {
 		element.setAttribute("class", button_class);
 
 		// set button loading text if given
-		if(typeof button_config['loading_text'] != 'undefined' && button_config['loading_text']) {
+		if (typeof button_config['loading_text'] != 'undefined' && button_config['loading_text']) {
 			element.setAttribute("data-loading-text", button_config['loading_text']);
 		}
 		element.appendChild(document.createTextNode(button_text));
 
 		// append button on form title section
-		$(".ibox-tools").prepend(element);
+		$(".box-tools").prepend(element);
 
 		// bind on click method to the dynamically created button if passed in button config
 		if (typeof button_config['on_click'] != 'undefined' && button_config['on_click']) {

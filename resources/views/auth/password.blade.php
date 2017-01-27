@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>Password Reset - Web App</title>
+		<title>Password Reset - Origin CMS</title>
 		@include('templates.headers')
 	</head>
 	<body class="login">

@@ -1,6 +1,6 @@
 $( document ).ready(function() {
 	if ($("#id").val()) {
-		var status_bar = '<div class="x_content">\
+		var status_bar = '<div class="box-header with-border">\
 			<div class="row">\
 				<div class="col-md-3 col-sm-12">\
 					Email Confirmed: ';
@@ -16,6 +16,6 @@ $( document ).ready(function() {
 			</div>\
 		</div>';
 
-		$(status_bar).insertAfter(".floatbox-title");
+		$(status_bar).insertAfter(".box-header");
 	}
 });

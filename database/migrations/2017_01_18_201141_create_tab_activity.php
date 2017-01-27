@@ -14,14 +14,14 @@ class CreateTabActivity extends Migration
 	{
 		Schema::create('tabActivity', function (Blueprint $table) {
 			$table->increments('id');
+			$table->integer('user_id')->unsigned();
 			$table->string('user');
-			$table->integer('user_id');
 			$table->boolean('status');
 			$table->string('module');
 			$table->string('icon');
 			$table->string('action')->nullable();
 			$table->integer('form_id')->nullable();
-			$table->text('description');
+			$table->string('record_identifier')->nullable();
 			$table->string('owner');
 			$table->string('last_updated_by');
 			$table->timestamps();

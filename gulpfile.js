@@ -26,16 +26,16 @@ elixir(function(mix) {
 		'../../../public/css/bootstrap-datetimepicker.css',
 		'../../../public/css/AdminLTE.min.css',
 		'../../../public/css/skins/skin-blue.min.css',
-		'../../../public/plugins/pace/pace.min.css'
+		'../../../public/css/web_app/web_app.css',
 	]);
 });
 
 elixir(function(mix) {
 	mix.scripts([
 		'../../../public/js/jquery-ui.min.js',
+		'../../../public/js/jquery.highlight.js',
 		'../../../public/js/bootstrap.min.js',
 		'../../../public/plugins/slimScroll/jquery.slimscroll.min.js',
-		'../../../public/plugins/pace/pace.min.js',
 		'../../../public/js/bootstrap-typeahead.js',
 		'../../../public/js/moment.js',
 		'../../../public/js/bootstrap-datetimepicker.js',
