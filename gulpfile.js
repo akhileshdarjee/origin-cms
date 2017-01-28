@@ -23,6 +23,7 @@ elixir(function(mix) {
 		'../../../public/css/bootstrap.min.css',
 		'../../../public/css/font-awesome.min.css',
 		'../../../public/css/animate.css',
+		'../../../public/plugins/datepicker/datepicker3.css',
 		'../../../public/css/bootstrap-datetimepicker.css',
 		'../../../public/css/AdminLTE.min.css',
 		'../../../public/css/skins/skin-blue.min.css',
@@ -38,6 +39,8 @@ elixir(function(mix) {
 		'../../../public/plugins/slimScroll/jquery.slimscroll.min.js',
 		'../../../public/js/bootstrap-typeahead.js',
 		'../../../public/js/moment.js',
+		'../../../public/plugins/datepicker/bootstrap-datepicker.js',
+		/* '../../../public/plugins/timepicker/bootstrap-timepicker.min.js', */
 		'../../../public/js/bootstrap-datetimepicker.js',
 		'../../../public/js/tinymce/tinymce.min.js',
 		'../../../public/js/app.min.js',

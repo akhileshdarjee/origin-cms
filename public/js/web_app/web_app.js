@@ -210,7 +210,7 @@ $( document ).ready(function() {
 
 	// enable wyswig editor
 	tinymce.init({
-		selector: ".tinymce",
+		selector: ".editor",
 		theme: "modern",
 		height : 250,
 		plugins: [

@@ -13,7 +13,7 @@
 	</script>
 @endsection
 
-{{-- Hide breadcrumbs for Single Module type eg. Settings --}}
+{{-- Hide breadcrumbs for Single type Modules eg. Settings --}}
 
 @if (!isset($module_type))
 	@section('breadcrumb')
@@ -72,20 +72,14 @@
 									</a>
 								</li>
 								<li>
-									<a href="#" id="delete" name="delete">
-										Delete
-									</a>
+									<a href="#" id="delete" name="delete">Delete</a>
 								</li>
 								<li>
-									<a href="#" id="print-page">
-										Print
-									</a>
+									<a href="#" id="print-page">Print</a>
 								</li>
 								<li class="divider"></li>
 								<li>
-									<a href="/form/{{ snake_case($module) }}">
-										New {{ $title }}
-									</a>
+									<a href="/form/{{ snake_case($module) }}">New {{ $title }}</a>
 								</li>
 							</ul>
 						</div>

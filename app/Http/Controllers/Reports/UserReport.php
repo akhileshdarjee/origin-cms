@@ -15,7 +15,7 @@ class UserReport extends Controller
 	public function get_data($request) {
 		$query = DB::table('tabUser')
 			->select(
-				'full_name', 'login_id', 'email', 'role', 'status'
+				'id', 'full_name', 'login_id', 'email', 'role', 'status'
 			);
 
 		if ($request->has('filters') && $request->get('filters')) {
@@ -41,7 +41,7 @@ class UserReport extends Controller
 			'rows' => $rows,
 			'columns' => array('full_name', 'login_id', 'email', 'role', 'status'),
 			'module' => 'User',
-			'link_field' => 'login_id',
+			'link_field' => 'id',
 			'record_identifier' => 'login_id'
 		);
 	}

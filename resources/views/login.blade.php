@@ -54,13 +54,16 @@
 						<div class="text-danger" id="alert" style="text-align: left; display: none;">Please Enter Password</div>
 					</div>
 					<div class="row">
+						<div class="col-xs-8">
+							<a href="/password/email"><small>Forgot password?</small></a>
+						</div>
 						<div class="col-xs-4">
 							<button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
 						</div>
 					</div>
 				</form>
-				<a href="/password/email">Forgot Password?</a><br>
-				<!-- <a href="/" class="text-center">Register a new membership</a> -->
+				<p class="text-muted text-center"><small>Don't have an account?</small></p>
+				<a class="btn btn-default btn-sm btn-block" href="/">Create an account</a>
 			</div>
 		</div>
 		<script type="text/javascript" src="/js/jquery.js"></script>
