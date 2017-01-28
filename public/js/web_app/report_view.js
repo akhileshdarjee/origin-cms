@@ -1,14 +1,6 @@
 $( document ).ready(function() {
 
 	var report_table = $('table#report-table').DataTable({
-		"bProcessing": true,
-		"sDom": "<'row'<'col-sm-6'l><'col-sm-6'f>r>t<'row'<'col-sm-6'i><'col col-sm-6'p>>",
-		"sPaginationType": "full_numbers",
-		"bAutoWidth": false,
-		"oLanguage": {
-			"sEmptyTable": "No Data",
-			"sProcessing": '<div class="sk-spinner sk-spinner-double-bounce"><div class="sk-double-bounce1"></div><div class="sk-double-bounce2"></div></div>'
-		},
 		"scrollY": 375,
 		"scrollX": true,
 	});

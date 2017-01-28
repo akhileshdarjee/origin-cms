@@ -24,12 +24,6 @@
 		<!-- sidebar menu: : style can be found in sidebar.less -->
 		<ul class="sidebar-menu">
 			<li class="header">MAIN NAVIGATION</li>
-			<li class="treeview" title="Dashboard">
-				<a href="/app/dashboard">
-					<i class="fa fa-dashboard"></i>
-					<span>Dashboard</span>
-				</a>
-			</li>
 			<li class="treeview" title="Modules">
 				<a href="/app/modules">
 					<i class="fa fa-diamond"></i>

@@ -32,13 +32,13 @@
 						<li class="user-footer">
 							<div class="row">
 								<div class="col-md-4">
-									<a href="/form/user/{{ Session::get('user_id') }}" class="btn btn-default btn-flat">Profile</a>
+									<a href="/form/user/{{ Session::get('user_id') }}" class="btn btn-default">Profile</a>
 								</div>
 								<div class="col-md-4">
-									<a href="/app/settings" class="btn btn-default btn-flat">Settings</a>
+									<a href="/app/settings" class="btn btn-default">Settings</a>
 								</div>
 								<div class="col-md-4">
-									<a href="/logout" class="btn btn-default btn-flat">Sign out</a>
+									<a href="/logout" class="btn btn-default">Sign out</a>
 								</div>
 							</div>
 						</li>

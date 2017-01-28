@@ -64,18 +64,22 @@
 a.back-to-top {
 	display: none;
 	text-align: center;
-	line-height: 50px;
-	width: 50px;
-	height: 50px;
+	line-height: 40px;
+	width: 40px;
+	height: 40px;
 	position: fixed;
 	z-index: 999;
-	right: 20px;
+	right: 25px;
 	bottom: 20px;
-	background-color: #1ab394;
+	background-color: #222d32;
 	color: #fff;
-	border-radius: 3px;
+	border-radius: 5px;
+	cursor: pointer;
+	z-index: 99999;
+	opacity: 0.7;
 }
 a.back-to-top:hover {
+	opacity: 1;
 	color: #fff;
 }
 

@@ -13,22 +13,26 @@
 	</script>
 @endsection
 
-@section('breadcrumb')
-	<section class="content-header">
-		<h1>&nbsp;</h1>
-		<ol class="breadcrumb app-breadcrumb">
-			<li>
-				<a href="/app">Home</a>
-			</li>
-			<li>
-				<a href="/list/{{ snake_case($module) }}">{{ $title }}</a>
-			</li>
-			<li class="active">
-				<strong>{{ isset($form_data[$table_name]['id']) ? $form_data[$table_name][$record_identifier] : 'New ' . $title }}</strong>
-			</li>
-		</ol>
-	</section>
-@endsection
+{{-- Hide breadcrumbs for Single Module type eg. Settings --}}
+
+@if (!isset($module_type))
+	@section('breadcrumb')
+		<section class="content-header">
+			<h1>&nbsp;</h1>
+			<ol class="breadcrumb app-breadcrumb">
+				<li>
+					<a href="/app">Home</a>
+				</li>
+				<li>
+					<a href="/list/{{ snake_case($module) }}">{{ $title }}</a>
+				</li>
+				<li class="active">
+					<strong>{{ isset($form_data[$table_name]['id']) ? $form_data[$table_name][$record_identifier] : 'New ' . $title }}</strong>
+				</li>
+			</ol>
+		</section>
+	@endsection
+@endif
 
 @section('body')
 	<div class="box">

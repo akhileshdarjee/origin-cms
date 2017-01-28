@@ -87,18 +87,24 @@ table.dataTable thead .sorting_desc:after {
 	top: 8px;
 	right: 8px;
 	display: block;
-	font-family: 'Glyphicons Halflings';
+	font-family: fontawesome;
 	opacity: 0.5;
 }
 table.dataTable thead .sorting:after {
-	opacity: 0.2;
-	content: "\e150"; /* sort */
+	content: "\f0dc";
+	float: right;
+	font-family: fontawesome;
+	color: rgba(50,50,50,.5);
 }
 table.dataTable thead .sorting_asc:after {
-	content: "\e155"; /* sort-by-attributes */
+	content: "\f0d8";
+	float: right;
+	font-family: fontawesome;
 }
 table.dataTable thead .sorting_desc:after {
-	content: "\e156"; /* sort-by-attributes-alt */
+	content: "\f0dd";
+	float: right;
+	font-family: fontawesome;
 }
 div.dataTables_scrollBody table.dataTable thead .sorting:after,
 div.dataTables_scrollBody table.dataTable thead .sorting_asc:after,

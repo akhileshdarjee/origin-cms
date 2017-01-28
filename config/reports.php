@@ -12,7 +12,7 @@ return [
 	*/
 
 	'UserReport' => [
-		'label' => 'USER REPORT', 
+		'label' => 'User Report', 
 		'icon' => 'fa fa-user', 
 		'bg_color' => '#d35400', 
 		'icon_color' => '#ffffff', 

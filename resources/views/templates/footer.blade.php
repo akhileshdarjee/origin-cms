@@ -9,6 +9,11 @@
 	<strong>Origin CMS</strong> - {{ date('Y') }}
 </footer>
 <!-- /footer content -->
+<!-- back to top -->
+<a href="#" class="back-to-top">
+	<i class="fa fa-chevron-up"></i>
+</a>
+<!-- /back to top -->
 @include('templates.msgbox')
 @if (Session::has('msg'))
 	<script type="text/javascript">

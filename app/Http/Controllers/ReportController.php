@@ -19,7 +19,8 @@ class ReportController extends Controller
 	// Show list of all reports for the app
 	public static function show() {
 		if (Session::get('role') == 'Administrator') {
-			return view('index', array('data' => [], 'file' => 'layouts.app.reports'));
+			$app_reports = config('reports');
+			return view('layouts.app.reports')->with(['data' => $app_reports]);
 		}
 		else {
 			return back()->withInput()->with(['msg' => 'You are not authorized to view "Reports"']);

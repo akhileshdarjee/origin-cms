@@ -2,8 +2,9 @@
 <html lang="en">
 	<head>
 		<title>@yield('title')</title>
-		@include('templates.headers')
 		@stack('meta')
+		@include('templates.headers')
+		@stack('styles')
 
 		@section('data')
 			<script type="text/javascript">

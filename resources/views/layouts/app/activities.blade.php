@@ -31,11 +31,12 @@
 										<i class="fa fa-clock-o"></i> 
 										{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $activity->created_at)->diffForHumans() }}
 									</span>
-									<div class="timeline-body no-border">{!! nl2br(make_act_desc($activity)) !!}</div>
-									<small class="text-muted">
-										@var $activity_dt = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $activity->created_at)
-										{{ $activity_dt->toFormattedDateString() }} at {{ $activity_dt->format('h:i A') }}
-									</small>
+									<div class="timeline-body no-border">{!! nl2br(make_act_desc($activity)) !!}<br />
+										<small class="text-muted">
+											@var $activity_dt = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $activity->created_at)
+											{{ $activity_dt->toFormattedDateString() }} at {{ $activity_dt->format('h:i A') }}
+										</small>
+									</div>
 								</div>
 							</li>
 						@endforeach
