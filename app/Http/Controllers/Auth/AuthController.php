@@ -45,7 +45,7 @@ class AuthController extends Controller
 		];
 
 		if (Auth::attempt($credentials)) {
-			$user = User::select('id', 'full_name', 'avatar', 'role', 'login_id', 'email')
+			$user = User::select('id', 'full_name', 'avatar', 'language', 'role', 'login_id', 'email')
 				->where('login_id', $credentials['login_id'])
 				->first();
 
@@ -177,7 +177,8 @@ class AuthController extends Controller
 			'user' => $user->full_name,
 			'role' => $user->role,
 			'login_id' => $user->login_id,
-			'avatar' => $user->avatar
+			'avatar' => $user->avatar,
+			'locale' => $user->language,
 		];
 
 		Session::put($user_data);

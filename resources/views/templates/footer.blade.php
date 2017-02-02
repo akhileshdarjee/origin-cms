@@ -15,10 +15,10 @@
 </a>
 <!-- /back to top -->
 @include('templates.msgbox')
+<script type="text/javascript" src="/js/jquery.js"></script>
+<script type="text/javascript" src="{{ elixir('js/all.js') }}"></script>
 @if (Session::has('msg'))
 	<script type="text/javascript">
 		msgbox("{{ Session::get('msg') }}");
 	</script>
 @endif
-<script type="text/javascript" src="/js/jquery.js"></script>
-<script type="text/javascript" src="{{ elixir('js/all.js') }}"></script>

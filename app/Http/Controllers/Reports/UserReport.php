@@ -39,7 +39,7 @@ class UserReport extends Controller
 
 		return array(
 			'rows' => $rows,
-			'columns' => array('full_name', 'login_id', 'email', 'role', 'status'),
+			'columns' => ['full_name', 'login_id', 'email', 'role', 'status'],
 			'module' => 'User',
 			'link_field' => 'id',
 			'record_identifier' => 'login_id'

@@ -58,7 +58,9 @@
 							<a href="/password/email"><small>Forgot password?</small></a>
 						</div>
 						<div class="col-xs-4">
-							<button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+							<button type="submit" class="btn btn-primary btn-block btn-flat" id="submit-login" data-loading-text="Signing In...">
+								Sign In
+							</button>
 						</div>
 					</div>
 				</form>

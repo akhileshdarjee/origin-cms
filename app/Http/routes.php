@@ -50,7 +50,7 @@ Route::group(['middleware' => ['web']], function () {
 		// App Home page module routes...
 		Route::get('/app/dashboard', ['as' => 'show.app.dashboard', 'uses' => 'DashboardController@show']);
 		Route::get('/app/modules', ['as' => 'show.app.modules', 'uses' => 'ModuleController@show']);
-		Route::get('/app/reports', ['as' => 'show.app.reports', 'uses' => 'ReportController@show']);
+		Route::get('/app/reports', ['as' => 'show.app.reports', 'uses' => 'ReportsController@show']);
 		Route::get('/app/activities', ['as' => 'show.app.activities', 'uses' => 'ActivityController@show']);
 		Route::get('/app/settings', ['as' => 'show.app.settings', 'uses' => 'SettingsController@show']);
 		Route::post('/app/settings', ['as' => 'save.app.settings', 'uses' => 'SettingsController@save']);
@@ -59,7 +59,8 @@ Route::group(['middleware' => ['web']], function () {
 		Route::get('/list/{module_name}', ['as' => 'show.list', 'uses' => 'ListViewController@showList']);
 
 		// Report View...
-		Route::get('/app/report/{report_name}', ['as' => 'show.report', 'uses' => 'ReportController@showReport']);
+		Route::get('/app/standard_report/{report_name}', ['as' => 'show.standard.report', 'uses' => 'ReportsController@showReport']);
+		Route::get('/app/query_report/{report_name}', ['as' => 'show.query.report', 'uses' => 'ReportsController@showReport']);
 
 		// Autocomplete data...
 		Route::get('/getAutocomplete', ['as' => 'get.autocomplete', 'uses' => 'AutocompleteController@getAutocomplete']);

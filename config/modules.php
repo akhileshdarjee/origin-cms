@@ -11,6 +11,13 @@ return [
 	|
 	*/
 
+	'Reports' => [
+		'module_label' => 'Reports', 
+		'href' => '/list/reports', 
+		'icon' => 'fa fa-sitemap', 
+		'bg_color' => '#676a6c', 
+		'icon_color' => '#ffffff'
+	],
 	'User' => [
 		'module_label' => 'User', 
 		'href' => '/list/user', 

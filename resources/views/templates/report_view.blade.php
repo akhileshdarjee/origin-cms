@@ -18,7 +18,7 @@
 						data-toggle="tooltip" data-placement="bottom" data-container="body" title="Download Report in Excel format">
 						<i class="fa fa-download"></i> Download
 					</a>
-					@if (view()->exists('layouts/reports/' . strtolower(str_replace(" ", "_", $title))))
+					@if (count($filters))
 						<a class="btn btn-primary btn-sm" id="refresh_report" name="refresh_report"
 							data-toggle="tooltip" data-placement="bottom" data-container="body" title="Filter Report">
 							<i class="fa fa-filter"></i> Filter
@@ -27,9 +27,9 @@
 				</ul>
 			</div>
 		</div>
-		@if (view()->exists('layouts/reports/' . strtolower(str_replace(" ", "_", $title))))
+		@if (count($filters))
 			<div class="box-header with-border">
-				@include($file)
+				{!! $filters !!}
 			</div>
 		@endif
 		<!-- /.box-header -->

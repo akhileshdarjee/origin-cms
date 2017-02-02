@@ -15,7 +15,7 @@ class PermController extends Controller
 
 	// module name specified in controller
 	private static $modules = [
-		'User'
+		'User', 'Reports'
 	];
 
 	// restrict data to this roles

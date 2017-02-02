@@ -17,51 +17,69 @@ class AutocompleteController extends Controller
 	public function getAutocomplete(Request $request) {
 
 		$status_modules = ['User'];
-
 		$module = ucwords(str_replace(" ", "", $request->get('module')));
-		$module_table = $this->get_module_table($module);
-		$field = $request->get('field');
 
-		if ($request->has('fetch_fields') && $request->get('fetch_fields')) {
-			$fetch_fields = $request->get('fetch_fields');
+		// show module list with configs
+		if ($module == "Module") {
+			$modules = config('modules');
+			$data = [];
+
+			foreach ($modules as $module_name => $config) {
+				$module_config = [
+					'name' => $module_name,
+					'icon' => $config['icon'], 
+					'bg_color' => $config['bg_color'], 
+					'icon_color' => $config['icon_color']
+				];
+
+				array_push($data, $module_config);
+			}
 		}
+		else {
+			$module_table = $this->get_module_table($module);
+			$field = $request->get('field');
 
-		$fetch_fields = (isset($fetch_fields)) ? $fetch_fields : $field;
+			if ($request->has('fetch_fields') && $request->get('fetch_fields')) {
+				$fetch_fields = $request->get('fetch_fields');
+			}
 
-		$data_query = DB::table($module_table)->select($fetch_fields);
+			$fetch_fields = (isset($fetch_fields)) ? $fetch_fields : $field;
 
-		// permission fields from perm controller
-		if (Session::get('role') != 'Administrator') {
-			$perm_fields = PermController::module_wise_permissions(Session::get('role'), 'Read', $module);
+			$data_query = DB::table($module_table)->select($fetch_fields);
 
-			if ($perm_fields) {
-				foreach ($perm_fields as $field_name => $field_value) {
-					if (is_array($field_value)) {
-						$data_query = $data_query->whereIn($field_name, $field_value);
-					}
-					else {
-						$data_query = $data_query->where($field_name, $field_value);
+			// permission fields from perm controller
+			if (Session::get('role') != 'Administrator') {
+				$perm_fields = PermController::module_wise_permissions(Session::get('role'), 'Read', $module);
+
+				if ($perm_fields) {
+					foreach ($perm_fields as $field_name => $field_value) {
+						if (is_array($field_value)) {
+							$data_query = $data_query->whereIn($field_name, $field_value);
+						}
+						else {
+							$data_query = $data_query->where($field_name, $field_value);
+						}
 					}
 				}
 			}
-		}
 
-		$list_view = $this->check_list_view($request);
-		$report_view = $this->check_report_view($request);
+			$list_view = $this->check_list_view($request);
+			$report_view = $this->check_report_view($request);
 
-		// only show active data for defined tables
-		if (in_array($module, $status_modules) && !$list_view && !$report_view) {
-			$data_query = $data_query->where('status', 'Active');
-		}
+			// only show active data for defined tables
+			if (in_array($module, $status_modules) && !$list_view && !$report_view) {
+				$data_query = $data_query->where('status', 'Active');
+			}
 
-		// show only unique rows for list view
-		if ($list_view || $report_view) {
-			$data = $data_query->groupBy($field)
-				->whereNotNull($field)
-				->get();
-		}
-		else {
-			$data = $data_query->get();
+			// show only unique rows for list view
+			if ($list_view || $report_view) {
+				$data = $data_query->groupBy($field)
+					->whereNotNull($field)
+					->get();
+			}
+			else {
+				$data = $data_query->get();
+			}
 		}
 
 		return $data;

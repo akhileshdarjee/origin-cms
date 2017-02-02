@@ -4,7 +4,7 @@ $( document ).ready(function() {
 		$(this).closest('.form-group').find('#alert').hide();
 	});
 
-	$("form").submit(function( event ) {
+	$("#login").submit(function( event ) {
 		if ($.trim($("#login_id").val()) == "") {
 			$("#login_id").addClass("error");
 			$("#login_id").closest('.form-group').find('#alert').show();
@@ -18,8 +18,7 @@ $( document ).ready(function() {
 		}
 
 		if ($.trim($("#login_id").val()) && $.trim($("#password").val())) {
-			var spinner = '<div class="sk-spinner sk-spinner-rotating-plane centrify"></div>';
-			$('body').empty().append(spinner);
+			$('#submit-login').button('loading');
 		}
 	});
 });

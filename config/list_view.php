@@ -11,6 +11,11 @@ return [
 	|
 	*/
 
+	'tabReports' => [
+		'link_field' => 'id',
+		'search_via' => 'name',
+		'cols' => ['name', 'type', 'module', 'status']
+	],
 	'tabUser' => [
 		'link_field' => 'id',
 		'search_via' => 'login_id',
