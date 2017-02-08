@@ -129,8 +129,8 @@ function add_row(table, idx, action) {
 					autocomplete="off" data-target-module="' + target_module + '" data-target-field="' + target_field + '"' + readonly + '>\
 				</td>';
 			}
-			else if (field_type == "avatar") {
-				row += '<td data-field-type="avatar">\
+			else if (field_type == "image") {
+				row += '<td data-field-type="image">\
 					<div class="col-md-12 media">\
 						<div class="pull-left text-center avatar-box">\
 							<i class="fa fa-picture-o inline fa-2x avatar"></i>\
@@ -325,8 +325,8 @@ function add_new_rows(table_name, records) {
 						autocomplete="off" data-target-module="' + target_module + '" data-target-field="' + target_field + '"' + readonly + ' value="' + field_value + '">\
 					</td>';
 				}
-				else if (field_type == "avatar") {
-					rows += '<td data-field-type="avatar">\
+				else if (field_type == "image") {
+					rows += '<td data-field-type="image">\
 						<div class="col-md-12 media">\
 							<div class="pull-left text-center avatar-box">';
 
