@@ -1,13 +1,14 @@
 @extends('app')
 
-@section('title', awesome_case($title) . ' List - Origin CMS')
+@section('title', awesome_case($title) . ' List - ' . env('BRAND_NAME', 'Origin CMS'))
+@section('search', awesome_case($title) . ' List')
 
 @section('breadcrumb')
 	<section class="content-header">
 		<h1>&nbsp;</h1>
 		<ol class="breadcrumb app-breadcrumb">
 			<li>
-				<a href="/app/modules">Home</a>
+				<a href="{{ url('/app/modules') }}">Home</a>
 			</li>
 			<li class="active">
 				<strong>{{ ucwords($title) }}</strong>
@@ -59,7 +60,7 @@
 					@if (count($rows) > 0)
 						@var $counter = 1
 						@foreach ($rows as $row)
-							<tr class="clickable_row" data-href="/form/{{ snake_case($module) }}/{{ $row->$link_field }}">
+							<tr class="clickable_row" data-href="{{ url('/form') }}/{{ snake_case($module) }}/{{ $row->$link_field }}">
 								<td data-field-name="row_check" class="list-checkbox">
 									<input type="checkbox" name="post[]" value="{{ $counter += 1 }}" id="check-{{ $counter }}">
 								</td>
@@ -68,7 +69,7 @@
 									@if (isset($record_identifier) && ($column == $link_field || $column == $record_identifier))
 										<td data-field-name="{{ $column }}" class="link-field" data-toggle="tooltip" data-placement="bottom" data-container="body"
 											title="{{ $tooltip }} : {{ $row->$column }}">
-											<a href="/form/{{ $module }}/{{ $row->$link_field }}">{{ $row->$column }}</a><br />
+											<a href="{{ url('/form') }}/{{ $module }}/{{ $row->$link_field }}">{{ $row->$column }}</a><br />
 										</td>
 									@else
 										<td data-field-name="{{ $column }}" data-toggle="tooltip" data-placement="bottom" data-container="body"
@@ -93,5 +94,5 @@
 @endsection
 
 @push('scripts')
-	<script type="text/javascript" src="/js/web_app/list_view.js"></script>
+	<script type="text/javascript" src="{{ url('/js/web_app/list_view.js') }}"></script>
 @endpush

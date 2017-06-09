@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>Forgot Password - Origin CMS</title>
+		<title>Forgot Password - {{ env('BRAND_NAME', 'Origin CMS') }}</title>
 		@include('templates.headers')
 	</head>
 	<body class="hold-transition login-page">
 		<div class="login-box">
 			<div class="login-logo">
-				<a href="/"><b>Origin</b>CMS</a>
+				<a href="{{ url('/') }}"><b>{{ env('BRAND_NAME', 'Origin CMS') }}</b></a>
 			</div>
 			<!-- /.login-logo -->
 			<div class="login-box-body">
 				<p class="login-box-msg">Forgot Password Form</p>
-				<form action="/password/email" method="POST" name="password_email" id="password_email">
+				<form action="{{ url('/password/email') }}" method="POST" name="password_email" id="password_email">
 					@if (Session::has('status'))
 						<div class="block">
 							<div class="alert alert-success alert-dismissible">
@@ -48,6 +48,6 @@
 				</form>
 			</div>
 		</div>
-		<script type="text/javascript" src="/js/jquery.js"></script>
+		<script type="text/javascript" src="{{ url('/js/jquery.js') }}"></script>
 	</body>
 </html>

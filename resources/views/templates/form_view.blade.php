@@ -1,6 +1,8 @@
 @extends('app')
 
-@section('title', awesome_case($title) . ' - Origin CMS')
+@var $page_title = isset($form_data[$table_name]['id']) ? $form_data[$table_name][$record_identifier] : awesome_case($title)
+@section('title', $page_title . ' - ' . env('BRAND_NAME', 'Origin CMS'))
+@section('search', $page_title)
 
 @section('data')
 	<script type="text/javascript">
@@ -21,10 +23,10 @@
 			<h1>&nbsp;</h1>
 			<ol class="breadcrumb app-breadcrumb">
 				<li>
-					<a href="/app">Home</a>
+					<a href="{{ url('/app') }}">Home</a>
 				</li>
 				<li>
-					<a href="/list/{{ snake_case($module) }}">{{ $title }}</a>
+					<a href="{{ url('/list') }}/{{ snake_case($module) }}">{{ $title }}</a>
 				</li>
 				<li class="active">
 					<strong>{{ isset($form_data[$table_name]['id']) ? $form_data[$table_name][$record_identifier] : 'New ' . $title }}</strong>
@@ -67,7 +69,7 @@
 							</button>
 							<ul class="dropdown-menu dropdown-left">
 								<li>
-									<a href="/form/{{ snake_case($module) }}/draft/{{ $form_data[$table_name][$link_field] }}">
+									<a href="{{ url('/form') }}/{{ snake_case($module) }}/draft/{{ $form_data[$table_name][$link_field] }}">
 										Duplicate
 									</a>
 								</li>
@@ -79,7 +81,7 @@
 								</li>
 								<li class="divider"></li>
 								<li>
-									<a href="/form/{{ snake_case($module) }}">New {{ $title }}</a>
+									<a href="{{ url('/form') }}/{{ snake_case($module) }}">New {{ $title }}</a>
 								</li>
 							</ul>
 						</div>
@@ -92,7 +94,7 @@
 			@if (isset($module_type) && $module_type == "Single")
 				@include($file)
 			@else
-				@var $action = "/form/" . snake_case($module)
+				@var $action = url('/form') . '/' . snake_case($module)
 				<form method="POST" action="{{ isset($form_data[$table_name]['id']) ? $action."/".$form_data[$table_name][$link_field] : $action }}" name="{{ snake_case($module) }}" id="{{ snake_case($module) }}" class="form-horizontal" enctype="multipart/form-data">
 					{!! csrf_field() !!}
 					<input type="hidden" name="id" id="id" class="form-control" data-mandatory="no" autocomplete="off" readonly>
@@ -118,10 +120,10 @@
 @endsection
 
 @push('scripts')
-	<script type="text/javascript" src="/js/web_app/form.js"></script>
-	<script type="text/javascript" src="/js/web_app/table.js"></script>
+	<script type="text/javascript" src="{{ url('/js/web_app/form.js') }}"></script>
+	<script type="text/javascript" src="{{ url('/js/web_app/table.js') }}"></script>
 	@if (File::exists(public_path('/js/web_app/' . snake_case($module) . '.js')))
 		<!-- Include client js file -->
-		<script type="text/javascript" src="/js/web_app/{{ snake_case($module) }}.js"></script>
+		<script type="text/javascript" src="{{ url('/js/web_app') }}/{{ snake_case($module) }}.js"></script>
 	@endif
 @endpush

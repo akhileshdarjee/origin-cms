@@ -37,21 +37,6 @@ $( document ).ready(function() {
 	});
 
 
-	// make row editable
-	$("table").on("click", '.table_record', function() {
-		$(this).find("input").removeClass("simple-box");
-	});
-
-	// on input blur make row as simplebox
-	$("table").on("blur", 'input, select, textarea', function() {
-		$.each($(this).closest("table").find("tbody > tr"), function() {
-			$(this).find("input").addClass("simple-box");
-		});
-
-		$(this).find("input").removeClass("simple-box");
-	});
-
-
 	// set action update if input is changed
 	$("table > tbody > tr").on("change", 'input, select, textarea', function() {
 		if ($("#id").val()) {
@@ -68,10 +53,6 @@ function add_new_row(table, idx, action) {
 	// remove empty row
 	if ($(tbody).find("tr").hasClass("odd")) {
 		$(tbody).empty();
-	}
-
-	if ($(tbody).find("tr").length) {
-		set_row_after_input(tbody);
 	}
 
 	// add row html
@@ -223,13 +204,6 @@ function show_empty_row(table) {
 		<td valign="middle" align="center" colspan="' + colspan + '">Empty</td>\
 	</tr>';
 	$(table).find("tbody").append(empty_row);
-}
-
-
-function set_row_after_input(tbody) {
-	$.each($(tbody).find("tr > td"), function(index, col) {
-		$(col).find("input").addClass("simple-box");
-	});
 }
 
 

@@ -1,10 +1,10 @@
 <header class="main-header">
 	<!-- Logo -->
-	<a href="/app" class="logo">
+	<a href="{{ url('/app') }}" class="logo">
 		<!-- mini logo for sidebar mini 50x50 pixels -->
-		<span class="logo-mini"><b>O</b>C</span>
+		<span class="logo-mini"><b>{{ env('BRAND_ABBR', 'OC') }}</b></span>
 		<!-- logo for regular state and mobile devices -->
-		<span class="logo-lg"><b>Origin</b>CMS</span>
+		<span class="logo-lg"><b>{{ env('BRAND_NAME', 'Origin CMS') }}</b></span>
 	</a>
 	<!-- Header Navbar: style can be found in header.less -->
 	<nav class="navbar navbar-static-top">
@@ -17,13 +17,21 @@
 				<!-- User Account: style can be found in dropdown.less -->
 				<li class="dropdown user user-menu">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-						<img alt="{{ Session::get('user') }}" class="user-image" src="{{ Session::get('avatar') }}" title="{{ Session::get('user') }}" />
+						@if (Session::get('avatar'))
+							<img alt="{{ Session::get('user') }}" class="user-image" src="{{ url(Session::get('avatar')) }}" title="{{ Session::get('user') }}" />
+						@else
+							<img alt="{{ Session::get('user') }}" class="user-image" src="" title="{{ Session::get('user') }}" />
+						@endif
 						<span class="hidden-xs">{{ Session::get('user') }}</span>
 					</a>
 					<ul class="dropdown-menu">
 						<!-- User image -->
 						<li class="user-header">
-							<img alt="{{ Session::get('user') }}" class="img-circle" src="{{ Session::get('avatar') }}" title="{{ Session::get('user') }}" />
+							@if (Session::get('avatar'))
+								<img alt="{{ Session::get('user') }}" class="img-circle" src="{{ url(Session::get('avatar')) }}" title="{{ Session::get('user') }}" />
+							@else
+								<img alt="{{ Session::get('user') }}" class="img-circle" src="" title="{{ Session::get('user') }}" />
+							@endif
 							<p>
 								{{ Session::get('user') }} - {{ Session::get('role') }}
 							</p>
@@ -32,20 +40,20 @@
 						<li class="user-footer">
 							<div class="row">
 								<div class="col-md-4">
-									<a href="/form/user/{{ Session::get('user_id') }}" class="btn btn-default">Profile</a>
+									<a href="{{ url('/form/user') }}/{{ Session::get('user_id') }}" class="btn btn-default">Profile</a>
 								</div>
 								<div class="col-md-4">
-									<a href="/app/settings" class="btn btn-default">Settings</a>
+									<a href="{{ url('/app/settings') }}" class="btn btn-default">Settings</a>
 								</div>
 								<div class="col-md-4">
-									<a href="/logout" class="btn btn-default">Sign out</a>
+									<a href="{{ url('/logout') }}" class="btn btn-default">Sign out</a>
 								</div>
 							</div>
 						</li>
 					</ul>
 				</li>
 				<li>
-					<a href="/app/settings">
+					<a href="{{ url('/app/settings') }}">
 						<i class="fa fa-gears"></i>
 					</a>
 				</li>

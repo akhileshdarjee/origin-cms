@@ -4,4 +4,4 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="csrf-token" content="{{ csrf_token() }}" />
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
-<link type="text/css" rel="stylesheet" href="{{ elixir('css/all.css') }}">
+<link type="text/css" rel="stylesheet" href="{{ url(elixir('css/all.css')) }}">

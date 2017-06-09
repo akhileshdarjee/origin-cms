@@ -1,6 +1,7 @@
 @extends('app')
 
-@section('title', 'Activities - Origin CMS')
+@section('title', 'Activities - ' . env('BRAND_NAME', 'Origin CMS'))
+@section('search', 'Activities')
 
 @section('body')
 	<div class="row">

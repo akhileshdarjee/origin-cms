@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>503 Error | Service Temporarily Unavailable | Origin CMS</title>
+		<title>503 Error | Service Temporarily Unavailable | {{ env('BRAND_NAME', 'Origin CMS') }}</title>
 		@include('templates.headers')
 	</head>
 	<body class="nav-md">
@@ -15,7 +15,7 @@
 							<h2>Service Temporarily Unavailable</h2>
 							<p>We track these errors automatically, but if the problem persists feel free to contact us. In the meantime, try refreshing.</p>
 							<div class="mid_center">
-								<a href="/app" class="btn btn-success">Back to Home</a>
+								<a href="{{ url('/app') }}" class="btn btn-success">Back to Home</a>
 							</div>
 						</div>
 					</div>

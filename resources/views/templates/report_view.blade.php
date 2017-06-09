@@ -1,9 +1,10 @@
 @extends('app')
 
-@section('title', ucwords($title) . ' - Origin CMS')
+@section('title', ucwords($title) . ' - ' . env('BRAND_NAME', 'Origin CMS'))
+@section('search', ucwords($title))
 
 @push('styles')
-	<link type="text/css" rel="stylesheet" href="{{ elixir('css/web_app/app-report.css') }}">
+	<link type="text/css" rel="stylesheet" href="{{ url(elixir('css/web_app/app-report.css')) }}">
 @endpush
 
 @section('body')
@@ -59,7 +60,7 @@
 											&& isset($link_field) && $link_field
 											&& isset($record_identifier) && $record_identifier
 											&& $column == $record_identifier)
-												<a href="/form/{{ $module }}/{{ $row->$link_field }}">{{ (isset($row->$column) && $row->$column) ? $row->$column : "" }}</a>
+												<a href="{{ url('/form') }}/{{ $module }}/{{ $row->$link_field }}">{{ (isset($row->$column) && $row->$column) ? $row->$column : "" }}</a>
 										@elseif (filter_var($row->$column, FILTER_VALIDATE_URL))
 											<a href="{{ $row->$column }}" target="_blank">{{ $row->$column }}</a>
 										@else
@@ -84,5 +85,5 @@
 @endsection
 
 @push('scripts')
-	<script type="text/javascript" src="{{ elixir('js/web_app/app-report.js') }}"></script>
+	<script type="text/javascript" src="{{ url(elixir('js/web_app/app-report.js')) }}"></script>
 @endpush

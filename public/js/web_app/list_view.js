@@ -50,7 +50,7 @@ $( document ).ready(function() {
 	// on action button click
 	$("#action-button").on("click", function() {
 		if ($(this).data("action") == "new") {
-			window.location = "/form" + table;
+			window.location = app_route.replace("/list/", "/form/");
 		}
 		else {
 			remove_selected_row_data();
@@ -84,10 +84,11 @@ function refresh_table_list(search) {
 
 			var list_table = $("table").attr("data-module", list_module);
 			var list_records = "";
+			var form_link = app_route.replace("/list/", "/form/");
 
 			if (list_rows.length > 0) {
 				$.each(list_rows, function(index, row_data) {
-					list_records += '<tr class="clickable_row" data-href="/form/' + list_module.toSnakeCase() + '/' + list_rows[index][list_link_field] + '">';
+					list_records += '<tr class="clickable_row" data-href="' + form_link + list_rows[index][list_link_field] + '">';
 					list_records += '<td data-field-name="row_check" class="list-checkbox">\
 						<div class="checkbox">\
 							<input type="checkbox" name="post[]" value="' + (index + 2) + '" id="check-' + (index + 2) + '">\

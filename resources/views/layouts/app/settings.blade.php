@@ -1,4 +1,4 @@
-<form method="POST" action="/app/settings" name="settings" id="settings" class="form-horizontal" enctype="multipart/form-data">
+<form method="POST" action="{{ url('/app/settings') }}" name="settings" id="settings" class="form-horizontal" enctype="multipart/form-data">
 	{!! csrf_field() !!}
 	@if (Session::get('role') == "Administrator")
 		<div class="row">

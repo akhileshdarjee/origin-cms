@@ -1,6 +1,7 @@
 @extends('app')
 
-@section('title', 'Reports - Origin CMS')
+@section('title', 'Reports - ' . env('BRAND_NAME', 'Origin CMS'))
+@section('search', 'Reports')
 
 @section('body')
 	<div class="rpw"> 
@@ -11,11 +12,11 @@
 				@var $report_link = "/app/standard_report/" . snake_case($report->name)
 			@endif
 
-			<div class="col-md-3 col-xs-12 report" data-href="{{ $report_link }}">
+			<div class="col-md-3 col-xs-12 report" data-href="{{ url($report_link) }}">
 				<div class="box">
 					<div class="box-body">
 						<div style="text-align: center; margin-bottom: 17px">
-							<a href="{{ $report_link }}" class="btn btn-app" style="background-color: {{ $report->bg_color }}; border-color: {{ $report->bg_color }}; color: {{ $report->icon_color }};">
+							<a href="{{ url($report_link) }}" class="btn btn-app" style="background-color: {{ $report->bg_color }}; border-color: {{ $report->bg_color }}; color: {{ $report->icon_color }};">
 								<i class="{{ $report->icon }}"></i>
 							</a>
 						</div>
@@ -30,11 +31,11 @@
 		@endforeach
 
 		@if (Session::get('role') == "Administrator")
-			<div class="col-md-3 col-xs-12 report" data-href="/list/reports">
+			<div class="col-md-3 col-xs-12 report" data-href="{{ url('/list/reports') }}">
 				<div class="box">
 					<div class="box-body">
 						<div style="text-align: center; margin-bottom: 17px">
-							<a href="/list/reports" class="btn btn-app"  style="background-color: #676a6c; border-color: #676a6c; color: #fff;">
+							<a href="{{ url('/list/reports') }}" class="btn btn-app"  style="background-color: #676a6c; border-color: #676a6c; color: #fff;">
 								<i class="fa fa-plus"></i>
 							</a>
 						</div>

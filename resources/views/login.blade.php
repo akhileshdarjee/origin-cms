@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>Login - Origin CMS</title>
+		<title>Login - {{ env('BRAND_NAME', 'Origin CMS') }}</title>
 		@include('templates.headers')
 	</head>
 	<body class="hold-transition login-page">
 		<div class="login-box">
 			<div class="login-logo">
-				<a href="/"><b>Origin</b>CMS</a>
+				<a href="{{ url('/') }}"><b>{{ env('BRAND_NAME', 'Origin CMS') }}</b></a>
 			</div>
 			<!-- /.login-logo -->
 			<div class="login-box-body">
 				<p class="login-box-msg">Sign In</p>
-				<form action="/login" method="POST" name="login" id="login">
+				<form action="{{ url('/login') }}" method="POST" name="login" id="login">
 					@if (Session::has('msg'))
 						@if (Session::has('success') && Session::get('success') == "true")
 							<div class="block">
@@ -55,7 +55,7 @@
 					</div>
 					<div class="row">
 						<div class="col-xs-8">
-							<a href="/password/email"><small>Forgot password?</small></a>
+							<a href="{{ url('/password/email') }}"><small>Forgot password?</small></a>
 						</div>
 						<div class="col-xs-4">
 							<button type="submit" class="btn btn-primary btn-block btn-flat" id="submit-login" data-loading-text="Signing In...">
@@ -68,7 +68,7 @@
 				<a class="btn btn-default btn-sm btn-block" href="/">Create an account</a>
 			</div>
 		</div>
-		<script type="text/javascript" src="/js/jquery.js"></script>
-		<script type="text/javascript" src="/js/web_app/login.js"></script>
+		<script type="text/javascript" src="{{ url('/js/jquery.js') }}"></script>
+		<script type="text/javascript" src="{{ url('/js/web_app/login.js') }}"></script>
 	</body>
 </html>

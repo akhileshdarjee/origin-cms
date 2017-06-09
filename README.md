@@ -20,7 +20,7 @@ Below are the commands to kickstart your project for laravel 5.2.*:
 **Permissions**
   
 `sudo chown -R :www-data {app-directory-path}`  
-`sudo chmod -R ug+rw {app-directory-path}/app/storage`  
+`sudo chmod -R ug+rw {app-directory-path}`  
 
   
 Now, you've completed the configuration step :v:

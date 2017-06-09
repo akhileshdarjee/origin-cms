@@ -6,7 +6,7 @@
 			<a href="https://www.facebook.com/mr.multitalented" target="_blank" style="color: #676a6c;">Akhilesh Darjee</a>
 		</strong>
 	</div>
-	<strong>Origin CMS</strong> - {{ date('Y') }}
+	<strong>{{ env('BRAND_NAME', 'Origin CMS') }}</strong> - {{ date('Y') }}
 </footer>
 <!-- /footer content -->
 <!-- back to top -->
@@ -15,8 +15,8 @@
 </a>
 <!-- /back to top -->
 @include('templates.msgbox')
-<script type="text/javascript" src="/js/jquery.js"></script>
-<script type="text/javascript" src="{{ elixir('js/all.js') }}"></script>
+<script type="text/javascript" src="{{ url('/js/jquery.js') }}"></script>
+<script type="text/javascript" src="{{ url(elixir('js/all.js')) }}"></script>
 @if (Session::has('msg'))
 	<script type="text/javascript">
 		msgbox("{{ Session::get('msg') }}");

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>404 Error | Page Not Found | Origin CMS</title>
+		<title>404 Error | Page Not Found | {{ env('BRAND_NAME', 'Origin CMS') }}</title>
 		@include('templates.headers')
 	</head>
 	<body class="nav-md">
@@ -15,7 +15,7 @@
 							<h2>Sorry but we couldn't find this page</h2>
 							<p>This page you are looking for does not exist</p>
 							<div class="mid_center">
-								<a href="/app" class="btn btn-success">Back to Home</a>
+								<a href="{{ url('/app') }}" class="btn btn-success">Back to Home</a>
 							</div>
 						</div>
 					</div>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>Password Reset - Origin CMS</title>
+		<title>Password Reset - {{ env('BRAND_NAME', 'Origin CMS') }}</title>
 		@include('templates.headers')
 	</head>
 	<body class="login">
@@ -9,7 +9,7 @@
 			<div class="login_wrapper">
 				<div class="animate form login_form">
 					<section class="login_content">
-						<form action="/password/reset" method="POST" name="password_reset" id="password_reset" class="m-t" role="form">
+						<form action="{{ url('/password/reset') }}" method="POST" name="password_reset" id="password_reset" class="m-t" role="form">
 							<h1>Password Reset</h1>
 							@if (count($errors) > 0)
 								@foreach ($errors->all() as $error)
@@ -45,7 +45,7 @@
 							<div class="clearfix"></div>
 							<div class="separator">
 								<div>
-									<h1><i class="fa fa-eye"></i> Origin CMS</h1>
+									<h1><i class="fa fa-eye"></i> {{ env('BRAND_NAME', 'Origin CMS') }}</h1>
 								</div>
 							</div>
 						</form>
@@ -53,6 +53,6 @@
 				</div>
 			</div>
 		</div>
-		<script type="text/javascript" src="/js/jquery.js"></script>
+		<script type="text/javascript" src="{{ url('/js/jquery.js') }}"></script>
 	</body>
 </html>
