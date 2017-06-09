@@ -6,7 +6,7 @@
 			<a href="https://www.facebook.com/mr.multitalented" target="_blank" style="color: #676a6c;">Akhilesh Darjee</a>
 		</strong>
 	</div>
-	<strong>{{ env('BRAND_NAME', 'Origin CMS') }}</strong> - {{ date('Y') }}
+	<strong>Origin CMS</strong> - {{ date('Y') }}
 </footer>
 <!-- /footer content -->
 <!-- back to top -->
