@@ -173,7 +173,14 @@ class ReportsController extends Controller
 	public function get_data($request, $report_name, $user_role, $user_name) {
 		if ($request->is("*/query_report/*")) {
 			// query report
-			$report_controller = App::make(self::$controllers_path . "\\Reports\\" . studly_case($report_name));
+
+			if (File::exists(app_path('Http/Controllers/Reports/' . studly_case($report_name) . '.php'))) {
+				$report_controller = App::make(self::$controllers_path . "\\Reports\\" . studly_case($report_name));
+			}
+			else {
+				abort('404');
+			}
+
 			$report_data = $report_controller->get_data($request, $user_role, $user_name);
 
 			$filters = DB::table('tabReports')
@@ -270,7 +277,7 @@ class ReportsController extends Controller
 			);
 		}
 		else {
-			return redirect()->route('show.app')->with('msg', 'No such Report found');
+			abort('404');
 		}
 	}
 

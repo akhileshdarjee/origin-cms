@@ -49,6 +49,8 @@ $( document ).ready(function() {
 
 	// validate forms for mandatory fields
 	$("form").submit(function( event ) {
+		var validated = true;
+
 		$.each(mandatory_fields, function(index, field) {
 			if (!trim($(field).val())) {
 				msg = "Please Enter " + $(field).attr("id").replace("_", " ").toProperCase();
@@ -57,21 +59,24 @@ $( document ).ready(function() {
 				$('#message-box').on('hidden.bs.modal', function (e) {
 					$("#" + $(field).attr("id")).focus();
 				});
+				validated = false;
 				return false;
 			}
 		});
 
-		// checkbox toggle value
-		$.each($("form").find("input[type='checkbox']"), function(idx, checkbox) {
-			if (this.checked) {
-				$(this).val("1");
-			}
-			else {
-				$(this).val("0");
-			}
-		});
+		if (validated) {
+			// checkbox toggle value
+			$.each($("form").find("input[type='checkbox']"), function(idx, checkbox) {
+				if (this.checked) {
+					$(this).val("1");
+				}
+				else {
+					$(this).val("0");
+				}
+			});
 
-		$(".data-loader").show();
+			$(".data-loader").show();
+		}
 	});
 });
 
