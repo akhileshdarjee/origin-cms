@@ -52,6 +52,10 @@ class SettingsController extends Controller
 					'updated_at' => date('Y-m-d H:i:s'), 
 					'last_updated_by' => Session::get('login_id')
 				]);
+
+			if ($result) {
+				Session::put('success', 'true');
+			}
 		}
 
 		// putting new app settings in session
