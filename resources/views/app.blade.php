@@ -8,7 +8,7 @@
 
 		@section('data')
 			<script type="text/javascript">
-				window.doc = {
+				window.origin = {
 					data: <?php echo isset($data) ? json_encode($data) : "false" ?>,
 				};
 			</script>

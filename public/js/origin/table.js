@@ -389,7 +389,7 @@ function set_pickers_in_table(table_name, table, field_types) {
 		$.each($("table > tbody > tr").find(".clockpicker"), function(idx, element) {
 			$(element).clockpicker({
 				afterDone: function() {
-					var doc_records = doc.data[table_name].length;
+					var doc_records = origin.data[table_name].length;
 					var tab_records = $(table).find("tbody > tr").length;
 
 					if ($.trim($('body').find('[name="id"]').val()) && doc_records == tab_records) {
@@ -414,7 +414,7 @@ function set_pickers_in_table(table_name, table, field_types) {
 				forceParse: false,
 				autoclose: true
 			}).on('changeDate', function(ev) {
-				var doc_records = doc.data[table_name].length;
+				var doc_records = origin.data[table_name].length;
 				var tab_records = $(table).find("tbody > tr").length;
 
 				if ($.trim($('body').find('[name="id"]').val()) && doc_records == tab_records) {

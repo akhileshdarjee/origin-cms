@@ -1,6 +1,6 @@
 .default-avatar {
-	width: 48px;
-	height: 48px;
+	width: 45px;
+	height: 45px;
 	background: #e1e5e9;
 	display: block;
 	border-radius: 50%;
@@ -15,6 +15,17 @@
 	width: 100%;
 	left: 0px;
 	margin-top: -6px;
+}
+
+.sidebar-collapse .default-avatar {
+	width: 30px;
+	height: 30px;
+	background: #e1e5e9;
+	display: block;
+	border-radius: 50%;
+	position: relative;
+	text-align: center;
+	margin-bottom: 0;
 }
 
 .user-avatar, .user-avatar > img {
@@ -188,6 +199,11 @@ a.back-to-top:hover {
 
 
 /* Form View */
+
+.form-container {
+	position: relative;
+}
+
 .floatbox-title .form-status {
 	display: inline-block;
 	text-overflow: ellipsis;
@@ -205,6 +221,16 @@ a.back-to-top:hover {
 	padding: 0;
 	text-overflow: ellipsis;
 	float: left;
+}
+
+#sticky.stick {
+	position: fixed;
+	width: 81%;
+	top: 50px;
+	background: #fff;
+	z-index: 99;
+	border-bottom: 1px solid #e7eaec;
+	border-top: 3px solid #d2d6de;
 }
 
 
@@ -229,6 +255,20 @@ a.back-to-top:hover {
 	font-weight: 800;
 	padding: 17px !important;
 	text-align: center;
+}
+
+.data-loader {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	font-size: 28px;
+	justify-content: center;
+	background: #fff;
+	opacity: 0.8;
 }
 
 
@@ -278,15 +318,4 @@ a.back-to-top:hover {
 
 .vertical-timeline-content:before {
 	border-right: 7px solid #f3f3f4;
-}
-
-@media print {
-	.printable {
-		display: block;
-		width: 100%;
-		margin: 0 !important;
-	}
-	.non-printable {
-		display: none !important;
-	}
 }

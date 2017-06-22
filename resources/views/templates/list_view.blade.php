@@ -94,5 +94,5 @@
 @endsection
 
 @push('scripts')
-	<script type="text/javascript" src="{{ url('/js/web_app/list_view.js') }}"></script>
+	<script type="text/javascript" src="{{ url('/js/origin/list_view.js') }}"></script>
 @endpush

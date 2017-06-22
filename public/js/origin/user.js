@@ -5,7 +5,7 @@ $( document ).ready(function() {
 				<div class="col-md-3 col-sm-12">\
 					Email Confirmed: ';
 
-		if (parseInt(doc.data["tabUser"]["email_confirmed"])) {
+		if (parseInt(origin.data["tabUser"]["email_confirmed"])) {
 			status_bar += '<span class="label label-success" id="email_confirmed">Yes</span>';
 		}
 		else {

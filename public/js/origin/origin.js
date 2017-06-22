@@ -153,7 +153,7 @@ $( document ).ready(function() {
 
 	// toggle vertical nav active
 	$.each($(".treeview"), function(index, navbar) {
-		if ($(this).find('a').attr('href') == app_route) {
+		if ($(this).find('a').attr('href') == window.location.href) {
 			$(this).addClass('active');
 		}
 		else {

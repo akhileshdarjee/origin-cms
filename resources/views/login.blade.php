@@ -69,6 +69,6 @@
 			</div>
 		</div>
 		<script type="text/javascript" src="{{ url('/js/jquery.js') }}"></script>
-		<script type="text/javascript" src="{{ url('/js/web_app/login.js') }}"></script>
+		<script type="text/javascript" src="{{ url('/js/origin/login.js') }}"></script>
 	</body>
 </html>

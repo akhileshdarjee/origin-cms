@@ -7,7 +7,9 @@
 				@if (Session::get('avatar'))
 					<img alt="{{ Session::get('user') }}" class="img-circle" src="{{ url(Session::get('avatar')) }}" title="{{ Session::get('user') }}" />
 				@else
-					<img alt="{{ Session::get('user') }}" class="img-circle" src="" title="{{ Session::get('user') }}" />
+					<span class="default-avatar">
+						<i class="fa fa-user fa-lg"></i>
+					</span>
 				@endif
 			</div>
 			<div class="pull-left info">

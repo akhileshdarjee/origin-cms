@@ -4,7 +4,7 @@
 @section('search', ucwords($title))
 
 @push('styles')
-	<link type="text/css" rel="stylesheet" href="{{ url(elixir('css/web_app/app-report.css')) }}">
+	<link type="text/css" rel="stylesheet" href="{{ url(elixir('css/origin/app-report.css')) }}">
 @endpush
 
 @section('body')
@@ -85,5 +85,5 @@
 @endsection
 
 @push('scripts')
-	<script type="text/javascript" src="{{ url(elixir('js/web_app/app-report.js')) }}"></script>
+	<script type="text/javascript" src="{{ url(elixir('js/origin/app-report.js')) }}"></script>
 @endpush

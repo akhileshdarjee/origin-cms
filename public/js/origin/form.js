@@ -16,12 +16,6 @@ $( document ).ready(function() {
 	});
 
 
-	// print the current page
-	$("#print-page").on("click", function() {
-		window.print();
-	});
-
-
 	// shows msgbox to delete the record permanently
 	$("#delete").on("click", function() {
 		var current_url = $("body").data("url").split("/");
@@ -40,12 +34,12 @@ $( document ).ready(function() {
 
 	// bind save and reset button to form
 	$("#save_form").on('click', function() {
-		var form_id = get_form_id(doc.title);
+		var form_id = get_form_id(origin.title);
 		$("#" + form_id).submit();
 	});
 
 	$("#reset_form").on('click', function() {
-		var form_id = get_form_id(doc.title);
+		var form_id = get_form_id(origin.title);
 		$("#" + form_id)[0].reset();
 	});
 
@@ -66,13 +60,25 @@ $( document ).ready(function() {
 				return false;
 			}
 		});
+
+		// checkbox toggle value
+		$.each($("form").find("input[type='checkbox']"), function(idx, checkbox) {
+			if (this.checked) {
+				$(this).val("1");
+			}
+			else {
+				$(this).val("0");
+			}
+		});
+
+		$(".data-loader").show();
 	});
 });
 
 
 // calls required functions for changing doc state
 function change_doc() {
-	doc.changed = true;
+	origin.changed = true;
 	initialize_mandatory_fields();
 	remove_mandatory_highlight(mandatory_fields);
 	enable_save_button();
@@ -160,8 +166,8 @@ function read_image(input) {
 
 // set data to form
 function set_doc_data() {
-	if (typeof doc.data != 'undefined' && doc.data) {
-		$.each(doc.data, function(table_name, table_data) {
+	if (typeof origin.data != 'undefined' && origin.data) {
+		$.each(origin.data, function(table_name, table_data) {
 			$.each(table_data, function(field_name, value) {
 				var ignore_fields = ['avatar', 'updated_at', 'owner', 'last_updated_by'];
 
@@ -196,7 +202,7 @@ function set_doc_data() {
 }
 
 // create custom button
-window.doc.create = {
+window.origin.make = {
 	button: function (button_config) {
 		var button_text = button_config['text'];
 		var button_name = button_config['name'];
@@ -233,3 +239,22 @@ window.doc.create = {
 		}
 	}
 };
+
+
+function sticky_relocate() {
+	var window_top = $(window).scrollTop();
+	var div_top = $('#sticky-anchor').offset().top;
+
+	if (window_top > div_top) {
+		$('#sticky').addClass('stick');
+		$('#sticky-anchor').height($('#sticky').outerHeight());
+	} else {
+		$('#sticky').removeClass('stick');
+		$('#sticky-anchor').height(0);
+	}
+}
+
+$(function() {
+	$(window).scroll(sticky_relocate);
+	sticky_relocate();
+});

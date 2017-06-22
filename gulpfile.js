@@ -27,7 +27,7 @@ elixir(function(mix) {
 		'../../../public/css/bootstrap-datetimepicker.css',
 		'../../../public/css/AdminLTE.min.css',
 		'../../../public/css/skins/skin-blue.min.css',
-		'../../../public/css/web_app/web_app.css',
+		'../../../public/css/origin/origin.css',
 	]);
 });
 
@@ -44,26 +44,26 @@ elixir(function(mix) {
 		'../../../public/js/bootstrap-datetimepicker.js',
 		'../../../public/js/tinymce/tinymce.min.js',
 		'../../../public/js/app.min.js',
-		'../../../public/js/web_app/web_app.js'
+		'../../../public/js/origin/origin.js'
 	]);
 });
 
 elixir(function(mix) {
 	mix.styles([
 		'../../../public/plugins/datatables/dataTables.bootstrap.css',
-	], 'public/css/web_app/app-report.css');
+	], 'public/css/origin/app-report.css');
 });
 
 elixir(function(mix) {
 	mix.scripts([
 		'../../../public/plugins/datatables/jquery.dataTables.min.js',
 		'../../../public/plugins/datatables/dataTables.bootstrap.min.js',
-		'../../../public/js/web_app/report_view.js'
-	], 'public/js/web_app/app-report.js');
+		'../../../public/js/origin/report_view.js'
+	], 'public/js/origin/app-report.js');
 });
 
 /* Versioning */
 
 elixir(function(mix) {
-	mix.version(['css/all.css', 'js/all.js', 'css/web_app/app-report.css', 'js/web_app/app-report.js']);
+	mix.version(['css/all.css', 'js/all.js', 'css/origin/app-report.css', 'js/origin/app-report.js']);
 });
