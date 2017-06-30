@@ -247,11 +247,11 @@ class FormController extends Controller
 		if ($action == "create" && isset($record_exists) && $record_exists) {
 			self::put_to_session('success', "false");
 
-			$message = $form_config['module_label'] . ': "' . $request->$form_config['link_field'] . '" already exist';
+			$message = $form_config['module_label'] . ': "' . $request->get($form_config['link_field']) . '" already exist';
 			return self::send_response(400, $message);
 		}
 		// if link field value is not matching the request link value
-		elseif ($action == "update" && $request->$form_config['link_field'] != $form_config['link_field_value']) {
+		elseif ($action == "update" && $request->get($form_config['link_field']) != $form_config['link_field_value']) {
 			self::put_to_session('success', "false");
 
 			$message = 'You cannot change "' . $form_config['link_field_label'] . '" for ' . $form_config['module_label'];
@@ -895,9 +895,9 @@ class FormController extends Controller
 	public static function check_existing($request, $form_config) {
 		$existing_record = false;
 
-		if ($request->$form_config['link_field']) {
+		if ($request->get($form_config['link_field'])) {
 			$existing_record = DB::table($form_config['table_name'])
-				->where($form_config['link_field'], $request->$form_config['link_field'])
+				->where($form_config['link_field'], $request->get($form_config['link_field']))
 				->first();
 		}
 
