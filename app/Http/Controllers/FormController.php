@@ -534,12 +534,10 @@ class FormController extends Controller
 				if ($role_permissions) {
 					foreach ($role_permissions as $column_name => $column_value) {
 						if (is_array($column_value)) {
-							$data[$form_config['table_name']] = $data[$form_config['table_name']]
-								->whereIn($column_name, $column_value);
+							$data = $data->whereIn($column_name, $column_value);
 						}
 						else {
-							$data[$form_config['table_name']] = $data[$form_config['table_name']]
-								->where($column_name, $column_value);
+							$data = $data->where($column_name, $column_value);
 						}
 					}
 				}
