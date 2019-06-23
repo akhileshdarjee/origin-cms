@@ -106,7 +106,7 @@
 @section('body')
     <div class="row">
         <div class="col-sm-12 form-container">
-            <div class="box">
+            <div class="box n-m-b">
                 <div class="box-body form-body">
                     @if (isset($module_type) && $module_type == "Single")
                         @include($file)

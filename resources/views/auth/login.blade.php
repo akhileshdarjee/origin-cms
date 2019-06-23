@@ -63,7 +63,7 @@
                             </div>
                         </div>
                         <div class="col-xs-4">
-                            <button type="submit" class="btn btn-primary btn-block btn-flat" id="submit-login" data-loading-text="Logging...">
+                            <button type="submit" class="btn btn-primary btn-block btn-flat" id="submit-login" data-loading-text="Logging In...">
                                 Login
                             </button>
                         </div>

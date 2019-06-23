@@ -10,7 +10,7 @@
         <div class="row origin-modules">
     @endif
         @foreach ($data as $module)
-            <div class="col-lg-2 col-md-6 col-sm-3 col-xs-3 text-center m-b app-module" data-name="{{ $module['name'] }}">
+            <div class="col-lg-2 col-md-3 col-sm-3 col-xs-4 text-center m-b app-module" data-name="{{ $module['name'] }}">
                 <div class="module-config" id="{{ $module['slug'] }}">
                     <a class="module-btn" href="{{ route('show.list', $module['slug']) }}" style="background-color: {{ $module['bg_color'] }}; box-shadow: inset 0px 0px 0px {{ $module['bg_color'] }}, 0px 5px 0px 0px {{ $module['bg_color'] }}, 0px 10px 5px #999999; border-color: {{ $module['bg_color'] }};" title="{{ $module['display_name'] }}">
                         <i class="{{ $module['icon'] }}" style="color: {{ $module['icon_color'] }};"></i>

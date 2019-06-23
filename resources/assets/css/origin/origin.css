@@ -137,6 +137,16 @@ a.back-to-top:hover {
 	background: none;
 }
 
+.autocomplete {
+	cursor: default;
+}
+
+.ui-autocomplete {
+	max-height: 220px;
+	overflow-y: auto;
+	overflow-x: auto;
+}
+
 .ui-menu .ui-menu-item {
 	position: relative;
 	margin: 0;
@@ -151,7 +161,7 @@ a.back-to-top:hover {
 }
 
 .ui-menu-item-wrapper {
-	padding: 8px 15px;
+	padding: 9px 16px;
 }
 
 .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
@@ -162,7 +172,11 @@ a.back-to-top:hover {
 	padding: 8px 15px;
 	color: #333;
 }
-da
+
+.ui-menu .ui-state-active, .ui-menu .ui-state-focus {
+	margin: 0px;
+}
+
 .autocomplete-no-data {
 	cursor: default !important;
 	background-color: #fff !important;
@@ -729,19 +743,13 @@ da
 	margin-bottom: 25px;
 }
 
+.n-m-b {
+	margin-bottom: 0px;
+}
+
 @media (max-width: 767px) {
-	.fixed .content-wrapper, .fixed .right-side {
-		padding-top: 85px;
-	}
-
-	.content-wrapper {
-		padding: 0px;
-	}
-
-	.wrapper {
-		padding: 15px 0px 30px 0px;
-		margin-left: -15px;
-		margin-right: -15px;
+	.content {
+		padding: 15px 0 15px 0;
 	}
 
 	.origin-modules {
@@ -750,10 +758,10 @@ da
 	}
 
 	.module-btn {
-		width: 58px;
-		height: 52px;
-		font-size: 30px;
-		padding-top: 13px;
+		width: 68px;
+		height: 62px;
+		font-size: 32px;
+		padding-top: 16px;
 		border-radius: 5px;
 		font-weight: 400;
 		line-height: 0;
@@ -768,7 +776,7 @@ da
 	}
 
 	.module-label, .module-label a {
-		font-size: 14px;
+		font-size: 17px;
 		margin-top: 0px;
 		font-weight: 600;
 		margin-bottom: 5px;
@@ -776,8 +784,8 @@ da
 		line-height: 1;
 	}
 
-	.title-section {
-		padding: 12px 30px 12px 30px;
+	.breadcrumb.app-breadcrumb {
+		font-size: 16px;
 	}
 
 	.list-responsive {

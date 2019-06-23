@@ -70,7 +70,7 @@
 @endsection
 
 @section('body')
-    <div class="box">
+    <div class="box n-m-b">
         @if (view()->exists('layouts/reports/' . strtolower(str_replace(" ", "_", $title))))
             <div class="box-header with-border report-filter-sec">
                 @include($file)

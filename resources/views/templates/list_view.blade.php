@@ -18,12 +18,12 @@
     <div id="sticky-anchor"></div>
     <section class="content-header title-section" id="sticky">
         <div class="row">
-            <div class="col-md-6 col-sm-6 col-xs-8">
+            <div class="col-md-6 col-sm-6 col-xs-7">
                 <div class="form-name">
                     <i class="fa fa-list"></i> {{ $module['display_name'] }} List
                 </div>
             </div>
-            <div class="col-md-6 col-sm-6 col-xs-4 text-right">
+            <div class="col-md-6 col-sm-6 col-xs-5 text-right">
                 @if ($can_create)
                     <button class="btn btn-info btn-sm" id="import-from-csv" data-toggle="tooltip" 
                         data-placement="bottom" data-container="body" title="Import {{ $module['display_name'] }}" data-module="{{ $module['name'] }}">
@@ -59,7 +59,7 @@
 @endsection
 
 @section('body')
-    <div class="box">
+    <div class="box n-m-b">
         <div class="box-header list-actions">
             <div class="row">
                 <div class="col-md-9 col-sm-6 col-xs-6">
