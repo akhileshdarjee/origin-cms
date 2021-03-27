@@ -39,7 +39,7 @@
                             </span>
                             <input type="text" name="username" id="username" class="form-control" placeholder="Username">
                         </div>
-                        <div class="text-danger help-block alert" style="text-align: left; display: none;">
+                        <div class="text-danger help-block" style="text-align: left; display: none;">
                             Please Enter Username
                         </div>
                     </div>
@@ -50,7 +50,7 @@
                             </span>
                             <input type="password" name="password" id="password" class="form-control" placeholder="Password">
                         </div>
-                        <div class="text-danger help-block alert" style="text-align: left; display: none;">
+                        <div class="text-danger help-block" style="text-align: left; display: none;">
                             Please Enter Password
                         </div>
                     </div>
