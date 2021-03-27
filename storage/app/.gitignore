@@ -1,0 +1,4 @@
+*
+!public/
+!backups/
+!.gitignore
