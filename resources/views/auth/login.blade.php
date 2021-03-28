@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Login - {{ config('app.brand.name') }}</title>
+        <title>{{ __('Login') }} - {{ config('app.brand.name') }}</title>
         @include('templates.headers')
     </head>
     <body class="hold-transition login-page">
@@ -25,7 +25,7 @@
                                 <div class="alert alert-danger">
                                     <strong>
                                         <i class="fa fa-exclamation-triangle fa-lg"></i>
-                                        {{ $error }}
+                                        {{ __($error) }}
                                     </strong>
                                 </div>
                             </div>
@@ -37,10 +37,10 @@
                             <span class="input-group-addon">
                                 <i class="fa fa-envelope"></i>
                             </span>
-                            <input type="text" name="username" id="username" class="form-control" placeholder="Username">
+                            <input type="text" name="username" id="username" class="form-control" placeholder="{{ __('Username') }}">
                         </div>
                         <div class="text-danger help-block" style="text-align: left; display: none;">
-                            Please Enter Username
+                            {{ __('Please Enter Username') }}
                         </div>
                     </div>
                     <div class="form-group has-feedback">
@@ -48,28 +48,28 @@
                             <span class="input-group-addon">
                                 <i class="fa fa-lock"></i>
                             </span>
-                            <input type="password" name="password" id="password" class="form-control" placeholder="Password">
+                            <input type="password" name="password" id="password" class="form-control" placeholder="{{ __('Password') }}">
                         </div>
                         <div class="text-danger help-block" style="text-align: left; display: none;">
-                            Please Enter Password
+                            {{ __('Please Enter Password') }}
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-xs-8">
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name="remember" id="remember-me"> Remember Me
+                                    <input type="checkbox" name="remember" id="remember-me"> {{ __('Remember Me') }}
                                 </label>
                             </div>
                         </div>
                         <div class="col-xs-4">
-                            <button type="submit" class="btn btn-primary btn-block btn-flat" id="submit-login" data-loading-text="Logging In...">
-                                Login
+                            <button type="submit" class="btn btn-primary btn-block btn-flat" id="submit-login" data-loading-text="{{ __('Logging In') }}...">
+                                {{ __('Login') }}
                             </button>
                         </div>
                     </div>
                     <a href="{{ route('password.request') }}">
-                        Forgot password?
+                        {{ __('Forgot password') }}?
                     </a>
                 </form>
             </div>

@@ -76,7 +76,7 @@ class ImportController extends Controller
                                 array_push($errors, $response->message);
                             }
                         } else {
-                            array_push($errors, "Data not saved. Please try again...!!!");
+                            array_push($errors, __('Data not saved. Please try again'));
                         }
                     }
                 }
@@ -92,14 +92,14 @@ class ImportController extends Controller
                 } else {
                     return response()->json([
                         'success' => true,
-                        'msg' => "Import successful"
+                        'msg' => __('Import successful')
                     ], 200);
                 }
             }
         } else {
             return response()->json([
                 'success' => false,
-                'msg' => "Please provide Module"
+                'msg' => __('Please provide Module')
             ], 400);
         }
     }

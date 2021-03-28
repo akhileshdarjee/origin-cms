@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Password Reset - {{ config('app.brand.name') }}</title>
+        <title>{{ __('Password Reset') }} - {{ config('app.brand.name') }}</title>
         @include('templates.headers')
     </head>
     <body class="hold-transition login-page">
@@ -9,7 +9,7 @@
             <div class="row">
                 <div class="col-md-6 col-md-offset-3">
                     <div class="alert alert-info text-center">
-                        {{ session('first_login_msg') }}
+                        {{ __(session('first_login_msg')) }}
                     </div>
                 </div>
             </div>
@@ -25,7 +25,7 @@
                 </a>
             </div>
             <div class="login-box-body">
-                <p class="login-box-msg">Password Reset</p>
+                <p class="login-box-msg">{{ __('Password Reset') }}</p>
                 <form action="{{ route('password.update') }}" method="POST" name="password_reset" id="password_reset">
                     @if (count($errors) > 0)
                         @foreach ($errors->all() as $error)
@@ -36,7 +36,7 @@
                                     </button>
                                     <strong>
                                         <i class="fa fa-exclamation-triangle fa-lg"></i>
-                                        {{ $error }}
+                                        {{ __($error) }}
                                     </strong>
                                 </div>
                             </div>
@@ -46,21 +46,21 @@
                     <input type="hidden" name="token" value="{{ $token }}">
                     <div class="form-group">
                         @if ($email)
-                            <input type="text" name="email" class="form-control" placeholder="Email Address" value="{{ $email or old('email') }}" required autofocus readonly>
+                            <input type="text" name="email" class="form-control" placeholder="{{ __('Email Address') }}" value="{{ $email or old('email') }}" required autofocus readonly>
                         @else
-                            <input type="text" name="email" class="form-control" placeholder="Email Address" value="{{ $email or old('email') }}" required autofocus>
+                            <input type="text" name="email" class="form-control" placeholder="{{ __('Email Address') }}" value="{{ $email or old('email') }}" required autofocus>
                         @endif
                     </div>
                     <div class="form-group">
-                        <input type="password" name="password" class="form-control" placeholder="Password">
+                        <input type="password" name="password" class="form-control" placeholder="{{ __('Password') }}">
                     </div>
                     <div class="form-group">
-                        <input type="password" name="password_confirmation" class="form-control" placeholder="Confirm Password">
+                        <input type="password" name="password_confirmation" class="form-control" placeholder="{{ __('Confirm Password') }}">
                     </div>
                     <div class="row">
                         <div class="col-xs-12">
                             <button type="submit" class="btn btn-primary btn-block btn-flat">
-                                Reset Password
+                                {{ __('Reset Password') }}
                             </button>
                         </div>
                     </div>

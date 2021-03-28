@@ -55,6 +55,6 @@ class SettingsController extends Controller
         $this->putAppSettingsInSession();
 
         return redirect()->route('show.app.settings')
-            ->with(['msg' => 'App settings successfully saved']);
+            ->with(['msg' => __('App settings successfully saved')]);
     }
 }

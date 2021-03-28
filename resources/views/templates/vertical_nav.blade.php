@@ -12,12 +12,12 @@
             </div>
             <div class="pull-left info">
                 <p>{{ auth()->user()->full_name }}</p>
-                <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                <a href="#"><i class="fa fa-circle text-success"></i> {{ __('Online') }}</a>
             </div>
         </div>
         <div class="sidebar-form">
             <div class="input-group">
-                <input type="text" name="top-search" id="top-search" class="form-control" placeholder="Search @yield('search')..." autocomplete="off">
+                <input type="text" name="top-search" id="top-search" class="form-control" placeholder="{{ __('Search') }} @yield('search')..." autocomplete="off">
                 <span class="input-group-btn">
                     <button type="button" name="search" id="search-btn" class="btn btn-flat">
                         <i class="fa fa-search"></i>
@@ -26,37 +26,37 @@
             </div>
         </div>
         <ul class="sidebar-menu">
-            <li class="header">MAIN NAVIGATION</li>
-            <li class="treeview" title="Modules">
+            <li class="header">{{ __('MAIN NAVIGATION') }}</li>
+            <li class="treeview" data-toggle="tooltip" data-placement="right" title="{{ __('Modules') }}">
                 <a href="{{ route('show.app.modules') }}">
                     <i class="fa fa-diamond"></i>
-                    <span>Modules</span>
+                    <span>{{ __('Modules') }}</span>
                 </a>
             </li>
-            <li class="treeview" title="Reports">
+            <li class="treeview" data-toggle="tooltip" data-placement="right" title="{{ __('Reports') }}">
                 <a href="{{ route('show.app.reports') }}">
                     <i class="fa fa-sitemap"></i>
-                    <span>Reports</span>
+                    <span>{{ __('Reports') }}</span>
                 </a>
             </li>
-            <li class="treeview" title="Activities">
+            <li class="treeview" data-toggle="tooltip" data-placement="right" title="{{ __('Activities') }}">
                 <a href="{{ route('show.app.activities') }}">
                     <i class="fa fa-bell"></i>
-                    <span>Activities</span>
+                    <span>{{ __('Activities') }}</span>
                 </a>
             </li>
             @if (auth()->user()->role == "Administrator" && auth()->user()->username == "admin")
-                <li class="treeview" title="Backups">
+                <li class="treeview" data-toggle="tooltip" data-placement="right" title="{{ __('Backups') }}">
                     <a href="{{ route('show.app.backups') }}">
                         <i class="fa fa-hdd-o"></i>
-                        <span>Backups</span>
+                        <span>{{ __('Backups') }}</span>
                     </a>
                 </li>
             @endif
-            <li class="treeview" title="Settings">
+            <li class="treeview" data-toggle="tooltip" data-placement="right" title="{{ __('Settings') }}">
                 <a href="{{ route('show.app.settings') }}">
                     <i class="fa fa-cogs"></i>
-                    <span>Settings</span>
+                    <span>{{ __('Settings') }}</span>
                 </a>
             </li>
         </ul>

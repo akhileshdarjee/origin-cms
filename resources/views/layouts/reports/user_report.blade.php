@@ -23,8 +23,8 @@
         <div class="form-group">
             <select name="active" class="form-control">
                 <option value="" default selected>{{ __('Active') }}</option>
-                <option value="1">Yes</option>
-                <option value="0">No</option>
+                <option value="1">{{ __('Yes') }}</option>
+                <option value="0">{{ __('No') }}</option>
             </select>
         </div>
     </div>

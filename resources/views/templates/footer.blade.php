@@ -1,6 +1,7 @@
 <footer class="main-footer">
     <div class="pull-right">
-        <i class="fa fa-code fa-lg"></i> with <i class="fa fa-heart fa-lg" style="color: #d90429;"></i> by 
+        <i class="fa fa-code fa-lg"></i> {{ __('with') }}
+        <i class="fa fa-heart fa-lg" style="color: #d90429;"></i> {{ __('by') }} 
         <strong>
             <a href="https://www.facebook.com/mr.multitalented" target="_blank" style="color: #676a6c;">Akhilesh Darjee</a>
         </strong>

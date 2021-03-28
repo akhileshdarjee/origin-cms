@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Reports;
 
 use DB;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 
 class UserReport extends Controller
 {

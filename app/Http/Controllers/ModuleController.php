@@ -43,7 +43,7 @@ class ModuleController extends Controller
     {
         if ($request->filled('id')) {
             session()->flash('success', false);
-            throw new Exception("Cannot update Module. Please delete and re-create");
+            throw new Exception(__('Cannot update Module. Please delete and re-create'));
         }
     }
 
@@ -193,7 +193,7 @@ class ModuleController extends Controller
     {
         $data = [
             'success' => false,
-            'msg' => 'Please provide module data'
+            'msg' => __('Please provide module data')
         ];
 
         if (in_array(auth()->user()->role, ["System Administrator", "Administrator"])) {
@@ -212,13 +212,13 @@ class ModuleController extends Controller
 
                     if ($updated) {
                         $data['success'] = true;
-                        $data['msg'] = 'Module sequence updated successfully';
+                        $data['msg'] = __('Module sequence updated successfully');
                         cache()->forget('app_modules');
                     }
                 }
             }
         } else {
-            $data['msg'] = "You are not authorized to change Module sequence";
+            $data['msg'] = __('You are not authorized to change Module sequence');
         }
 
         return response()->json($data, 200);

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Forgot Password - {{ config('app.brand.name') }}</title>
+        <title>{{ __('Forgot Password') }} - {{ config('app.brand.name') }}</title>
         @include('templates.headers')
     </head>
     <body class="hold-transition login-page">
@@ -17,14 +17,14 @@
             </div>
             <!-- /.login-logo -->
             <div class="login-box-body">
-                <p class="login-box-msg">Forgot Password</p>
+                <p class="login-box-msg">{{ __('Forgot Password') }}</p>
                 <form action="{{ route('password.email') }}" method="POST" name="password_email" id="password_email">
                     @if (session()->has('status'))
                         <div class="block">
                             <div class="alert alert-success">
                                 <strong>
                                     <i class="fa fa-check fa-lg"></i>
-                                    {{ session('status') }}
+                                    {{ __(session('status')) }}
                                 </strong>
                             </div>
                         </div>
@@ -35,7 +35,7 @@
                                 <div class="alert alert-danger">
                                     <strong>
                                         <i class="fa fa-exclamation-triangle fa-lg"></i>
-                                        {{ $error }}
+                                        {{ __($error) }}
                                     </strong>
                                 </div>
                             </div>
@@ -43,12 +43,12 @@
                     @endif
                     {!! csrf_field() !!}
                     <div class="form-group has-feedback">
-                        <input type="text" class="form-control" name="email" placeholder="Email Address" />
+                        <input type="text" class="form-control" name="email" placeholder="{{ __('Email Address') }}" />
                     </div>
                     <div class="row">
                         <div class="col-xs-12">
                             <button type="submit" class="btn btn-primary btn-block btn-flat">
-                                Send Password Reset Link
+                                {{ __('Send Password Reset Link') }}
                             </button>
                         </div>
                     </div>

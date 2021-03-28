@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use DB;
 use File;
-use Illuminate\Http\Request;
 use Str;
 
 trait FormController
@@ -31,7 +30,7 @@ trait FormController
             return $this->showForm($module, $user_role);
         } else {
             session()->flash('success', false);
-            $message = 'You are not authorized to view "'. $module['display_name'] . '" records';
+            $message = __('You are not authorized to view') . ' "' . __($module['display_name']) . '" ' . __('records');
 
             return $this->sendResponse(401, $message);
         }
@@ -55,7 +54,7 @@ trait FormController
 
             if (!$record_exists) {
                 session()->flash('success', false);
-                $message = 'No such record found';
+                $message = __('No such record found');
 
                 return $this->sendResponse(404, $message);
             }
@@ -78,7 +77,7 @@ trait FormController
                     }
                 } else {
                     session()->flash('success', false);
-                    return $this->sendResponse(404, 'Page Not Found');
+                    return $this->sendResponse(404, __('Page Not Found'));
                 }
             }
 
@@ -165,14 +164,14 @@ trait FormController
                 }
             } else {
                 session()->flash('success', false);
-                return $this->sendResponse(401, 'You are not authorized to view this record');
+                return $this->sendResponse(401, __('You are not authorized to view this record'));
             }
         }
         // Shows a new form
         else {
             if (!$perms['create']) {
                 session()->flash('success', false);
-                $message = 'You are not authorized to create "'. $module['display_name'] . '"';
+                $message = __('You are not authorized to create') . ' "' . __($module['display_name']) . '"';
                 return $this->sendResponse(401, $message);
             }
         }
@@ -190,7 +189,7 @@ trait FormController
             'permissions' => $perms
         ];
 
-        return $this->sendResponse(200, 'Ok', $form_data);
+        return $this->sendResponse(200, __('Ok'), $form_data);
     }
 
     // Saves or Updates the record to the database
@@ -217,7 +216,7 @@ trait FormController
                 } else {
                     session()->flash('success', false);
 
-                    $message = 'You are not authorized to update "'. $module['display_name'] . '" records';
+                    $message = __('You are not authorized to update') . ' "' . __($module['display_name']) . '" ' . __('records');
                     return $this->sendResponse(401, $message);
                 }
             } else {
@@ -226,7 +225,7 @@ trait FormController
                 } else {
                     session()->flash('success', false);
 
-                    $message = 'You are not authorized to create "'. $module['display_name'] . '" records';
+                    $message = __('You are not authorized to create') . ' "' . __($module['display_name']) . '" ' . __('records');
                     return $this->sendResponse(401, $message);
                 }
             }
@@ -241,13 +240,13 @@ trait FormController
             // if record already exists in database while creating
             session()->flash('success', false);
 
-            $message = $module['display_name'] . ': "' . $request->get($module['link_field']) . '" already exist';
+            $message = __($module['display_name']) . ': "' . $request->get($module['link_field']) . '" ' . __('already exist');
             return $this->sendResponse(400, $message);
         } elseif ($action == "update" && $request->get($module['link_field']) != $module['link_field_value']) {
             // if link field value is not matching the request link value
             session()->flash('success', false);
 
-            $message = 'You cannot change "' . $module['link_field_label'] . '" for ' . $module['display_name'];
+            $message = __('You cannot change') . ' "' . __($module['link_field_label']) . '" ' . __('for') . ' ' . __($module['display_name']);
             return $this->sendResponse(400, $message);
         } else {
             $form_data = $this->populateData($request, $module, $action);
@@ -320,7 +319,7 @@ trait FormController
             ];
 
             $form_identifier = isset($module['form_title']) ? $form_data[$module['table_name']][$module['form_title']] : $module['link_field_value'];
-            $message = $module['display_name'] . ': "' . $form_identifier . '" saved successfully';
+            $message = __($module['display_name']) . ': "' . $form_identifier . '" ' . __('saved successfully');
 
             return $this->sendResponse(200, $message, $form_view_data);
         } else {
@@ -365,7 +364,7 @@ trait FormController
                             }
                         } else {
                             $form_title = isset($module['form_title']) ? $module['form_title'] : $module['link_field_value'];
-                            $message = 'You are not authorized to create "'. $form_title . '" record';
+                            $message = __('You are not authorized to create') . ' "' . $form_title . '" ' . __('record');
 
                             return $this->sendResponse(401, $message);
                         }
@@ -383,7 +382,7 @@ trait FormController
                         session()->flash('newly_created', true);
                     } else {
                         list($column_name, $column_value) = array_divide($unsatisfied_rule);
-                        $message = 'You are not authorized to create "'. ucwords($column_value[0]) . '" ' . ucwords($column_name[0]);
+                        $message = __('You are not authorized to create') . ' "' . __(ucwords($column_value[0])) . '" ' . __(ucwords($column_name[0]));
 
                         return $this->sendResponse(401, $message);
                     }
@@ -423,7 +422,7 @@ trait FormController
                             }
                         } else {
                             $form_title = isset($module['form_title']) ? $module['form_title'] : $module['link_field_value'];
-                            $message = 'You are not authorized to update "'. $form_title . '" record';
+                            $message = __('You are not authorized to update') . ' "' . $form_title . '" ' . __('record');
 
                             return $this->sendResponse(401, $message);
                         }
@@ -435,7 +434,7 @@ trait FormController
                             ->update($form_table_data);
                     } else {
                         list($column_name, $column_value) = array_divide($unsatisfied_rule);
-                        $message = 'You are not authorized to update "'. ucwords($column_name[0]) . '" as "' . ucwords($column_value[0]) . '"';
+                        $message = __('You are not authorized to update') . ' "' . __(ucwords($column_name[0])) . '" ' . __('as') . ' "' . __(ucwords($column_value[0])) . '"';
 
                         return $this->sendResponse(401, $message);
                     }
@@ -508,7 +507,7 @@ trait FormController
             return $this->deleteRecord($request, $module, $email_id);
         } else {
             session()->flash('success', false);
-            $message = 'You are not authorized to delete "'. $module['display_name'] . '" records';
+            $message = __('You are not authorized to delete') . ' "' . __($module['display_name']) . '" ' . __('records');
 
             return $this->sendResponse(401, $message);
         }
@@ -601,12 +600,12 @@ trait FormController
                         ];
 
                         session()->flash('success', true);
-                        $message = $module['display_name'] . ': "' . $form_title . '" deleted successfully';
+                        $message = __($module['display_name']) . ': "' . __($form_title) . '" ' . __('deleted successfully');
 
                         return $this->sendResponse(200, $message, $delete_data);
                     } else {
                         session()->flash('success', false);
-                        return $this->sendResponse(500, 'Oops! Some problem occured while deleting. Please try again');
+                        return $this->sendResponse(500, __('Some error occured. Please try again'));
                     }
 
                     // deletes the avatar file if any
@@ -615,18 +614,18 @@ trait FormController
                     }
                 } else {
                     $form_title = isset($module['form_title']) ? $data->{$module['form_title']} : $data->{$module['link_field_value']};
-                    $message = 'You are not authorized to delete "'. $form_title . '" record';
+                    $message = __('You are not authorized to delete') . ' "' . __($form_title) . '" ' . __('record');
 
                     return $this->sendResponse(401, $message);
                 }
             } else {
                 session()->flash('success', false);
-                return $this->sendResponse(404, 'No such record found');
+                return $this->sendResponse(404, __('No such record found'));
             }
         } else {
             session()->flash('success', false);
 
-            $message = 'Cannot delete the record. "' . $module['link_field'] . '" is not set';
+            $message = __('Cannot delete the record') . '. "' . __($module['link_field']) . '" ' . __('is not set');
             return $this->sendResponse(400, $message);
         }
     }

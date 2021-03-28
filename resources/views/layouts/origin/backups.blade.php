@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Backups - ' . config('app.brand.name'))
-@section('search', 'Backups')
+@section('title', __('Backups') . ' - ' . config('app.brand.name'))
+@section('search', __('Backups'))
 
 @section('title_section')
     <div id="sticky-anchor"></div>
@@ -9,33 +9,33 @@
         <div class="row">
             <div class="col-md-6 col-sm-6 col-xs-8">
                 <div class="form-name">
-                    <i class="fa fa-hdd-o"></i> Backups
+                    <i class="fa fa-hdd-o"></i> {{ __('Backups') }}
                 </div>
             </div>
             <div class="col-md-6 col-sm-6 col-xs-4 text-right">
                 <button type="button" class="btn btn-success btn-sm refresh-backups">
-                    <span class="hidden-xs">Refresh</span>
+                    <span class="hidden-xs">{{ __('Refresh') }}</span>
                     <span class="visible-xs"><i class="fa fa-refresh"></i></span>
                 </button>
                 <div class="btn-group">
                     <button data-toggle="dropdown" class="btn btn-primary btn-sm dropdown-toggle">
-                        <span class="hidden-xs">Create Backup <span class="caret"></span></span>
+                        <span class="hidden-xs">{{ __('Create Backup') }} <span class="caret"></span></span>
                         <span class="visible-xs"><i class="fa fa-plus"></i></span>
                     </button>
                     <ul class="dropdown-menu dropdown-left">
                         <li>
                             <a class="create-backup" data-href="{{ route('create.app.backups') }}">
-                                Database + Files
+                                {{ __('Database') }} + {{ __('Files') }}
                             </a>
                         </li>
                         <li>
                             <a class="create-backup" data-href="{{ route('create.app.backups') }}?type=db">
-                                Database
+                                {{ __('Database') }}
                             </a>
                         </li>
                         <li>
                             <a class="create-backup" data-href="{{ route('create.app.backups') }}?type=files">
-                                Files
+                                {{ __('Files') }}
                             </a>
                         </li>
                     </ul>
@@ -55,12 +55,12 @@
                             <thead>
                                 <tr class="list-header">
                                     <th class="text-center" valign="middle">#</th>
-                                    <th name="name" valign="middle">Name</th>
-                                    <th name="date" valign="middle">Date</th>
-                                    <th name="size" valign="middle">Size</th>
-                                    <th name="size" valign="middle">Type</th>
-                                    <th name="download" valign="middle">Download</th>
-                                    <th name="delete" valign="middle">Delete</th>
+                                    <th name="name" valign="middle">{{ __('Name') }}</th>
+                                    <th name="date" valign="middle">{{ __('Date') }}</th>
+                                    <th name="size" valign="middle">{{ __('Size') }}</th>
+                                    <th name="size" valign="middle">{{ __('Type') }}</th>
+                                    <th name="download" valign="middle">{{ __('Download') }}</th>
+                                    <th name="delete" valign="middle">{{ __('Delete') }}</th>
                                 </tr>
                             </thead>
                             <tbody class="list-view-items"></tbody>
@@ -71,7 +71,7 @@
                     <div class="row">
                         <div class="col-md-6 col-sm-6 col-xs-5">
                             <span id="item-from"></span> -
-                            <span id="item-to"></span> of 
+                            <span id="item-to"></span> {{ __('of') }} 
                             <strong>
                                 <span class="badge" id="item-count"></span>
                             </strong>
@@ -81,9 +81,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="data-loader" style="display: none;">Loading...</div>
+                <div class="data-loader" style="display: none;">{{ __('Loading') }}...</div>
             </div>
-            <div class="data-loader-full" style="display: none;">Creating...</div>
+            <div class="data-loader-full" style="display: none;">{{ __('Creating') }}...</div>
         </div>
     </div>
 @endsection

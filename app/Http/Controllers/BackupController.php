@@ -75,16 +75,18 @@ class BackupController extends Controller
             }
         }
 
+        $data = ['msg' => __('You are not authorized to view this page')];
+
         if ($request->ajax()) {
-            return response()->json(['msg' => 'You are not authorized to view this page'], 200);
+            return response()->json($data, 200);
         } else {
-            return redirect()->route('home')->with(['msg' => 'You are not authorized to view this page']);
+            return redirect()->route('home')->with($data);
         }
     }
 
     public function download(Request $request, $name)
     {
-        $msg = 'You are not authorized to view this page';
+        $msg = __('You are not authorized to view this page');
 
         if (auth()->user()->role == "Administrator" && auth()->user()->username == "admin") {
             if ($name) {
@@ -104,10 +106,10 @@ class BackupController extends Controller
 
                     return response()->download(storage_path('app/backups/' . $name . '.zip'));
                 } else {
-                    $msg = 'No such backup exists';
+                    $msg = __('No such backup exists');
                 }
             } else {
-                $msg = 'Please provide backup filename to download';
+                $msg = __('Please provide backup filename to download');
             }
         }
 
@@ -120,7 +122,7 @@ class BackupController extends Controller
 
     public function delete(Request $request, $name)
     {
-        $msg = 'You are not authorized';
+        $msg = __('You are not authorized');
         $success = false;
 
         if (auth()->user()->role == "Administrator" && auth()->user()->username == "admin") {
@@ -134,7 +136,7 @@ class BackupController extends Controller
                     Storage::delete(storage_path('app/backups/' . $name . '.sql'));
                     unlink(storage_path('app/backups/' . $name . '.sql'));
 
-                    $msg = "Backup deleted successfully";
+                    $msg = __('Backup deleted successfully');
                     $success = true;
 
                     $activity_data['form_title'] = $name . '.sql';
@@ -143,17 +145,17 @@ class BackupController extends Controller
                     Storage::delete(storage_path('app/backups/' . $name . '.zip'));
                     unlink(storage_path('app/backups/' . $name . '.zip'));
 
-                    $msg = "Backup deleted successfully";
+                    $msg = __('Backup deleted successfully');
                     $success = true;
 
                     $activity_data['form_title'] = $name . '.zip';
                     $this->saveActivity($activity_data, "Delete");
                 } else {
-                    $msg = 'No such backup exists';
+                    $msg = __('No such backup exists');
                     $success = false;
                 }
             } else {
-                $msg = 'Please provide backup filename to delete';
+                $msg = __('Please provide backup filename to delete');
             }
         }
 
@@ -166,7 +168,7 @@ class BackupController extends Controller
 
     public function create(Request $request)
     {
-        $msg = 'You are not authorized';
+        $msg = __('You are not authorized');
         $success = false;
 
         if (auth()->user()->role == "Administrator" && auth()->user()->username == "admin") {

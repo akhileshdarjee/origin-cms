@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use File;
 use App\Exports\ExcelExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Controllers\CommonController;
 use Str;
-
 use Illuminate\Http\Request;
 
 class ReportController extends Controller
@@ -21,7 +19,7 @@ class ReportController extends Controller
             $app_reports = config('reports');
             return view('layouts.origin.reports')->with(['data' => $app_reports]);
         } else {
-            return back()->withInput()->with(['msg' => 'You are not authorized to view "Reports"']);
+            return back()->withInput()->with(['msg' => __('You are not authorized to view "Reports"')]);
         }
     }
 
@@ -34,11 +32,11 @@ class ReportController extends Controller
                 $report_config = config('reports')[Str::studly($report_name)];
             } else {
                 session()->flash('success', false);
-                return redirect()->route('home')->with('msg', 'No such report found');
+                return redirect()->route('home')->with('msg', __('No such report found'));
             }
 
             if (isset($report_config['allowed_roles']) && !in_array($user_role, $report_config['allowed_roles'])) {
-                return redirect()->route('home')->with('msg', 'You are not authorized to view "' . awesome_case($report_name) . '"');
+                return redirect()->route('home')->with('msg', __('You are not authorized to view') . ' "' . __(awesome_case($report_name)) . '"');
             }
 
             if ($request->filled('download') && $request->get('download') == 'Yes') {
@@ -66,7 +64,7 @@ class ReportController extends Controller
                 }
             }
         } else {
-            return redirect()->route('home')->with('msg', 'You are not authorized to view "Reports"');
+            return redirect()->route('home')->with('msg', __('You are not authorized to view "Reports"'));
         }
     }
 

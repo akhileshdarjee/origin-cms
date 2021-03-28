@@ -76,7 +76,7 @@ class OriginController extends Controller
         if (!$show_response['data']['permissions']['create']) {
             $show_response['status'] = "Unauthorized";
             $show_response['status_code'] = 401;
-            $show_response['message'] = 'You are not authorized to create "'. $this->module['display_name'] . '"';
+            $show_response['message'] = __('You are not authorized to create') . ' "'. __($this->module['display_name']) . '"';
             $show_response['data']['form_data'] = [];
         }
 

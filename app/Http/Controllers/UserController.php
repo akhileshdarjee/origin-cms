@@ -66,9 +66,9 @@ class UserController extends Controller
                 session()->flash('success', false);
 
                 if ($user_details->username == $request->get('username')) {
-                    $msg = 'Username: "' . $user_details->username . '" is already registered.';
+                    $msg = __('Username') . ': "' . $user_details->username . '" ' . __('is already registered') . '.';
                 } elseif ($user_details->email == $request->get('email')) {
-                    $msg = 'Email: "' . $user_details->email . '" is already registered.';
+                    $msg = __('Email') . ': "' . $user_details->email . '" ' . __('is already registered') . '.';
                 }
 
                 throw new Exception($msg);
@@ -77,7 +77,7 @@ class UserController extends Controller
                 return true;
             }
         } else {
-            throw new Exception("Username is not provided");
+            throw new Exception(__('Username is not provided'));
         }
     }
 
@@ -99,16 +99,16 @@ class UserController extends Controller
                     ->update($update_details);
 
                 if ($result) {
-                    $msg = "Email verified successfully. Please change password to continue";
+                    $msg = __('Email verified successfully. Please change password to continue');
                     return $this->processFirstLogin($user, $msg);
                 } else {
-                    $msg = "Some error occured while verifying email. Please try again.";
+                    $msg = __('Some error occured. Please try again');
                 }
             } else {
-                $msg = "Invalid Token or Token Expired";
+                $msg = __('Invalid Token or Token Expired');
             }
         } else {
-            $msg = "Please provide token to verify email address";
+            $msg = __('Please provide token to verify email address');
         }
 
         if ($request->ajax()) {
@@ -140,7 +140,7 @@ class UserController extends Controller
                 ->insert($data);
 
             if ($result) {
-                $msg = $msg ? $msg : "This is your first login. Please change your password";
+                $msg = $msg ? $msg : __('This is your first login. Please change your password');
                 return redirect()->route('password.reset', array('token' => $token))->with(['first_login_msg' => $msg]);
             }
         }

@@ -24,13 +24,17 @@
     @section('breadcrumb')
         <ol class="breadcrumb app-breadcrumb">
             <li>
-                <a href="{{ route('show.app.modules') }}"><strong>Home</strong></a>
+                <a href="{{ route('show.app.modules') }}"><strong>{{ __('Home') }}</strong></a>
             </li>
             <li>
-                <a href="{{ route('show.list', $slug) }}"><strong>{{ $title }}</strong></a>
+                <a href="{{ route('show.list', $slug) }}"><strong>{{ __($title) }}</strong></a>
             </li>
             <li class="active">
-                {{ isset($form_data[$table_name]['id']) ? $form_data[$table_name][$form_title] : "New $title" }}
+                @if (isset($form_data[$table_name]['id']))
+                    {{ $form_data[$table_name][$form_title] }}
+                @else
+                    {{ __('New') }} {{ __($title) }}
+                @endif
             </li>
         </ol>
     @endsection
@@ -43,9 +47,14 @@
             <div class="col-md-6 col-sm-6 col-xs-8">
                 <div class="form-name">
                     @if (isset($module_type) && $module_type == "Single")
-                        <i class="{{ $icon }}"></i> {{ $title }}
+                        <i class="{{ $icon }}"></i> {{ __($title) }}
                     @else
-                        <i class="{{ $icon }}"></i> {{ isset($form_data[$table_name]['id']) ? $form_data[$table_name][$form_title] : "New $title" }}
+                        <i class="{{ $icon }}"></i>
+                        @if (isset($form_data[$table_name]['id']))
+                            {{ $form_data[$table_name][$form_title] }}
+                        @else
+                            {{ __('New') }} {{ __($title) }}
+                        @endif
                     @endif
 
                     @if (isset($form_data[$table_name]['id']) && $permissions['update'])
@@ -53,7 +62,7 @@
                             <small>
                                 <span class="text-center" id="form-stats">
                                     <i class="fa fa-circle text-green"></i>
-                                    <span id="form-status">Saved</span>
+                                    <span id="form-status">{{ __('Saved') }}</span>
                                 </span>
                             </small>
                         </div>
@@ -63,35 +72,35 @@
             <div class="col-md-6 col-sm-6 col-xs-4 text-right">
                 @if ((isset($module_type) && $module_type == "Single") || $permissions['update'])
                     <button type="submit" class="btn btn-success btn-sm disabled" id="save_form" disabled>
-                        <span class="hidden-xs">Save</span>
+                        <span class="hidden-xs">{{ __('Save') }}</span>
                         <span class="visible-xs"><i class="fa fa-floppy-o"></i></span>
                     </button>
                 @endif
                 @if (isset($form_data[$table_name]['id']) && ($permissions['create'] || $permissions['delete']))
                     <div class="btn-group">
                         <button data-toggle="dropdown" class="btn btn-primary btn-sm dropdown-toggle">
-                            <span class="hidden-xs">Menu <span class="caret"></span></span>
+                            <span class="hidden-xs">{{ __('Menu') }} <span class="caret"></span></span>
                             <span class="visible-xs"><i class="fa fa-ellipsis-h"></i></span>
                         </button>
                         <ul class="dropdown-menu dropdown-left">
                             @if ($permissions['create'])
                                 <li>
                                     <a href="{{ route('copy.doc', ['slug' => $slug, 'id' => $form_data[$table_name][$link_field]]) }}">
-                                        Duplicate
+                                        {{ __('Duplicate') }}
                                     </a>
                                 </li>
                             @endif
                             @if ($permissions['delete'])
                                 <li>
                                     <a href="#" id="delete" name="delete">
-                                        Delete
+                                        {{ __('Delete') }}
                                     </a>
                                 </li>
                             @endif
                             @if ($permissions['create'])
                                 <li>
                                     <a href="{{ route('new.doc', $slug) }}">
-                                        New {{ $title }}
+                                        {{ __('New') }} {{ __($title) }}
                                     </a>
                                 </li>
                             @endif
@@ -122,13 +131,13 @@
                             @if (view()->exists(str_replace('.', '/', $file)))
                                 @include($file)
                             @else
-                                Please create '{{ str_replace('.', '/', $file) }}.blade.php' in views
+                                {{ __('Please create/update') }} '{{ str_replace('.', '/', $file) }}.blade.php' {{ __('in views') }}
                             @endif
                         </form>
                     @endif
                 </div>
             </div>
-            <div class="data-loader-full" style="display: none;">Saving...</div>
+            <div class="data-loader-full" style="display: none;">{{ __('Saving') }}...</div>
         </div>
     </div>
 @endsection

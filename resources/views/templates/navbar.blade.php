@@ -7,7 +7,7 @@
     </a>
     <nav class="navbar navbar-static-top">
         <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-            <span class="sr-only">Toggle navigation</span>
+            <span class="sr-only">{{ __('Toggle navigation') }}</span>
         </a>
         @yield('breadcrumb')
         <div class="navbar-custom-menu">
@@ -38,7 +38,7 @@
                         </li>
                         <li class="footer">
                             <a href="{{ route('show.app.activities') }}" class="see-all">
-                                <strong>See All Activities</strong>
+                                <strong>{{ __('See All Activities') }}</strong>
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         </li>
@@ -47,7 +47,7 @@
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         @if (auth()->user()->avatar)
-                            <img alt="{{ auth()->user()->full_name }}" class="user-image" src="{{ getImage(auth()->user()->avatar, 25, 25) }}" title="{{ auth()->user()->full_name }}" />
+                            <img alt="{{ auth()->user()->full_name }}" class="user-image" src="{{ getImage(auth()->user()->avatar, 25, 25) }}" alt="{{ auth()->user()->full_name }}" />
                         @else
                             <img class="user-image default" />
                         @endif
@@ -56,7 +56,7 @@
                     <ul class="dropdown-menu">
                         <li class="user-header">
                             @if (auth()->user()->avatar)
-                                <img alt="{{ auth()->user()->full_name }}" class="img-circle" src="{{ getImage(auth()->user()->avatar, 90, 90) }}" title="{{ auth()->user()->full_name }}" />
+                                <img alt="{{ auth()->user()->full_name }}" class="img-circle" src="{{ getImage(auth()->user()->avatar, 90, 90) }}" alt="{{ auth()->user()->full_name }}" />
                             @else
                                 <img class="img-circle default" />
                             @endif
@@ -68,17 +68,17 @@
                             <div class="row">
                                 <div class="col-md-4 col-sm-4 col-xs-4">
                                     <a href="{{ route('show.doc', ['slug' => 'user', 'id' => auth()->user()->id]) }}" class="btn btn-default">
-                                        Profile
+                                        {{ __('Profile') }}
                                     </a>
                                 </div>
                                 <div class="col-md-4 col-sm-4 col-xs-4">
                                     <a href="{{ route('show.app.settings') }}" class="btn btn-default">
-                                        Settings
+                                        {{ __('Settings') }}
                                     </a>
                                 </div>
                                 <div class="col-md-4 col-sm-4 col-xs-4">
                                     <a href="{{ route('logout') }}" class="btn btn-default">
-                                        Logout
+                                        {{ __('Logout') }}
                                     </a>
                                 </div>
                             </div>

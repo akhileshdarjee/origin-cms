@@ -165,7 +165,7 @@ trait CommonController
             }
         }
         else {
-            throw new Exception("No Module found for slug: '" . $slug . "'");
+            throw new Exception(__('No Module found for slug') . ": '" . $slug . "'");
         }
 
         return $module_data;

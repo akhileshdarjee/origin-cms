@@ -672,6 +672,10 @@ a.back-to-top:hover {
 	padding-right: 35px;
 }
 
+.user-name-addon {
+	width: 20%;
+}
+
 .origin-static {
 	min-height: 34px;
 	padding-top: 8px;
@@ -1032,6 +1036,10 @@ a.back-to-top:hover {
 	.form-horizontal .form-group {
 		margin-right: 0px;
 		margin-left: 0px;
+	}
+
+	.user-name-addon {
+		width: 30%;
 	}
 
 	#sticky.stick {

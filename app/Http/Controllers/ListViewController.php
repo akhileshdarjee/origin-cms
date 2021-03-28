@@ -33,7 +33,7 @@ class ListViewController extends Controller
                 $allowed = $this->roleWiseModules($user_role, "Read", $this->module["name"]);
 
                 if (!$allowed) {
-                    $msg = 'You are not authorized to view "'. $this->module["display_name"] . '" records';
+                    $msg = __('You are not authorized to view') . ' "'. __($this->module["display_name"]) . '" ' . __('records');
 
                     if (url()->current() === url()->previous()) {
                         return redirect()->route('home')->with('msg', $msg);
@@ -236,7 +236,7 @@ class ListViewController extends Controller
     {
         $data = [
             'success' => false,
-            'msg' => 'Some error occured. Please try again'
+            'msg' => __('Some error occured. Please try again')
         ];
 
         if ($request->filled('module') && $request->filled('sort_field') && $request->filled('sort_order')) {
@@ -262,14 +262,14 @@ class ListViewController extends Controller
 
                     $data = [
                         'success' => true,
-                        'msg' => 'List View sorting fields updated for current module'
+                        'msg' => __('List View sorting fields updated for current module')
                     ];
                 }
             } else {
-                $data['msg'] = 'No such module found';
+                $data['msg'] = __('No such module found');
             }
         } else {
-            $data['msg'] = 'Please provide module, sort field and sort order';
+            $data['msg'] = __('Please provide module, sort field and sort order');
         }
 
         return response()->json($data, 200);

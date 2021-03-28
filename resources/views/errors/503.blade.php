@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>503 - Service Unavailable - {{ config('app.brand.name') }}</title>
+        <title>{{ __('503 - Service Unavailable') }} - {{ config('app.brand.name') }}</title>
         @include('templates.headers')
     </head>
     <body class="nav-md">
@@ -11,11 +11,11 @@
                     <div class="col-middle">
                         <div class="text-center text-center">
                             <h1 class="error-number">500</h1>
-                            <h2>Service Temporarily Unavailable</h2>
-                            <p>We track these errors automatically, but if the problem persists feel free to contact us. In the meantime, try refreshing.</p>
+                            <h2>{{ __('Service Temporarily Unavailable') }}</h2>
+                            <p>{{ __('We track these errors automatically, but if the problem persists feel free to contact us. In the meantime, try refreshing') }}.</p>
                             <div class="mid_center">
                                 <a href="{{ route('home') }}" class="btn btn-success">
-                                    Back to Home
+                                    {{ __('Back to Home') }}
                                 </a>
                             </div>
                         </div>

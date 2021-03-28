@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use DB;
 use Exception;
-use Carbon\Carbon;
 use App\Activity;
 use App\Http\Controllers\CommonController;
 use App\Http\Controllers\PermController;
@@ -185,24 +184,24 @@ class ActivityController extends Controller
 
             if ($act->module == "Auth") {
                 if ($act->action == "Login") {
-                    $description = $user . " logged in";
+                    $description = $user . " " . __('logged in');
                 } elseif ($act->action == "Logout") {
-                    $description = $user . " logged out";
+                    $description = $user . " " . __('logged out');
                 }
             } else {
                 $activity_link = $act->module . ': ' . $act->form_title;
 
                 if ($act->action == "Create") {
-                    $description = "New " . $activity_link . " created by " . $user;
+                    $description = __('New') . " " . $activity_link . " " . __('created by') . " " . $user;
                 } else if ($act->action == "Update") {
-                    $description = $activity_link . " updated by " . $user;
+                    $description = $activity_link . " " . __('updated by') . " " . $user;
                 } else if ($act->action == "Delete") {
-                    $description = $activity_link . " deleted by " . $user;
+                    $description = $activity_link . " " . __('deleted by') . " " . $user;
                 } else if ($act->action == "Download") {
                     if ($act->module == "Report") {
-                        $description = $act->form_title . " was downloaded by " . $user;
+                        $description = $act->form_title . " " . __('was downloaded by') . " " . $user;
                     } else {
-                        $description = $activity_link . " was downloaded by " . $user;
+                        $description = $activity_link . " " . __('was downloaded by') . " " . $user;
                     }
                 }
             }

@@ -195,7 +195,7 @@ function makeFieldsReadable() {
             else {
                 var ele_val = $(element).val();
 
-                if ($(element).attr("name") == "is_active") {
+                if ($(element).attr("name") == "active") {
                     ele_val = parseInt(ele_val) ? "Yes" : "No";
                 }
 

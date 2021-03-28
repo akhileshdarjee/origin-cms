@@ -149,7 +149,7 @@
             }
         }
 
-        throw new RuntimeException("Unable to detect application namespace.");
+        throw new RuntimeException(__('Unable to detect application namespace'));
     }
 
     function spell_numbers($number)

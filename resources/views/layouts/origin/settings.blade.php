@@ -5,23 +5,23 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label class="control-label">Home Page</label>
+                        <label class="control-label">{{ __('Home Page') }}</label>
                         <div>
                             <select name="home_page" id="home_page" class="form-control" data-mandatory="yes">
-                                <option value="modules">Modules</option>
-                                <option value="reports">Reports</option>
-                                <option value="settings">Settings</option>
+                                <option value="modules">{{ __('Modules') }}</option>
+                                <option value="reports">{{ __('Reports') }}</option>
+                                <option value="settings">{{ __('Settings') }}</option>
                             </select>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label class="control-label">List View Records</label>
+                        <label class="control-label">{{ __('List View Records') }}</label>
                         <div>
                             <div class="input-group">
                                 <input type="text" name="list_view_records" class="form-control" data-mandatory="yes" autocomplete="off">
-                                <span class="input-group-addon gray-bg">per page</span>
+                                <span class="input-group-addon gray-bg">{{ __('per page') }}</span>
                             </div>
                         </div>
                     </div>
@@ -30,35 +30,35 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label class="control-label">Display Type</label>
+                        <label class="control-label">{{ __('Display Type') }}</label>
                         <div>
                             <select name="display_type" class="form-control" data-mandatory="yes">
-                                <option value="comfortable">Comfortable</option>
-                                <option value="cozy">Cozy</option>
+                                <option value="comfortable">{{ __('Comfortable') }}</option>
+                                <option value="cozy">{{ __('Cozy') }}</option>
                             </select>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label class="control-label">Theme</label>
+                        <label class="control-label">{{ __('Theme') }}</label>
                         <div>
                             <select name="theme" class="form-control" data-mandatory="yes">
-                                <optgroup label="Solid">
-                                    <option value="skin-blue">Blue</option>
-                                    <option value="skin-yellow">Yellow</option>
-                                    <option value="skin-green">Green</option>
-                                    <option value="skin-purple">Purple</option>
-                                    <option value="skin-red">Red</option>
-                                    <option value="skin-black">Black</option>
+                                <optgroup label="{{ __('Solid') }}">
+                                    <option value="skin-blue">{{ __('Blue') }}</option>
+                                    <option value="skin-yellow">{{ __('Yellow') }}</option>
+                                    <option value="skin-green">{{ __('Green') }}</option>
+                                    <option value="skin-purple">{{ __('Purple') }}</option>
+                                    <option value="skin-red">{{ __('Red') }}</option>
+                                    <option value="skin-black">{{ __('Black') }}</option>
                                 </optgroup>
-                                <optgroup label="Light">
-                                    <option value="skin-blue-light">Blue Light</option>
-                                    <option value="skin-yellow-light">Yellow Light</option>
-                                    <option value="skin-green-light">Green Light</option>
-                                    <option value="skin-purple-light">Purple Light</option>
-                                    <option value="skin-red-light">Red Light</option>
-                                    <option value="skin-black-light">Black Light</option>
+                                <optgroup label="{{ __('Light') }}">
+                                    <option value="skin-blue-light">{{ __('Blue Light') }}</option>
+                                    <option value="skin-yellow-light">{{ __('Yellow Light') }}</option>
+                                    <option value="skin-green-light">{{ __('Green Light') }}</option>
+                                    <option value="skin-purple-light">{{ __('Purple Light') }}</option>
+                                    <option value="skin-red-light">{{ __('Red Light') }}</option>
+                                    <option value="skin-black-light">{{ __('Black Light') }}</option>
                                 </optgroup>
                             </select>
                         </div>
@@ -69,15 +69,15 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="control-label">Enable Backups</label>
+                            <label class="control-label">{{ __('Enable Backups') }}</label>
                             <div>
                                 <select name="enable_backups" class="form-control" data-mandatory="yes">
-                                    <option value="0">No</option>
-                                    <option value="1">Yes</option>
+                                    <option value="0">{{ __('No') }}</option>
+                                    <option value="1">{{ __('Yes') }}</option>
                                 </select>
                                 <small class="block text-left">
-                                    Database backups will run every Saturday at 11PM.
-                                    See all your <a href="{{ route('show.app.backups') }}">backups</a>
+                                    {{ __('Database backups will run every Saturday at 11PM') }}.
+                                    {{ __('See all your') }} <a href="{{ route('show.app.backups') }}">{{ __('backups') }}</a>
                                 </small>
                             </div>
                         </div>
