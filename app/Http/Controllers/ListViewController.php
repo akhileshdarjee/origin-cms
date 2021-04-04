@@ -175,7 +175,7 @@ class ListViewController extends Controller
             foreach ($filters as $filter) {
                 if (isset($filter['column_name']) && $filter['column_name'] && 
                     isset($filter['column_operator']) && $filter['column_operator'] &&
-                    isset($filter['column_value'])) {
+                    array_key_exists('column_value', $filter)) {
 
                     $column = $filter['column_name'];
                     $operator = $filter['column_operator'];
@@ -220,7 +220,15 @@ class ListViewController extends Controller
 
                         $rows = $rows->whereNotBetween($column, $value);
                     } else {
-                        $rows = $rows->where($column, $operator, $value);
+                        if ($value) {
+                            $rows = $rows->where($column, $operator, $value);
+                        } else {
+                            $rows = $rows->where(function($query) use ($column) {
+                                    $query->orWhere($column, '')
+                                        ->orWhere($column, '0')
+                                        ->orWhereNull($column);
+                                });
+                        }
                     }
                 }
             }

@@ -26,7 +26,7 @@
 	width: 32px;
 	height: 32px;
 	background: #e1e5e9;
-	display: block;
+	display: inline-block;
 	border-radius: 50%;
 	position: relative;
 	text-align: center;
@@ -40,6 +40,33 @@
 	left: 0px;
 	margin-top: -6px;
 	color: #676a6c;
+}
+
+.default-picture-sm {
+	width: 32px;
+	height: 32px;
+}
+
+.default-picture-md {
+	width: 64px;
+	height: 64px;
+}
+
+.default-picture-lg {
+	width: 96px;
+	height: 96px;
+}
+
+.default-picture-circle {
+	border-radius: 50% !important;
+}
+
+.default-picture-box {
+	border-radius: 0 !important;
+}
+
+.default-picture-rounded {
+	border-radius: 5px !important;
 }
 
 .sidebar-collapse .default-avatar {
@@ -888,6 +915,7 @@ a.back-to-top:hover {
 
 /* Fancybox start */
 .fancyimg {
+	border-radius: 5px;
 	cursor: pointer;
 	transition: 0.3s;
 }

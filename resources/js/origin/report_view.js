@@ -133,9 +133,18 @@ $(document).ready(function() {
                                     column_value = '<a href="' + column_value + '" target="_blank">' + column_value + '</a>';
                                 }
 
-                                if (['image', 'avatar'].contains(column_name) && column_value) {
-                                    img_path = getImage(column_value, 48, 48, 95, 0, 'b');
-                                    column_value = '<img src="' + img_path + '" alt="' + grid_data[data["link_field"]] + '">';
+                                if (['image', 'photo', 'picture', 'profile_picture', 'profile_photo', 'logo', 'avatar'].contains(column_name)) {
+                                    if (column_value) {
+                                        img_path = getImage(column_value, 32, 32, 95, 0, 'b');
+                                        column_value = '<div class="text-center"><img src="' + img_path + '" data-big="' + getImage(column_value) + '" class="fancyimg" alt="' + grid_data[data["form_title"]] + '"></div>';
+                                    }
+                                    else {
+                                        column_value = '<div class="text-center">\
+                                            <span class="default-picture default-picture-rounded">\
+                                                <i class="fa fa-picture-o"></i>\
+                                            </span>\
+                                        </div>';
+                                    }
                                 }
                             }
 
@@ -162,6 +171,7 @@ $(document).ready(function() {
                 $("body").find("#report-table_info").html(report_info);
                 $("body").find("#report-table_paginate").empty().append(makePagination(data['rows']));
                 report_table.columns.adjust();
+                enableFancyBox();
             }
         });
     }

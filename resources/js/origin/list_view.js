@@ -339,7 +339,7 @@ $(document).ready(function() {
                                     }
                                     else {
                                         list_records += '<td data-field-name="' + column_name + '" class="client-avatar">\
-                                            <span class="default-picture">\
+                                            <span class="default-picture default-picture-rounded">\
                                                 <i class="fa fa-picture-o"></i>\
                                             </span>\
                                         </td>';
