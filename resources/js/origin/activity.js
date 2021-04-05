@@ -79,9 +79,7 @@ $(document).ready(function() {
                             }
                         }
                         else {
-                            if (row["form_id"]) {
-                                var activity_link = '<strong>' + row["module"] + ': ' + row["form_title"] + '</strong>';
-                            }
+                            var activity_link = '<strong>' + row["module"] + ': ' + row["form_title"] + '</strong>';
 
                             if (row["action"] == "Create") {
                                 desc = "New" + " " + activity_link + " " + "created by" + " " + user;
