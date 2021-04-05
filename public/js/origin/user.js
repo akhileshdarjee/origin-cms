@@ -1,9 +1,9 @@
 $(document).ready(function() {
     if ($('[name="id"]').val()) {
-        var email_verified = '<span class="label label-danger">No</span>';
+        var email_verified = '<span class="badge badge-danger">No</span>';
 
         if (origin.data[origin.table_name]['email_verified_at']) {
-            var email_verified = '<span class="label label-success">Yes</span>';
+            var email_verified = '<span class="badge badge-success">Yes</span>';
         }
 
         addFormStatic("Email Verified", email_verified);

@@ -182,32 +182,12 @@ $(document).ready(function() {
         return false;
     });
 
-    if ($(window).width() <= 767) {
-        $('body').removeClass('sidebar-collapse');
-    }
-
-    // toggle breadcrumb
-    var breadcrumb_ignore_list = ['/app', '/login', '/password'];
-
-    if ((breadcrumb_ignore_list.indexOf(app_route) >= 0) || app_route.split("/")[1] == "list") {
-        if ($(".navbar-brand").length > 1) {
-            $(".navbar-brand:last").remove();
-        }
-    }
-    else {
-        var module_name = app_route.split("/")[2];
-        var breadcrumb = '<a class="navbar-brand" href="/list/' + module_name + '" style="font-size: 22px;">' + module_name.replace(/_/g, " ").toProperCase() + ' List</a>';
-        $(".navbar-brand").addClass("hidden-xs hidden-sm");
-        $(breadcrumb).insertAfter(".navbar-brand");
-    }
-
-    // toggle vertical nav active
-    $.each($(".treeview"), function(index, navbar) {
-        if ($(navbar).find('a').attr('href') == window.location.href) {
-            $(navbar).addClass('active');
+    $.each($(".app-nav"), function(index, app_nav) {
+        if ($(app_nav).find('a').attr('href') == window.location.href) {
+            $(app_nav).addClass('active');
         }
         else {
-            $(navbar).removeClass('active');
+            $(app_nav).removeClass('active');
         }
     });
 
@@ -524,41 +504,29 @@ function msgbox(msg, footer, title, size) {
 
 // toastr notification
 function notify(msg, type) {
-    toastr.options = {
-        "closeButton": true,
-        "debug": false,
-        "progressBar": false,
-        "preventDuplicates": false,
-        "positionClass": "toast-top-right",
-        "onclick": null,
-        "showDuration": "400",
-        "hideDuration": "1000",
-        "timeOut": "5000",
-        "extendedTimeOut": "1000",
-        "showEasing": "swing",
-        "hideEasing": "linear",
-        "showMethod": "fadeIn",
-        "hideMethod": "fadeOut"
-    };
-
-    msg = '<strong>' + msg + '</strong>';
-
-    if (type == "success") {
-        toastr.success(msg);
+    if (type == 'success') {
+        var icon = 'fas fa-check text-green';
     }
-    else if (type == "warning") {
-        toastr.warning(msg);
+    else if (type == 'warning') {
+        var icon = 'fas fa-exclamation-triangle text-warning';
     }
-    else if (type == "info") {
-        toastr.info(msg);
+    else if (type == 'info') {
+        var icon = 'fas fa-info-circle text-info';
     }
-    else if (type == "error") {
-        toastr.error(msg);
+    else if (type == 'error') {
+        var icon = 'fas fa-bug text-danger';
     }
-    // default notification
     else {
-        toastr.success(msg);
+        var icon = 'fas fa-check text-green';
     }
+
+    $(document).Toasts('create', {
+        body: msg,
+        title: type ? type.toProperCase() : 'Success',
+        autohide: true,
+        delay: 5000,
+        icon: icon + ' fa-lg',
+    });
 }
 
 // add status labels, icon for money related fields
@@ -570,9 +538,9 @@ function beautifyListView(list_view) {
     var email_list = ['email_id', 'guest_id'];
     var label_list = ['active', 'show_in_module_section', 'role'];
     var label_bg = {
-        'active' : { '1' : {'value': 'Yes', 'label': 'label-success'}, '0' : {'value': 'No', 'label': 'label-danger'} }, 
-        'role' : { 'Administrator' : 'label-default', 'Guest' : 'label-info' }, 
-        'show_in_module_section' : { '1' : 'label-success', '0' : 'label-danger' }, 
+        'active' : { '1' : {'value': 'Yes', 'label': 'badge-success'}, '0' : {'value': 'No', 'label': 'badge-danger'} }, 
+        'role' : { 'System Administrator' : 'badge-light', 'Administrator' : 'badge-dark', 'Guest' : 'badge-info' }, 
+        'show_in_module_section' : { '1' : 'badge-success', '0' : 'badge-danger' }, 
     }
 
     var list_view = list_view ? list_view : ".list-view";
@@ -627,17 +595,17 @@ function beautifyListView(list_view) {
                     }
                     else if (label_list.contains(column_name)) {
                         if (typeof label_bg[column_name][column_value] === "object") {
-                            $(this).html('<span class="label ' + label_bg[column_name][column_value]["label"] + '">' + label_bg[column_name][column_value]["value"] + '</span>');
+                            $(this).html('<span class="badge ' + label_bg[column_name][column_value]["label"] + '">' + label_bg[column_name][column_value]["value"] + '</span>');
                         }
                         else {
-                            $(this).html('<span class="label ' + label_bg[column_name][column_value] + '">' + column_value + '</span>');
+                            $(this).html('<span class="badge ' + label_bg[column_name][column_value] + '">' + column_value + '</span>');
                         }
                     }
                     else if (column_value.isDate()) {
-                        $(this).html('<i class="fa fa-calendar"></i> ' + moment(column_value).format('DD-MM-YYYY'));
+                        $(this).html('<i class="fa fa-calendar"></i> ' + moment.utc(column_value).local().format('DD-MM-YYYY'));
                     }
                     else if (column_value.isDateTime()) {
-                        $(this).html('<i class="fa fa-calendar"></i> ' + moment(column_value).format('DD-MM-YYYY hh:mm A'));
+                        $(this).html('<i class="fa fa-calendar"></i> ' + moment.utc(column_value).local().format('DD-MM-YYYY hh:mm A'));
                     }
                     else if (column_value.isTime()) {
                         $(this).html('<i class="fa fa-clock-o"></i> ' + column_value);
@@ -676,7 +644,7 @@ function makePagination(data) {
     var next = data['next_page_url'];
     var last = data['last_page_url'];
 
-    var pagination = '<ul class="pagination origin-pagination">';
+    var pagination = '<ul class="pagination pagination-sm origin-pagination float-right">';
 
     if (data['current_page'] == 1) {
         first_enabled = false;
@@ -686,29 +654,29 @@ function makePagination(data) {
         last_enabled = false;
     }
 
-    pagination += '<li class="paginate_button first' + (first_enabled ? "" : " disabled") + '">\
-        <a href="' + (first_enabled ? first : "#") + '" data-dt-idx="0" tabindex="0">\
-            <span class="hidden-xs">First</span>\
-            <span class="visible-xs"><i class="fa fa-angle-double-left"></i></span>\
+    pagination += '<li class="page-item first' + (first_enabled ? "" : " disabled") + '">\
+        <a class="page-link" href="' + (first_enabled ? first : "#") + '" data-dt-idx="0" tabindex="0">\
+            <span class="d-none d-sm-none d-md-block">First</span>\
+            <span class="d-md-none d-lg-none d-xl-none"><i class="fas fa-angle-double-left"></i></span>\
         </a>\
     </li>\
-    <li class="paginate_button previous' + (prev ? "" : " disabled") + '">\
-        <a href="' + (prev ? prev : "#") + '" data-dt-idx="1" tabindex="0">\
-            <span class="hidden-xs">Previous</span>\
-            <span class="visible-xs"><i class="fa fa-angle-left"></i></span>\
+    <li class="page-item previous' + (prev ? "" : " disabled") + '">\
+        <a class="page-link" href="' + (prev ? prev : "#") + '" data-dt-idx="1" tabindex="0">\
+            <span class="d-none d-sm-none d-md-block">Previous</span>\
+            <span class="d-md-none d-lg-none d-xl-none"><i class="fas fa-angle-left"></i></span>\
         </a>\
     </li>';
 
-    pagination += '<li class="paginate_button next' + (next ? "" : " disabled") + '">\
-        <a href="' + (next ? next : "#") + '" data-dt-idx="2" tabindex="0">\
-            <span class="hidden-xs">Next</span>\
-            <span class="visible-xs"><i class="fa fa-angle-right"></i></span>\
+    pagination += '<li class="page-item next' + (next ? "" : " disabled") + '">\
+        <a class="page-link" href="' + (next ? next : "#") + '" data-dt-idx="2" tabindex="0">\
+            <span class="d-none d-sm-none d-md-block">Next</span>\
+            <span class="d-md-none d-lg-none d-xl-none"><i class="fas fa-angle-right"></i></span>\
         </a>\
     </li>\
-    <li class="paginate_button last' + (last_enabled ? "" : " disabled") + '">\
-        <a href="' + (last_enabled ? last : "#") + '" data-dt-idx="3" tabindex="0">\
-            <span class="hidden-xs">Last</span>\
-            <span class="visible-xs"><i class="fa fa-angle-double-right"></i></span>\
+    <li class="page-item last' + (last_enabled ? "" : " disabled") + '">\
+        <a class="page-link" href="' + (last_enabled ? last : "#") + '" data-dt-idx="3" tabindex="0">\
+            <span class="d-none d-sm-none d-md-block">Last</span>\
+            <span class="d-md-none d-lg-none d-xl-none"><i class="fas fa-angle-double-right"></i></span>\
         </a>\
     </li>';
 

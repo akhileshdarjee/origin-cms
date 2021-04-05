@@ -4,25 +4,27 @@
 @section('search', __('Modules'))
 
 @section('body')
-    @if (in_array(auth()->user()->role, ["System Administrator", "Administrator"]))
-        <div class="row origin-modules sortable">
-    @else
-        <div class="row origin-modules">
-    @endif
-        @foreach ($data as $module)
-            <div class="col-lg-2 col-md-3 col-sm-3 col-xs-4 text-center m-b app-module" data-name="{{ $module['name'] }}">
-                <div class="module-config" id="{{ $module['slug'] }}">
-                    <a class="module-btn" href="{{ route('show.list', $module['slug']) }}" style="background-color: {{ $module['bg_color'] }}; box-shadow: inset 0px 0px 0px {{ $module['bg_color'] }}, 0px 5px 0px 0px {{ $module['bg_color'] }}, 0px 10px 5px #999999; border-color: {{ $module['bg_color'] }};" title="{{ __($module['display_name']) }}">
-                        <i class="{{ $module['icon'] }}" style="color: {{ $module['icon_color'] }};"></i>
-                    </a>
-                    <h3 class="module-label">
-                        <a href="{{ route('show.list', $module['slug']) }}">
-                            {{ __($module['display_name']) }}
+    <div class="container pt-5">
+        @if (in_array(auth()->user()->role, ["System Administrator", "Administrator"]))
+            <div class="row origin-modules sortable">
+        @else
+            <div class="row origin-modules">
+        @endif
+            @foreach ($data as $module)
+                <div class="col-lg-2 col-md-3 col-sm-3 col-4 text-center m-b app-module" data-name="{{ $module['name'] }}">
+                    <div class="module-config" id="{{ $module['slug'] }}">
+                        <a class="module-btn" href="{{ route('show.list', $module['slug']) }}" style="background-color: {{ $module['bg_color'] }}; box-shadow: inset 0px 0px 0px {{ $module['bg_color'] }}, 0px 5px 0px 0px {{ $module['bg_color'] }}, 0px 10px 5px #999999; border-color: {{ $module['bg_color'] }};" title="{{ __($module['display_name']) }}">
+                            <i class="{{ $module['icon'] }}" style="color: {{ $module['icon_color'] }};"></i>
                         </a>
-                    </h3>
+                        <h3 class="module-label">
+                            <a href="{{ route('show.list', $module['slug']) }}">
+                                {{ __($module['display_name']) }}
+                            </a>
+                        </h3>
+                    </div>
                 </div>
-            </div>
-        @endforeach
+            @endforeach
+        </div>
     </div>
 @endsection
 

@@ -57,7 +57,7 @@ class BackupController extends Controller
             });
 
             foreach ($backups as $idx => $backup) {
-                $backups[$idx]['date'] = Carbon::createFromTimestamp($backup['date'])->format('d-m-Y h:i A');
+                $backups[$idx]['date'] = Carbon::createFromTimestamp($backup['date'], 'UTC')->format('d-m-Y h:i A');
             }
 
             $backups = collect($backups)->values();
@@ -92,7 +92,7 @@ class BackupController extends Controller
             if ($name) {
                 $activity_data = [
                     'module' => 'Backup',
-                    'icon' => 'fa fa-hdd-o'
+                    'icon' => 'fas fa-hdd'
                 ];
 
                 if (file_exists(storage_path('app/backups/' . $name . '.sql'))) {
@@ -129,7 +129,7 @@ class BackupController extends Controller
             if ($name) {
                 $activity_data = [
                     'module' => 'Backup',
-                    'icon' => 'fa fa-hdd-o'
+                    'icon' => 'fas fa-hdd'
                 ];
 
                 if (file_exists(storage_path('app/backups/' . $name . '.sql'))) {
@@ -197,7 +197,7 @@ class BackupController extends Controller
 
                 $activity_data = [
                     'module' => 'Backup',
-                    'icon' => 'fa fa-hdd-o',
+                    'icon' => 'fas fa-hdd',
                     'form_title' => $type
                 ];
 

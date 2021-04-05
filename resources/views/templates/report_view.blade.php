@@ -23,84 +23,83 @@
 
 @section('title_section')
     <div id="sticky-anchor"></div>
-    <section class="content-header title-section" id="sticky">
-        <div class="row">
-            <div class="col-md-6 col-sm-6 col-xs-8">
-                <div class="form-name">
-                    <i class="fa fa-sitemap"></i> {{ __(ucwords($title)) }}
+    <div class="content-header" id="sticky">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-sm-6 col-8">
+                    <div class="form-name">
+                        <i class="fas fa-sitemap"></i> {{ __(ucwords($title)) }}
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-6 col-sm-6 col-xs-4 text-right">
-                <div class="btn-group">
-                    <button data-toggle="dropdown" class="btn btn-success btn-sm dropdown-toggle">
-                        <span class="hidden-xs" data-toggle="tooltip" data-placement="bottom" title="{{ __('Download report in multiple formats') }}">
-                            {{ __('Download') }} <span class="caret"></span>
-                        </span>
-                        <span class="visible-xs">
-                            <i class="fa fa-download"></i>
-                            <span class="caret"></span>
-                        </span>
-                    </button>
-                    <ul class="dropdown-menu dropdown-left">
-                        <li>
-                            <a href="#" class="download-report" data-format="xls">
+                <div class="col-md-6 col-sm-6 col-4 text-right list-btns">
+                    @if (view()->exists('layouts/reports/' . strtolower(str_replace(" ", "_", $title))))
+                        <button class="btn btn-outline-default btn-sm elevation-2" id="filter_report" name="filter_report" data-toggle="tooltip" data-placement="top" title="{{ __('Apply filters') }}">
+                            <span class="d-none d-sm-none d-md-inline-block">{{ __('Filter') }}</span>
+                            <span class="d-md-none d-lg-none d-xl-none"><i class="fas fa-filter"></i></span>
+                        </button>
+                    @endif
+                    <div class="btn-group">
+                        <button type="button" class="btn bg-gradient-primary btn-sm dropdown-toggle dropdown-icon elevation-2" data-toggle="dropdown">
+                            <span class="d-none d-sm-none d-md-inline-block" data-toggle="tooltip" data-placement="bottom" title="{{ __('Download report in multiple formats') }}">
+                                {{ __('Download') }}
+                            </span>
+                            <span class="d-md-none d-lg-none d-xl-none"><i class="fas fa-download"></i></span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item download-report" href="#" data-format="xls">
                                 {{ __('XLS') }}
                             </a>
-                        </li>
-                        <li>
-                            <a href="#" class="download-report" data-format="xlsx">
+                            <a class="dropdown-item download-report" href="#" data-format="xlsx">
                                 {{ __('XLSX') }}
                             </a>
-                        </li>
-                        <li>
-                            <a href="#" class="download-report" data-format="csv">
+                            <a class="dropdown-item download-report" href="#" data-format="csv">
                                 {{ __('CSV') }}
                             </a>
-                        </li>
-                    </ul>
+                        </div>
+                    </div>
                 </div>
-                @if (view()->exists('layouts/reports/' . strtolower(str_replace(" ", "_", $title))))
-                    <a class="btn btn-primary btn-sm" id="filter_report" name="refresh_report" data-toggle="tooltip" data-placement="bottom" title="{{ __('Apply filters') }}">
-                        <span class="hidden-xs">{{ __('Filter') }}</span>
-                        <span class="visible-xs"><i class="fa fa-filter"></i></span>
-                    </a>
-                @endif
             </div>
         </div>
-    </section>
+    </div>
 @endsection
 
 @section('body')
-    <div class="box n-m-b">
-        @if (view()->exists('layouts/reports/' . strtolower(str_replace(" ", "_", $title))))
-            <div class="box-header with-border report-filter-sec">
-                @include($file)
-            </div>
-        @endif
-        <div class="box-body table-responsive report-content">
-            <table class="table table-bordered" id="report-table" data-report-name="{{ $title }}">
-                <thead class="panel-heading text-small">
-                    <tr>
-                        <th>#</th>
-                        @if (isset($columns) && $columns)
-                            @foreach ($columns as $column)
-                                @var $col_head = str_replace("Id", "ID", awesome_case($column))
-                                <th name="{{ $column }}">{{ __($col_head) }}</th>
-                            @endforeach
-                        @endif
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-            <div class="data-loader" style="display: none;">{{ __('Loading') }}...</div>
-        </div>
-        <div class="box-footer clearfix">
-            <div class="row report-pagination">
-                <div class="col-sm-5 col-xs-6">
-                    <div class="dataTables_info" id="report-table_info" role="status" aria-live="polite"></div>
-                </div>
-                <div class="col-sm-7 col-xs-6 text-right">
-                    <div class="dataTables_paginate" id="report-table_paginate"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    @if (view()->exists('layouts/reports/' . strtolower(str_replace(" ", "_", $title))))
+                        <div class="card-header with-border report-filter-sec">
+                            @include($file)
+                        </div>
+                    @endif
+                    <div class="card-body table-responsive report-content">
+                        <table class="table table-bordered" id="report-table" data-report-name="{{ $title }}">
+                            <thead class="panel-heading text-small">
+                                <tr>
+                                    <th>#</th>
+                                    @if (isset($columns) && $columns)
+                                        @foreach ($columns as $column)
+                                            @var $col_head = str_replace("Id", "ID", awesome_case($column))
+                                            <th name="{{ $column }}">{{ __($col_head) }}</th>
+                                        @endforeach
+                                    @endif
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                        <div class="data-loader" style="display: none;">{{ __('Loading') }}...</div>
+                    </div>
+                    <div class="card-footer list-actions bg-white">
+                        <div class="row report-pagination">
+                            <div class="col-sm-5 col-6">
+                                <div class="dataTables_info" id="report-table_info" role="status" aria-live="polite"></div>
+                            </div>
+                            <div class="col-sm-7 col-6 text-right">
+                                <div class="dataTables_paginate" id="report-table_paginate"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

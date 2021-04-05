@@ -17,7 +17,7 @@ class ModuleSeeder extends Seeder
                 'name' => 'Module', 'display_name' => 'Module', 'table_name' => 'oc_modules', 'sequence_no' => 1, 
                 'controller_name' => 'ModuleController', 'slug' => 'module', 'show' => 1, 'bg_color' => '#1ab394', 
                 'list_view_columns' => 'display_name, table_name, controller_name, slug, active', 
-                'icon' => 'fa fa-diamond', 'icon_color' => '#ffffff', 'form_title' => 'display_name', 
+                'icon' => 'fas fa-gem', 'icon_color' => '#ffffff', 'form_title' => 'display_name', 
                 'image_field' => null, 'owner' => 'admin', 'last_updated_by' => 'admin', 
                 'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s')
             ],
@@ -25,7 +25,7 @@ class ModuleSeeder extends Seeder
                 'name' => 'User', 'display_name' => 'User', 'table_name' => 'oc_users', 'sequence_no' => 2, 
                 'controller_name' => 'UserController', 'slug' => 'user', 'show' => 1, 'bg_color' => '#d35400', 
                 'list_view_columns' => 'avatar, username, full_name, role, active', 
-                'icon' => 'fa fa-user', 'icon_color' => '#ffffff', 'form_title' => 'username', 
+                'icon' => 'fas fa-user', 'icon_color' => '#ffffff', 'form_title' => 'username', 
                 'image_field' => 'avatar', 'owner' => 'admin', 'last_updated_by' => 'admin', 
                 'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s')
             ],

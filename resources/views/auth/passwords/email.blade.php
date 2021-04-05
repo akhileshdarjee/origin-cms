@@ -5,54 +5,48 @@
         @include('templates.headers')
     </head>
     <body class="hold-transition login-page">
+        @include('templates.preloader')
         <div class="login-box">
-            <div class="login-logo">
-                <a href="{{ route('show.website') }}" title="{{ config('app.brand.name') }}">
-                    @if (file_exists('img/logo.svg'))
-                        <img src="{{ asset('img/logo.svg') }}" alt="{{ config('app.brand.name') }}" width="100" height="100">
-                    @else
-                        <b>{{ config('app.brand.abbr') }}</b>
-                    @endif
-                </a>
-            </div>
-            <!-- /.login-logo -->
-            <div class="login-box-body">
-                <p class="login-box-msg">{{ __('Forgot Password') }}</p>
-                <form action="{{ route('password.email') }}" method="POST" name="password_email" id="password_email">
-                    @if (session()->has('status'))
-                        <div class="block">
+            <div class="card card-outline card-primary">
+                <div class="card-header text-center">
+                    <a href="{{ route('show.website') }}" title="{{ config('app.brand.name') }}" class="h1">
+                        @if (file_exists('img/logo.svg'))
+                            <img src="{{ asset('img/logo.svg') }}" alt="{{ config('app.brand.name') }}" width="100" height="100">
+                        @else
+                            <b>{{ config('app.brand.abbr') }}</b>
+                        @endif
+                    </a>
+                </div>
+                <div class="card-body">
+                    <p class="login-box-msg">{{ __('Forgot Password') }}</p>
+                    <form action="{{ route('password.email') }}" method="POST" name="password_email" id="password_email">
+                        @if (session()->has('status'))
                             <div class="alert alert-success">
-                                <strong>
-                                    <i class="fa fa-check fa-lg"></i>
-                                    {{ __(session('status')) }}
-                                </strong>
+                                <i class="icon fas fa-check"></i>
+                                {{ __(session('status')) }}
                             </div>
-                        </div>
-                    @endif
-                    @if (count($errors) > 0)
-                        @foreach ($errors->all() as $error)
-                            <div class="block">
+                        @endif
+                        @if (count($errors) > 0)
+                            @foreach ($errors->all() as $error)
                                 <div class="alert alert-danger">
-                                    <strong>
-                                        <i class="fa fa-exclamation-triangle fa-lg"></i>
-                                        {{ __($error) }}
-                                    </strong>
+                                    <i class="icon fas fa-ban"></i>
+                                    {{ __($error) }}
                                 </div>
-                            </div>
-                        @endforeach
-                    @endif
-                    {!! csrf_field() !!}
-                    <div class="form-group has-feedback">
-                        <input type="text" class="form-control" name="email" placeholder="{{ __('Email Address') }}" />
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <button type="submit" class="btn btn-primary btn-block btn-flat">
-                                {{ __('Send Password Reset Link') }}
-                            </button>
+                            @endforeach
+                        @endif
+                        {!! csrf_field() !!}
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" name="email" placeholder="{{ __('Email Address') }}" />
                         </div>
-                    </div>
-                </form>
+                        <div class="row">
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary btn-block">
+                                    {{ __('Send Password Reset Link') }}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
         <script type="text/javascript" src="{{ asset(mix('js/all.js')) }}"></script>

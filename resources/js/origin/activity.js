@@ -57,8 +57,8 @@ $(document).ready(function() {
                         var desc = false;
                         var user_name = (current_user["id"] == row["user_id"]) ? "You" : row["user"];
                         var user = '<strong>' + user_name + '</strong>';
-                        var from_now_time = moment(row['created_at']).fromNow();
-                        var actual_time = moment(row['created_at']).format("MMM D, YYYY on hh:mm A");
+                        var from_now_time = moment.utc(row['created_at']).fromNow();
+                        var actual_time = moment.utc(row['created_at']).local().format("MMM D, YYYY on hh:mm A");
 
                         if (row['action'] == "Create")
                             var icon_bg = "bg-blue"
@@ -67,7 +67,7 @@ $(document).ready(function() {
                         else if (row['action'] == "Delete")
                             var icon_bg = "bg-red"
                         else {
-                            var icon_bg = "bg-aqua"
+                            var icon_bg = "bg-purple"
                         }
 
                         if (row["module"] == "Auth") {
@@ -103,13 +103,13 @@ $(document).ready(function() {
                             }
                         }
 
-                        activities += '<li>\
+                        activities += '<div>\
                             <i class="' + row["icon"] + ' ' + icon_bg + '"></i>\
                             <div class="timeline-item">\
                                 <span class="time">\
-                                    <i class="fa fa-clock-o"></i> ' + from_now_time + '\
+                                    <i class="fas fa-clock"></i> ' + from_now_time + '\
                                 </span>\
-                                <div class="timeline-body no-border">' + desc + '<br />\
+                                <div class="timeline-body">' + desc + '<br />\
                                     <small class="text-muted">' + actual_time + '</small>\
                                 </div>\
                             </div>\

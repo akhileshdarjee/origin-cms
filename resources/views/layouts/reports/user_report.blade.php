@@ -21,7 +21,7 @@
     </div>
     <div class="col-md-4 col-sm-6 col-6">
         <div class="form-group">
-            <select name="active" class="form-control">
+            <select name="active" class="custom-select">
                 <option value="" default selected>{{ __('Active') }}</option>
                 <option value="1">{{ __('Yes') }}</option>
                 <option value="0">{{ __('No') }}</option>

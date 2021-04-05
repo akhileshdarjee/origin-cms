@@ -1,14 +1,13 @@
-<div class="box form-section" id="module-details">
-    <div class="box-header">
-        <h5 class="box-title">{{ __('Module Details') }}
-            <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                    <i class="fa fa-minus"></i>
-                </button>
-            </div>
-        </h5>
+<div class="card form-section" id="module-details">
+    <div class="card-header">
+        <h3 class="card-title">{{ __('Module Details') }}</h3>
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-angle-up fa-lg"></i>
+            </button>
+        </div>
     </div>
-    <div class="box-body form-content">
+    <div class="card-body form-content">
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
@@ -23,7 +22,7 @@
                 <div class="form-group">
                     <label class="control-label">{{ __('Active') }}</label>
                     <div>
-                        <select name="active" class="form-control" data-mandatory="yes">
+                        <select name="active" class="custom-select" data-mandatory="yes">
                             <option value="1" default selected>{{ __('Yes') }}</option>
                             <option value="0">{{ __('No') }}</option>
                         </select>
@@ -75,7 +74,7 @@
                 <div class="form-group">
                     <label class="control-label">{{ __('Create Migration') }}</label>
                     <div>
-                        <select name="create_migration" class="form-control" data-mandatory="yes">
+                        <select name="create_migration" class="custom-select" data-mandatory="yes">
                             <option value="1" default selected>{{ __('Yes') }}</option>
                             <option value="0">{{ __('No') }}</option>
                         </select>
@@ -97,7 +96,7 @@
                 <div class="form-group">
                     <label class="control-label">{{ __('Show') }}</label>
                     <div>
-                        <select name="show" class="form-control" data-mandatory="yes">
+                        <select name="show" class="custom-select" data-mandatory="yes">
                             <option value="1" default selected>{{ __('Yes') }}</option>
                             <option value="0">{{ __('No') }}</option>
                         </select>
@@ -117,17 +116,16 @@
         </div>
     </div>
 </div>
-<div class="box form-section" id="module-customization-details">
-    <div class="box-header">
-        <h5 class="box-title">{{ __('Customization') }}
-            <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                    <i class="fa fa-minus"></i>
-                </button>
-            </div>
-        </h5>
+<div class="card form-section" id="module-customization-details">
+    <div class="card-header">
+        <h3 class="card-title">{{ __('Customization') }}</h3>
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-angle-up fa-lg"></i>
+            </button>
+        </div>
     </div>
-    <div class="box-body form-content">
+    <div class="card-body form-content">
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
@@ -145,7 +143,7 @@
                     <label class="control-label">{{ __('Icon') }}</label>
                     <div>
                         <input type="text" name="icon" class="form-control" data-mandatory="no" autocomplete="off">
-                        <small class="block">{{ __('Icon of the Module (eg. \'fa fa-diamond\')') }}</small>
+                        <small class="block">{{ __('Icon of the Module (eg. \'fas fa-gem\')') }}</small>
                     </div>
                 </div>
             </div>
@@ -161,17 +159,16 @@
         </div>
     </div>
 </div>
-<div class="box form-section" id="module-configuration-details">
-    <div class="box-header">
-        <h5 class="box-title">{{ __('Configuration') }}
-            <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                    <i class="fa fa-minus"></i>
-                </button>
-            </div>
-        </h5>
+<div class="card form-section" id="module-configuration-details">
+    <div class="card-header">
+        <h3 class="card-title">{{ __('Configuration') }}</h3>
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-angle-up fa-lg"></i>
+            </button>
+        </div>
     </div>
-    <div class="box-body form-content">
+    <div class="card-body form-content">
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
@@ -205,7 +202,7 @@
                 <div class="form-group">
                     <label class="control-label">{{ __('Sort Order') }}</label>
                     <div>
-                        <select name="sort_order" class="form-control" data-mandatory="yes">
+                        <select name="sort_order" class="custom-select" data-mandatory="yes">
                             <option value="desc" default selected>{{ __('Descending') }}</option>
                             <option value="asc">{{ __('Ascending') }}</option>
                         </select>
@@ -218,7 +215,7 @@
                 <div class="form-group">
                     <label class="control-label">{{ __('Is Child Table') }}</label>
                     <div>
-                        <select name="is_child_table" class="form-control" data-mandatory="yes">
+                        <select name="is_child_table" class="custom-select" data-mandatory="yes">
                             <option value="1">{{ __('Yes') }}</option>
                             <option value="0" default selected>{{ __('No') }}</option>
                         </select>

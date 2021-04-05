@@ -21,12 +21,10 @@ $(document).ready(function() {
         var link_field_value = current_url.split('/').pop();
         var delete_path = current_url.replace("/" + link_field_value, "/delete/" + link_field_value);
 
-        var footer = '<span class="pull-right">\
-            <button type="button" class="btn btn-sm" data-dismiss="modal">No</button>\
+        var footer = '<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">No</button>\
             <a class="btn btn-danger btn-sm" href="' + delete_path + '" id="yes" name="yes">\
                 Delete\
-            </a>\
-        </span>';
+            </a>';
 
         msgbox("Sure you want to delete this record permanently?", footer);
     });
@@ -227,7 +225,7 @@ function enableSaveButton() {
 
     $("body").find("#save_form").removeClass("disabled");
     $("body").find("#save_form").prop("disabled", false);
-    $("body").find("#form-stats > i").removeClass("text-success").addClass("text-warning");
+    $("body").find("#form-stats > i").removeClass("text-green").addClass("text-warning");
     $("body").find("#form-status").html('Not Saved');
 }
 
@@ -258,10 +256,10 @@ function setDocData() {
                             $(form_field).attr("data-field-value", value);
 
                             if (value.isDateTime()) {
-                                value = moment(value).format('DD-MM-YYYY hh:mm A');
+                                value = moment.utc(value).local().format('DD-MM-YYYY hh:mm A');
                             }
                             else {
-                                value = moment(value).format('DD-MM-YYYY');
+                                value = moment.utc(value).local().format('DD-MM-YYYY');
                             }
                         }
 
@@ -307,11 +305,6 @@ window.origin.make = {
         element.setAttribute("name", button_name);
         element.setAttribute("id", button_name);
         element.setAttribute("class", button_class);
-
-        // set button loading text if given
-        if(typeof button_config['loading_text'] != 'undefined' && button_config['loading_text']) {
-            element.setAttribute("data-loading-text", button_config['loading_text']);
-        }
         element.appendChild(document.createTextNode(button_text));
 
         // append button on form title section
@@ -334,7 +327,7 @@ function addFormStatic(label, value) {
         $(form_static_container).find('.static-list').append(form_static);
     }
     else {
-        var form_static_container = '<div class="box-body form-statics"><div class="row static-list">' + form_static + '</div></div>';
+        var form_static_container = '<div class="card-header form-statics"><div class="row static-list">' + form_static + '</div></div>';
         $('body').find('.form-section').first().prepend(form_static_container);
     }
 }

@@ -12,8 +12,8 @@ $(document).ready(function() {
     $("body").on("click", ".delete-backup",  function() {
         var href = $(this).data("href");
 
-        var modal_footer = '<button type="button" class="btn btn-xs" data-dismiss="modal">No</button>\
-            <button type="button" class="btn btn-danger btn-xs confirm-delete-backup" data-href="' + href + '">Yes</button>';
+        var modal_footer = '<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">No</button>\
+            <button type="button" class="btn btn-danger btn-sm confirm-delete-backup" data-href="' + href + '">Yes</button>';
 
         msgbox("Sure you want to delete this backup permanently?", modal_footer);
     });

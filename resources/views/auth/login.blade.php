@@ -5,73 +5,62 @@
         @include('templates.headers')
     </head>
     <body class="hold-transition login-page">
+        @include('templates.preloader')
         <div class="login-box">
-            <div class="login-logo">
-                <a href="{{ route('show.website') }}" title="{{ config('app.brand.name') }}">
-                    @if (file_exists('img/logo.svg'))
-                        <img src="{{ asset('img/logo.svg') }}" alt="{{ config('app.brand.name') }}" width="100" height="100">
-                    @else
-                        <b>{{ config('app.brand.abbr') }}</b>
-                    @endif
-                </a>
-            </div>
-            <!-- /.login-logo -->
-            <div class="login-box-body">
-                <p class="login-box-msg">{{ config('app.brand.name') }}</p>
-                <form action="{{ route('submit.login') }}" method="POST" name="login-form" id="login-form">
-                    @if (count($errors) > 0)
-                        @foreach ($errors->all() as $error)
-                            <div class="block">
+            <div class="card card-outline card-primary">
+                <div class="card-header text-center">
+                    <a href="{{ route('show.website') }}" title="{{ config('app.brand.name') }}" class="h1">
+                        @if (file_exists('img/logo.svg'))
+                            <img src="{{ asset('img/logo.svg') }}" alt="{{ config('app.brand.name') }}" width="100" height="100">
+                        @else
+                            <b>{{ config('app.brand.abbr') }}</b>
+                        @endif
+                    </a>
+                </div>
+                <div class="card-body">
+                    <p class="login-box-msg">{{ __('Login to start your session') }}</p>
+                    <form action="{{ route('submit.login') }}" method="POST" name="login-form" id="login-form">
+                        @if (count($errors) > 0)
+                            @foreach ($errors->all() as $error)
                                 <div class="alert alert-danger">
-                                    <strong>
-                                        <i class="fa fa-exclamation-triangle fa-lg"></i>
-                                        {{ __($error) }}
-                                    </strong>
+                                    <i class="icon fas fa-ban"></i>
+                                    {{ __($error) }}
+                                </div>
+                            @endforeach
+                        @endif
+                        {!! csrf_field() !!}
+                        <div class="input-group mb-3">
+                            <input type="text" name="username" id="username" class="form-control" placeholder="{{ __('Username') }}">
+                            <span class="invalid-feedback">
+                                {{ __('Please Enter Username') }}
+                            </span>
+                        </div>
+                        <div class="input-group mb-3">
+                            <input type="password" name="password" id="password" class="form-control" placeholder="{{ __('Password') }}">
+                            <span class="invalid-feedback">
+                                {{ __('Please Enter Password') }}
+                            </span>
+                        </div>
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" name="remember" id="remember-me" class="custom-control-input">
+                                    <label class="custom-control-label" for="remember-me"> {{ __('Remember Me') }}</label>
                                 </div>
                             </div>
-                        @endforeach
-                    @endif
-                    {!! csrf_field() !!}
-                    <div class="form-group has-feedback">
-                        <div class="input-group">
-                            <span class="input-group-addon">
-                                <i class="fa fa-envelope"></i>
-                            </span>
-                            <input type="text" name="username" id="username" class="form-control" placeholder="{{ __('Username') }}">
-                        </div>
-                        <div class="text-danger help-block" style="text-align: left; display: none;">
-                            {{ __('Please Enter Username') }}
-                        </div>
-                    </div>
-                    <div class="form-group has-feedback">
-                        <div class="input-group">
-                            <span class="input-group-addon">
-                                <i class="fa fa-lock"></i>
-                            </span>
-                            <input type="password" name="password" id="password" class="form-control" placeholder="{{ __('Password') }}">
-                        </div>
-                        <div class="text-danger help-block" style="text-align: left; display: none;">
-                            {{ __('Please Enter Password') }}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-8">
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" name="remember" id="remember-me"> {{ __('Remember Me') }}
-                                </label>
+                            <div class="col-4">
+                                <button type="submit" class="btn btn-primary btn-block" id="submit-login">
+                                    {{ __('Login') }}
+                                </button>
                             </div>
                         </div>
-                        <div class="col-xs-4">
-                            <button type="submit" class="btn btn-primary btn-block btn-flat" id="submit-login" data-loading-text="{{ __('Logging In') }}...">
-                                {{ __('Login') }}
-                            </button>
-                        </div>
-                    </div>
-                    <a href="{{ route('password.request') }}">
-                        {{ __('Forgot password') }}?
-                    </a>
-                </form>
+                    </form>
+                    <p class="mb-1">
+                        <a href="{{ route('password.request') }}">
+                            {{ __('Forgot password') }}?
+                        </a>
+                    </p>
+                </div>
             </div>
         </div>
         <script type="text/javascript" src="{{ asset(mix('js/all.js')) }}"></script>

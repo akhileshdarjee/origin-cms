@@ -16,10 +16,10 @@ trait CommonController
         if (auth()->user()) {
             if ($action == "Login") {
                 $data['module'] = 'Auth';
-                $data['icon'] = 'fa fa-sign-in';
+                $data['icon'] = 'fas fa-sign-in-alt';
             } elseif ($action == "Logout") {
                 $data['module'] = 'Auth';
-                $data['icon'] = 'fa fa-sign-out';
+                $data['icon'] = 'fas fa-sign-out-alt';
             }
 
             $data['action'] = $action;

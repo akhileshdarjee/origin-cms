@@ -1,14 +1,13 @@
-<div class="box form-section" id="user-details">
-    <div class="box-header">
-        <h5 class="box-title">{{ __('User Details') }}
-            <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                    <i class="fa fa-minus"></i>
-                </button>
-            </div>
-        </h5>
+<div class="card form-section" id="user-details">
+    <div class="card-header">
+        <h3 class="card-title">{{ __('User Details') }}</h3>
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-angle-up fa-lg"></i>
+            </button>
+        </div>
     </div>
-    <div class="box-body form-content">
+    <div class="card-body form-content">
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
@@ -18,12 +17,12 @@
                         @if (isset($form_data[$table_name]['avatar']) && $form_data[$table_name]['avatar'])
                             <img src="{{ getImage($form_data[$table_name]['avatar'], '100', '100') }}" class="fancyimg" alt="{{ $form_data[$table_name][$form_title] }}" data-big="{{ getImage($form_data[$table_name]['avatar']) }}">
                         @else
-                            <i class="fa fa-picture-o fa-2x avatar"></i>
+                            <i class="fas fa-image fa-2x avatar"></i>
                         @endif
                         </div>
                         <div class="media-body">
-                            <label title="Upload image file" for="avatar" class="btn btn-primary btn-sm">
-                                <input type="file" accept="image/*" name="avatar" id="avatar" class="hide">
+                            <label title="{{ __('Upload image file') }}" for="avatar" class="btn btn-secondary btn-sm text-xs ml-3">
+                                <input type="file" accept="image/*" name="avatar" id="avatar" class="d-none">
                                 {{ __('Change') }}
                             </label>
                         </div>
@@ -34,7 +33,7 @@
                 <div class="form-group">
                     <label class="control-label">{{ __('Active') }}</label>
                     <div>
-                        <select name="active" class="form-control" data-mandatory="yes">
+                        <select name="active" class="custom-select" data-mandatory="yes">
                             <option value="1">{{ __('Yes') }}</option>
                             <option value="0">{{ __('No') }}</option>
                         </select>
@@ -48,7 +47,7 @@
                     <label class="control-label">{{ __('Title, First & Last Name') }}</label>
                     <div class="input-group">
                         <div class="input-group-addon user-name-addon">
-                            <select name="title" class="form-control" data-mandatory="no" style="height: auto;">
+                            <select name="title" class="custom-select" data-mandatory="no" style="height: auto;">
                                 <option value="" default selected>{{ __('Title') }}</option>
                                 <option value="Mr.">{{ __('Mr.') }}</option>
                                 <option value="Dr.">{{ __('Dr.') }}</option>
@@ -100,7 +99,7 @@
                 <div class="form-group">
                     <label class="control-label">{{ __('Role') }}</label>
                     <div>
-                        <select name="role" class="form-control" data-mandatory="yes">
+                        <select name="role" class="custom-select" data-mandatory="yes">
                             <option value="Administrator">{{ __('Administrator') }}</option>
                             <option value="Guest">{{ __('Guest') }}</option>
                         </select>

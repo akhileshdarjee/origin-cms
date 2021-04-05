@@ -23,11 +23,11 @@ $(document).ready(function() {
 
         if (order == "desc") {
             sort_order = 'asc';
-            btn_html = '<i class="fa fa-arrow-up"></i>';
+            btn_html = '<i class="fas fa-sort-amount-up"></i>';
         }
         else {
             sort_order = 'desc';
-            btn_html = '<i class="fa fa-arrow-down"></i>';
+            btn_html = '<i class="fas fa-sort-amount-down"></i>';
         }
 
         $(this).html(btn_html);
@@ -99,9 +99,9 @@ $(document).ready(function() {
             var tag_text = column_label + ' ' + column_operator + ' ' + (column_value_label || "Null");
 
             var filter_tag = '<div class="btn-group filter-tag" data-cn="' + column_name + '" data-co="' + column_operator + '" data-cv="' + column_value + '">\
-                <button class="btn btn-white btn-xs" type="button">' + tag_text + '</button>\
-                <button class="btn btn-white btn-xs remove-filter" type="button" data-toggle="tooltip" data-placement="right" title="Remove filter">\
-                    <i class="fa fa-times"></i>\
+                <button class="btn btn-white btn-sm elevation-1" type="button">' + tag_text + '</button>\
+                <button class="btn btn-white btn-sm elevation-1 remove-filter" type="button" data-toggle="tooltip" data-placement="right" title="Remove filter">\
+                    <i class="fas fa-times"></i>\
                 </button>\
             </div>';
 
@@ -127,7 +127,7 @@ $(document).ready(function() {
         var new_input = '';
 
         if (column_type == "boolean") {
-            new_input = '<select class="form-control" name="column_value" data-toggle="tooltip" data-placement="bottom" title="Filter value">\
+            new_input = '<select class="custom-select" name="column_value" data-toggle="tooltip" data-placement="bottom" title="Filter value">\
                 <option value="1">Yes</option>\
                 <option value="0">No</option>\
             </select>';
@@ -135,7 +135,7 @@ $(document).ready(function() {
         else if (column_type == "date") {
             new_input = '<div class="input-group">\
                 <span class="input-group-addon">\
-                    <i class="fa fa-calendar"></i>\
+                    <i class="fas fa-calendar-alt"></i>\
                 </span>\
                 <input type="text" name="column_value" class="form-control date" autocomplete="off" data-toggle="tooltip" data-placement="bottom" title="Filter value">\
             </div>';
@@ -143,7 +143,7 @@ $(document).ready(function() {
         else if (column_type == "datetime") {
             new_input = '<div class="input-group datetimepicker">\
                 <span class="input-group-addon">\
-                    <i class="fa fa-calendar"></i>\
+                    <i class="fas fa-calendar-alt"></i>\
                 </span>\
                 <input type="text" name="column_value" class="form-control date" autocomplete="off" data-toggle="tooltip" data-placement="bottom" title="Filter value">\
             </div>';
@@ -197,8 +197,8 @@ $(document).ready(function() {
                         <div class="col-md-12">\
                             <div class="form-group text-center">\
                                 <label class="control-label">Import File (.csv, .xls, .xlsx)</label><br>\
-                                <label title="Upload file" for="import_file" class="btn btn-primary btn-sm">\
-                                    <input type="file" accept=".csv, .xls, .xlsx" name="import_file" id="import_file" class="hide">\
+                                <label title="Upload file" for="import_file" class="btn btn-secondary btn-sm text-xs">\
+                                    <input type="file" accept=".csv, .xls, .xlsx" name="import_file" id="import_file" class="d-none">\
                                     Change\
                                 </label>\
                                 <input type="hidden" class="form-control" name="module" value="' + $(this).data("module") + '">\
@@ -316,8 +316,11 @@ $(document).ready(function() {
                             list_records += '<tr class="clickable_row" data-href="' + record_link + '" data-id="' + row_data["id"] + '">';
 
                             if (data['can_delete']) {
-                                list_records += '<td width="10%" data-field-name="row_check" class="list-checkbox">\
-                                    <input type="checkbox" name="post[]" value="' + (index + 2) + '" id="check-' + (index + 2) + '">\
+                                list_records += '<td width="10%" data-field-name="row_check">\
+                                    <div class="custom-control custom-checkbox text-center">\
+                                        <input type="checkbox" name="post[]" id="check-' + (index + 2) + '" class="custom-control-input">\
+                                        <label class="custom-control-label" for="check-' + (index + 2) + '"></label>\
+                                    </div>\
                                 </td>';
                             }
                             else {
@@ -340,7 +343,7 @@ $(document).ready(function() {
                                     else {
                                         list_records += '<td data-field-name="' + column_name + '" class="client-avatar">\
                                             <span class="default-picture default-picture-rounded">\
-                                                <i class="fa fa-picture-o"></i>\
+                                                <i class="far fa-image"></i>\
                                             </span>\
                                         </td>';
                                     }
@@ -430,8 +433,8 @@ $(document).ready(function() {
         var checked_rows = getCheckedRows();
 
         if (checked_rows.length > 0) {
-            var modal_footer = '<button type="button" class="btn btn-sm" data-dismiss="modal">No</button>\
-                <button type="button" class="btn btn-danger btn-sm" id="delete-records" data-loading-text="Deleting...">Yes</button>';
+            var modal_footer = '<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">No</button>\
+                <button type="button" class="btn btn-danger btn-sm" id="delete-records">Yes</button>';
             msgbox("Sure you want to delete selected records permanently?", modal_footer);
         }
         else {

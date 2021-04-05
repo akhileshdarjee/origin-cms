@@ -166,7 +166,7 @@ $(document).ready(function() {
                 $("body").find(".data-loader").hide();
 
                 var report_info = from + ' - ' + to + ' of\
-                    <strong><span class="badge">' + total + '</span></strong>';
+                    <strong><span class="badge badge-dark">' + total + '</span></strong>';
 
                 $("body").find("#report-table_info").html(report_info);
                 $("body").find("#report-table_paginate").empty().append(makePagination(data['rows']));

@@ -122,7 +122,7 @@ class ReportController extends Controller
 
         $activity_data = [
             'module' => 'Report',
-            'icon' => 'fa fa-download',
+            'icon' => 'fas fa-download',
             'form_title' => awesome_case($report_name)
         ];
 

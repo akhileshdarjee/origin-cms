@@ -14,33 +14,27 @@ let mix = require('laravel-mix');
 /* Origin CMS Web App */
 
 mix.styles([
-    'resources/css/jquery-ui.min.css',
-    'resources/css/bootstrap.min.css',
-    'resources/css/font-awesome.min.css',
-    'resources/plugins/toastr/toastr.min.css',
+    'resources/plugins/fontawesome-free/css/all.min.css',
     'resources/plugins/datetimepicker/bootstrap-datetimepicker.min.css',
     'resources/plugins/trumbowyg/trumbowyg.min.css',
     'resources/plugins/trumbowyg/trumbowyg.colors.min.css',
-    'resources/css/AdminLTE.min.css',
-    'resources/css/skins/_all-skins.min.css',
+    'resources/css/adminlte.min.css',
     'resources/css/origin/origin.css',
 ], 'public/css/all.css').version();
 
 mix.scripts([
-    'resources/js/jquery-3.1.1.min.js',
-    'resources/js/jquery-ui.min.js',
+    'resources/plugins/jquery/jquery.min.js',
+    'resources/plugins/jquery-ui/jquery-ui.min.js',
     'resources/js/jquery.highlight.js',
-    'resources/js/bootstrap.min.js',
-    'resources/plugins/slimScroll/jquery.slimscroll.min.js',
-    'resources/plugins/toastr/toastr.min.js',
-    'resources/plugins/moment/moment.js',
+    'resources/plugins/bootstrap/js/bootstrap.bundle.min.js',
+    'resources/plugins/moment/moment.min.js',
     'resources/plugins/datetimepicker/bootstrap-datetimepicker.min.js',
     'resources/plugins/trumbowyg/trumbowyg.min.js',
     'resources/plugins/trumbowyg/plugins/upload/trumbowyg.upload.min.js',
     'resources/plugins/trumbowyg/plugins/colors/trumbowyg.colors.min.js',
     'resources/plugins/trumbowyg/plugins/preformatted/trumbowyg.preformatted.min.js',
     'resources/plugins/trumbowyg/plugins/table/trumbowyg.table.min.js',
-    'resources/js/app.min.js',
+    'resources/js/adminlte.min.js',
     'resources/js/origin/origin.js',
     'resources/js/webfontloader.js',
 ], 'public/js/all.js').version();
@@ -48,36 +42,39 @@ mix.scripts([
 /* Origin CMS Activity */
 
 mix.scripts([
-    'resources/js/origin/activity.js'
+    'resources/js/origin/activity.js',
 ], 'public/js/origin/activity.js').version();
 
 /* Origin CMS Backups */
 
 mix.scripts([
-    'resources/js/origin/backups.js'
+    'resources/js/origin/backups.js',
 ], 'public/js/origin/backups.js').version();
 
 /* Origin CMS List View */
 
 mix.scripts([
-    'resources/js/origin/list_view.js'
+    'resources/js/origin/list_view.js',
 ], 'public/js/origin/list_view.js').version();
 
 /* Origin CMS Form View */
 
 mix.scripts([
     'resources/js/origin/form.js',
-    'resources/js/origin/table.js'
+    'resources/js/origin/table.js',
 ], 'public/js/origin/form.js').version();
 
 /* Origin CMS Reports */
 
 mix.styles([
-    'resources/plugins/datatables/dataTables.bootstrap.css',
+    'resources/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',
+    'resources/plugins/datatables-responsive/css/responsive.bootstrap4.min.css',
 ], 'public/css/origin/report_view.css').version();
 
 mix.scripts([
     'resources/plugins/datatables/jquery.dataTables.min.js',
-    'resources/plugins/datatables/dataTables.bootstrap.min.js',
-    'resources/js/origin/report_view.js'
+    'resources/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js',
+    'resources/plugins/datatables-responsive/js/dataTables.responsive.min.js',
+    'resources/plugins/datatables-responsive/js/responsive.bootstrap4.min.js',
+    'resources/js/origin/report_view.js',
 ], 'public/js/origin/report_view.js').version();

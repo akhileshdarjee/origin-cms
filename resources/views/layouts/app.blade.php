@@ -14,10 +14,10 @@
             </script>
         @show
     </head>
-    <body data-url="{{ route('home') }}" data-base-url="{{ route('show.website') }}" class="hold-transition {{ session('app_settings')['theme'] ?? 'skin-blue' }} fixed sidebar-mini{{ (session('app_settings')['display_type'] == "cozy") ? ' sidebar-collapse' : '' }}">
+    <body class="hold-transition layout-top-nav" data-url="{{ route('home') }}" data-base-url="{{ route('show.website') }}">
+        @include('templates.preloader')
         <div class="wrapper">
             @include('templates.navbar')
-            @include('templates.vertical_nav')
             <div class="content-wrapper">
                 @yield('title_section')
                 <section class="content">

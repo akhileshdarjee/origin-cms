@@ -1,91 +1,102 @@
-<header class="main-header">
-    <a href="{{ route('home') }}" class="logo">
-        <span class="logo-mini"><b>{{ config('app.brand.abbr') }}</b></span>
-        <span class="logo-lg">
-            <b style="font-weight: 400;">{{ config('app.brand.name') }}</b>
-        </span>
-    </a>
-    <nav class="navbar navbar-static-top">
-        <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-            <span class="sr-only">{{ __('Toggle navigation') }}</span>
+<nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
+    <div class="container">
+        <a href="{{ route('home') }}" class="navbar-brand">
+            @if (file_exists('img/logo.svg'))
+                <img src="{{ asset('img/logo.svg') }}" alt="{{ config('app.brand.name') }}" class="brand-image img-circle elevation-3" style="opacity: .8">
+            @endif
+            <span class="brand-text font-weight-light">{{ config('app.brand.name') }}</span>
         </a>
-        @yield('breadcrumb')
-        <div class="navbar-custom-menu">
-            <ul class="nav navbar-nav">
-                @inject('activities', 'App\Http\Controllers\ActivityController')
-                @var $latest_activities = $activities->getLatestActivities(5)
-                <li class="dropdown notifications-menu">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="fa fa-bell-o"></i>
+        <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse order-3" id="navbarCollapse">
+            <ul class="navbar-nav">
+                <li class="nav-item app-nav">
+                    <a href="{{ route('show.app.modules') }}" class="nav-link" title="{{ __('Modules') }}">
+                        <span>{{ __('Modules') }}</span>
                     </a>
-                    <ul class="dropdown-menu activity-dropdown">
-                        <li>
-                            <ul class="menu">
-                                @foreach($latest_activities as $idx => $act)
-                                    <li class="activity-item">
-                                        <a href="#">
-                                            <span class="activity-desc">
-                                                <i class="{{ $act['icon'] }} fa-fw activity-icon"></i>
-                                                {{ $act['description'] }}
-                                            </span>
-                                            <span class="activity-time">
-                                                <i class="fa fa-clock-o"></i> {{ $act['time_diff'] }}
-                                            </span>
-                                        </a>
-                                    </li>
-                                @endforeach
-                            </ul>
-                        </li>
-                        <li class="footer">
-                            <a href="{{ route('show.app.activities') }}" class="see-all">
-                                <strong>{{ __('See All Activities') }}</strong>
-                                <i class="fa fa-angle-right"></i>
-                            </a>
-                        </li>
-                    </ul>
                 </li>
-                <li class="dropdown user user-menu">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        @if (auth()->user()->avatar)
-                            <img alt="{{ auth()->user()->full_name }}" class="user-image" src="{{ getImage(auth()->user()->avatar, 25, 25) }}" alt="{{ auth()->user()->full_name }}" />
-                        @else
-                            <img class="user-image default" />
-                        @endif
-                        <span class="hidden-xs">{{ auth()->user()->full_name }}</span>
+                <li class="nav-item app-nav">
+                    <a href="{{ route('show.app.reports') }}" class="nav-link" title="{{ __('Reports') }}">
+                        <span>{{ __('Reports') }}</span>
                     </a>
-                    <ul class="dropdown-menu">
-                        <li class="user-header">
-                            @if (auth()->user()->avatar)
-                                <img alt="{{ auth()->user()->full_name }}" class="img-circle" src="{{ getImage(auth()->user()->avatar, 90, 90) }}" alt="{{ auth()->user()->full_name }}" />
-                            @else
-                                <img class="img-circle default" />
-                            @endif
-                            <p>
-                                {{ auth()->user()->full_name }} - {{ auth()->user()->role }}
-                            </p>
-                        </li>
-                        <li class="user-footer">
-                            <div class="row">
-                                <div class="col-md-4 col-sm-4 col-xs-4">
-                                    <a href="{{ route('show.doc', ['slug' => 'user', 'id' => auth()->user()->id]) }}" class="btn btn-default">
-                                        {{ __('Profile') }}
-                                    </a>
-                                </div>
-                                <div class="col-md-4 col-sm-4 col-xs-4">
-                                    <a href="{{ route('show.app.settings') }}" class="btn btn-default">
-                                        {{ __('Settings') }}
-                                    </a>
-                                </div>
-                                <div class="col-md-4 col-sm-4 col-xs-4">
-                                    <a href="{{ route('logout') }}" class="btn btn-default">
-                                        {{ __('Logout') }}
-                                    </a>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
                 </li>
+                @if (auth()->user()->role == "Administrator" && auth()->user()->username == "admin")
+                    <li class="nav-item app-nav">
+                        <a href="{{ route('show.app.backups') }}" class="nav-link" title="{{ __('Backups') }}">
+                            <span>{{ __('Backups') }}</span>
+                        </a>
+                    </li>
+                @endif
             </ul>
         </div>
-    </nav>
-</header>
+        <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
+            <form class="form-inline ml-0 ml-md-3">
+                <div class="input-group input-group-sm">
+                    <input type="search" name="top-search" id="top-search" class="form-control form-control-navbar" placeholder="{{ __('Search') }} @yield('search')" aria-label="Search" autocomplete="off">
+                    <div class="input-group-append">
+                        <button class="btn btn-navbar" type="button" name="search" id="search-btn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+            @inject('activities', 'App\Http\Controllers\ActivityController')
+            @var $latest_activities = $activities->getLatestActivities(5)
+            <li class="nav-item dropdown notifications-menu">
+                <a class="nav-link" data-toggle="dropdown" href="#">
+                    <i class="fas fa-bell"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-xl dropdown-menu-right">
+                    @foreach($latest_activities as $idx => $act)
+                        <a href="#" class="dropdown-item">
+                            <i class="{{ $act['icon'] }} mr-2 activity-icon"></i>
+                            {{ $act['description'] }}
+                            <span class="float-right text-muted activity-time">
+                                <i class="far fa-clock"></i> {{ $act['time_diff'] }}
+                            </span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                    @endforeach
+                    <a href="{{ route('show.app.activities') }}" class="dropdown-item dropdown-footer">
+                        {{ __('See All Activities') }}
+                        <i class="fas fa-angle-right"></i>
+                    </a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+                    <i class="fas fa-expand-arrows-alt"></i>
+                </a>
+            </li>
+            <li class="nav-item dropdown user-menu">
+                <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">
+                    @if (auth()->user()->avatar)
+                        <img class="user-image img-circle elevation-2" src="{{ getImage(auth()->user()->avatar, 50, 50) }}" alt="{{ auth()->user()->full_name }}" />
+                    @else
+                        <img class="user-image img-circle elevation-2">
+                    @endif
+                    <span class="d-none d-md-inline">{{ auth()->user()->full_name }}</span>
+                </a>
+                <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu dropdown-menu-right border-0 shadow">
+                    <li>
+                        <a href="{{ route('show.doc', ['slug' => 'user', 'id' => auth()->user()->id]) }}" class="dropdown-item">
+                            {{ __('Profile') }}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('show.app.settings') }}" class="dropdown-item">
+                            {{ __('Settings') }}
+                        </a>
+                    </li>
+                    <li class="dropdown-divider"></li>
+                    <li>
+                        <a href="{{ route('logout') }}" class="dropdown-item">
+                            {{ __('Logout') }}
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>
