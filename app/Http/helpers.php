@@ -47,20 +47,6 @@
         exit();
     }
 
-    // get translation text
-    function _t($text)
-    {
-        $lang = auth()->user()->lang;
-        App::setLocale($lang);
-        $lang_text = trans($lang . '.' . $text);
-
-        if (strpos($lang_text, $lang . '.') !== false) {
-            return $text;
-        } else {
-            return $lang_text;
-        }
-    }
-
     // convert hours to minutes
     function h2m($hours)
     { 

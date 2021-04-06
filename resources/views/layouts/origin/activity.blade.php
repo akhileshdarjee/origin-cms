@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('Activities') . ' - ' . config('app.brand.name'))
+@section('title', __('Activity') . ' - ' . config('app.brand.name'))
 
 @section('title_section')
     <div id="sticky-anchor"></div>
@@ -10,7 +10,7 @@
                 <div class="col-sm-6 col-6">
                     <h1 class="m-0">
                         <small>
-                            <i class="fas fa-bell"></i> {{ __('Activities') }}
+                            <i class="fas fa-bell"></i> {{ __('Activity') }}
                         </small>
                     </h1>
                 </div>
@@ -34,7 +34,7 @@
                         <div class="row" id="report-filters">
                             <div class="col-md-4 col-sm-6 col-6">
                                 <div class="form-group">
-                                    <input type="text" name="owner" class="form-control autocomplete activity-filter" placeholder="{{ __('Select User') }}..." autocomplete="off" data-ac-module="User" data-ac-field="username">
+                                    <input type="text" name="owner" class="form-control autocomplete activity-filter" placeholder="{{ __('Select User') }}..." autocomplete="off" data-ac-module="User" data-ac-field="username" data-ac-image="avatar">
                                 </div>
                             </div>
                             <div class="col-md-4 col-sm-6 col-6">

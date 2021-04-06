@@ -7,6 +7,10 @@
 	top: .1rem;
 }
 
+.disabled, button:disabled, input:disabled {
+	cursor: not-allowed;
+}
+
 .default-avatar {
 	width: 45px;
 	height: 45px;
@@ -232,6 +236,7 @@ a.back-to-top:hover {
 }
 
 .ui-menu .ui-menu-item {
+	list-style: none;
 	list-style-image: none;
 	white-space: nowrap;
 	overflow: visible;
@@ -955,6 +960,11 @@ table > tbody > tr > td > a:hover {
 .toasts-top-right {
 	top: 10px;
 	right: 10px;
+}
+
+.main-footer {
+	padding: .8rem;
+	font-size: 0.9rem;
 }
 
 @media (max-width: 767px) {

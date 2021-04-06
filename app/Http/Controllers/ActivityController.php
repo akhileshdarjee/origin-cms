@@ -37,7 +37,7 @@ class ActivityController extends Controller
                 }
             }
 
-            return view('layouts.origin.activities', compact('modules'));
+            return view('layouts.origin.activity', compact('modules'));
         }
     }
 

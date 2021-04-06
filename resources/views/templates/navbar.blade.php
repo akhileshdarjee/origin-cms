@@ -13,18 +13,18 @@
             <ul class="navbar-nav">
                 <li class="nav-item app-nav">
                     <a href="{{ route('show.app.modules') }}" class="nav-link" title="{{ __('Modules') }}">
-                        <i class="fas fa-gem"></i> {{ __('Modules') }}
+                        <i class="fas fa-gem fa-sm"></i> {{ __('Modules') }}
                     </a>
                 </li>
                 <li class="nav-item app-nav">
                     <a href="{{ route('show.app.reports') }}" class="nav-link" title="{{ __('Reports') }}">
-                        <i class="fas fa-sitemap"></i> {{ __('Reports') }}
+                        <i class="fas fa-sitemap fa-sm"></i> {{ __('Reports') }}
                     </a>
                 </li>
                 @if (auth()->user()->role == "Administrator" && auth()->user()->username == "admin")
                     <li class="nav-item app-nav">
                         <a href="{{ route('show.app.backups') }}" class="nav-link" title="{{ __('Backups') }}">
-                            <i class="fas fa-hdd"></i> {{ __('Backups') }}
+                            <i class="fas fa-hdd fa-sm"></i> {{ __('Backups') }}
                         </a>
                     </li>
                 @endif
@@ -33,7 +33,7 @@
         <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
             <form class="form-inline ml-0 ml-md-3">
                 <div class="form-group">
-                    <input type="search" name="top-search" id="top-search" class="form-control form-control-sm form-control-navbar" placeholder="{{ __('Search') }}" aria-label="Search" autocomplete="off">
+                    <input type="search" name="top-search" id="top-search" class="form-control form-control-sm form-control-navbar autocomplete" data-ac-module="Universe" data-ac-field="label" placeholder="{{ __('Search') }}" aria-label="Search" autocomplete="off">
                 </div>
             </form>
             @inject('activities', 'App\Http\Controllers\ActivityController')
@@ -53,8 +53,8 @@
                         </a>
                         <div class="dropdown-divider"></div>
                     @endforeach
-                    <a href="{{ route('show.app.activities') }}" class="dropdown-item dropdown-footer">
-                        {{ __('See All Activities') }}
+                    <a href="{{ route('show.app.activity') }}" class="dropdown-item dropdown-footer">
+                        {{ __('See All Activity') }}
                         <i class="fas fa-angle-right"></i>
                     </a>
                 </div>

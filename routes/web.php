@@ -37,7 +37,7 @@ Route::group(['middleware' => ['web']], function () {
         // App Home page module routes...
         Route::get('/app/modules', ['as' => 'show.app.modules', 'uses' => 'ModuleController@show']);
         Route::get('/app/reports', ['as' => 'show.app.reports', 'uses' => 'ReportController@show']);
-        Route::get('/app/activities', ['as' => 'show.app.activities', 'uses' => 'ActivityController@show']);
+        Route::get('/app/activity', ['as' => 'show.app.activity', 'uses' => 'ActivityController@show']);
         Route::get('/app/settings', ['as' => 'show.app.settings', 'uses' => 'SettingsController@show']);
         Route::post('/app/settings', ['as' => 'save.app.settings', 'uses' => 'SettingsController@save']);
         Route::post('/update_module_sequence', ['as' => 'update.module.sequence', 'uses' => 'ModuleController@updateSequence']);

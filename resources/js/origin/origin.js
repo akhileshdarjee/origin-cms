@@ -157,12 +157,6 @@ $(document).ready(function() {
         delay: { show: 500 }
     });
 
-    // highlight text
-    $("#top-search").on("input change", function() {
-        $('body').removeHighlight();
-        $('body').highlight($(this).val());
-    });
-
     // back to top
     var amountScrolled = 300;
 
@@ -285,6 +279,11 @@ function enableAutocomplete() {
             },
             minLength: 0,
             select: function(event, ui) {
+                if (data_module == 'Universe') {
+                    ui.item.value = '';
+                    window.location = ui.item['val'];
+                }
+
                 $.each(ui.item, function(key, value) {
                     if ($(field).parent().hasClass('column-value-container')) {
                         var input_field = $(field);
@@ -316,7 +315,7 @@ function enableAutocomplete() {
             },
             html: true,
             open: function(event, ui) {
-                $(".ui-autocomplete").css({"z-index": 1000, "padding": "0px"});
+                $(".ui-autocomplete").css({"z-index": 1050, "padding": "0px", "top": "+=3"});
                 $(".ui-autocomplete").width($(this).innerWidth());
             }
         }).autocomplete("instance")._renderItem = function(ul, item) {

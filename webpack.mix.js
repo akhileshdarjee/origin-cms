@@ -25,7 +25,6 @@ mix.styles([
 mix.scripts([
     'resources/plugins/jquery/jquery.min.js',
     'resources/plugins/jquery-ui/jquery-ui.min.js',
-    'resources/js/jquery.highlight.js',
     'resources/plugins/bootstrap/js/bootstrap.bundle.min.js',
     'resources/plugins/moment/moment.min.js',
     'resources/plugins/datetimepicker/bootstrap-datetimepicker.min.js',
