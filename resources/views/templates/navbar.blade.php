@@ -32,8 +32,8 @@
         </div>
         <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
             <form class="form-inline ml-0 ml-md-3">
-                <div class="input-group input-group-sm">
-                    <input type="search" name="top-search" id="top-search" class="form-control form-control-navbar" placeholder="{{ __('Search') }}" aria-label="Search" autocomplete="off">
+                <div class="form-group">
+                    <input type="search" name="top-search" id="top-search" class="form-control form-control-sm form-control-navbar" placeholder="{{ __('Search') }}" aria-label="Search" autocomplete="off">
                 </div>
             </form>
             @inject('activities', 'App\Http\Controllers\ActivityController')

@@ -937,8 +937,17 @@ table > tbody > tr > td > a:hover {
 	padding: .6rem 1rem .6rem 1rem;
 }
 
+.toast-header {
+	color: #212529;
+}
+
 .toast-header, .toast-body {
 	background-color: #fff;
+}
+
+.toasts-top-right {
+	top: 10px;
+	right: 10px;
 }
 
 @media (max-width: 767px) {

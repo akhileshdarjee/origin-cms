@@ -29,13 +29,13 @@
                             @endforeach
                         @endif
                         {!! csrf_field() !!}
-                        <div class="input-group mb-3">
+                        <div class="form-group mb-3">
                             <input type="text" name="username" id="username" class="form-control" placeholder="{{ __('Username') }}">
                             <span class="invalid-feedback">
                                 {{ __('Please Enter Username') }}
                             </span>
                         </div>
-                        <div class="input-group mb-3">
+                        <div class="form-group mb-3">
                             <input type="password" name="password" id="password" class="form-control" placeholder="{{ __('Password') }}">
                             <span class="invalid-feedback">
                                 {{ __('Please Enter Password') }}

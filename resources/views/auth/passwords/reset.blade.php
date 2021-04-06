@@ -36,17 +36,17 @@
                         @endif
                         {!! csrf_field() !!}
                         <input type="hidden" name="token" value="{{ $token }}">
-                        <div class="input-group mb-3">
+                        <div class="form-group mb-3">
                             @if ($email)
                                 <input type="text" name="email" class="form-control" placeholder="{{ __('Email Address') }}" value="{{ $email }}" required autofocus readonly>
                             @else
                                 <input type="text" name="email" class="form-control" placeholder="{{ __('Email Address') }}" value="" required autofocus>
                             @endif
                         </div>
-                        <div class="input-group mb-3">
+                        <div class="form-group mb-3">
                             <input type="password" name="password" class="form-control" placeholder="{{ __('Password') }}">
                         </div>
-                        <div class="input-group mb-3">
+                        <div class="form-group mb-3">
                             <input type="password" name="password_confirmation" class="form-control" placeholder="{{ __('Confirm Password') }}">
                         </div>
                         <div class="row">
