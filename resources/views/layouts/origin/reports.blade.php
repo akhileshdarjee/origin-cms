@@ -10,7 +10,7 @@
                     @continue
                 @endif
                 <div class="col-md-3 col-12 report" data-href="{{ route('show.report', Str::snake($report_name)) }}">
-                    <div class="card">
+                    <div class="card elevation-2">
                         <div class="card-body">
                             <div class="report-body">
                                 <a href="{{ route('show.report', Str::snake($report_name)) }}" class="btn btn-app report-btn" style="background-color: {{ $report['bg_color'] }}; border-color: {{ $report['bg_color'] }}; color: {{ $report['icon_color'] }};">

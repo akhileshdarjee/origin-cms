@@ -570,6 +570,10 @@ table > tbody > tr > td > a:hover {
 	border-radius: 0px 0px 3px 3px;
 }
 
+.navbar .dropdown-menu {
+	margin-top: 9px;
+}
+
 .dropdown-menu > li > a {
 	padding: 8px 15px;
 	cursor: pointer;

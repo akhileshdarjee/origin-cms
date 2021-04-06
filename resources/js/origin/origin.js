@@ -698,10 +698,10 @@ function stickyRelocate() {
         var div_top = $('#sticky-anchor').offset().top;
 
         if (window_top > div_top) {
-            $('#sticky').addClass('stick');
+            $('#sticky').addClass('stick elevation-1');
             $('#sticky-anchor').height($('#sticky').outerHeight());
         } else {
-            $('#sticky').removeClass('stick');
+            $('#sticky').removeClass('stick elevation-1');
             $('#sticky-anchor').height(0);
         }
     }

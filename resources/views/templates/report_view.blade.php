@@ -69,7 +69,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <div class="card">
+                <div class="card elevation-2">
                     @if (view()->exists('layouts/reports/' . strtolower(str_replace(" ", "_", $title))))
                         <div class="card-header with-border report-filter-sec">
                             @include($file)
@@ -77,7 +77,7 @@
                     @endif
                     <div class="card-body table-responsive report-content">
                         <table class="table table-bordered" id="report-table" data-report-name="{{ $title }}">
-                            <thead class="panel-heading text-small">
+                            <thead>
                                 <tr>
                                     <th>#</th>
                                     @if (isset($columns) && $columns)

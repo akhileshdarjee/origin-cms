@@ -47,7 +47,7 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
-                <div class="card">
+                <div class="card elevation-2">
                     <div class="card-body list-content">
                         <div class="table-responsive list-responsive">
                             <table class="table table-hover list-view">

@@ -29,7 +29,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <div class="card">
+                <div class="card elevation-2">
                     <div class="card-header report-filter-sec">
                         <div class="row" id="report-filters">
                             <div class="col-md-4 col-sm-6 col-6">
