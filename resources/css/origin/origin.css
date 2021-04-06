@@ -639,12 +639,10 @@ table > tbody > tr > td > a:hover {
 
 .origin-static {
 	min-height: 34px;
-	padding-top: 8px;
-	padding-bottom: 7px;
+	padding: .375rem .75rem;
 	margin-bottom: 0;
-	background-color: #eee;
-	padding-left: 14px;
-	font-weight: bold;
+	background-color: #f4f6f9;
+	font-weight: 400;
 }
 
 .trumbowyg-box {
