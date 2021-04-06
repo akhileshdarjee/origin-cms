@@ -13,18 +13,18 @@
             <ul class="navbar-nav">
                 <li class="nav-item app-nav">
                     <a href="{{ route('show.app.modules') }}" class="nav-link" title="{{ __('Modules') }}">
-                        <span>{{ __('Modules') }}</span>
+                        <i class="fas fa-gem"></i> {{ __('Modules') }}
                     </a>
                 </li>
                 <li class="nav-item app-nav">
                     <a href="{{ route('show.app.reports') }}" class="nav-link" title="{{ __('Reports') }}">
-                        <span>{{ __('Reports') }}</span>
+                        <i class="fas fa-sitemap"></i> {{ __('Reports') }}
                     </a>
                 </li>
                 @if (auth()->user()->role == "Administrator" && auth()->user()->username == "admin")
                     <li class="nav-item app-nav">
                         <a href="{{ route('show.app.backups') }}" class="nav-link" title="{{ __('Backups') }}">
-                            <span>{{ __('Backups') }}</span>
+                            <i class="fas fa-hdd"></i> {{ __('Backups') }}
                         </a>
                     </li>
                 @endif
@@ -33,12 +33,7 @@
         <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
             <form class="form-inline ml-0 ml-md-3">
                 <div class="input-group input-group-sm">
-                    <input type="search" name="top-search" id="top-search" class="form-control form-control-navbar" placeholder="{{ __('Search') }} @yield('search')" aria-label="Search" autocomplete="off">
-                    <div class="input-group-append">
-                        <button class="btn btn-navbar" type="button" name="search" id="search-btn">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
+                    <input type="search" name="top-search" id="top-search" class="form-control form-control-navbar" placeholder="{{ __('Search') }}" aria-label="Search" autocomplete="off">
                 </div>
             </form>
             @inject('activities', 'App\Http\Controllers\ActivityController')
@@ -50,7 +45,7 @@
                 <div class="dropdown-menu dropdown-menu-xl dropdown-menu-right">
                     @foreach($latest_activities as $idx => $act)
                         <a href="#" class="dropdown-item">
-                            <i class="{{ $act['icon'] }} mr-2 activity-icon"></i>
+                            <i class="{{ $act['icon'] }} mr-1 activity-icon"></i>
                             {{ $act['description'] }}
                             <span class="float-right text-muted activity-time">
                                 <i class="far fa-clock"></i> {{ $act['time_diff'] }}

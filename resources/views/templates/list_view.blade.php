@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('title', __($module['display_name']) . ' ' . __('List') . ' - ' . config('app.brand.name'))
-@section('search', __($module['display_name']) . ' ' . __('List'))
 
 @section('breadcrumb')
     <ol class="breadcrumb app-breadcrumb">
@@ -44,7 +43,7 @@
                         <a href="{{ route('new.doc', $module['slug']) }}" class="btn bg-gradient-success btn-sm elevation-2 new-form" data-toggle="tooltip" data-placement="bottom" title="{{ __('New') }} {{ __($module['display_name']) }}">
                             <span class="d-none d-sm-none d-md-inline-block">
                                 <i class="fas fa-plus fa-sm pr-1"></i>
-                                {{ __('New') }}
+                                {{ __('New') }} {{ __($module['display_name']) }}
                             </span>
                             <span class="d-md-none d-lg-none d-xl-none"><i class="fas fa-plus"></i></span>
                         </a>
@@ -73,7 +72,7 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col-md-9 col-sm-6 col-6">
-                                <button class="btn btn-default btn-sm" id="add-filter" data-toggle="tooltip" data-placement="right" title="{{ __('Add filters to show specific records') }}">
+                                <button type="button" class="btn btn-default btn-sm" id="add-filter" data-toggle="tooltip" data-placement="right" title="{{ __('Add filters to show specific records') }}">
                                     <i class="fas fa-search fa-sm pr-1"></i>
                                     {{ __('Search') }}
                                 </button>

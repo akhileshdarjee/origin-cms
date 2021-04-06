@@ -327,7 +327,12 @@ function addFormStatic(label, value) {
         $(form_static_container).find('.static-list').append(form_static);
     }
     else {
-        var form_static_container = '<div class="card-header form-statics"><div class="row static-list">' + form_static + '</div></div>';
-        $('body').find('.form-section').first().prepend(form_static_container);
+        var form_static_container = '<div class="card form-section elevation-2">\
+            <div class="card-header form-statics">\
+                <div class="row static-list">' + form_static + '</div>\
+            </div>\
+        </div>';
+
+        $('body').find('.form-section').first().before(form_static_container);
     }
 }

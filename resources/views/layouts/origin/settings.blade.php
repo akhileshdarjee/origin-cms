@@ -1,6 +1,6 @@
 <form method="POST" action="{{ route('save.app.settings') }}" name="settings" id="settings" enctype="multipart/form-data">
     {!! csrf_field() !!}
-    <div class="card form-section" id="setting-details">
+    <div class="card form-section elevation-2" id="setting-details">
         <div class="card-body form-content pt-3">
             <div class="row">
                 <div class="col-md-6">
@@ -39,7 +39,7 @@
                                     <option value="0">{{ __('No') }}</option>
                                     <option value="1">{{ __('Yes') }}</option>
                                 </select>
-                                <small class="block text-left">
+                                <small class="block text-muted">
                                     {{ __('Database backups will run every Saturday at 11PM') }}.
                                     {{ __('See all your') }} <a href="{{ route('show.app.backups') }}">{{ __('backups') }}</a>
                                 </small>

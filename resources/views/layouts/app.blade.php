@@ -44,8 +44,8 @@
         @stack('scripts')
         <script type="text/javascript">
             var font_conf = {
-                google: { families: ['Source+Sans+Pro:200,300,400,600,700'] },
-                timeout: 3000
+                google: { families: ['Roboto:wght@100,300,400,500,700&display=swap'] },
+                timeout: 4000
             };
 
             WebFont.load(font_conf);

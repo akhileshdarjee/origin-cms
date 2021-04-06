@@ -45,7 +45,7 @@
                             <div class="col-8">
                                 <div class="custom-control custom-checkbox">
                                     <input type="checkbox" name="remember" id="remember-me" class="custom-control-input">
-                                    <label class="custom-control-label" for="remember-me"> {{ __('Remember Me') }}</label>
+                                    <label class="custom-control-label remember-me" for="remember-me"> {{ __('Remember Me') }}</label>
                                 </div>
                             </div>
                             <div class="col-4">
@@ -67,8 +67,8 @@
         <script type="text/javascript" src="{{ asset('js/origin/login.js') }}"></script>
         <script type="text/javascript">
             var font_conf = {
-                google: { families: ['Source+Sans+Pro:200,300,400,600,700'] },
-                timeout: 3000
+                google: { families: ['Roboto:wght@100,300,400,500,700&display=swap'] },
+                timeout: 4000
             };
 
             WebFont.load(font_conf);

@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('title', __('Backups') . ' - ' . config('app.brand.name'))
-@section('search', __('Backups'))
 
 @section('title_section')
     <div class="content-header" id="sticky">
@@ -63,7 +62,7 @@
                                         <th name="delete" valign="middle">{{ __('Delete') }}</th>
                                     </tr>
                                 </thead>
-                                <tbody class="list-view-items"></tbody>
+                                <tbody class="list-view-items text-nowrap"></tbody>
                             </table>
                         </div>
                     </div>

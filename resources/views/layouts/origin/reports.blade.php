@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('title', __('Reports') . ' - ' . config('app.brand.name'))
-@section('search', __('Reports'))
 
 @section('body')
     <div class="container pt-5">
@@ -18,7 +17,7 @@
                                     <i class="{{ $report['icon'] }}"></i>
                                 </a>
                             </div>
-                            <h4 class="text-center mb-0">{{ __($report['label']) }}</h4>
+                            <h4 class="text-center mb-0 h5">{{ __($report['label']) }}</h4>
                         </div>
                         <div class="card-footer text-center">
                             <small class="text-muted">{{ __($report['description']) }}</small>

@@ -7757,7 +7757,7 @@ html.maximized-card {
 .card-comments .username {
   color: #495057;
   display: block;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .card-comments .text-muted {
@@ -7791,7 +7791,7 @@ html.maximized-card {
 
 .todo-list > li .text {
   display: inline-block;
-  font-weight: 600;
+  font-weight: 500;
   margin-left: 5px;
 }
 

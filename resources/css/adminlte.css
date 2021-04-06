@@ -37,7 +37,7 @@
   --breakpoint-md: 768px;
   --breakpoint-lg: 992px;
   --breakpoint-xl: 1200px;
-  --font-family-sans-serif: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --font-family-sans-serif: "Roboto", sans-serif;
   --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
@@ -48,7 +48,7 @@
 }
 
 html {
-  font-family: sans-serif;
+  font-family: 'Roboto', sans-serif;
   line-height: 1.15;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -60,7 +60,7 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
 
 body {
   margin: 0;
-  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: "Roboto", sans-serif;
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
@@ -6539,7 +6539,7 @@ a.close.disabled, a.disabled.mailbox-attachment-close {
   z-index: 1070;
   display: block;
   margin: 0;
-  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: "Roboto", sans-serif;
   font-style: normal;
   font-weight: 400;
   line-height: 1.5;
@@ -6652,7 +6652,7 @@ a.close.disabled, a.disabled.mailbox-attachment-close {
   z-index: 1060;
   display: block;
   max-width: 276px;
-  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: "Roboto", sans-serif;
   font-style: normal;
   font-weight: 400;
   line-height: 1.5;
@@ -29380,7 +29380,7 @@ html.maximized-card {
 .card-comments .username {
   color: #495057;
   display: block;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .card-comments .text-muted {
@@ -29414,7 +29414,7 @@ html.maximized-card {
 
 .todo-list > li .text {
   display: inline-block;
-  font-weight: 600;
+  font-weight: 500;
   margin-left: 5px;
 }
 
@@ -34188,7 +34188,7 @@ a.close.disabled, a.disabled.mailbox-attachment-close {
 }
 
 .timeline > div > .timeline-item > .timeline-header > a {
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .timeline > div > .timeline-item > .timeline-body,
@@ -34238,7 +34238,7 @@ a.close.disabled, a.disabled.mailbox-attachment-close {
   border-radius: 4px;
   background-color: #fff;
   display: inline-block;
-  font-weight: 600;
+  font-weight: 500;
   padding: 5px;
 }
 
@@ -34303,7 +34303,7 @@ a.close.disabled, a.disabled.mailbox-attachment-close {
 }
 
 .products-list .product-title {
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .products-list .product-description {
@@ -34444,7 +34444,7 @@ a.close.disabled, a.disabled.mailbox-attachment-close {
 }
 
 .direct-chat-name {
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .direct-chat-timestamp {
@@ -34523,7 +34523,7 @@ a.close.disabled, a.disabled.mailbox-attachment-close {
 }
 
 .contacts-list-name {
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .contacts-list-status {
@@ -35313,7 +35313,7 @@ a.close.disabled, a.disabled.mailbox-attachment-close {
 }
 
 .lockscreen .lockscreen-name {
-  font-weight: 600;
+  font-weight: 500;
   text-align: center;
 }
 
@@ -40484,7 +40484,7 @@ select.form-control-sm ~ .select2-container--default .select2-selection--multipl
 }
 
 .mapael .mapTooltip {
-  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: "Roboto", sans-serif;
   font-style: normal;
   font-weight: 400;
   line-height: 1.5;
@@ -44752,7 +44752,7 @@ select.form-control-sm ~ .select2-container--default .select2-selection--multipl
 
 .description-block > .description-header {
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 500;
   margin: 0;
   padding: 0;
 }
@@ -44814,7 +44814,7 @@ select.form-control-sm ~ .select2-container--default .select2-selection--multipl
 
 .user-block .username {
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 500;
   margin-top: -1px;
 }
 
@@ -45192,7 +45192,7 @@ blockquote h5,
 blockquote h6 {
   color: #007bff;
   font-size: 1.25rem;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 blockquote.quote-primary {

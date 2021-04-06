@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('title', __(ucwords($title)) . ' - ' . config('app.brand.name'))
-@section('search', __(ucwords($title)))
 
 @push('styles')
     <link type="text/css" rel="stylesheet" href="{{ asset(mix('css/origin/report_view.css')) }}">
@@ -26,12 +25,15 @@
     <div class="content-header" id="sticky">
         <div class="container">
             <div class="row">
-                <div class="col-md-6 col-sm-6 col-8">
-                    <div class="form-name">
-                        <i class="fas fa-sitemap"></i> {{ __(ucwords($title)) }}
-                    </div>
+                <div class="col-sm-6 col-8">
+                    <h1 class="m-0">
+                        <small>
+                            <i class="fas fa-sitemap"></i>
+                            {{ __(ucwords($title)) }}
+                        </small>
+                    </h1>
                 </div>
-                <div class="col-md-6 col-sm-6 col-4 text-right list-btns">
+                <div class="col-sm-6 col-4 text-right list-btns">
                     @if (view()->exists('layouts/reports/' . strtolower(str_replace(" ", "_", $title))))
                         <button class="btn btn-outline-default btn-sm elevation-2" id="filter_report" name="filter_report" data-toggle="tooltip" data-placement="top" title="{{ __('Apply filters') }}">
                             <span class="d-none d-sm-none d-md-inline-block">{{ __('Filter') }}</span>

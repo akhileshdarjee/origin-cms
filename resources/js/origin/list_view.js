@@ -197,7 +197,7 @@ $(document).ready(function() {
                         <div class="col-md-12">\
                             <div class="form-group text-center">\
                                 <label class="control-label">Import File (.csv, .xls, .xlsx)</label><br>\
-                                <label title="Upload file" for="import_file" class="btn btn-secondary btn-sm text-xs">\
+                                <label title="Upload file" for="import_file" class="btn btn-secondary btn-sm">\
                                     <input type="file" accept=".csv, .xls, .xlsx" name="import_file" id="import_file" class="d-none">\
                                     Change\
                                 </label>\
@@ -341,9 +341,16 @@ $(document).ready(function() {
                                         </td>';
                                     }
                                     else {
+                                        if (module_name == 'User') {
+                                            var default_icon = 'fas fa-user';
+                                        }
+                                        else {
+                                            var default_icon = 'fas fa-image';
+                                        }
+
                                         list_records += '<td data-field-name="' + column_name + '" class="client-avatar">\
                                             <span class="default-picture default-picture-rounded">\
-                                                <i class="far fa-image"></i>\
+                                                <i class="' + default_icon + '"></i>\
                                             </span>\
                                         </td>';
                                     }

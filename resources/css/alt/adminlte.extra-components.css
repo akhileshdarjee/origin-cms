@@ -733,7 +733,7 @@
 }
 
 .timeline > div > .timeline-item > .timeline-header > a {
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .timeline > div > .timeline-item > .timeline-body,
@@ -783,7 +783,7 @@
   border-radius: 4px;
   background-color: #fff;
   display: inline-block;
-  font-weight: 600;
+  font-weight: 500;
   padding: 5px;
 }
 
@@ -848,7 +848,7 @@
 }
 
 .products-list .product-title {
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .products-list .product-description {
@@ -989,7 +989,7 @@
 }
 
 .direct-chat-name {
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .direct-chat-timestamp {
@@ -1068,7 +1068,7 @@
 }
 
 .contacts-list-name {
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .contacts-list-status {

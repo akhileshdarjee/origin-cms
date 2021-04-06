@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('title', __('Modules') . ' - ' . config('app.brand.name'))
-@section('search', __('Modules'))
 
 @section('body')
     <div class="container pt-5">

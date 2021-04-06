@@ -203,7 +203,7 @@ $(document).ready(function() {
                 "sEmptyTable": "No Data",
                 "sProcessing": '<div class="text-center>Processing...</div>'
             },
-            "scrollY": 351,
+            "scrollY": 380,
             "scrollX": true
         });
     }

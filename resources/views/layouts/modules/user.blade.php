@@ -1,4 +1,4 @@
-<div class="card form-section" id="user-details">
+<div class="card form-section elevation-2" id="user-details">
     <div class="card-header">
         <h3 class="card-title">{{ __('User Details') }}</h3>
         <div class="card-tools">
@@ -21,7 +21,7 @@
                         @endif
                         </div>
                         <div class="media-body">
-                            <label title="{{ __('Upload image file') }}" for="avatar" class="btn btn-secondary btn-sm text-xs ml-3">
+                            <label title="{{ __('Upload image file') }}" for="avatar" class="btn btn-secondary btn-sm ml-3">
                                 <input type="file" accept="image/*" name="avatar" id="avatar" class="d-none">
                                 {{ __('Change') }}
                             </label>

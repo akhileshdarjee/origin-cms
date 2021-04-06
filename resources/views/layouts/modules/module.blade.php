@@ -1,4 +1,4 @@
-<div class="card form-section" id="module-details">
+<div class="card form-section elevation-2" id="module-details">
     <div class="card-header">
         <h3 class="card-title">{{ __('Module Details') }}</h3>
         <div class="card-tools">
@@ -14,7 +14,7 @@
                     <label class="control-label">{{ __('Name') }}</label>
                     <div>
                         <input type="text" name="name" class="bg-focus form-control" data-mandatory="yes" autocomplete="off">
-                        <small class="block">{{ __('Should be without spaces and any special characters') }}</small>
+                        <small class="block text-muted">{{ __('Should be without spaces and any special characters') }}</small>
                     </div>
                 </div>
             </div>
@@ -36,7 +36,7 @@
                     <label class="control-label">{{ __('Display Name') }}</label>
                     <div>
                         <input type="text" name="display_name" class="form-control" data-mandatory="yes" autocomplete="off">
-                        <small class="block">{{ __('Title for the Module') }}</small>
+                        <small class="block text-muted">{{ __('Title for the Module') }}</small>
                     </div>
                 </div>
             </div>
@@ -45,7 +45,7 @@
                     <label class="control-label">{{ __('Table Name') }}</label>
                     <div>
                         <input type="text" name="table_name" class="form-control" data-mandatory="yes" autocomplete="off">
-                        <small class="block">{{ __('Name of table of your database you want to connect to this Module') }}</small>
+                        <small class="block text-muted">{{ __('Name of table of your database you want to connect to this Module') }}</small>
                     </div>
                 </div>
             </div>
@@ -64,7 +64,7 @@
                     <label class="control-label">{{ __('Slug') }}</label>
                     <div>
                         <input type="text" name="slug" class="form-control" data-mandatory="yes" autocomplete="off">
-                        <small class="block">{{ __('Used as URL slug to show data in list & form view') }}</small>
+                        <small class="block text-muted">{{ __('Used as URL slug to show data in list & form view') }}</small>
                     </div>
                 </div>
             </div>
@@ -86,7 +86,7 @@
                     <label class="control-label">{{ __('List View Columns') }}</label>
                     <div>
                         <input type="text" name="list_view_columns" class="form-control" data-mandatory="yes" autocomplete="off">
-                        <small class="block">{{ __('Separate multiple columns with comma') }}(,)</small>
+                        <small class="block text-muted">{{ __('Separate multiple columns with comma') }}(,)</small>
                     </div>
                 </div>
             </div>
@@ -100,7 +100,7 @@
                             <option value="1" default selected>{{ __('Yes') }}</option>
                             <option value="0">{{ __('No') }}</option>
                         </select>
-                        <small class="block">{{ __('Select \'Yes\' to show this on Modules page') }}</small>
+                        <small class="block text-muted">{{ __('Select \'Yes\' to show this on Modules page') }}</small>
                     </div>
                 </div>
             </div>
@@ -109,14 +109,14 @@
                     <label class="control-label">{{ __('Sequence No') }}</label>
                     <div>
                         <input type="text" name="sequence_no" class="form-control" data-mandatory="yes" autocomplete="off">
-                        <small class="block">{{ __('You can change the sequence of Modules by drag-drop method on Modules page') }}</small>
+                        <small class="block text-muted">{{ __('You can change the sequence of Modules by drag-drop method on Modules page') }}</small>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<div class="card form-section" id="module-customization-details">
+<div class="card form-section elevation-2" id="module-customization-details">
     <div class="card-header">
         <h3 class="card-title">{{ __('Customization') }}</h3>
         <div class="card-tools">
@@ -132,7 +132,7 @@
                     <label class="control-label">{{ __('Background color') }}</label>
                     <div>
                         <input type="text" name="bg_color" class="form-control" data-mandatory="no" autocomplete="off">
-                        <small class="block">{{ __('Background color of the Module icon') }}</small>
+                        <small class="block text-muted">{{ __('Background color of the Module icon') }}</small>
                     </div>
                 </div>
             </div>
@@ -143,7 +143,7 @@
                     <label class="control-label">{{ __('Icon') }}</label>
                     <div>
                         <input type="text" name="icon" class="form-control" data-mandatory="no" autocomplete="off">
-                        <small class="block">{{ __('Icon of the Module (eg. \'fas fa-gem\')') }}</small>
+                        <small class="block text-muted">{{ __('Icon of the Module (eg. \'fas fa-gem\')') }}</small>
                     </div>
                 </div>
             </div>
@@ -152,14 +152,14 @@
                     <label class="control-label">{{ __('Icon Color') }}</label>
                     <div>
                         <input type="text" name="icon_color" class="form-control" data-mandatory="no" autocomplete="off">
-                        <small class="block">{{ __('Foreground color of the Module icon') }}</small>
+                        <small class="block text-muted">{{ __('Foreground color of the Module icon') }}</small>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<div class="card form-section" id="module-configuration-details">
+<div class="card form-section elevation-2" id="module-configuration-details">
     <div class="card-header">
         <h3 class="card-title">{{ __('Configuration') }}</h3>
         <div class="card-tools">
@@ -175,7 +175,7 @@
                     <label class="control-label">{{ __('Form Title') }}</label>
                     <div>
                         <input type="text" name="form_title" class="form-control" data-mandatory="yes" autocomplete="off" val="id">
-                        <small class="block">{{ __('This field is displayed as individual record title') }}</small>
+                        <small class="block text-muted">{{ __('This field is displayed as individual record title') }}</small>
                     </div>
                 </div>
             </div>
@@ -184,7 +184,7 @@
                     <label class="control-label">{{ __('Image Field') }}</label>
                     <div>
                         <input type="text" name="image_field" class="form-control" data-mandatory="no" autocomplete="off">
-                        <small class="block">{{ __('Must be of field Image') }}</small>
+                        <small class="block text-muted">{{ __('Must be of field Image') }}</small>
                     </div>
                 </div>
             </div>
@@ -219,7 +219,7 @@
                             <option value="1">{{ __('Yes') }}</option>
                             <option value="0" default selected>{{ __('No') }}</option>
                         </select>
-                        <small class="block">{{ __('Child Table will be shown as Grid in form view') }}</small>
+                        <small class="block text-muted">{{ __('Child Table will be shown as Grid in form view') }}</small>
                     </div>
                 </div>
             </div>

@@ -1,6 +1,10 @@
-.control-label {
-	font-weight: 600 !important;
-	font-size: 15px;
+.control-label, label:not(.form-check-label):not(.custom-file-label) {
+	font-weight: 400 !important;
+	font-size: .9rem;
+}
+
+.custom-control-label.remember-me::before, .custom-control-label.remember-me::after {
+	top: .1rem;
 }
 
 .default-avatar {
@@ -36,7 +40,7 @@
 
 .default-picture i {
 	position: absolute;
-	top: 45%;
+	top: 48%;
 	width: 100%;
 	left: 0px;
 	margin-top: -6px;
@@ -138,8 +142,20 @@
 	font-size: 2em;
 }
 
-.fw-600 {
-	font-weight: 600;
+.form-control, .custom-select {
+	border: none;
+	background-color: #f4f6f9;
+}
+
+.form-control:focus, .custom-select:focus {
+	outline: 0;
+	background-color: #f4f6f9;
+	box-shadow: 0 0 0 0.18rem rgb(104 113 120 / 25%);
+}
+
+.input-group-text {
+	background-color: #f4f6f9;
+	border: none;
 }
 
 /* Back to top */
@@ -181,6 +197,10 @@ a.back-to-top:hover {
 
 .activity-dropdown {
 	width: 350px!important;
+}
+
+.notifications-menu .dropdown-item {
+	white-space: normal;
 }
 
 .notifications-menu .activity-time {
@@ -227,23 +247,10 @@ a.back-to-top:hover {
 	padding: 0;
 	cursor: pointer;
 	background-color: #fff;
-	color: #333333;
-	font-family: 'Source Sans Pro','Helvetica Neue',Helvetica,Arial,sans-serif;
+	color: rgba(0,0,0,.9);
+	font-family: 'Roboto',sans-serif,'Helvetica Neue',Helvetica,Arial;
 	font-size: 14px;
 }
-
-/*.ui-menu .ui-menu-item {
-	position: relative;
-	margin: 0;
-	padding: 0;
-	cursor: pointer;
-	min-height: 0;
-	list-style-image: none;
-	background-color: #fff;
-	color: #333333;
-	font-family: 'Source Sans Pro','Helvetica Neue',Helvetica,Arial,sans-serif;
-	font-size: 14px;
-}*/
 
 .ui-menu .ui-menu-item:last-child, .ui-menu .ui-menu-item:last-child:hover {
 	border-bottom: 0px;
@@ -263,38 +270,8 @@ a.back-to-top:hover {
 	padding: 9px 16px;
 	font-weight: 400;
 	cursor: pointer;
-	color: #333333;
+	color: rgba(0,0,0,.9);
 }
-
-/*.ui-menu-item-wrapper {
-	padding: 9px 16px;
-}*/
-
-/*.ui-autocomplete .ui-menu-item .ui-menu-item-image {
-	border-radius: 50%;
-	display: inline-block;
-	vertical-align: middle;
-}
-
-.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
-	border: 1px solid transparent;
-	background: none;
-	font-weight: normal;
-	background: #f4f4f4;
-	padding: 8px 15px;
-	color: #333;
-}
-
-.ui-menu .ui-state-active, .ui-menu .ui-state-focus {
-	margin: 0px;
-}
-
-.autocomplete-no-data {
-	cursor: default !important;
-	background-color: #fff !important;
-	border: none !important;
-	color: #676a6c !important;
-}*/
 
 .ui-autocomplete .ui-menu-item .ui-menu-item-image.ui-menu-item-wrapper {
 	padding: 0px;
@@ -327,7 +304,7 @@ a.back-to-top:hover {
 	border: none;
 	cursor: pointer;
 	background-color: #f4f6f9;
-	color: #333333;
+	color: rgba(0,0,0,.9);
 }
 
 .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
@@ -366,7 +343,7 @@ a.back-to-top:hover {
 }
 .media .avatar {
 	padding: 35px;
-	background-color: #f0f4f7;
+	background-color: #f4f6f9;
 }
 
 /* Modules */
@@ -389,7 +366,7 @@ a.back-to-top:hover {
 	padding-top: 6px;
 	cursor: pointer;
 	border-radius: 5px;
-	font-weight: 600;
+	font-weight: 500;
 	margin-bottom: 16px !important;
 	line-height: 58px;
 }
@@ -397,7 +374,7 @@ a.back-to-top:hover {
 .module-label, .module-label a {
 	font-size: 16px;
 	margin-top: 0px;
-	font-weight: 600;
+	font-weight: 500;
 	margin-bottom: 10px;
 	color: #676a6c;
 	text-decoration: none;
@@ -434,25 +411,22 @@ a.back-to-top:hover {
 	color: #fff;
 }
 
-.skin-black .breadcrumb.app-breadcrumb, .skin-black-light .breadcrumb.app-breadcrumb {
-	color: #333;
-}
-
-.skin-black .breadcrumb.app-breadcrumb > li, .skin-black-light .breadcrumb.app-breadcrumb > li {
-	color: #333;
-}
-
-.skin-black .breadcrumb.app-breadcrumb > li > a, .skin-black-light .breadcrumb.app-breadcrumb > li > a {
-	color: #333;
-}
-
-.skin-black .breadcrumb.app-breadcrumb > li+li:before, .skin-black-light .breadcrumb.app-breadcrumb > li+li:before {
-	color: #333;
-}
-
 .title-section {
 	padding: 12px 15px 12px 15px;
 	background-color: #fff !important;
+}
+
+table > thead > tr > th, table > tbody > tr > td {
+	font-size: 0.9rem !important;
+}
+
+table > tbody > tr > td > a:not(.btn) {
+	color: rgba(0,0,0,.9)!important;
+	font-weight: 500!important;
+}
+
+table > tbody > tr > td > a:hover {
+	text-decoration: underline;
 }
 
 /* List View */
@@ -513,9 +487,8 @@ a.back-to-top:hover {
 }
 
 .link-field a {
-	font-size: 13px !important;
-	color: #676a6c !important;
-	font-weight: 600 !important;
+	color: rgba(0,0,0,.9) !important;
+	font-weight: 500 !important;
 }
 
 .link-field a:hover {
@@ -524,10 +497,15 @@ a.back-to-top:hover {
 
 .clickable_row:hover {
 	cursor: pointer;
+	background-color: #f4f6f9 !important;
 }
 
 .iconify {
 	color: #c1c3c4;
+}
+
+.list-header {
+	color: rgba(0,0,0,.9);
 }
 
 .list-header th {
@@ -625,32 +603,12 @@ a.back-to-top:hover {
 .form-status {
 	display: inline-block;
 	text-overflow: ellipsis;
-	font-size: 15px;
-	font-weight: 500;
-}
-
-.form-name, .form-status {
-	margin-top: 3px;
-}
-
-.form-name .form-status #form-stats {
-	margin-left: 8px;
-}
-
-.form-name {
-	display: inline-block;
-	font-size: 20px;
-	padding: 0;
-	text-overflow: ellipsis;
-	float: left;
+	font-size: .95rem;
 }
 
 .form-statics {
 	border-bottom: 1px solid #e7eaec !important;
-}
-
-.form-section {
-	margin-bottom: 0;
+	font-size: .9rem;
 }
 
 .form-section .card-header:not(.form-statics) {
@@ -658,13 +616,13 @@ a.back-to-top:hover {
 }
 
 .form-section .card-title {
-	text-transform: uppercase;
-	font-weight: 600;
+	font-weight: 500;
 	margin-top: 2px;
 }
 
 .form-section .form-content {
-	padding-top: 0;
+	padding-top: .5rem;
+	padding-bottom: .2rem;
 }
 
 .form-section .card-tools {
@@ -1016,7 +974,7 @@ a.back-to-top:hover {
 	.module-label, .module-label a {
 		font-size: 17px;
 		margin-top: 0px;
-		font-weight: 600;
+		font-weight: 500;
 		margin-bottom: 5px;
 		text-align: center;
 		line-height: 1;
@@ -1037,6 +995,10 @@ a.back-to-top:hover {
 
 	.table-responsive {
 		border: 0px;
+	}
+
+	.dropdown-toggle::after {
+		content: none;
 	}
 
 	.form-horizontal .form-group {

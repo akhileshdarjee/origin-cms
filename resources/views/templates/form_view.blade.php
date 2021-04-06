@@ -2,7 +2,6 @@
 
 @var $page_title = isset($form_data[$table_name]['id']) ? $form_data[$table_name][$form_title] : $title
 @section('title', $page_title . ' - ' . config('app.brand.name'))
-@section('search', $page_title)
 
 @section('data')
     <script type="text/javascript">
@@ -45,31 +44,31 @@
     <div class="content-header" id="sticky">
         <div class="container">
             <div class="row">
-                <div class="col-sm-6 col-8">
-                    <div class="form-name">
-                        @if (isset($module_type) && $module_type == "Single")
-                            <i class="{{ $icon }}"></i> {{ __($title) }}
-                        @else
-                            <i class="{{ $icon }}"></i>
-                            @if (isset($form_data[$table_name]['id']))
-                                {{ $form_data[$table_name][$form_title] }}
+                <div class="col-sm-8 col-8">
+                    <h1 class="m-0">
+                        <small>
+                            @if (isset($module_type) && $module_type == "Single")
+                                <i class="{{ $icon }}"></i> {{ __($title) }}
                             @else
-                                {{ __('New') }} {{ __($title) }}
+                                <i class="{{ $icon }}"></i>
+                                @if (isset($form_data[$table_name]['id']))
+                                    {{ $form_data[$table_name][$form_title] }}
+                                @else
+                                    {{ __('New') }} {{ __($title) }}
+                                @endif
                             @endif
-                        @endif
+                        </small>
                         @if (isset($form_data[$table_name]['id']) && $permissions['update'])
-                            <div class="form-status">
-                                <small>
-                                    <span class="text-center" id="form-stats">
-                                        <i class="fas fa-circle text-green"></i>
-                                        <span id="form-status">{{ __('Saved') }}</span>
-                                    </span>
-                                </small>
+                            <div class="form-status ml-1">
+                                <span class="text-center text-xs font-weight-normal" id="form-stats">
+                                    <i class="fas fa-circle text-green"></i>
+                                    <span id="form-status">{{ __('Saved') }}</span>
+                                </span>
                             </div>
                         @endif
-                    </div>
+                    </h1>
                 </div>
-                <div class="col-sm-6 col-4 text-right list-btns">
+                <div class="col-sm-4 col-4 text-right list-btns">
                     @if (isset($form_data[$table_name]['id']) && ($permissions['create'] || $permissions['delete']))
                         <div class="btn-group">
                             <button type="button" class="btn btn-outline-default btn-sm dropdown-toggle dropdown-icon elevation-2" data-toggle="dropdown">
@@ -116,27 +115,25 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-12 form-container">
-                <div class="card">
-                    <div class="card-body form-body">
-                        @if (isset($module_type) && $module_type == "Single")
-                            @include($file)
+                <div class="form-body">
+                    @if (isset($module_type) && $module_type == "Single")
+                        @include($file)
+                    @else
+                        @if (isset($form_data[$table_name]['id']) && $form_data[$table_name]['id'])
+                            @var $action = route('show.doc', ['slug' => $slug, 'id' => $form_data[$table_name]['id']])
                         @else
-                            @if (isset($form_data[$table_name]['id']) && $form_data[$table_name]['id'])
-                                @var $action = route('show.doc', ['slug' => $slug, 'id' => $form_data[$table_name]['id']])
-                            @else
-                                @var $action = route('new.doc', $slug)
-                            @endif
-                            <form method="POST" action="{{ $action }}" name="{{ $slug }}" id="{{ $slug }}" enctype="multipart/form-data">
-                                {!! csrf_field() !!}
-                                <input type="hidden" name="id" id="id" class="form-control" data-mandatory="no" autocomplete="off" readonly>
-                                @if (view()->exists(str_replace('.', '/', $file)))
-                                    @include($file)
-                                @else
-                                    {{ __('Please create/update') }} '{{ str_replace('.', '/', $file) }}.blade.php' {{ __('in views') }}
-                                @endif
-                            </form>
+                            @var $action = route('new.doc', $slug)
                         @endif
-                    </div>
+                        <form method="POST" action="{{ $action }}" name="{{ $slug }}" id="{{ $slug }}" enctype="multipart/form-data">
+                            {!! csrf_field() !!}
+                            <input type="hidden" name="id" id="id" class="form-control" data-mandatory="no" autocomplete="off" readonly>
+                            @if (view()->exists(str_replace('.', '/', $file)))
+                                @include($file)
+                            @else
+                                {{ __('Please create/update') }} '{{ str_replace('.', '/', $file) }}.blade.php' {{ __('in views') }}
+                            @endif
+                        </form>
+                    @endif
                 </div>
                 <div class="data-loader-full" style="display: none;">{{ __('Saving') }}...</div>
             </div>

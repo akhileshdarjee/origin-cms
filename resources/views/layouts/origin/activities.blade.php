@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('title', __('Activities') . ' - ' . config('app.brand.name'))
-@section('search', __('Activities'))
 
 @section('title_section')
     <div id="sticky-anchor"></div>

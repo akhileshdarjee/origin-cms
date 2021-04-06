@@ -153,7 +153,8 @@ $(document).ready(function() {
     // enable tooltips
     $("body").tooltip({
         selector: '[data-toggle="tooltip"]',
-        trigger : 'hover'
+        trigger : 'hover',
+        delay: { show: 500 }
     });
 
     // highlight text
@@ -346,9 +347,16 @@ function enableAutocomplete() {
                         list_item += '<img src="' + image_url + '" class="ui-menu-item-image" />';
                     }
                     else {
+                        if (data_module == 'User') {
+                            var default_icon = 'fas fa-user fa-lg';
+                        }
+                        else {
+                            var default_icon = 'fas fa-image fa-lg';
+                        }
+
                         list_item += '<div class="ui-menu-item-image">\
                             <span class="default-avatar">\
-                                <i class="fa fa-user fa-lg"></i>\
+                                <i class="' + default_icon + '"></i>\
                             </span>\
                         </div>';
                     }
