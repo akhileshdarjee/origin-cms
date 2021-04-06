@@ -208,6 +208,7 @@ $(document).ready(function() {
                     </div>\
                     <div class="row">\
                         <div class="col-md-12">\
+                            <div class="alert alert-danger import-errors" style="display: none;"></div>\
                             <div class="import-progress progress progress-sm active" style="display: none;">\
                                 <div class="progress-bar progress-bar-primary progress-bar-striped" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">\
                                 </div>\
@@ -231,9 +232,10 @@ $(document).ready(function() {
             var me = this;
             var import_form = $(this).closest("#import-form");
             $(import_form).find('.progress').show();
+            $(import_form).find('.import-errors').hide();
             $(me).hide();
 
-            if (document.getElementById("import_file").files[0].name) {
+            if (document.getElementById("import_file").files.length && typeof document.getElementById("import_file").files[0].name !== 'undefined') {
                 var data = new FormData($(import_form)[0]);
 
                 $.ajax({
@@ -250,15 +252,47 @@ $(document).ready(function() {
                         else {
                             $(import_form).find('.progress').hide();
                             $(me).show();
-                            notify(data['msg'], "error");
+
+                            if (data['msg'].constructor === Array) {
+                                if (data['msg'].length > 1) {
+                                    var errors = '';
+
+                                    $.each(data['msg'], function(idx, error) {
+                                        errors += (idx + 1) + '. ' + error;
+
+                                        if (idx !== (data['msg'].length - 1)) {
+                                            errors += '<br>';
+                                        }
+                                    });
+
+                                    $(import_form).find('.import-errors').empty().append(errors);
+                                }
+                                else {
+                                    $(import_form).find('.import-errors').empty().append(data['msg'][0]);
+                                }
+                            }
+                            else {
+                                $(import_form).find('.import-errors').empty().append(data['msg']);
+                            }
+
+                            $(import_form).find('.import-errors').show();
                         }
                     },
                     error: function (data) {
                         $(import_form).find('.progress').hide();
                         $(me).show();
-                        notify("Some internal error occured. Please try again...!!!", "error");
+
+                        $(import_form).find('.import-errors').empty().append("Some internal error occured. Please try again");
+                        $(import_form).find('.import-errors').show();
                     }
                 });
+            }
+            else {
+                $(import_form).find('.progress').hide();
+                $(me).show();
+
+                $(import_form).find('.import-errors').empty().append("Please attach import template to import data");
+                $(import_form).find('.import-errors').show();
             }
         });
     });

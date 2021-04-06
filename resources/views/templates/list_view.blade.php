@@ -40,7 +40,7 @@
                     </button>
 
                     @if ($can_create)
-                        <a href="{{ route('new.doc', $module['slug']) }}" class="btn bg-gradient-success btn-sm elevation-2 new-form" data-toggle="tooltip" data-placement="bottom" title="{{ __('New') }} {{ __($module['display_name']) }}">
+                        <a href="{{ route('new.doc', $module['slug']) }}" class="btn bg-gradient-primary btn-sm elevation-2 new-form" data-toggle="tooltip" data-placement="bottom" title="{{ __('New') }} {{ __($module['display_name']) }}">
                             <span class="d-none d-sm-none d-md-inline-block">
                                 <i class="fas fa-plus fa-sm pr-1"></i>
                                 {{ __('New') }} {{ __($module['display_name']) }}

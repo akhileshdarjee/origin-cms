@@ -74,15 +74,9 @@
 	border-radius: 5px !important;
 }
 
-.sidebar-collapse .default-avatar {
-	width: 30px;
-	height: 30px;
-	background: #e1e5e9;
-	display: block;
-	border-radius: 50%;
-	position: relative;
-	text-align: center;
-	margin-bottom: 0;
+.alert {
+	padding: .6rem 1.25rem;
+	font-size: .9rem;
 }
 
 .user-avatar, .user-avatar > img {
@@ -420,6 +414,10 @@ table > thead > tr > th, table > tbody > tr > td {
 	font-size: 0.9rem !important;
 }
 
+table > thead > tr > th {
+	font-weight: 500;
+}
+
 table > tbody > tr > td > a:not(.btn) {
 	color: rgba(0,0,0,.9)!important;
 	font-weight: 500!important;
@@ -444,7 +442,7 @@ table > tbody > tr > td > a:hover {
 
 .record-selected-count {
 	background-color: #f8f8f8;
-	padding: 16px 12px!important;
+	padding: 17px 12px!important;
 	vertical-align: middle!important;
 	font-size: 14px;
 	line-height: 1!important;
@@ -551,6 +549,15 @@ table > tbody > tr > td > a:hover {
 	clear: both;
 	padding: 0px;
 	margin: 0px;
+}
+
+.origin-pagination .page-link {
+	color: #2b2b2b;
+	background: #f8f9fa;
+}
+
+.origin-pagination .page-link:focus {
+	box-shadow: 0 0 0 0.18rem rgb(104 113 120 / 25%);
 }
 
 .dropdown-menu {
@@ -1042,4 +1049,4 @@ table > tbody > tr > td > a:hover {
 	.data-loader {
 		font-size: 15px;
 	}
-}
+	
