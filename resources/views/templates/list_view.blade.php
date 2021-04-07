@@ -150,7 +150,7 @@
                                         {{ __('Apply') }}
                                     </button>
                                     <button class="btn bg-gradient-danger btn-sm remove-column-filters" data-toggle="tooltip" data-placement="bottom" title="{{ __('Cancel filter') }}">
-                                        <i class="fas fa-times"></i>
+                                        <i class="fas fa-times p-1"></i>
                                     </button>
                                 </div>
                             </div>
@@ -182,11 +182,11 @@
                         </table>
                     </div>
                     <div class="card-body list-actions">
-                        <div class="row">
+                        <div class="row page-info">
                             <div class="col-md-6 col-sm-6 col-5">
                                 {{ __('Page') }} :
-                                <strong><span class="list-page-no"></span></strong> • 
-                                <span class="item-from"></span> -
+                                <strong><span class="list-page-no mr-1"></span></strong> • 
+                                <span class="item-from ml-1"></span> -
                                 <span class="item-to"></span> {{ __('of') }} 
                                 <strong>
                                     <span class="badge badge-dark item-count"></span>

@@ -69,7 +69,9 @@
                     @if (auth()->user()->avatar)
                         <img class="user-image img-circle elevation-2" src="{{ getImage(auth()->user()->avatar, 50, 50) }}" alt="{{ auth()->user()->full_name }}" />
                     @else
-                        <img class="user-image img-circle elevation-2">
+                        <span class="default-picture user-image elevation-2">
+                            <i class="fas fa-user"></i>
+                        </span>
                     @endif
                     <span class="d-none d-md-inline">{{ auth()->user()->full_name }}</span>
                 </a>

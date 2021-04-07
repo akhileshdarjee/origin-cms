@@ -86,7 +86,7 @@ function addRow(table, idx, action) {
         else if ($(heads).hasClass('remove')) {
             row += '<td class="text-center" data-idx="' + idx + '">\
                 <button type="button" class="btn btn-danger btn-xs remove-row">\
-                    <i class="fa fa-times"></i>\
+                    <i class="fas fa-times"></i>\
                 </button>\
             </td>';
         }
@@ -123,7 +123,7 @@ function addRow(table, idx, action) {
                 row += '<td data-field-type="image">\
                     <div class="col-md-12 media">\
                         <div class="pull-left text-center avatar-box">\
-                            <i class="fa fa-picture-o inline fa-2x avatar"></i>\
+                            <i class="fas fa-image inline fa-2x avatar"></i>\
                         </div>\
                         <div class="media-body text-left">\
                             <label title="Upload image file" class="btn btn-primary btn-xs">\
@@ -166,7 +166,7 @@ function addRow(table, idx, action) {
                 row += '<td data-field-type="date">\
                     <div class="input-group date">\
                         <span class="input-group-addon">\
-                            <i class="fa fa-calendar"></i>\
+                            <i class="fas fa-calendar-alt"></i>\
                         </span>\
                         <input type="text" name="' + table_name + '[' + (idx - 1) + '][' + field_name + ']" class="form-control input-sm" autocomplete="off">\
                     </div>\
@@ -176,7 +176,7 @@ function addRow(table, idx, action) {
                 row += '<td data-field-type="datetime">\
                     <div class="input-group datetimepicker">\
                         <span class="input-group-addon">\
-                            <i class="fa fa-calendar"></i>\
+                            <i class="fas fa-calendar-alt"></i>\
                         </span>\
                         <input type="text" name="' + table_name + '[' + (idx - 1) + '][' + field_name + ']" class="form-control input-sm" autocomplete="off">\
                     </div>\
@@ -291,7 +291,7 @@ function addNewRows(table_name, records) {
             else if ($(heads).hasClass('remove')) {
                 rows += '<td class="text-center" data-idx="' + (idx + 1) + '">\
                     <button type="button" class="btn btn-danger btn-xs remove-row">\
-                        <i class="fa fa-times"></i>\
+                        <i class="fas fa-times"></i>\
                     </button>\
                 </td>';
             }
@@ -332,7 +332,7 @@ function addNewRows(table_name, records) {
                         rows += '<img src="' + value[field_name] + '" class="fancyimg" data-big="' + getImage(value[field_name]) + '" alt="Image">';
                     }
                     else {
-                        rows += '<i class="fa fa-picture-o inline fa-2x avatar"></i>';
+                        rows += '<i class="fas fa-image inline fa-2x avatar"></i>';
                     }
 
                     rows += '</div>\
@@ -382,7 +382,7 @@ function addNewRows(table_name, records) {
                     rows += '<td data-field-type="date">\
                         <div class="input-group date">\
                             <span class="input-group-addon">\
-                                <i class="fa fa-calendar"></i>\
+                                <i class="fas fa-calendar-alt"></i>\
                             </span>\
                             <input type="text" name="' + table_name + '[' + idx + '][' + field_name + ']" class="form-control input-sm" autocomplete="off" value="' + field_value + '">\
                         </div>\
@@ -392,7 +392,7 @@ function addNewRows(table_name, records) {
                     rows += '<td data-field-type="datetime">\
                         <div class="input-group datetimepicker">\
                             <span class="input-group-addon">\
-                                <i class="fa fa-calendar"></i>\
+                                <i class="fas fa-calendar-alt"></i>\
                             </span>\
                             <input type="text" name="' + table_name + '[' + idx + '][' + field_name + ']" class="form-control input-sm" autocomplete="off" value="' + field_value + '">\
                         </div>\
@@ -444,15 +444,15 @@ function setPickersInTable(table_name, table, field_types) {
         $.each($("table > tbody > tr").find(".date"), function(idx, element) {
             $(element).datetimepicker({
                 icons: {
-                    time: 'fa fa-clock-o',
-                    date: 'fa fa-calendar',
-                    up: 'fa fa-chevron-up',
-                    down: 'fa fa-chevron-down',
-                    previous: 'fa fa-chevron-left',
-                    next: 'fa fa-chevron-right',
-                    today: 'fa fa-crosshairs',
-                    clear: 'fa fa-trash',
-                    close: 'fa fa-times'
+                    time: 'fas fa-clock',
+                    date: 'fas fa-calendar-alt',
+                    up: 'fas fa-chevron-up',
+                    down: 'fas fa-chevron-down',
+                    previous: 'fas fa-chevron-left',
+                    next: 'fas fa-chevron-right',
+                    today: 'fas fa-crosshairs',
+                    clear: 'fas fa-trash',
+                    close: 'fas fa-times'
                 },
                 format: 'DD-MM-YYYY',
                 allowInputToggle: true
@@ -482,15 +482,15 @@ function setPickersInTable(table_name, table, field_types) {
         $.each($("table > tbody > tr").find(".datetimepicker"), function(idx, element) {
             $(element).datetimepicker({
                 icons: {
-                    time: 'fa fa-clock-o',
-                    date: 'fa fa-calendar',
-                    up: 'fa fa-chevron-up',
-                    down: 'fa fa-chevron-down',
-                    previous: 'fa fa-chevron-left',
-                    next: 'fa fa-chevron-right',
-                    today: 'fa fa-crosshairs',
-                    clear: 'fa fa-trash',
-                    close: 'fa fa-times'
+                    time: 'fas fa-clock',
+                    date: 'fas fa-calendar-alt',
+                    up: 'fas fa-chevron-up',
+                    down: 'fas fa-chevron-down',
+                    previous: 'fas fa-chevron-left',
+                    next: 'fas fa-chevron-right',
+                    today: 'fas fa-crosshairs',
+                    clear: 'fas fa-trash',
+                    close: 'fas fa-times'
                 },
                 format: 'DD-MM-YYYY hh:mm A',
                 allowInputToggle: true,

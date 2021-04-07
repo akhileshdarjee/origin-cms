@@ -35,7 +35,7 @@
 	width: 32px;
 	height: 32px;
 	background: #e1e5e9;
-	display: inline-block;
+	display: block;
 	border-radius: 50%;
 	position: relative;
 	text-align: center;
@@ -143,6 +143,8 @@
 .form-control, .custom-select {
 	border: none;
 	background-color: #f4f6f9;
+	height: calc(2rem + 2px);
+	font-size: .9rem;
 }
 
 .form-control:focus, .custom-select:focus {
@@ -248,7 +250,7 @@ a.back-to-top:hover {
 	background-color: #fff;
 	color: rgba(0,0,0,.9);
 	font-family: 'Roboto',sans-serif,'Helvetica Neue',Helvetica,Arial;
-	font-size: 14px;
+	font-size: .9rem;
 }
 
 .ui-menu .ui-menu-item:last-child, .ui-menu .ui-menu-item:last-child:hover {
@@ -574,6 +576,10 @@ table > tbody > tr > td > a:hover {
 	margin-top: 9px;
 }
 
+.navbar-nav > .user-menu .default-picture.user-image {
+	float: left;
+}
+
 .dropdown-menu > li > a {
 	padding: 8px 15px;
 	cursor: pointer;
@@ -595,7 +601,7 @@ table > tbody > tr > td > a:hover {
 
 .list-actions {
 	border-width: 1px;
-	padding: 16px;
+	padding: 12px;
 }
 
 .list-column-filters {
@@ -762,11 +768,17 @@ table > tbody > tr > td > a:hover {
 	padding: .5rem;
 }
 
-.report-pagination {
-	margin: 0px;
+.page-info {
+	align-items: center;
+	margin: 0;
+	font-size: .9rem;
 }
 
 /* Timeline */
+
+.timeline {
+	margin: 0px;
+}
 
 .timeline::before {
 	background: #f4f6f9;
@@ -775,6 +787,7 @@ table > tbody > tr > td > a:hover {
 .origin-activities .timeline-body {
 	background-color: #f4f6f9;
 	border-radius: 5px;
+	font-size: .9rem;
 }
 
 .data-loader {
@@ -850,10 +863,6 @@ table > tbody > tr > td > a:hover {
 
 .no-mar {
 	margin: 0px !important;
-}
-
-.timeline {
-	margin: 0px;
 }
 
 .no-data {

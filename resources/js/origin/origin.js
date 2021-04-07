@@ -347,10 +347,10 @@ function enableAutocomplete() {
                     }
                     else {
                         if (data_module == 'User') {
-                            var default_icon = 'fas fa-user fa-lg';
+                            var default_icon = 'fas fa-user';
                         }
                         else {
-                            var default_icon = 'fas fa-image fa-lg';
+                            var default_icon = 'fas fa-image';
                         }
 
                         list_item += '<div class="ui-menu-item-image">\
@@ -384,15 +384,15 @@ function enableAutocomplete() {
 function enableDatepicker() {
     $("body").find(".date").datetimepicker({
         icons: {
-            time: 'fa fa-clock-o',
-            date: 'fa fa-calendar',
-            up: 'fa fa-chevron-up',
-            down: 'fa fa-chevron-down',
-            previous: 'fa fa-chevron-left',
-            next: 'fa fa-chevron-right',
-            today: 'fa fa-crosshairs',
-            clear: 'fa fa-trash',
-            close: 'fa fa-times'
+            time: 'fas fa-clock',
+            date: 'fas fa-calendar-alt',
+            up: 'fas fa-chevron-up',
+            down: 'fas fa-chevron-down',
+            previous: 'fas fa-chevron-left',
+            next: 'fas fa-chevron-right',
+            today: 'fas fa-crosshairs',
+            clear: 'fas fa-trash',
+            close: 'fas fa-times'
         },
         format: 'DD-MM-YYYY',
         allowInputToggle: true
@@ -407,15 +407,15 @@ function enableDatepicker() {
 function enableDateTimepicker() {
     $("body").find(".datetimepicker").datetimepicker({
         icons: {
-            time: 'fa fa-clock-o',
-            date: 'fa fa-calendar',
-            up: 'fa fa-chevron-up',
-            down: 'fa fa-chevron-down',
-            previous: 'fa fa-chevron-left',
-            next: 'fa fa-chevron-right',
-            today: 'fa fa-crosshairs',
-            clear: 'fa fa-trash',
-            close: 'fa fa-times'
+            time: 'fas fa-clock',
+            date: 'fas fa-calendar-alt',
+            up: 'fas fa-chevron-up',
+            down: 'fas fa-chevron-down',
+            previous: 'fas fa-chevron-left',
+            next: 'fas fa-chevron-right',
+            today: 'fas fa-crosshairs',
+            clear: 'fas fa-trash',
+            close: 'fas fa-times'
         },
         format: 'DD-MM-YYYY hh:mm A',
         allowInputToggle: true
@@ -565,7 +565,7 @@ function beautifyListView(list_view) {
             }
 
             if (money_list.contains(heading_name)) {
-                $(this).html(heading + ' (<i class="fa fa-inr"></i>)');
+                $(this).html(heading + ' (<i class="fas fa-rupee-sign"></i>)');
             }
             else {
                 $(this).html(heading);
@@ -589,16 +589,16 @@ function beautifyListView(list_view) {
 
                 if ($.trim(column_value) != "") {
                     if (money_list.contains(column_name)) {
-                        $(this).html('<i class="fa fa-inr"></i> ' + column_value);
+                        $(this).html('<i class="fas fa-rupee-sign"></i> ' + column_value);
                     }
                     else if (contact_list.contains(column_name)) {
-                        $(this).html('<i class="fa fa-phone"></i> ' + column_value);
+                        $(this).html('<i class="fas fa-phone-alt"></i> ' + column_value);
                     }
                     else if (address_list.contains(column_name)) {
-                        $(this).html('<i class="fa fa-map-marker"></i> ' + column_value);
+                        $(this).html('<i class="fas fa-map-marker-alt"></i> ' + column_value);
                     }
                     else if (email_list.contains(column_name)) {
-                        $(this).html('<i class="fa fa-envelope"></i> ' + column_value);
+                        $(this).html('<i class="fas fa-envelope"></i> ' + column_value);
                     }
                     else if (label_list.contains(column_name)) {
                         if (typeof label_bg[column_name][column_value] === "object") {
@@ -609,13 +609,13 @@ function beautifyListView(list_view) {
                         }
                     }
                     else if (column_value.isDate()) {
-                        $(this).html('<i class="fa fa-calendar"></i> ' + moment.utc(column_value).local().format('DD-MM-YYYY'));
+                        $(this).html('<i class="fas fa-calendar-alt"></i> ' + moment.utc(column_value).local().format('DD-MM-YYYY'));
                     }
                     else if (column_value.isDateTime()) {
-                        $(this).html('<i class="fa fa-calendar"></i> ' + moment.utc(column_value).local().format('DD-MM-YYYY hh:mm A'));
+                        $(this).html('<i class="fas fa-calendar-alt"></i> ' + moment.utc(column_value).local().format('DD-MM-YYYY hh:mm A'));
                     }
                     else if (column_value.isTime()) {
-                        $(this).html('<i class="fa fa-clock-o"></i> ' + column_value);
+                        $(this).html('<i class="fas fa-clock"></i> ' + column_value);
                     }
                 }
             }

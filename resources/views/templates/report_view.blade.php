@@ -92,8 +92,8 @@
                         </table>
                         <div class="data-loader" style="display: none;">{{ __('Loading') }}...</div>
                     </div>
-                    <div class="card-footer list-actions bg-white">
-                        <div class="row report-pagination">
+                    <div class="card-body list-actions">
+                        <div class="row page-info">
                             <div class="col-sm-5 col-6">
                                 <div class="dataTables_info" id="report-table_info" role="status" aria-live="polite"></div>
                             </div>

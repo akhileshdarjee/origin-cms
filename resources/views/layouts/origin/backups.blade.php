@@ -67,7 +67,7 @@
                         </div>
                     </div>
                     <div class="card-body list-actions">
-                        <div class="row">
+                        <div class="row page-info">
                             <div class="col-md-6 col-sm-6 col-5">
                                 <span id="item-from"></span> -
                                 <span id="item-to"></span> {{ __('of') }} 

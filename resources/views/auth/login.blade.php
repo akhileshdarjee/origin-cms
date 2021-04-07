@@ -49,13 +49,13 @@
                                 </div>
                             </div>
                             <div class="col-4">
-                                <button type="submit" class="btn btn-primary btn-block" id="submit-login">
+                                <button type="submit" class="btn btn-primary btn-sm btn-block" id="submit-login">
                                     {{ __('Login') }}
                                 </button>
                             </div>
                         </div>
                     </form>
-                    <p class="mb-1">
+                    <p class="mb-1 text-sm">
                         <a href="{{ route('password.request') }}">
                             {{ __('Forgot password') }}?
                         </a>

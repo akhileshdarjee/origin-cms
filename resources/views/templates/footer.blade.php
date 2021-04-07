@@ -16,7 +16,7 @@
     </strong>
 </footer>
 <a href="#" class="back-to-top">
-    <i class="fa fa-chevron-up"></i>
+    <i class="fas fa-chevron-up"></i>
 </a>
 <div id="fancybox" class="modal" style="display: none;">
     <span class="fancybox-close">&times;</span>

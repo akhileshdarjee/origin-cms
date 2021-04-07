@@ -139,9 +139,16 @@ $(document).ready(function() {
                                         column_value = '<div class="text-center"><img src="' + img_path + '" data-big="' + getImage(column_value) + '" class="fancyimg" alt="' + grid_data[data["form_title"]] + '"></div>';
                                     }
                                     else {
+                                        if (data['module'] == 'User') {
+                                            var default_icon = 'fas fa-user';
+                                        }
+                                        else {
+                                            var default_icon = 'fas fa-image';
+                                        }
+
                                         column_value = '<div class="text-center">\
                                             <span class="default-picture default-picture-rounded">\
-                                                <i class="fa fa-picture-o"></i>\
+                                                <i class="' + default_icon + '"></i>\
                                             </span>\
                                         </div>';
                                     }

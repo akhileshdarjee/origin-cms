@@ -184,10 +184,10 @@ function makeFieldsReadable() {
 
             if (ele_type == "checkbox") {
                 if ($(element).is(":checked")) {
-                    new_control = '<i class="fa fa-check-square-o"></i>';
+                    new_control = '<i class="far fa-check-square"></i>';
                 }
                 else {
-                    new_control = '<i class="fa fa-square-o"></i>';
+                    new_control = '<i class="far fa-square"></i>';
                 }
             }
             else {

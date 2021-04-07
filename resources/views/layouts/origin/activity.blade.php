@@ -71,7 +71,7 @@
                         </div>
                     </div>
                     <div class="card-footer list-actions bg-white">
-                        <div class="row">
+                        <div class="row page-info">
                             <div class="col-md-6 col-sm-6 col-5">
                                 <span id="item-from"></span> -
                                 <span id="item-to"></span> {{ __('of') }} 

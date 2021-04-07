@@ -51,7 +51,7 @@
                         </div>
                         <div class="row">
                             <div class="col-12">
-                                <button type="submit" class="btn btn-primary btn-block">
+                                <button type="submit" class="btn btn-primary btn-sm btn-block">
                                     {{ __('Reset Password') }}
                                 </button>
                             </div>
