@@ -37,8 +37,15 @@ $(document).ready(function() {
                 }
             },
             error: function(e) {
+                if (typeof JSON.parse(e.responseText)['message'] !== 'undefined') {
+                    var error_msg = JSON.parse(e.responseText)['message'];
+                }
+                else {
+                    var error_msg = 'Some error occured. Please try again';
+                }
+
+                notify(error_msg, "error");
                 $("body").find("#message-box").modal('hide');
-                notify('Some error occured. Please try again', "error");
             }
         });
     });
@@ -65,8 +72,15 @@ $(document).ready(function() {
                 }
             },
             error: function(e) {
+                if (typeof JSON.parse(e.responseText)['message'] !== 'undefined') {
+                    var error_msg = JSON.parse(e.responseText)['message'];
+                }
+                else {
+                    var error_msg = 'Some error occured. Please try again';
+                }
+
+                notify(error_msg, "error");
                 $("body").find(".data-loader-full").hide();
-                notify('Some error occured. Please try again', "error");
             }
         });
     });
@@ -159,22 +173,32 @@ $(document).ready(function() {
                     });
                 }
                 else {
-                    list_records += '<tr>\
-                        <td colspan="' + (list_columns.length + 1) + '" class="no-data">No Backups Found</td>\
+                    var new_form = $('body').find('.new-backup').clone().wrap("<div />").parent().html();
+                    var add_new = getAddNewRecord('Backups', new_form);
+
+                    list_records = '<tr class="no-results">\
+                        <td colspan="' + (list_columns.length + 1) + '" class="dataTables_empty">' + add_new + '</td>\
                     </tr>';
                 }
 
                 $(list_table).find('.list-view-items').empty().append(list_records);
-                $("body").find("#item-count").html(data['backups']['total'] || '0');
-                $("body").find("#item-from").html(data['backups']['from'] || '0');
-                $("body").find("#item-to").html(data['backups']['to'] || '0');
+                $("body").find(".item-count").html(data['backups']['total'] || '0');
+                $("body").find(".item-from").html(data['backups']['from'] || '0');
+                $("body").find(".item-to").html(data['backups']['to'] || '0');
 
                 $("body").find(".origin-pagination-content").empty().append(makePagination(data['backups']));
                 $("body").find(".data-loader").hide();
             },
             error: function(e) {
+                if (typeof JSON.parse(e.responseText)['message'] !== 'undefined') {
+                    var error_msg = JSON.parse(e.responseText)['message'];
+                }
+                else {
+                    var error_msg = 'Some error occured. Please try again';
+                }
+
+                notify(error_msg, "error");
                 $("body").find(".data-loader").hide();
-                notify('Some error occured. Please try again', "error");
             }
         });
     }

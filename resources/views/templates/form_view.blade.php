@@ -61,7 +61,7 @@
                         @if (isset($form_data[$table_name]['id']) && $permissions['update'])
                             <div class="form-status ml-1">
                                 <span class="text-center text-xs font-weight-normal" id="form-stats">
-                                    <i class="fas fa-circle text-green"></i>
+                                    <i class="fas fa-circle fa-sm text-green"></i>
                                     <span id="form-status">{{ __('Saved') }}</span>
                                 </span>
                             </div>

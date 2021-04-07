@@ -63,7 +63,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-body report-content">
+                    <div class="card-body">
                         <div class="row">
                             <div class="col-md-8 offset-md-2">
                                 <div class="timeline origin-activities"></div>
@@ -73,11 +73,9 @@
                     <div class="card-footer list-actions bg-white">
                         <div class="row page-info">
                             <div class="col-md-6 col-sm-6 col-5">
-                                <span id="item-from"></span> -
-                                <span id="item-to"></span> {{ __('of') }} 
-                                <strong>
-                                    <span class="badge badge-dark" id="item-count"></span>
-                                </strong>
+                                <span class="item-from"></span> -
+                                <span class="item-to"></span> {{ __('of') }} 
+                                <span class="badge badge-dark item-count"></span>
                             </div>
                             <div class="col-md-6 col-sm-6 col-7">
                                 <div class="origin-pagination-content"></div>

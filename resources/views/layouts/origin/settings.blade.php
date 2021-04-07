@@ -22,7 +22,7 @@
                             <div class="input-group">
                                 <input type="text" name="list_view_records" class="form-control" data-mandatory="yes" autocomplete="off">
                                 <div class="input-group-append">
-                                    <span class="input-group-text">{{ __('per page') }}</span>
+                                    <span class="input-group-text text-sm">{{ __('per page') }}</span>
                                 </div>
                             </div>
                         </div>

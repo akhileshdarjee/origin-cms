@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Str;
+use Exception;
 use App\Exports\ExcelExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Controllers\CommonController;
-use Str;
 use Illuminate\Http\Request;
 
 class ReportController extends Controller
@@ -52,7 +53,16 @@ class ReportController extends Controller
                     $report_data = $this->getData($request, $report_name);
 
                     if (isset($report_data['module']) && $report_data['module']) {
-                        $report_data['module_slug'] = $this->getModuleSlug($report_data['module']);
+                        $app_modules = $this->getAppModules();
+                        $report_module = $report_data['module'];
+
+                        if (isset($app_modules[$report_module]) && $app_modules[$report_module]) {
+                            $report_data['module_name'] = $app_modules[$report_module]['display_name'];
+                            $report_data['module_slug'] = $app_modules[$report_module]['slug'];
+                            $report_data['module_new_record'] = route('new.doc', ['slug' => $report_data['module_slug']]);
+                        } else {
+                            throw new Exception('"' . $report_module . '" Module does not exist. Please update the module in ' . Str::studly($report_name) . ' controller');
+                        }
                     }
 
                     return $report_data;

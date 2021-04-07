@@ -99,8 +99,8 @@ $(document).ready(function() {
             var tag_text = column_label + ' ' + column_operator + ' ' + (column_value_label || "Null");
 
             var filter_tag = '<div class="btn-group filter-tag" data-cn="' + column_name + '" data-co="' + column_operator + '" data-cv="' + column_value + '">\
-                <button class="btn btn-white btn-sm elevation-1" type="button">' + tag_text + '</button>\
-                <button class="btn btn-white btn-sm elevation-1 remove-filter" type="button" data-toggle="tooltip" data-placement="right" title="Remove filter">\
+                <button class="btn btn-light btn-sm elevation-1" type="button">' + tag_text + '</button>\
+                <button class="btn btn-light btn-sm elevation-1 remove-filter" type="button" data-toggle="tooltip" data-placement="right" title="Remove filter">\
                     <i class="fas fa-times"></i>\
                 </button>\
             </div>';
@@ -312,10 +312,10 @@ $(document).ready(function() {
 
     // refresh table rows
     function refreshListView(page, delete_list) {
-        var data = getSortingFiltersData();
+        var filters = getSortingFiltersData();
 
         if (delete_list) {
-            data['delete_list'] = delete_list;
+            filters['delete_list'] = delete_list;
         }
         else if (!recently_deleted) {
             $("body").find(".data-loader").show();
@@ -324,7 +324,7 @@ $(document).ready(function() {
         $.ajax({
             type: 'GET',
             url: app_route + '?page=' + page,
-            data: data,
+            data: filters,
             dataType: 'json',
             success: function(data) {
                 if (delete_list) {
@@ -402,6 +402,26 @@ $(document).ready(function() {
                             list_records += '</tr>';
                         });
                     }
+                    else {
+                        var list_headers = $("body").find(".list-header");
+                        delete filters['sorting'];
+
+                        if (Object.keys(filters).length) {
+                            var no_results = getNoResults();
+
+                            list_records = '<tr class="no-results">\
+                                <td colspan="' + $(list_headers).find("th").length + '" class="dataTables_empty">' + no_results + '</td>\
+                            </tr>';
+                        }
+                        else {
+                            var new_form = $('body').find('.new-form').clone().wrap("<div />").parent().html();
+                            var add_new = getAddNewRecord(data['module']['display_name'], new_form);
+
+                            list_records = '<tr class="no-results">\
+                                <td colspan="' + $(list_headers).find("th").length + '" class="dataTables_empty">' + add_new + '</td>\
+                            </tr>';
+                        }
+                    }
 
                     $(list_table).find('.list-view-items').empty().append(list_records);
                     $("body").find(".list-page-no").html(data['rows']['current_page'] || '0');
@@ -417,7 +437,14 @@ $(document).ready(function() {
                 }
             },
             error: function(e) {
-                notify('Some error occured. Please try again', "error");
+                if (typeof JSON.parse(e.responseText)['message'] !== 'undefined') {
+                    var error_msg = JSON.parse(e.responseText)['message'];
+                }
+                else {
+                    var error_msg = 'Some error occured. Please try again';
+                }
+
+                notify(error_msg, "error");
                 $("body").find(".data-loader").hide();
             }
         });
@@ -431,7 +458,7 @@ $(document).ready(function() {
         toggle_check_all_box(checked_length);
 
         if (checked_length > 0) {
-            var total_records = $("#item-count").html();
+            var total_records = $("body").find(".item-count").html();
             var selected_msg = checked_length + ' of ' + total_records + ' selected';
             $("body").find('.record-selected-count').html(selected_msg);
             $("body").find('.record-selected-count').show();
@@ -617,7 +644,14 @@ $(document).ready(function() {
                     }
                 },
                 error: function(e) {
-                    notify('Some error occured. Please try again', "error");
+                    if (typeof JSON.parse(e.responseText)['message'] !== 'undefined') {
+                        var error_msg = JSON.parse(e.responseText)['message'];
+                    }
+                    else {
+                        var error_msg = 'Some error occured. Please try again';
+                    }
+
+                    notify(error_msg, "error");
                     $("body").find(".data-loader").hide();
                 }
             });

@@ -49,11 +49,11 @@ class ListViewController extends Controller
 
     public function showListView($request)
     {
-        $table_name = $this->module['table_name'];
-        $columns = array_map('trim', explode(",", $this->module['list_view_columns']));
-        $form_title = $this->module['form_title'];
-
         if ($request->ajax() || $request->is('api/*')) {
+            $table_name = $this->module['table_name'];
+            $columns = array_map('trim', explode(",", $this->module['list_view_columns']));
+            $form_title = $this->module['form_title'];
+
             if ($request->filled('delete_list')) {
                 $delete_data = $this->deleteSelectedRecords($request, $request->get('delete_list'));
                 return response()->json(['data' => $delete_data], 200);
@@ -63,7 +63,7 @@ class ListViewController extends Controller
                 $list_view_data = $this->prepareListViewData($request);
                 return $list_view_data;
             } catch(Exception $e) {
-                return response()->json(['message' => $e->getMessage()], 404);
+                return response()->json(['msg' => $e->getMessage()], 200);
             }
         }
         else {
@@ -82,11 +82,15 @@ class ListViewController extends Controller
         $user_role = auth()->user()->role;
         $table_schema = $this->getTableSchema($this->module['table_name']);
 
-        try {
-            $rows = $this->getRecords($request, $table_schema);
-        } catch(Exception $e) {
-            $error = str_replace("'", "", $e->getMessage());
-            throw new Exception($error);
+        if ($request->ajax() || $request->is('api/*')) {
+            try {
+                $rows = $this->getRecords($request, $table_schema);
+            } catch(Exception $e) {
+                $error = str_replace("'", "", $e->getMessage());
+                throw new Exception($error);
+            }
+        } else {
+            $rows = [];
         }
 
         if ($user_role == 'System Administrator') {
@@ -130,6 +134,7 @@ class ListViewController extends Controller
 
     public function getRecords($request, $table_schema)
     {
+        logger('getRecords');
         $table = $this->module['table_name'];
         $table_columns = array_map('trim', explode(",", $this->module['list_view_columns']));
         $sort_field = $this->module['sort_field'];

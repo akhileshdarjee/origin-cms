@@ -83,11 +83,13 @@ $(document).ready(function() {
 
     function refreshGridView(page) {
         $("body").find(".data-loader").show();
+        var filters = getReportFilters();
+        var per_page = $('body').find('[name="report-table_length"]').val();
 
         $.ajax({
             type: 'GET',
             url: app_route + '?page=' + page,
-            data: { 'filters': getReportFilters(), 'per_page': $('body').find('[name="report-table_length"]').val() },
+            data: { 'filters': filters, 'per_page': per_page },
             dataType: 'json',
             success: function(data) {
                 if (!(report_table instanceof $.fn.dataTable.Api)) {
@@ -167,18 +169,41 @@ $(document).ready(function() {
                     report_table.rows.add(table_rows).draw('false');
                 }
                 else {
-                    $('table').find('.dataTables_empty').html("No Data Found");
+                    if (Object.keys(filters).length) {
+                        $('table').find('.dataTables_empty').html(getNoResults());
+                    }
+                    else {
+                        var new_form = '<a href="' + data["module_new_record"] + '" class="btn bg-gradient-primary btn-sm elevation-2 new-form" data-toggle="tooltip" data-placement="bottom" title="New ' + data["module_name"] + '">\
+                            <i class="fas fa-plus fa-sm pr-1"></i>\
+                            New ' + data["module_name"] + '\
+                        </a>';
+
+                        var add_new = getAddNewRecord(data['module_name'], new_form);
+                        $('table').find('.dataTables_empty').html(add_new);
+                    }
                 }
 
                 $("body").find(".data-loader").hide();
 
-                var report_info = from + ' - ' + to + ' of\
-                    <strong><span class="badge badge-dark">' + total + '</span></strong>';
+                var report_info = '<span class="item-from">' + from + '</span> -\
+                    <span class="item-to">' + to + '</span> of \
+                    <span class="badge badge-dark item-count">' + total + '</span>';
 
                 $("body").find("#report-table_info").html(report_info);
                 $("body").find("#report-table_paginate").empty().append(makePagination(data['rows']));
                 report_table.columns.adjust();
                 enableFancyBox();
+            },
+            error: function(e) {
+                if (typeof JSON.parse(e.responseText)['message'] !== 'undefined') {
+                    var error_msg = JSON.parse(e.responseText)['message'];
+                }
+                else {
+                    var error_msg = 'Some error occured. Please try again';
+                }
+
+                notify(error_msg, "error");
+                $("body").find(".data-loader").hide();
             }
         });
     }

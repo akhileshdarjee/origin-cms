@@ -49,8 +49,15 @@ trait CommonController
     // get table name from module
     public function getModuleTable($module)
     {
-        $module_config = $this->getAppModules();
-        return $module_config[$module]['table_name'];
+        $app_modules = $this->getAppModules();
+
+        if (isset($app_modules[$module]) && $app_modules[$module]) {
+            if (isset($app_modules[$module]['table_name']) && $app_modules[$module]['table_name']) {
+                return $app_modules[$module]['table_name'];
+            }
+        }
+
+        return false;
     }
 
     // check is referer is list view

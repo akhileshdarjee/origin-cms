@@ -188,9 +188,7 @@
                                 <strong><span class="list-page-no mr-1"></span></strong> • 
                                 <span class="item-from ml-1"></span> -
                                 <span class="item-to"></span> {{ __('of') }} 
-                                <strong>
-                                    <span class="badge badge-dark item-count"></span>
-                                </strong>
+                                <span class="badge badge-dark item-count"></span>
                                 {{ __('records') }}
                             </div>
                             <div class="col-md-6 col-sm-6 col-7">

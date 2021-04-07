@@ -50,7 +50,7 @@ $(document).ready(function() {
                 var current_user = data['current_user'];
                 var number_start = data['activities']['from'];
                 var activities = "";
-                $('body').find('.no-data').remove();
+                $('body').find('.dataTables_empty').remove();
 
                 if (app_activities.length > 0) {
                     $.each(app_activities, function(index, row) {
@@ -60,12 +60,18 @@ $(document).ready(function() {
                         var from_now_time = moment.utc(row['created_at']).fromNow();
                         var actual_time = moment.utc(row['created_at']).local().format("MMM D, YYYY on hh:mm A");
 
-                        if (row['action'] == "Create")
-                            var icon_bg = "bg-blue"
-                        else if (row['action'] == "Update")
+                        if (row['action'] == "Create") {
+                            var icon_bg = "bg-green"
+                        }
+                        else if (row['action'] == "Update") {
                             var icon_bg = "bg-yellow"
-                        else if (row['action'] == "Delete")
+                        }
+                        else if (row['action'] == "Delete") {
                             var icon_bg = "bg-red"
+                        }
+                        else if (row["module"] == "Auth") {
+                            var icon_bg = "bg-blue"
+                        }
                         else {
                             var icon_bg = "bg-purple"
                         }
@@ -117,20 +123,27 @@ $(document).ready(function() {
                     $('body').find('.origin-activities').empty().append(activities);
                 }
                 else {
-                    activities = '<div class="h4 text-center no-data"><strong>No Data</strong></div>';
+                    var no_results = '<div class="dataTables_empty">' + getNoResults() + '</div>';
 
                     $('body').find('.origin-activities').empty();
-                    $('body').find('.origin-activities').after(activities);
+                    $('body').find('.origin-activities').after(no_results);
                 }
 
                 $("body").find(".data-loader").hide();
-                $("body").find("#item-count").html(data['activities']['total'] || '0');
-                $("body").find("#item-from").html(data['activities']['from'] || '0');
-                $("body").find("#item-to").html(data['activities']['to'] || '0');
+                $("body").find(".item-count").html(data['activities']['total'] || '0');
+                $("body").find(".item-from").html(data['activities']['from'] || '0');
+                $("body").find(".item-to").html(data['activities']['to'] || '0');
                 $("body").find(".origin-pagination-content").empty().append(makePagination(data['activities']));
             },
             error: function(e) {
-                notify('Some error occured. Please try again', "error");
+                if (typeof JSON.parse(e.responseText)['message'] !== 'undefined') {
+                    var error_msg = JSON.parse(e.responseText)['message'];
+                }
+                else {
+                    var error_msg = 'Some error occured. Please try again';
+                }
+
+                notify(error_msg, "error");
                 $("body").find(".data-loader").hide();
             }
         });

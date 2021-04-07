@@ -18,7 +18,7 @@
                         <span class="d-none d-sm-none d-md-inline-block">{{ __('Refresh') }}</span>
                         <span class="d-md-none d-lg-none d-xl-none"><i class="fas fa-redo"></i></span>
                     </button>
-                    <div class="btn-group">
+                    <div class="btn-group new-backup">
                         <button type="button" class="btn bg-gradient-primary btn-sm dropdown-toggle dropdown-icon elevation-2" data-toggle="dropdown">
                             <span class="d-none d-sm-none d-md-inline-block">
                                 {{ __('Create Backup') }}
@@ -69,11 +69,9 @@
                     <div class="card-body list-actions">
                         <div class="row page-info">
                             <div class="col-md-6 col-sm-6 col-5">
-                                <span id="item-from"></span> -
-                                <span id="item-to"></span> {{ __('of') }} 
-                                <strong>
-                                    <span class="badge badge-dark" id="item-count"></span>
-                                </strong>
+                                <span class="item-from"></span> -
+                                <span class="item-to"></span> {{ __('of') }} 
+                                <span class="badge badge-dark item-count"></span>
                             </div>
                             <div class="col-md-6 col-sm-6 col-7">
                                 <div class="origin-pagination-content"></div>

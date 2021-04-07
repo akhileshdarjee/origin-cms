@@ -7,7 +7,7 @@
     <body class="hold-transition login-page">
         @include('templates.preloader')
         <div class="login-box">
-            <div class="card card-outline card-primary">
+            <div class="card card-outline card-primary elevation-2">
                 <div class="card-header text-center">
                     <a href="{{ route('show.website') }}" title="{{ config('app.brand.name') }}" class="h1">
                         @if (file_exists('img/logo.svg'))

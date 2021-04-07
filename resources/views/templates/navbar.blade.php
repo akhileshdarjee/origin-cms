@@ -33,7 +33,14 @@
         <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
             <form class="form-inline ml-0 ml-md-3">
                 <div class="form-group">
-                    <input type="search" name="top-search" id="top-search" class="form-control form-control-sm form-control-navbar autocomplete" data-ac-module="Universe" data-ac-field="label" placeholder="{{ __('Search') }}" aria-label="Search" autocomplete="off">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text pr-0" style="padding-right: 2px !important;">
+                                <i class="fas fa-search fa-sm"></i>
+                            </span>
+                        </div>
+                        <input type="text" name="top-search" id="top-search" class="form-control form-control-sm form-control-navbar autocomplete" data-ac-module="Universe" data-ac-field="label" placeholder="{{ __('Search') }}" aria-label="Search" autocomplete="off">
+                    </div>
                 </div>
             </form>
             @inject('activities', 'App\Http\Controllers\ActivityController')

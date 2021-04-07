@@ -273,7 +273,14 @@ function enableAutocomplete() {
                         }
                     },
                     error: function(e) {
-                        notify('Some error occured. Please try again...!!!', 'error');
+                        if (typeof JSON.parse(e.responseText)['message'] !== 'undefined') {
+                            var error_msg = JSON.parse(e.responseText)['message'];
+                        }
+                        else {
+                            var error_msg = 'Some error occured. Please try again';
+                        }
+
+                        notify(error_msg, "error");
                     }
                 });
             },
@@ -281,7 +288,7 @@ function enableAutocomplete() {
             select: function(event, ui) {
                 if (data_module == 'Universe') {
                     ui.item.value = '';
-                    window.location = ui.item['val'];
+                    window.location = ui.item['redirect_to'];
                 }
 
                 $.each(ui.item, function(key, value) {
@@ -315,13 +322,20 @@ function enableAutocomplete() {
             },
             html: true,
             open: function(event, ui) {
-                $(".ui-autocomplete").css({"z-index": 1050, "padding": "0px", "top": "+=3"});
-                $(".ui-autocomplete").width($(this).innerWidth());
+                if (data_module == 'Universe') {
+                    var left = $(this).closest('.input-group').innerWidth() - $(this).innerWidth();
+                    $(".ui-autocomplete").css({"z-index": 1050, "padding": "0px", "top": "+=3", "left": "-=" + left});
+                    $(".ui-autocomplete").width($(this).closest('.form-group').innerWidth());
+                }
+                else {
+                    $(".ui-autocomplete").css({"z-index": 1050, "padding": "0px", "top": "+=3"});
+                    $(".ui-autocomplete").width($(this).innerWidth());
+                }
             }
         }).autocomplete("instance")._renderItem = function(ul, item) {
             if (item["label"] == "No matches found" || item["label"] == "No Data") {
                 var list_item = '<li class="text-center autocomplete-no-data ui-state-disabled">\
-                    <div class="autocomplete-no-data"><strong>' + item["label"] + '</strong></div>\
+                    <div class="autocomplete-no-data text-muted text-sm">' + item["label"] + '</div>\
                 </li>';
             }
             else {
@@ -573,15 +587,7 @@ function beautifyListView(list_view) {
         }
     });
 
-    if ($(list_view_items).find(".clickable_row").length < 1) {
-        row = '<tr>\
-            <td class="no-data" colspan="' + $(list_headers).find("th").length + '">No Data Found</td>\
-        </tr>';
-
-        $(list_view).find('.list-view-items').empty().append(row);
-    }
-    else {
-        // make list view rows
+    if ($(list_view_items).find(".clickable_row").length > 0) {
         $.each($(list_view_items).find(".clickable_row > td"), function() {
             if ($(this).attr("data-field-name")) {
                 var column_name = $(this).attr("data-field-name");
@@ -689,6 +695,49 @@ function makePagination(data) {
 
     pagination += '</ul>';
     return pagination;
+}
+
+function getNoResults() {
+    var no_results = '<div class="row vertical-center">\
+        <div class="col-sm-12">\
+            <svg width="100" height="100" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" version="1.1" width="512" height="512" x="0" y="0" viewBox="0 0 24 24" style="enable-background:new 0 0 512 512" xml:space="preserve">\
+                <g>\
+                    <path xmlns="http://www.w3.org/2000/svg" d="m8.05 21h-5.55c-1.379 0-2.5-1.121-2.5-2.5v-16c0-1.379 1.121-2.5 2.5-2.5h12c1.379 0 2.5 1.121 2.5 2.5v7.03c0 .276-.224.5-.5.5s-.5-.223-.5-.5v-7.03c0-.827-.673-1.5-1.5-1.5h-12c-.827 0-1.5.673-1.5 1.5v16c0 .827.673 1.5 1.5 1.5h5.55c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#212529"/>\
+                    <path xmlns="http://www.w3.org/2000/svg" d="m13.5 9h-10c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h10c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#212529"/>\
+                    <path xmlns="http://www.w3.org/2000/svg" d="m9.5 13h-6c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h6c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#212529"/>\
+                    <path xmlns="http://www.w3.org/2000/svg" d="m8.5 5h-5c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h5c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#212529"/>\
+                    <path xmlns="http://www.w3.org/2000/svg" d="m22.5 24h-11c-.827 0-1.5-.673-1.5-1.5 0-.294.081-.569.235-.799l5.488-8.981c.259-.441.75-.72 1.277-.72s1.018.279 1.281.728l5.495 8.992c.143.211.224.486.224.78 0 .827-.673 1.5-1.5 1.5zm-5.5-11c-.174 0-.334.09-.418.233l-5.505 9.008c-.055.082-.077.165-.077.259 0 .275.225.5.5.5h11c.275 0 .5-.225.5-.5 0-.094-.022-.177-.065-.24l-5.512-9.019c-.089-.151-.249-.241-.423-.241z" fill="#ffc107"/>\
+                    <path xmlns="http://www.w3.org/2000/svg" d="m17 20c-.276 0-.5-.224-.5-.5v-4c0-.276.224-.5.5-.5s.5.224.5.5v4c0 .276-.224.5-.5.5z" fill="#ffc107"/>\
+                    <circle xmlns="http://www.w3.org/2000/svg" cx="17" cy="21.5" r=".5" fill="#ffc107"/>\
+                </g>\
+            </svg>\
+            <div class="text-muted text-sm font-weight-normal mt-2">No results found</div>\
+        </div>\
+    </div>';
+
+    return no_results;
+}
+
+function getAddNewRecord(title, btn) {
+    var add_new = '<div class="row vertical-center">\
+        <div class="col-sm-12">\
+            <svg width="100" height="100" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" version="1.1" width="512" height="512" x="0" y="0" viewBox="0 0 24 24" style="enable-background:new 0 0 512 512" xml:space="preserve" class="">\
+                <g>\
+                    <path xmlns="http://www.w3.org/2000/svg" d="m9.02 21h-6.52c-1.378 0-2.5-1.121-2.5-2.5v-16c0-1.379 1.122-2.5 2.5-2.5h12c1.378 0 2.5 1.121 2.5 2.5v6.06c0 .276-.224.5-.5.5s-.5-.224-.5-.5v-6.06c0-.827-.673-1.5-1.5-1.5h-12c-.827 0-1.5.673-1.5 1.5v16c0 .827.673 1.5 1.5 1.5h6.52c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#212529"/>\
+                    <path xmlns="http://www.w3.org/2000/svg" d="m13.5 9h-10c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h10c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#212529"/>\
+                    <path xmlns="http://www.w3.org/2000/svg" d="m9.5 13h-6c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h6c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#212529"/>\
+                    <path xmlns="http://www.w3.org/2000/svg" d="m8.5 5h-5c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h5c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#212529"/>\
+                    <path xmlns="http://www.w3.org/2000/svg" d="m17.5 24c-3.584 0-6.5-2.916-6.5-6.5s2.916-6.5 6.5-6.5 6.5 2.916 6.5 6.5-2.916 6.5-6.5 6.5zm0-12c-3.033 0-5.5 2.468-5.5 5.5s2.467 5.5 5.5 5.5 5.5-2.468 5.5-5.5-2.467-5.5-5.5-5.5z" fill="#007bff"/>\
+                    <path xmlns="http://www.w3.org/2000/svg" d="m17.5 21c-.276 0-.5-.224-.5-.5v-6c0-.276.224-.5.5-.5s.5.224.5.5v6c0 .276-.224.5-.5.5z" fill="#007bff"/>\
+                    <path xmlns="http://www.w3.org/2000/svg" d="m20.5 18h-6c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h6c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#007bff"/>\
+                </g>\
+            </svg>\
+            <div class="text-muted text-sm font-weight-normal mt-2">No ' + title + ' found</div>\
+            <div class="mt-2">' + btn + '</div>\
+        </div>\
+    </div>';
+
+    return add_new;
 }
 
 function stickyRelocate() {

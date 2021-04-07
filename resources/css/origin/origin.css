@@ -11,6 +11,11 @@
 	cursor: not-allowed;
 }
 
+.vertical-center {
+	align-items: center;
+	height: inherit;
+}
+
 .default-avatar {
 	width: 45px;
 	height: 45px;
@@ -158,6 +163,16 @@
 	border: none;
 }
 
+.input-group:focus-within {
+	outline: 0;
+	box-shadow: 0 0 0 0.18rem rgb(104 113 120 / 25%);
+	border-radius: .2rem;
+}
+
+.input-group:focus-within .form-control:focus, .input-group:focus-within .custom-select:focus {
+	box-shadow: none;
+}
+
 /* Back to top */
 a.back-to-top {
 	display: none;
@@ -217,7 +232,7 @@ a.back-to-top:hover {
 }
 
 .dropdown-toggle::after {
-	vertical-align: 0.1em;
+	vertical-align: 0.2em;
 }
 
 /* Autocomplete start */
@@ -231,7 +246,7 @@ a.back-to-top:hover {
 }
 
 .ui-autocomplete {
-	max-height: 220px;
+	max-height: 236px;
 	overflow-y: auto;
 	overflow-x: auto;
 	border: 1px solid #eee;
@@ -476,6 +491,11 @@ table > tbody > tr > td > a:hover {
 	margin-left: 10px;
 }
 
+.filter-tag .btn {
+	padding: .2rem .5rem;
+	font-size: .8rem;
+}
+
 .brd-top {
 	border-top: 1px solid #d2d6de;
 }
@@ -503,6 +523,10 @@ table > tbody > tr > td > a:hover {
 .clickable_row:hover {
 	cursor: pointer;
 	background-color: #f4f6f9 !important;
+}
+
+.table-hover tbody tr.no-results:hover {
+	background-color: transparent;
 }
 
 .iconify {
@@ -752,9 +776,8 @@ table > tbody > tr > td > a:hover {
 }
 
 .dataTables_empty {
-	font-size: 18px;
-	font-weight: 800;
-	padding: 17px !important;
+	height: 360px;
+	vertical-align: middle !important;
 	text-align: center;
 }
 
@@ -790,6 +813,10 @@ table > tbody > tr > td > a:hover {
 	font-size: .9rem;
 }
 
+.timeline>div>.fa, .timeline>div>.fab, .timeline>div>.fad, .timeline>div>.fal, .timeline>div>.far, .timeline>div>.fas, .timeline>div>.ion, .timeline>div>.svg-inline--fa {
+	font-size: 14px;
+}
+
 .data-loader {
 	position: absolute;
 	top: 0;
@@ -818,12 +845,6 @@ table > tbody > tr > td > a:hover {
 	background: #fff;
 	opacity: 0.8;
 	z-index: 9999;
-}
-
-.no-data {
-	text-align: center;
-	font-size: 18px;
-	font-weight: 700;
 }
 
 /* Tooltip show in one line */
@@ -863,10 +884,6 @@ table > tbody > tr > td > a:hover {
 
 .no-mar {
 	margin: 0px !important;
-}
-
-.no-data {
-	margin-bottom: 25px;
 }
 
 .n-m-b {

@@ -115,24 +115,28 @@ class AutocompleteController extends Controller
     public function getUniverseResults($query)
     {
         $pages = [
-            ['label' => __('Modules'), 'val' => route('show.app.modules')], 
-            ['label' => __('Activity'), 'val' => route('show.app.activity')], 
-            ['label' => __('Settings'), 'val' => route('show.app.settings')], 
-            ['label' => __('Profile'), 'val' => route('show.doc', ['slug' => 'user', 'id' => auth()->user()->id])],
+            ['label' => __('Modules'), 'value' => __('Modules'), 'redirect_to' => route('show.app.modules')], 
+            ['label' => __('Activity'), 'value' => __('Activity'), 'redirect_to' => route('show.app.activity')], 
+            ['label' => __('Settings'), 'value' => __('Settings'), 'redirect_to' => route('show.app.settings')], 
+            ['label' => __('Profile'), 'value' => __('Profile'), 'redirect_to' => route('show.doc', ['slug' => 'user', 'id' => auth()->user()->id])],
         ];
 
         $allowed_modules = [];
         $reports = [];
 
         if (auth()->user()->role == "Administrator" && auth()->user()->username == "admin") {
-            array_push($pages, ['label' => __('Backups'), 'val' => route('show.app.backups')]);
+            array_push($pages, ['label' => __('Backups'), 'value' => __('Backups'), 'redirect_to' => route('show.app.backups')]);
         }
 
         $modules = $this->getAppModules();
 
         if (auth()->user()->role == 'System Administrator') {
             foreach ($modules as $module_name => $config) {
-                array_push($allowed_modules, ['label' => '<b>' . __($config['display_name']) . '</b> ' . __('List'), 'val' => route('show.list', $config['slug'])]);
+                array_push($allowed_modules, [
+                    'label' => '<b>' . __($config['display_name']) . '</b> ' . __('List'), 
+                    'value' => __($config['display_name']) . ' ' . __('List'), 
+                    'redirect_to' => route('show.list', $config['slug'])
+                ]);
             }
         } else {
             $role_modules = $this->roleWiseModules(auth()->user()->role, "Read");
@@ -140,14 +144,18 @@ class AutocompleteController extends Controller
             if ($role_modules) {
                 foreach ($modules as $module_name => $config) {
                     if (in_array($module_name, $role_modules)) {
-                        array_push($allowed_modules, ['label' => '<b>' . __($config['display_name']) . '</b> ' . __('List'), 'val' => route('show.list', $config['slug'])]);
+                        array_push($allowed_modules, [
+                            'label' => '<b>' . __($config['display_name']) . '</b> ' . __('List'), 
+                            'value' => __($config['display_name']) . ' ' . __('List'), 
+                            'redirect_to' => route('show.list', $config['slug'])
+                        ]);
                     }
                 }
             }
         }
 
         if (in_array(auth()->user()->role, ["System Administrator", "Administrator"])) {
-            array_push($pages, ['label' => __('Reports'), 'val' => route('show.app.reports')]);
+            array_push($pages, ['label' => __('Reports'), 'value' => __('Reports'), 'redirect_to' => route('show.app.reports')]);
         }
 
         $app_reports = config('reports');
@@ -157,7 +165,7 @@ class AutocompleteController extends Controller
                 continue;
             }
 
-            array_push($reports, ['label' => __($report['label']), 'val' => route('show.report', Str::snake($report_name))]);
+            array_push($reports, ['label' => __($report['label']), 'value' => __($report['label']), 'redirect_to' => route('show.report', Str::snake($report_name))]);
         }
 
         if ($reports && count($reports)) {
@@ -171,7 +179,7 @@ class AutocompleteController extends Controller
             }
 
             if (!$found) {
-                array_push($pages, ['label' => __('Reports'), 'val' => route('show.app.reports')]);
+                array_push($pages, ['label' => __('Reports'), 'value' => __('Reports'), 'redirect_to' => route('show.app.reports')]);
             }
         }
 
@@ -179,7 +187,7 @@ class AutocompleteController extends Controller
 
         if ($query) {
             foreach ($result as $idx => $res) {
-                if (!Str::contains(strip_tags(strtolower($res['label'])), strtolower($query))) {
+                if (!Str::contains(strip_tags(strtolower($res['value'])), strtolower($query))) {
                     unset($result[$idx]);
                 }
             }
@@ -247,7 +255,8 @@ class AutocompleteController extends Controller
                             foreach ($data as $idx => $record) {
                                 array_push($result, [
                                     'label' => $table['module_label'] . ' <b>' . __(strval($record->{$table['fetch_fields'][1]})) . '</b>', 
-                                    'val' => route('show.doc', ['slug' => $table['module_slug'], 'id' => $record->id])
+                                    'value' => $table['module_label'] . ' ' . __(strval($record->{$table['fetch_fields'][1]})), 
+                                    'redirect_to' => route('show.doc', ['slug' => $table['module_slug'], 'id' => $record->id])
                                 ]);
                             }
                         }
