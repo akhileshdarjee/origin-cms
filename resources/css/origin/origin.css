@@ -17,11 +17,10 @@
 }
 
 .default-avatar {
-	width: 45px;
-	height: 45px;
+	width: 36px;
+	height: 36px;
 	background: #e1e5e9;
 	display: block;
-	border-radius: 50%;
 	position: relative;
 	text-align: center;
 	margin-bottom: 0;
@@ -299,9 +298,8 @@ a.back-to-top:hover {
 }
 
 .ui-autocomplete .ui-menu-item .ui-menu-item-image {
-	width: 40px;
-	height: 40px;
-	border-radius: 50%;
+	width: 36px;
+	height: 36px;
 	display: inline-block;
 	vertical-align: middle;
 }
@@ -464,9 +462,9 @@ table > tbody > tr > td > a:hover {
 
 .record-selected-count {
 	background-color: #f8f8f8;
-	padding: 17px 12px!important;
+	padding: 18px 12px 16px 12px !important;
 	vertical-align: middle!important;
-	font-size: 14px;
+	font-size: .9rem;
 	line-height: 1!important;
 	position: absolute;
 	left: 10%;
@@ -617,7 +615,7 @@ table > tbody > tr > td > a:hover {
 }
 
 .list-column-dropdown {
-	height: 200px;
+	height: 188px;
 	overflow: auto;
 	right: 10px;
 	left: auto;

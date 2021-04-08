@@ -167,8 +167,24 @@ $(document).ready(function() {
 
                     // add multiple rows to datatable using api
                     report_table.rows.add(table_rows).draw('false');
+
+                    var report_info = '<span class="item-from">' + from + '</span> -\
+                    <span class="item-to">' + to + '</span> of \
+                    <span class="badge badge-dark item-count">' + total + '</span>';
+
+                    $("body").find(".report-actions").show();
+                    $("body").find(".dataTables_scrollHead").show();
+                    $("body").find(".list-actions").show();
+                    $("body").find("#report-table_info").html(report_info);
+                    $("body").find("#report-table_paginate").empty().append(makePagination(data['rows']));
+                    report_table.columns.adjust();
+                    enableFancyBox();
                 }
                 else {
+                    $("body").find(".report-actions").hide();
+                    $("body").find(".dataTables_scrollHead").hide();
+                    $("body").find(".list-actions").hide();
+
                     if (Object.keys(filters).length) {
                         $('table').find('.dataTables_empty').html(getNoResults());
                     }
@@ -184,15 +200,6 @@ $(document).ready(function() {
                 }
 
                 $("body").find(".data-loader").hide();
-
-                var report_info = '<span class="item-from">' + from + '</span> -\
-                    <span class="item-to">' + to + '</span> of \
-                    <span class="badge badge-dark item-count">' + total + '</span>';
-
-                $("body").find("#report-table_info").html(report_info);
-                $("body").find("#report-table_paginate").empty().append(makePagination(data['rows']));
-                report_table.columns.adjust();
-                enableFancyBox();
             },
             error: function(e) {
                 if (typeof JSON.parse(e.responseText)['message'] !== 'undefined') {

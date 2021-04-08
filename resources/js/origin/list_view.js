@@ -424,14 +424,23 @@ $(document).ready(function() {
                     }
 
                     $(list_table).find('.list-view-items').empty().append(list_records);
-                    $("body").find(".list-page-no").html(data['rows']['current_page'] || '0');
-                    $("body").find(".item-count").html(data['rows']['total'] || '0');
-                    $("body").find(".item-from").html(data['rows']['from'] || '0');
-                    $("body").find(".item-to").html(data['rows']['to'] || '0');
-                    $("body").find(".origin-pagination-content").empty().append(makePagination(data['rows']));
 
-                    toggleActionButton();
-                    beautifyListView();
+                    if (list_rows.length > 0) {
+                        $("body").find(".list-header").show();
+                        $("body").find(".list-actions").show();
+                        $("body").find(".list-page-no").html(data['rows']['current_page'] || '0');
+                        $("body").find(".item-count").html(data['rows']['total'] || '0');
+                        $("body").find(".item-from").html(data['rows']['from'] || '0');
+                        $("body").find(".item-to").html(data['rows']['to'] || '0');
+                        $("body").find(".origin-pagination-content").empty().append(makePagination(data['rows']));
+
+                        toggleActionButton();
+                        beautifyListView();
+                    }
+                    else {
+                        $("body").find(".list-header").hide();
+                        $("body").find(".list-actions").hide();
+                    }
 
                     $("body").find(".data-loader").hide();
                 }

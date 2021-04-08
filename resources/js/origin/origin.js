@@ -354,10 +354,10 @@ function enableAutocomplete() {
                             var image_url = trim(item[data_image]);
                         }
                         else {
-                            var image_url = getImage(item[data_image], '40', '40');
+                            var image_url = getImage(item[data_image], '36', '36');
                         }
 
-                        list_item += '<img src="' + image_url + '" class="ui-menu-item-image" />';
+                        list_item += '<img src="' + image_url + '" class="ui-menu-item-image img-circle" />';
                     }
                     else {
                         if (data_module == 'User') {
@@ -368,7 +368,7 @@ function enableAutocomplete() {
                         }
 
                         list_item += '<div class="ui-menu-item-image">\
-                            <span class="default-avatar">\
+                            <span class="default-avatar img-circle">\
                                 <i class="' + default_icon + '"></i>\
                             </span>\
                         </div>';

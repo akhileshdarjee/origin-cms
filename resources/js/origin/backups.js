@@ -182,11 +182,20 @@ $(document).ready(function() {
                 }
 
                 $(list_table).find('.list-view-items').empty().append(list_records);
-                $("body").find(".item-count").html(data['backups']['total'] || '0');
-                $("body").find(".item-from").html(data['backups']['from'] || '0');
-                $("body").find(".item-to").html(data['backups']['to'] || '0');
 
-                $("body").find(".origin-pagination-content").empty().append(makePagination(data['backups']));
+                if (Object.keys(list_rows).length > 0) {
+                    $("body").find(".list-header").show();
+                    $("body").find(".list-actions").show();
+                    $("body").find(".item-count").html(data['backups']['total'] || '0');
+                    $("body").find(".item-from").html(data['backups']['from'] || '0');
+                    $("body").find(".item-to").html(data['backups']['to'] || '0');
+                    $("body").find(".origin-pagination-content").empty().append(makePagination(data['backups']));
+                }
+                else {
+                    $("body").find(".list-header").hide();
+                    $("body").find(".list-actions").hide();
+                }
+
                 $("body").find(".data-loader").hide();
             },
             error: function(e) {

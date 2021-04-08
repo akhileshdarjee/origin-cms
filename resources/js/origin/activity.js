@@ -120,20 +120,22 @@ $(document).ready(function() {
                         </div>';
                     });
 
-                    $('body').find('.origin-activities').empty().append(activities);
+                    $("body").find(".list-actions").show();
+                    $('body').find(".origin-activities").empty().append(activities);
+                    $("body").find(".item-count").html(data['activities']['total'] || '0');
+                    $("body").find(".item-from").html(data['activities']['from'] || '0');
+                    $("body").find(".item-to").html(data['activities']['to'] || '0');
+                    $("body").find(".origin-pagination-content").empty().append(makePagination(data['activities']));
                 }
                 else {
                     var no_results = '<div class="dataTables_empty">' + getNoResults() + '</div>';
 
-                    $('body').find('.origin-activities').empty();
-                    $('body').find('.origin-activities').after(no_results);
+                    $("body").find(".origin-activities").empty();
+                    $("body").find(".origin-activities").after(no_results);
+                    $("body").find(".list-actions").hide();
                 }
 
                 $("body").find(".data-loader").hide();
-                $("body").find(".item-count").html(data['activities']['total'] || '0');
-                $("body").find(".item-from").html(data['activities']['from'] || '0');
-                $("body").find(".item-to").html(data['activities']['to'] || '0');
-                $("body").find(".origin-pagination-content").empty().append(makePagination(data['activities']));
             },
             error: function(e) {
                 if (typeof JSON.parse(e.responseText)['message'] !== 'undefined') {

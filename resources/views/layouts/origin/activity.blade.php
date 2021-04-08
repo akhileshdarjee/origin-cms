@@ -53,6 +53,13 @@
                                 <div class="form-group">
                                     <select name="module" class="custom-select activity-filter">
                                         <option value="" default selected>{{ __('Select Module') }}...</option>
+                                        <option value="Auth">{{ __('Auth') }}</option>
+                                        @if (in_array(auth()->user()->role, ["System Administrator", "Administrator"]))
+                                            <option value="Report">{{ __('Report') }}</option>
+                                        @endif
+                                        @if (auth()->user()->role == "Administrator" && auth()->user()->username == "admin")
+                                            <option value="Backup">{{ __('Backup') }}</option>
+                                        @endif
                                         @foreach($modules as $module)
                                             <option value="{{ $module['display_name'] }}">
                                                 {{ __($module['display_name']) }}
