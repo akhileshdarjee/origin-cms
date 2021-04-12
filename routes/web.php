@@ -44,6 +44,7 @@ Route::group(['middleware' => ['web']], function () {
         Route::post('/import-from-csv', ['as' => 'import.from.csv', 'uses' => 'ImportController@import']);
         Route::post('/update-list-sorting', ['as' => 'update.list.sorting', 'uses' => 'ListViewController@updateSorting']);
         Route::post('/editor-upload', ['as' => 'editor.upload', 'uses' => 'AppController@editorUpload']);
+        Route::post('/change-theme', ['as' => 'change.theme', 'uses' => 'SettingsController@changeTheme']);
 
         // Backup routes...
         Route::get('/app/backups', ['as' => 'show.app.backups', 'uses' => 'BackupController@show']);

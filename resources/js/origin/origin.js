@@ -169,6 +169,36 @@ $(document).ready(function() {
         }
     });
 
+    $('body').on('click', '.change-theme', function(e) {
+        e.stopPropagation();
+
+        if ($(e.target).is("a")) {
+            e.preventDefault();
+            var dark_mode = $('body').find('[name="toggle_app_theme"]');
+            var theme = 'light';
+
+            if ($(dark_mode).is(":checked")) {
+                $(dark_mode).prop('checked', false);
+            }
+            else {
+                $(dark_mode).prop('checked', true);
+                theme = 'dark';
+            }
+
+            changeTheme(theme);
+        }
+    });
+
+    $('body').on('change', '[name="toggle_app_theme"]', function(e) {
+        var theme = 'light';
+
+        if ($(this).is(":checked")) {
+            theme = 'dark';
+        }
+
+        changeTheme(theme);
+    });
+
     $('a.back-to-top').click(function() {
         $('body, html').animate({
             scrollTop: 0
@@ -210,6 +240,53 @@ function applyTheme(theme) {
         $('body').find('.navbar').removeClass('navbar-dark');
         $('body').find('.navbar').addClass('navbar-light navbar-white');
         $('body').removeClass('dark-mode');
+    }
+}
+
+function changeTheme(theme) {
+    applyTheme(theme);
+    var theme_toggle = $('body').find('[name="toggle_app_theme"]');
+
+    if (theme == 'dark') {
+        theme_alt = 'light';
+    }
+    else {
+        theme_alt = 'dark';
+    }
+
+    if ($(theme_toggle).length && $(theme_toggle).data('action')) {
+        var action = $(theme_toggle).data('action');
+
+        $.ajax({
+            type: 'POST',
+            url: action,
+            data: {'theme': theme},
+            dataType: 'json',
+            success: function(data) {
+                if (data['success']) {
+                    location.reload();
+                }
+                else {
+                    applyTheme(theme_alt);
+                    notify(data['msg'], "error");
+                }
+            },
+            error: function(e) {
+                applyTheme(theme_alt);
+
+                if (typeof JSON.parse(e.responseText)['message'] !== 'undefined') {
+                    var error_msg = JSON.parse(e.responseText)['message'];
+                }
+                else {
+                    var error_msg = 'Some error occured. Please try again';
+                }
+
+                notify(error_msg, "error");
+            }
+        });
+    }
+    else {
+        notify("Please refresh the page and try again", "error");
     }
 }
 

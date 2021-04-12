@@ -12,7 +12,11 @@
             @foreach ($data as $module)
                 <div class="col-lg-2 col-md-3 col-sm-3 col-4 text-center m-b app-module" data-name="{{ $module['name'] }}">
                     <div class="module-config" id="{{ $module['slug'] }}">
-                        <a class="module-btn" href="{{ route('show.list', $module['slug']) }}" style="background-color: {{ $module['bg_color'] }};" title="{{ __($module['display_name']) }}">
+                        @if (session('app_settings') && isset(session('app_settings')['theme']) && session('app_settings')['theme'] == 'dark')
+                            <a class="module-btn" href="{{ route('show.list', $module['slug']) }}" style="background-color: {{ luminance($module['bg_color'], -0.4) }};" title="{{ __($module['display_name']) }}">
+                        @else
+                            <a class="module-btn" href="{{ route('show.list', $module['slug']) }}" style="background-color: {{ $module['bg_color'] }};" title="{{ __($module['display_name']) }}">
+                        @endif
                             <i class="{{ $module['icon'] }}" style="color: {{ $module['icon_color'] }};"></i>
                         </a>
                         <h3 class="module-label">

@@ -14,7 +14,11 @@
                         <a href="{{ route('show.report', Str::snake($report_name)) }}">
                             <div class="card-body">
                                 <div class="report-body">
-                                    <div class="btn btn-app report-btn" style="background-color: {{ $report['bg_color'] }}; border-color: {{ $report['bg_color'] }}; color: {{ $report['icon_color'] }};">
+                                    @if (session('app_settings') && isset(session('app_settings')['theme']) && session('app_settings')['theme'] == 'dark')
+                                        <div class="btn btn-app report-btn" style="background-color: {{ luminance($report['bg_color'], -0.4) }}; border-color: {{ luminance($report['bg_color'], -0.4) }}; color: {{ $report['icon_color'] }};">
+                                    @else
+                                        <div class="btn btn-app report-btn" style="background-color: {{ $report['bg_color'] }}; border-color: {{ $report['bg_color'] }}; color: {{ $report['icon_color'] }};">
+                                    @endif
                                         <i class="{{ $report['icon'] }}"></i>
                                     </div>
                                 </div>

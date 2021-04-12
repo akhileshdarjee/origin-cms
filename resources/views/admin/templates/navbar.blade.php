@@ -93,6 +93,21 @@
                     </li>
                     <li class="dropdown-divider"></li>
                     <li>
+                        <a href="#" class="dropdown-item change-theme">
+                            @if (session('app_settings') && isset(session('app_settings')['theme']) && session('app_settings')['theme'] == 'dark')
+                                <input type="checkbox" id="toggle-app-theme" name="toggle_app_theme" class="switch-input" data-action="{{ route('change.theme') }}" checked>
+                            @else
+                                <input type="checkbox" id="toggle-app-theme" name="toggle_app_theme" class="switch-input" data-action="{{ route('change.theme') }}">
+                            @endif
+                            <label for="toggle-app-theme" class="switch-label">
+                                {{ __('Dark Mode') }}: 
+                                <span class="toggle--on">{{ __('On') }}</span>
+                                <span class="toggle--off">{{ __('Off') }}</span>
+                            </label>
+                        </a>
+                    </li>
+                    <li class="dropdown-divider"></li>
+                    <li>
                         <a href="{{ route('logout') }}" class="dropdown-item">
                             {{ __('Logout') }}
                         </a>
