@@ -98,11 +98,12 @@ class AutocompleteController extends Controller
             if ($data) {
                 foreach ($data as $idx => $record) {
                     foreach ($record as $column => $value) {
-                        $data[$idx]->{$column} = strval($value);
-
                         if ($column == $field[0] && !strval($value)) {
                             unset($data[$idx]);
+                            break;
                         }
+
+                        $data[$idx]->{$column} = strval($value);
                     }
                 }
             }
@@ -137,6 +138,12 @@ class AutocompleteController extends Controller
                     'value' => __($config['display_name']) . ' ' . __('List'), 
                     'redirect_to' => route('show.list', $config['slug'])
                 ]);
+
+                array_push($allowed_modules, [
+                    'label' => __('New') . ' <b>' . __($config['display_name']) . '</b>', 
+                    'value' => __('New') . ' ' . __($config['display_name']), 
+                    'redirect_to' => route('new.doc', $config['slug'])
+                ]);
             }
         } else {
             $role_modules = $this->roleWiseModules(auth()->user()->role, "Read");
@@ -148,6 +155,12 @@ class AutocompleteController extends Controller
                             'label' => '<b>' . __($config['display_name']) . '</b> ' . __('List'), 
                             'value' => __($config['display_name']) . ' ' . __('List'), 
                             'redirect_to' => route('show.list', $config['slug'])
+                        ]);
+
+                        array_push($allowed_modules, [
+                            'label' => __('New') . ' <b>' . __($config['display_name']) . '</b>', 
+                            'value' => __('New') . ' ' . __($config['display_name']), 
+                            'redirect_to' => route('new.doc', $config['slug'])
                         ]);
                     }
                 }

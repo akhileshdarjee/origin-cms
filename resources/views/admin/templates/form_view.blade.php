@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('admin')
 
 @var $page_title = isset($form_data[$table_name]['id']) ? $form_data[$table_name][$form_title] : $title
 @section('title', $page_title . ' - ' . config('app.brand.name'))
@@ -22,13 +22,13 @@
 @if (!isset($module_type))
     @section('breadcrumb')
         <ol class="breadcrumb app-breadcrumb">
-            <li>
-                <a href="{{ route('show.app.modules') }}"><strong>{{ __('Home') }}</strong></a>
+            <li class="breadcrumb-item">
+                <a href="{{ route('show.app.modules') }}">{{ __('Home') }}</a>
             </li>
-            <li>
-                <a href="{{ route('show.list', $slug) }}"><strong>{{ __($title) }}</strong></a>
+            <li class="breadcrumb-item">
+                <a href="{{ route('show.list', $slug) }}">{{ __($title) }}</a>
             </li>
-            <li class="active">
+            <li class="breadcrumb-item active">
                 @if (isset($form_data[$table_name]['id']))
                     {{ $form_data[$table_name][$form_title] }}
                 @else

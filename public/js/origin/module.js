@@ -1,4 +1,4 @@
-$( document ).ready(function() {
+$(document).ready(function() {
     $('[name="name"]').on({
         keydown: function(e) {
             if (e.which === 32)
@@ -8,7 +8,7 @@ $( document ).ready(function() {
 
     $('[name="name"]').on("change", function() {
         var module_name = $(this).val().replace(/\s/g, "");
-        var slug = module_name.replace(/(?:^|\.?)([A-Z])/g, function (x,y){return "_" + y.toLowerCase()}).replace(/^_/, "");
+        var slug = module_name.slugify();
 
         if (!$('[name="display_name"]').val()) {
             $('[name="display_name"]').val(module_name);

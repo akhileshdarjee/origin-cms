@@ -37,7 +37,7 @@ class ActivityController extends Controller
                 }
             }
 
-            return view('layouts.origin.activity', compact('modules'));
+            return view('admin.layouts.origin.activity', compact('modules'));
         }
     }
 
@@ -90,7 +90,7 @@ class ActivityController extends Controller
                 $allowed_records[$module_name] = $form_ids;
             }
             catch (Exception $e) {
-                $error_msg .= $e->getMessage();
+                $error_msg .= str_replace("'", "", $e->getMessage());
                 continue;
             }
         }

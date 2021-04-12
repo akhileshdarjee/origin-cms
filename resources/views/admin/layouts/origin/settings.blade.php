@@ -29,8 +29,19 @@
                     </div>
                 </div>
             </div>
-            @if (auth()->user()->role == "Administrator" && auth()->user()->username == "admin")
-                <div class="row">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">{{ __('Theme') }}</label>
+                        <div>
+                            <select name="theme" id="theme" class="custom-select" data-mandatory="yes">
+                                <option value="light">{{ __('Light') }}</option>
+                                <option value="dark">{{ __('Dark') }}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                @if (auth()->user()->role == "Administrator" && auth()->user()->username == "admin")
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="control-label">{{ __('Enable Backups') }}</label>
@@ -46,8 +57,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            @endif
+                @endif
+            </div>
         </div>
     </div>
 </form>

@@ -84,22 +84,22 @@ function addRow(table, idx, action) {
             row += '<td class="text-center" style="vertical-align: middle;"></td>';
         }
         else if ($(heads).hasClass('remove')) {
-            row += '<td class="text-center" data-idx="' + idx + '">\
+            row += '<td class="text-center" data-idx="' + idx + '" style="vertical-align: middle;">\
                 <button type="button" class="btn btn-danger btn-xs remove-row">\
-                    <i class="fas fa-times"></i>\
+                    <i class="fas fa-times p-1"></i>\
                 </button>\
             </td>';
         }
         else if ($(heads).hasClass('action')) {
             row += '<td class="action" style="display: none;">\
-                <input type="text" class="form-control input-sm" name="' + table_name + '[' + (idx - 1) + '][action]" value="' + row_action + '">\
+                <input type="text" class="form-control form-control-sm" name="' + table_name + '[' + (idx - 1) + '][action]" value="' + row_action + '">\
             </td>';
 
             $(this).find('input[name="' + table_name + '[' + (idx - 1) + '][action]"]').val(row_action);
         }
         else if ($(heads).hasClass('row-id')) {
             row += '<td class="row-id" style="display: none;">\
-                <input type="text" class="form-control input-sm" name="' + table_name + '[' + (idx - 1) + '][id]">\
+                <input type="text" class="form-control form-control-sm" name="' + table_name + '[' + (idx - 1) + '][id]">\
             </td>';
         }
         else {
@@ -114,7 +114,7 @@ function addRow(table, idx, action) {
 
             if (field_type == "link") {
                 row += '<td data-field-type="link">\
-                    <input type="text" class="form-control input-sm autocomplete" \
+                    <input type="text" class="form-control form-control-sm autocomplete" \
                     name="' + table_name + '[' + (idx - 1) + '][' + field_name + ']" \
                     autocomplete="off" data-ac-module="' + target_module + '" data-ac-field="' + target_field + '"' + readonly + '>\
                 </td>';
@@ -123,11 +123,11 @@ function addRow(table, idx, action) {
                 row += '<td data-field-type="image">\
                     <div class="col-md-12 media">\
                         <div class="pull-left text-center avatar-box">\
-                            <i class="fas fa-image inline fa-2x avatar"></i>\
+                            <i class="fas fa-image fa-2x avatar"></i>\
                         </div>\
                         <div class="media-body text-left">\
-                            <label title="Upload image file" class="btn btn-primary btn-xs">\
-                                <input type="file" accept="image/*" name="' + table_name + '[' + (idx - 1) + '][' + field_name + ']" class="hide">\
+                            <label title="Upload image file" class="btn bg-gradient-secondary btn-xs ml-3">\
+                                <input type="file" accept="image/*" name="' + table_name + '[' + (idx - 1) + '][' + field_name + ']" class="d-none">\
                                 Change\
                             </label>\
                         </div>\
@@ -136,7 +136,7 @@ function addRow(table, idx, action) {
             }
             else if (field_type == "select") {
                 row += '<td data-field-type="select">\
-                    <select class="form-control input-sm" name="' + table_name + '[' + (idx - 1) + '][' + field_name + ']">';
+                    <select class="custom-select custom-select-sm" name="' + table_name + '[' + (idx - 1) + '][' + field_name + ']">';
 
                 $.each($(heads).data("options").split(","), function(index, option) {
                     option = trim(option);
@@ -158,27 +158,46 @@ function addRow(table, idx, action) {
             }
             else if (field_type == "checkbox") {
                 row += '<td data-field-type="checkbox"' + hidden + ' class="text-center" style="vertical-align: middle;">\
-                    <input type="hidden" class="checkbox-value" name="' + table_name + '[' + (idx - 1) + '][' + field_name + ']" value="0">\
-                    <input type="checkbox" name="' + table_name + '[' + (idx - 1) + '][' + field_name + ']" ' + readonly + '>\
+                    <div class="custom-control custom-checkbox text-center">\
+                        <input type="hidden" class="checkbox-value" name="' + table_name + '[' + (idx - 1) + '][' + field_name + ']" value="0">\
+                        <input type="checkbox" name="' + table_name + '[' + (idx - 1) + '][' + field_name + ']" id="check-' + (idx - 1) + '" class="custom-control-input" ' + readonly + '>\
+                        <label class="custom-control-label" for="check-' + (idx - 1) + '"></label>\
+                    </div>\
                 </td>';
             }
             else if (field_type == "date") {
                 row += '<td data-field-type="date">\
-                    <div class="input-group date">\
-                        <span class="input-group-addon">\
-                            <i class="fas fa-calendar-alt"></i>\
+                    <div class="input-group">\
+                        <span class="input-group-prepend">\
+                            <span class="input-group-text">\
+                                <i class="fas fa-calendar-alt fa-sm"></i>\
+                            </span>\
                         </span>\
-                        <input type="text" name="' + table_name + '[' + (idx - 1) + '][' + field_name + ']" class="form-control input-sm" autocomplete="off">\
+                        <input type="text" name="' + table_name + '[' + (idx - 1) + '][' + field_name + ']" class="form-control form-control-sm datepicker pl-0" autocomplete="off">\
+                    </div>\
+                </td>';
+            }
+            else if (field_type == "time") {
+                row += '<td data-field-type="time">\
+                    <div class="input-group">\
+                        <span class="input-group-prepend">\
+                            <span class="input-group-text">\
+                                <i class="fas fa-clock fa-sm"></i>\
+                            </span>\
+                        </span>\
+                        <input type="text" name="' + table_name + '[' + (idx - 1) + '][' + field_name + ']" class="form-control form-control-sm timepicker pl-0" autocomplete="off">\
                     </div>\
                 </td>';
             }
             else if (field_type == "datetime") {
                 row += '<td data-field-type="datetime">\
-                    <div class="input-group datetimepicker">\
-                        <span class="input-group-addon">\
-                            <i class="fas fa-calendar-alt"></i>\
+                    <div class="input-group">\
+                        <span class="input-group-prepend">\
+                            <span class="input-group-text">\
+                                <i class="fas fa-calendar-alt fa-sm"></i>\
+                            </span>\
                         </span>\
-                        <input type="text" name="' + table_name + '[' + (idx - 1) + '][' + field_name + ']" class="form-control input-sm" autocomplete="off">\
+                        <input type="text" name="' + table_name + '[' + (idx - 1) + '][' + field_name + ']" class="form-control form-control-sm datetimepicker pl-0" autocomplete="off">\
                     </div>\
                 </td>';
             }
@@ -186,20 +205,20 @@ function addRow(table, idx, action) {
                 if (target_module && target_field) {
                     row += '<td data-field-type="' + field_type + '"' + hidden + '>\
                         <input type="text" name="' + table_name + '[' + (idx - 1) + '][' + field_name + ']" \
-                        class="form-control input-sm" data-ac-module="' + target_module + '" data-ac-field="' + target_field + '" autocomplete="off"' + readonly + '>\
+                        class="form-control form-control-sm" data-ac-module="' + target_module + '" data-ac-field="' + target_field + '" autocomplete="off"' + readonly + '>\
                     </td>';
                 }
                 else {
                     row += '<td data-field-type="' + field_type + '"' + hidden + '>\
                         <input type="text" name="' + table_name + '[' + (idx - 1) + '][' + field_name + ']" \
-                        class="form-control input-sm" autocomplete="off"' + readonly + '>\
+                        class="form-control form-control-sm" autocomplete="off"' + readonly + '>\
                     </td>';
                 }
             }
             else if (field_type == "textarea") {
                 row += '<td data-field-type="textarea"' + hidden + '>\
                     <textarea rows="5" cols="8" name="' + table_name + '[' + (idx - 1) + '][' + field_name + ']" \
-                    class="form-control input-sm" autocomplete="off"></textarea>\
+                    class="form-control form-control-sm" autocomplete="off"></textarea>\
                 </td>';
             }
             else if (field_type == "blank") {
@@ -289,9 +308,9 @@ function addNewRows(table_name, records) {
                 rows += '<td class="text-center" style="vertical-align: middle;">' + (idx + 1) + '</td>';
             }
             else if ($(heads).hasClass('remove')) {
-                rows += '<td class="text-center" data-idx="' + (idx + 1) + '">\
+                rows += '<td class="text-center" data-idx="' + (idx + 1) + '" style="vertical-align: middle;">\
                     <button type="button" class="btn btn-danger btn-xs remove-row">\
-                        <i class="fas fa-times"></i>\
+                        <i class="fas fa-times p-1"></i>\
                     </button>\
                 </td>';
             }
@@ -306,19 +325,19 @@ function addNewRows(table_name, records) {
                 }
 
                 rows += '<td class="action" style="display: none;">\
-                    <input type="text" class="form-control input-sm" name="' + table_name + '[' + idx + '][action]" value="' + action + '">\
+                    <input type="text" class="form-control form-control-sm" name="' + table_name + '[' + idx + '][action]" value="' + action + '">\
                 </td>';
             }
             else if ($(heads).hasClass("row-id")) {
                 rows += '<td class="row-id" style="display: none;">\
-                    <input type="text" class="form-control input-sm" name="' + table_name + '[' + idx + '][id]" value="' + value["id"] + '">\
+                    <input type="text" class="form-control form-control-sm" name="' + table_name + '[' + idx + '][id]" value="' + value["id"] + '">\
                 </td>';
             }
             // set field value
             else {
                 if (field_type == "link") {
                     rows += '<td data-field-type="link">\
-                        <input type="text" class="form-control input-sm autocomplete" \
+                        <input type="text" class="form-control form-control-sm autocomplete" \
                         name="' + table_name + '[' + idx + '][' + field_name + ']" \
                         autocomplete="off" data-ac-module="' + target_module + '" data-ac-field="' + target_field + '"' + readonly + ' value="' + field_value + '">\
                     </td>';
@@ -329,16 +348,16 @@ function addNewRows(table_name, records) {
                             <div class="pull-left text-center avatar-box">';
 
                     if (value[field_name]) {
-                        rows += '<img src="' + value[field_name] + '" class="fancyimg" data-big="' + getImage(value[field_name]) + '" alt="Image">';
+                        rows += '<img src="' + getImage(value[field_name], "100", "100") + '" class="fancyimg" data-big="' + getImage(value[field_name]) + '" alt="Image">';
                     }
                     else {
-                        rows += '<i class="fas fa-image inline fa-2x avatar"></i>';
+                        rows += '<i class="fas fa-image fa-2x avatar"></i>';
                     }
 
                     rows += '</div>\
                             <div class="media-body text-left">\
-                                <label title="Upload image file" class="btn btn-primary btn-xs">\
-                                    <input type="file" accept="image/*" name="' + table_name + '[' + idx + '][' + field_name + ']" class="hide">\
+                                <label title="Upload image file" class="btn bg-gradient-secondary btn-xs ml-3">\
+                                    <input type="file" accept="image/*" name="' + table_name + '[' + idx + '][' + field_name + ']" class="d-none">\
                                     Change\
                                 </label>\
                             </div>\
@@ -347,7 +366,7 @@ function addNewRows(table_name, records) {
                 }
                 else if (field_type == "select") {
                     rows += '<td data-field-type="select">\
-                        <select class="form-control input-sm" name="' + table_name + '[' + idx + '][' + field_name + ']">';
+                        <select class="custom-select custom-select-sm" name="' + table_name + '[' + idx + '][' + field_name + ']">';
 
                     $.each($(heads).data("options").split(","), function(index, option) {
                         option = trim(option);
@@ -374,27 +393,46 @@ function addNewRows(table_name, records) {
                 }
                 else if (field_type == "checkbox") {
                     rows += '<td data-field-type="checkbox"' + hidden + ' class="text-center" style="vertical-align: middle;">\
-                        <input type="hidden" class="checkbox-value" name="' + table_name + '[' + idx + '][' + field_name + ']" ' + readonly + ' value="' + (parseInt(field_value) ? 1 : 0) + '">\
-                        <input type="checkbox" name="' + table_name + '[' + idx + '][' + field_name + ']" ' + readonly + (parseInt(field_value) ? " checked" : "") + '>\
+                        <div class="custom-control custom-checkbox text-center">\
+                            <input type="hidden" class="checkbox-value" name="' + table_name + '[' + idx + '][' + field_name + ']" ' + readonly + ' value="' + (parseInt(field_value) ? 1 : 0) + '">\
+                            <input type="checkbox" name="' + table_name + '[' + idx + '][' + field_name + ']" id="check-' + idx + '" class="custom-control-input" ' + readonly + (parseInt(field_value) ? " checked" : "") + '>\
+                            <label class="custom-control-label" for="check-' + idx + '"></label>\
+                        </div>\
                     </td>';
                 }
                 else if (field_type == "date") {
                     rows += '<td data-field-type="date">\
-                        <div class="input-group date">\
-                            <span class="input-group-addon">\
-                                <i class="fas fa-calendar-alt"></i>\
+                        <div class="input-group">\
+                            <span class="input-group-prepend">\
+                                <span class="input-group-text">\
+                                    <i class="fas fa-calendar-alt fa-sm"></i>\
+                                </span>\
                             </span>\
-                            <input type="text" name="' + table_name + '[' + idx + '][' + field_name + ']" class="form-control input-sm" autocomplete="off" value="' + field_value + '">\
+                            <input type="text" name="' + table_name + '[' + idx + '][' + field_name + ']" class="form-control form-control-sm datepicker pl-0" autocomplete="off" value="' + field_value + '">\
+                        </div>\
+                    </td>';
+                }
+                else if (field_type == "time") {
+                    rows += '<td data-field-type="time">\
+                        <div class="input-group">\
+                            <span class="input-group-prepend">\
+                                <span class="input-group-text">\
+                                    <i class="fas fa-clock fa-sm"></i>\
+                                </span>\
+                            </span>\
+                            <input type="text" name="' + table_name + '[' + idx + '][' + field_name + ']" class="form-control form-control-sm timepicker pl-0" autocomplete="off" value="' + field_value + '">\
                         </div>\
                     </td>';
                 }
                 else if (field_type == "datetime") {
                     rows += '<td data-field-type="datetime">\
-                        <div class="input-group datetimepicker">\
-                            <span class="input-group-addon">\
-                                <i class="fas fa-calendar-alt"></i>\
+                        <div class="input-group">\
+                            <span class="input-group-prepend">\
+                                <span class="input-group-text">\
+                                    <i class="fas fa-calendar-alt fa-sm"></i>\
+                                </span>\
                             </span>\
-                            <input type="text" name="' + table_name + '[' + idx + '][' + field_name + ']" class="form-control input-sm" autocomplete="off" value="' + field_value + '">\
+                            <input type="text" name="' + table_name + '[' + idx + '][' + field_name + ']" class="form-control form-control-sm datetimepicker pl-0" autocomplete="off" value="' + field_value + '">\
                         </div>\
                     </td>';
                 }
@@ -402,13 +440,13 @@ function addNewRows(table_name, records) {
                     if (target_module && target_field) {
                         rows += '<td data-field-type="' + field_type + '"' + hidden + '>\
                             <input type="text" name="' + table_name + '[' + idx + '][' + field_name + ']" \
-                            class="form-control input-sm" data-ac-module="' + target_module + '" data-ac-field="' + target_field + '" autocomplete="off"' + readonly + ' value="' + field_value + '">\
+                            class="form-control form-control-sm" data-ac-module="' + target_module + '" data-ac-field="' + target_field + '" autocomplete="off"' + readonly + ' value="' + field_value + '">\
                         </td>';
                     }
                     else {
                         rows += '<td data-field-type="' + field_type + '"' + hidden + '>\
                             <input type="text" name="' + table_name + '[' + idx + '][' + field_name + ']" \
-                            class="form-control input-sm" autocomplete="off"' + readonly + ' value="' + field_value + '">\
+                            class="form-control form-control-sm" autocomplete="off"' + readonly + ' value="' + field_value + '">\
                         </td>';
                     }
                 }
@@ -441,7 +479,7 @@ function addNewRows(table_name, records) {
 function setPickersInTable(table_name, table, field_types) {
     // set date field inside table elements
     if (field_types.contains("date")) {
-        $.each($("table > tbody > tr").find(".date"), function(idx, element) {
+        $.each($("table > tbody > tr").find(".datepicker"), function(idx, element) {
             $(element).datetimepicker({
                 icons: {
                     time: 'fas fa-clock',
@@ -455,6 +493,37 @@ function setPickersInTable(table_name, table, field_types) {
                     close: 'fas fa-times'
                 },
                 format: 'DD-MM-YYYY',
+                allowInputToggle: true
+            }).on('dp.change', function(ev) {
+                if (typeof origin.data[table_name] !== "undefined") {
+                    var doc_records = origin.data[table_name].length;
+                }
+                else {
+                    var doc_records = 0;
+                }
+
+                var tab_records = $(table).find("tbody > tr").length;
+
+                if ($.trim($('body').find('[name="id"]').val()) && doc_records == tab_records) {
+                    $(element).closest("tr").find("td.action > input").val("update");
+                }
+
+                if (typeof changeDoc === "function") {
+                    changeDoc();
+                }
+            });
+        });
+    }
+
+    // set time field inside table elements
+    if (field_types.contains("time")) {
+        $.each($("table > tbody > tr").find(".timepicker"), function(idx, element) {
+            $(element).datetimepicker({
+                icons: {
+                    up: 'fas fa-chevron-up',
+                    down: 'fas fa-chevron-down',
+                },
+                format: 'hh:mm A',
                 allowInputToggle: true
             }).on('dp.change', function(ev) {
                 if (typeof origin.data[table_name] !== "undefined") {

@@ -50,7 +50,7 @@ $(document).ready(function() {
                 var current_user = data['current_user'];
                 var number_start = data['activities']['from'];
                 var activities = "";
-                $('body').find('.dataTables_empty').remove();
+                $('body').find('.not-found').remove();
 
                 if (app_activities.length > 0) {
                     $.each(app_activities, function(index, row) {
@@ -128,7 +128,7 @@ $(document).ready(function() {
                     $("body").find(".origin-pagination-content").empty().append(makePagination(data['activities']));
                 }
                 else {
-                    var no_results = '<div class="dataTables_empty">' + getNoResults() + '</div>';
+                    var no_results = '<div class="not-found">' + getNoResults() + '</div>';
 
                     $("body").find(".origin-activities").empty();
                     $("body").find(".origin-activities").after(no_results);

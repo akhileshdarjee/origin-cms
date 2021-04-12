@@ -1,4 +1,8 @@
-<nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
+@if (session('app_settings') && isset(session('app_settings')['theme']) && session('app_settings')['theme'] == 'dark')
+    <nav class="main-header navbar navbar-expand-md navbar-dark">
+@else
+    <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
+@endif
     <div class="container">
         <a href="{{ route('home') }}" class="navbar-brand">
             @if (file_exists('img/logo.svg'))
@@ -7,22 +11,22 @@
             <span class="brand-text font-weight-light d-none d-sm-none d-md-inline-block">{{ config('app.brand.name') }}</span>
         </a>
         <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+            <i class="fas fa-bars"></i>
         </button>
         <div class="collapse navbar-collapse order-3" id="navbarCollapse">
             <ul class="navbar-nav">
-                <li class="nav-item app-nav">
+                <li class="nav-item app-nav text-center">
                     <a href="{{ route('show.app.modules') }}" class="nav-link" title="{{ __('Modules') }}">
                         <i class="fas fa-gem fa-sm"></i> {{ __('Modules') }}
                     </a>
                 </li>
-                <li class="nav-item app-nav">
+                <li class="nav-item app-nav text-center">
                     <a href="{{ route('show.app.reports') }}" class="nav-link" title="{{ __('Reports') }}">
                         <i class="fas fa-sitemap fa-sm"></i> {{ __('Reports') }}
                     </a>
                 </li>
                 @if (auth()->user()->role == "Administrator" && auth()->user()->username == "admin")
-                    <li class="nav-item app-nav">
+                    <li class="nav-item app-nav text-center">
                         <a href="{{ route('show.app.backups') }}" class="nav-link" title="{{ __('Backups') }}">
                             <i class="fas fa-hdd fa-sm"></i> {{ __('Backups') }}
                         </a>
@@ -30,8 +34,8 @@
                 @endif
             </ul>
         </div>
-        <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
-            <form class="form-inline ml-0 ml-md-3">
+        <ul class="order-1 order-md-3 navbar-nav navbar-no-expand">
+            <form class="form-inline ml-0">
                 <div class="form-group">
                     <div class="input-group">
                         <div class="input-group-prepend">
@@ -66,11 +70,6 @@
                     </a>
                 </div>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-                    <i class="fas fa-expand-arrows-alt"></i>
-                </a>
-            </li>
             <li class="nav-item dropdown user-menu">
                 <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">
                     @if (auth()->user()->avatar)
@@ -80,7 +79,6 @@
                             <i class="fas fa-user"></i>
                         </span>
                     @endif
-                    <span class="d-none d-md-inline">{{ auth()->user()->full_name }}</span>
                 </a>
                 <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu dropdown-menu-right border-0 shadow">
                     <li>

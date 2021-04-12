@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <title>{{ __('404 - Not Found') }} - {{ config('app.brand.name') }}</title>
-        @include('templates.headers')
+        @include('admin.templates.headers')
     </head>
     <body class="nav-md">
         <div class="container body">

@@ -68,6 +68,7 @@ mix.scripts([
 mix.styles([
     'resources/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',
     'resources/plugins/datatables-responsive/css/responsive.bootstrap4.min.css',
+    'resources/css/origin/report_view.css',
 ], 'public/css/origin/report_view.css').version();
 
 mix.scripts([

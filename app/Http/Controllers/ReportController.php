@@ -7,18 +7,20 @@ use Exception;
 use App\Exports\ExcelExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Controllers\CommonController;
+use App\Http\Controllers\PermController;
 use Illuminate\Http\Request;
 
 class ReportController extends Controller
 {
     use CommonController;
+    use PermController;
 
     // Show list of all reports for the app
     public function show()
     {
         if (in_array(auth()->user()->role, ["System Administrator", "Administrator"])) {
             $app_reports = config('reports');
-            return view('layouts.origin.reports')->with(['data' => $app_reports]);
+            return view('admin.layouts.origin.reports')->with(['data' => $app_reports]);
         } else {
             return back()->withInput()->with(['msg' => __('You are not authorized to view "Reports"')]);
         }
@@ -59,7 +61,12 @@ class ReportController extends Controller
                         if (isset($app_modules[$report_module]) && $app_modules[$report_module]) {
                             $report_data['module_name'] = $app_modules[$report_module]['display_name'];
                             $report_data['module_slug'] = $app_modules[$report_module]['slug'];
-                            $report_data['module_new_record'] = route('new.doc', ['slug' => $report_data['module_slug']]);
+
+                            $allowed = $this->roleWiseModules($user_role, "Create", $report_data['module']);
+
+                            if ($allowed) {
+                                $report_data['module_new_record'] = route('new.doc', ['slug' => $report_data['module_slug']]);
+                            }
                         } else {
                             throw new Exception('"' . $report_module . '" Module does not exist. Please update the module in ' . Str::studly($report_name) . ' controller');
                         }
@@ -67,9 +74,9 @@ class ReportController extends Controller
 
                     return $report_data;
                 } else {
-                    return view('templates.report_view', [
-                        'title' => awesome_case($report_name),
-                        'file' => 'layouts.reports.' . $report_name
+                    return view('admin.templates.report_view', [
+                        'title' => $report_config['label'],
+                        'file' => 'admin.layouts.reports.' . $report_name
                     ]);
                 }
             }

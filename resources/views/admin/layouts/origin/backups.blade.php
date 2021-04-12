@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('admin')
 
 @section('title', __('Backups') . ' - ' . config('app.brand.name'))
 
@@ -71,7 +71,7 @@
                             <div class="col-md-6 col-sm-6 col-5">
                                 <span class="item-from"></span> -
                                 <span class="item-to"></span> {{ __('of') }} 
-                                <span class="badge badge-dark item-count"></span>
+                                <span class="badge badge-primary item-count"></span>
                             </div>
                             <div class="col-md-6 col-sm-6 col-7">
                                 <div class="origin-pagination-content"></div>

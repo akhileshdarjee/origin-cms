@@ -120,6 +120,8 @@ trait FormController
                                     $fetch_field = '';
 
                                     foreach (array_values($foreign_table) as $index => $table_name) {
+                                        $foreign_alias = explode(' as ', $table_name);
+                                        $foreign_alias = array_map('trim', $foreign_alias);
                                         $foreign_key = $child_foreign_map[$child_table][$table_name]['foreign_key'];
                                         $foreign_field = $child_foreign_map[$child_table][$table_name]['fetch_field'];
 
@@ -129,16 +131,28 @@ trait FormController
                                             $fetch_field .= $foreign_field . ',';
                                         }
 
-                                        $data_query = $data_query
-                                            ->leftJoin($table_name, $child_table.'.'.$foreign_key, '=', $table_name.'.id');
+                                        if (count($foreign_alias) == 2) {
+                                            $data_query = $data_query
+                                                ->leftJoin($table_name, $child_table.'.'.$foreign_key, '=', $foreign_alias[1].'.id');
+                                        } else {
+                                            $data_query = $data_query
+                                                ->leftJoin($table_name, $child_table.'.'.$foreign_key, '=', $table_name.'.id');
+                                        }
                                     }
                                 } else {
                                     $foreign_table = $foreign_table[0];
+                                    $foreign_alias = explode(' as ', $foreign_table);
+                                    $foreign_alias = array_map('trim', $foreign_alias);
                                     $foreign_key = $child_foreign_map[$child_table][$foreign_table]['foreign_key'];
                                     $fetch_field = $child_foreign_map[$child_table][$foreign_table]['fetch_field'];
 
-                                    $data_query = $data_query
-                                        ->leftJoin($foreign_table, $child_table.'.'.$foreign_key, '=', $foreign_table.'.id');
+                                    if (count($foreign_alias) == 2) {
+                                        $data_query = $data_query
+                                            ->leftJoin($foreign_table, $child_table.'.'.$foreign_key, '=', $foreign_alias[1].'.id');
+                                    } else {
+                                        $data_query = $data_query
+                                            ->leftJoin($foreign_table, $child_table.'.'.$foreign_key, '=', $foreign_table.'.id');
+                                    }
                                 }
 
                                 $data[$child_table] = $data_query
@@ -494,7 +508,7 @@ trait FormController
     }
 
     // Delete the record from the database
-    public function deleteDoc($request, $module, $email_id = null)
+    public function deleteDoc($request, $module, $email = null)
     {
         $user_role = auth()->user()->role;
         $delete_allowed = true;
@@ -504,7 +518,7 @@ trait FormController
         }
 
         if ($delete_allowed) {
-            return $this->deleteRecord($request, $module, $email_id);
+            return $this->deleteRecord($request, $module, $email);
         } else {
             session()->flash('success', false);
             $message = __('You are not authorized to delete') . ' "' . __($module['display_name']) . '" ' . __('records');
@@ -514,7 +528,7 @@ trait FormController
     }
 
     // Delete record from database
-    public function deleteRecord($request, $module, $email_id = null)
+    public function deleteRecord($request, $module, $email = null)
     {
         if ($module['link_field_value']) {
             $user_role = auth()->user()->role;
@@ -578,14 +592,14 @@ trait FormController
                         // delete user if modules come under user_via_modules
                         if (in_array($module['name'], $this->user_via_modules)) {
                             if (isset($data->email_id) && $data->email_id) {
-                                $email_id = $data->email_id;
+                                $email = $data->email_id;
                             } elseif (isset($data->email) && $data->email) {
-                                $email_id = $data->email;
+                                $email = $data->email;
                             } else {
-                                $email_id = null;
+                                $email = null;
                             }
 
-                            $this->userFormAction($request, $module['name'], "delete", $data->avatar, $email_id);
+                            $this->userFormAction($request, $module['name'], "delete", $data->avatar, $email);
                         }
 
                         $delete_data = [
@@ -862,29 +876,28 @@ trait FormController
     }
 
     // performs form actions for user table
-    public function userFormAction($request, $module, $action, $user_avatar = null, $email_id = null)
+    public function userFormAction($request, $module, $action, $user_avatar = null, $email = null)
     {
         $user_table_name = cache('app_modules')['User']['table_name'];
         $user = DB::table($user_table_name);
 
         if ($request->filled('email_id')) {
-            $email_id = $request->get('email_id');
+            $email = $request->get('email_id');
         } elseif ($request->filled('email')) {
-            $email_id = $request->get('email');
+            $email = $request->get('email');
         }
 
         if ($request->filled('username')) {
             $username = $request->get('username');
         } else {
-            $username = $email_id;
+            $username = $email;
         }
 
         if ($action == "delete") {
-            $result = $user->where('username', $email_id)->delete();
+            $result = $user->where('username', $usename)->delete();
         } else {
             $first_name = '';
             $last_name = null;
-            $last_name = '';
 
             if ($request->filled('first_name')) {
                 $first_name = $request->get('first_name');
@@ -912,7 +925,7 @@ trait FormController
                     if ($name && count($name)) {
                         $last_name = implode(" ", $name);
 
-                        if ($last_name && count($last_name)) {
+                        if ($last_name) {
                             $last_name = trim($last_name);
                         }
                     }
@@ -925,7 +938,7 @@ trait FormController
                     "last_name" => $last_name,
                     "full_name" => $full_name,
                     "username" => $username,
-                    "email" => $email_id,
+                    "email" => $email,
                     "active" => $request->filled('active') ? $request->get('active') : 1,
                     "last_updated_by" => auth()->user()->username,
                     "updated_at" => date('Y-m-d H:i:s')

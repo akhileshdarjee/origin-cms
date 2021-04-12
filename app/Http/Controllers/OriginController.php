@@ -30,10 +30,10 @@ class OriginController extends Controller
                 return response()->json([
                     'status_code' => 500,
                     'status' => 'Internal Server Error',
-                    'message' => $e->getMessage()
+                    'message' => str_replace("'", "", $e->getMessage())
                 ], 500);
             } else {
-                return back()->withInput()->with(['msg' => $e->getMessage()]);
+                return back()->withInput()->with(['msg' => str_replace("'", "", $e->getMessage())]);
             }
         }
 
@@ -63,10 +63,10 @@ class OriginController extends Controller
                 return response()->json([
                     'status_code' => 500,
                     'status' => 'Internal Server Error',
-                    'message' => $e->getMessage()
+                    'message' => str_replace("'", "", $e->getMessage())
                 ], 500);
             } else {
-                return back()->withInput()->with(['msg' => $e->getMessage()]);
+                return back()->withInput()->with(['msg' => str_replace("'", "", $e->getMessage())]);
             }
         }
 
@@ -103,10 +103,10 @@ class OriginController extends Controller
                 return response()->json([
                     'status_code' => 500,
                     'status' => 'Internal Server Error',
-                    'message' => $e->getMessage()
+                    'message' => str_replace("'", "", $e->getMessage())
                 ], 500);
             } else {
-                return back()->withInput()->with(['msg' => $e->getMessage()]);
+                return back()->withInput()->with(['msg' => str_replace("'", "", $e->getMessage())]);
             }
         }
 
@@ -121,10 +121,10 @@ class OriginController extends Controller
                     return response()->json([
                         'status_code' => 500,
                         'status' => 'Internal Server Error',
-                        'message' => $e->getMessage()
+                        'message' => str_replace("'", "", $e->getMessage())
                     ], 500);
                 } else {
-                    return back()->withInput()->with(['msg' => $e->getMessage()]);
+                    return back()->withInput()->with(['msg' => str_replace("'", "", $e->getMessage())]);
                 }
             }
         }
@@ -160,10 +160,10 @@ class OriginController extends Controller
                 return response()->json([
                     'status_code' => 500,
                     'status' => 'Internal Server Error',
-                    'message' => $e->getMessage()
+                    'message' => str_replace("'", "", $e->getMessage())
                 ], 500);
             } else {
-                return back()->withInput()->with(['msg' => $e->getMessage()]);
+                return back()->withInput()->with(['msg' => str_replace("'", "", $e->getMessage())]);
             }
         }
 
@@ -178,10 +178,10 @@ class OriginController extends Controller
                     return response()->json([
                         'status_code' => 500,
                         'status' => 'Internal Server Error',
-                        'message' => $e->getMessage()
+                        'message' => str_replace("'", "", $e->getMessage())
                     ], 500);
                 } else {
-                    return back()->withInput()->with(['msg' => $e->getMessage()]);
+                    return back()->withInput()->with(['msg' => str_replace("'", "", $e->getMessage())]);
                 }
             }
         }
@@ -238,7 +238,7 @@ class OriginController extends Controller
                     }
                 }
 
-                return view('templates.form_view')->with($response['data']);
+                return view('admin.templates.form_view')->with($response['data']);
             }
         } elseif (isset($response['status_code']) && $response['status_code'] == 400) {
             session()->flash('success', false);

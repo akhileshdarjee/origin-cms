@@ -2,18 +2,14 @@
     <div class="float-right d-none d-sm-inline">
         <i class="fas fa-code"></i> {{ __('with') }}
         <i class="fas fa-heart" style="color: #d90429;"></i> {{ __('by') }} 
-        <strong>
-            <a href="https://www.facebook.com/mr.multitalented" target="_blank" style="color: #676a6c;">
-                Akhilesh Darjee
-            </a>
-        </strong>
+        <a href="https://www.facebook.com/mr.multitalented" class="footer-link" target="_blank">
+            Akhilesh Darjee
+        </a>
     </div>
     Copyright &copy; {{ date('Y') }} - 
-    <strong>
-        <a href="https://github.com/akhileshdarjee/origin-cms" target="_blank" style="color: #676a6c;">
-            {{ config('app.brand.name') }}
-        </a>
-    </strong>
+    <a href="https://github.com/akhileshdarjee/origin-cms" class="footer-link" target="_blank">
+        Origin CMS
+    </a>
 </footer>
 <a href="#" class="back-to-top">
     <i class="fas fa-chevron-up"></i>

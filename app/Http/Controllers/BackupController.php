@@ -71,7 +71,7 @@ class BackupController extends Controller
             if ($request->ajax()) {
                 return response()->json(['backups' => $paginator], 200);
             } else {
-                return view('layouts.origin.backups');
+                return view('admin.layouts.origin.backups');
             }
         }
 

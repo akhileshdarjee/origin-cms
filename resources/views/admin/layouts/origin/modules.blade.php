@@ -1,9 +1,9 @@
-@extends('layouts.app')
+@extends('admin')
 
 @section('title', __('Modules') . ' - ' . config('app.brand.name'))
 
 @section('body')
-    <div class="container pt-5">
+    <div class="container pt-4">
         @if (in_array(auth()->user()->role, ["System Administrator", "Administrator"]))
             <div class="row origin-modules sortable">
         @else
@@ -12,7 +12,7 @@
             @foreach ($data as $module)
                 <div class="col-lg-2 col-md-3 col-sm-3 col-4 text-center m-b app-module" data-name="{{ $module['name'] }}">
                     <div class="module-config" id="{{ $module['slug'] }}">
-                        <a class="module-btn" href="{{ route('show.list', $module['slug']) }}" style="background-color: {{ $module['bg_color'] }}; box-shadow: inset 0px 0px 0px {{ $module['bg_color'] }}, 0px 5px 0px 0px {{ $module['bg_color'] }}, 0px 10px 5px #999999; border-color: {{ $module['bg_color'] }};" title="{{ __($module['display_name']) }}">
+                        <a class="module-btn" href="{{ route('show.list', $module['slug']) }}" style="background-color: {{ $module['bg_color'] }};" title="{{ __($module['display_name']) }}">
                             <i class="{{ $module['icon'] }}" style="color: {{ $module['icon_color'] }};"></i>
                         </a>
                         <h3 class="module-label">
@@ -30,7 +30,7 @@
 @if (in_array(auth()->user()->role, ["System Administrator", "Administrator"]))
     @push('scripts')
         <script type="text/javascript">
-            $( document ).ready(function() {
+            $(document).ready(function() {
                 // drag and dropabble modules
                 var updateIndex = function(e, ui) {
                     var modules = [];
@@ -46,7 +46,7 @@
 
                     $.ajax({
                         type: 'POST',
-                        url: base_url + '/update_module_sequence',
+                        url: base_url + '/update-module-sequence',
                         data: {'modules': modules},
                         dataType: 'json',
                         success: function(data) {

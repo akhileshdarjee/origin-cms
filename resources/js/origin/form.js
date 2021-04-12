@@ -174,20 +174,21 @@ function removeMandatoryHighlight(mandatory_fields) {
 
 // make all fields readable
 function makeFieldsReadable() {
-    $form_elements = $("form").find("input, select, textarea");
+    $form_elements = $("form#" + origin.slug).find("input, select, textarea");
 
     $.each($form_elements, function(index, element) {
         var ele_type = $(element).attr("type");
+        var is_input_group = false;
 
         if (!["hidden", "file"].contains(ele_type)) {
             var new_control = '';
 
             if (ele_type == "checkbox") {
                 if ($(element).is(":checked")) {
-                    new_control = '<i class="far fa-check-square"></i>';
+                    new_control = '<i class="far fa-check-square fa-lg"></i>';
                 }
                 else {
-                    new_control = '<i class="far fa-square"></i>';
+                    new_control = '<i class="far fa-square fa-lg"></i>';
                 }
             }
             else {
@@ -198,17 +199,53 @@ function makeFieldsReadable() {
                 }
 
                 ele_val = ele_val ? ele_val : '';
-                new_control = '<p class="form-control-static origin-static">' + ele_val + '</p>';
+
+                if ($(element).closest('.form-group').find('.input-group').length) {
+                    is_input_group = true;
+                    var input_group = $(element).closest('.form-group').find('.input-group');
+
+                    if ($(input_group).find('.input-group-append').length) {
+                        ele_val = '<span class="mr-2">' + ele_val + '</span>' + $.trim($(input_group).find('.input-group-text').html());
+                    }
+                    else {
+                        ele_val = $.trim($(input_group).find('.input-group-text').html()) + '<span class="ml-2">' + ele_val + '</span>';
+                    }
+
+                    new_control = '<p class="form-control-static origin-static">' + ele_val + '</p>';
+                }
+                else {
+                    new_control = '<p class="form-control-static origin-static">' + ele_val + '</p>';
+                }
             }
 
-            $(new_control).insertBefore($(element));
+            if (is_input_group) {
+                $(new_control).insertBefore($(element).closest('.form-group').find('.input-group'));
+            }
+            else {
+                if (ele_type == "checkbox") {
+                    $(new_control).insertBefore($(element).closest('.custom-checkbox'));
+                }
+                else {
+                    $(new_control).insertBefore($(element));
+                }
+            }
         }
 
         if ($(element).attr("type") == "file") {
             $(element).closest('.btn').remove();
         }
 
-        $(element).remove();
+        if (is_input_group) {
+            $(element).closest('.form-group').find('.input-group').remove();
+        }
+        else {
+            if (ele_type == "checkbox") {
+                $(element).closest('.custom-checkbox').remove();
+            }
+            else {
+                $(element).remove();
+            }
+        }
     });
 
     // hide remove row & add new row buttons from child tables
@@ -252,14 +289,17 @@ function setDocData() {
                     var form_field = $('form#' + origin.slug).find('[name="' + field_name + '"]');
 
                     if ($(form_field).length && $(form_field).attr("type") != "file") {
-                        if (typeof value === 'string' && (value.isDate() || value.isDateTime())) {
+                        if (typeof value === 'string' && (value.isDate() || value.isDateTime() || value.isTime())) {
                             $(form_field).attr("data-field-value", value);
 
-                            if (value.isDateTime()) {
+                            if (value.isDate()) {
+                                value = moment.utc(value).local().format('DD-MM-YYYY');
+                            }
+                            else if (value.isDateTime()) {
                                 value = moment.utc(value).local().format('DD-MM-YYYY hh:mm A');
                             }
                             else {
-                                value = moment.utc(value).local().format('DD-MM-YYYY');
+                                value = moment.utc('0001-01-01 ' + column_value).local().format('hh:mm A');
                             }
                         }
 

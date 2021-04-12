@@ -3,7 +3,7 @@
     <head>
         <title>@yield('title')</title>
         @stack('meta')
-        @include('templates.headers')
+        @include('admin.templates.headers')
         @stack('styles')
 
         @section('data')
@@ -14,18 +14,22 @@
             </script>
         @show
     </head>
-    <body class="hold-transition layout-top-nav" data-url="{{ route('home') }}" data-base-url="{{ route('show.website') }}">
-        @include('templates.preloader')
+    @if (session('app_settings') && isset(session('app_settings')['theme']) && session('app_settings')['theme'] == 'dark')
+        <body class="hold-transition layout-top-nav dark-mode" data-url="{{ route('home') }}" data-base-url="{{ route('show.website') }}">
+    @else
+        <body class="hold-transition layout-top-nav" data-url="{{ route('home') }}" data-base-url="{{ route('show.website') }}">
+    @endif
+        @include('admin.templates.preloader')
         <div class="wrapper">
-            @include('templates.navbar')
+            @include('admin.templates.navbar')
             <div class="content-wrapper">
                 @yield('title_section')
                 <section class="content">
                     @yield('body')
                 </section>
             </div>
-            @include('templates.footer')
-            @include('templates.msgbox')
+            @include('admin.templates.footer')
+            @include('admin.templates.msgbox')
         </div>
         <script type="text/javascript" src="{{ asset(mix('js/all.js')) }}"></script>
         @if (session()->exists('msg'))

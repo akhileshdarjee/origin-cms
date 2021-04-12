@@ -35,7 +35,7 @@ class ModuleController extends Controller
             }
         }
 
-        return view('layouts.origin.modules')->with(['data' => $modules]);
+        return view('admin.layouts.origin.modules')->with(['data' => $modules]);
     }
 
     // put all functions to be performed after save
@@ -79,8 +79,8 @@ class ModuleController extends Controller
             }
 
             // create view file if doesn't exists
-            if (!File::exists(resource_path('views/layouts/modules/' . $form_data["slug"] . '.blade.php'))) {
-                File::put(resource_path('views/layouts/modules/' . $form_data["slug"] . '.blade.php'), '');
+            if (!File::exists(resource_path('views/admin/layouts/modules/' . $form_data["slug"] . '.blade.php'))) {
+                File::put(resource_path('views/admin/layouts/modules/' . $form_data["slug"] . '.blade.php'), '');
             }
 
             // create migration file for seeding module data

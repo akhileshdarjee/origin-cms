@@ -1,13 +1,13 @@
-@extends('layouts.app')
+@extends('admin')
 
 @section('title', __($module['display_name']) . ' ' . __('List') . ' - ' . config('app.brand.name'))
 
 @section('breadcrumb')
     <ol class="breadcrumb app-breadcrumb">
-        <li>
-            <a href="{{ route('show.app.modules') }}"><strong>{{ __('Home') }}</strong></a>
+        <li class="breadcrumb-item">
+            <a href="{{ route('show.app.modules') }}">{{ __('Home') }}</a>
         </li>
-        <li class="active">
+        <li class="breadcrumb-item active">
             {{ __($module['display_name']) }}
         </li>
     </ol>
@@ -69,7 +69,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="card elevation-2">
-                    <div class="card-header">
+                    <div class="card-header list-filter-sorting">
                         <div class="row">
                             <div class="col-md-9 col-sm-6 col-6">
                                 <button type="button" class="btn btn-default btn-sm" id="add-filter" data-toggle="tooltip" data-placement="right" title="{{ __('Add filters to show specific records') }}">
@@ -188,7 +188,7 @@
                                 <strong><span class="list-page-no mr-1"></span></strong> • 
                                 <span class="item-from ml-1"></span> -
                                 <span class="item-to"></span> {{ __('of') }} 
-                                <span class="badge badge-dark item-count"></span>
+                                <span class="badge badge-primary item-count"></span>
                                 {{ __('records') }}
                             </div>
                             <div class="col-md-6 col-sm-6 col-7">

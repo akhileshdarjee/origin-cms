@@ -1,4 +1,4 @@
-$( document ).ready(function() {
+$(document).ready(function() {
     $('form#login-form').on('change input', 'input', function() {
         $(this).removeClass("is-invalid");
         $(this).closest('.input-group').find('.invalid-feedback').hide();

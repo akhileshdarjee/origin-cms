@@ -40,9 +40,10 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('/app/activity', ['as' => 'show.app.activity', 'uses' => 'ActivityController@show']);
         Route::get('/app/settings', ['as' => 'show.app.settings', 'uses' => 'SettingsController@show']);
         Route::post('/app/settings', ['as' => 'save.app.settings', 'uses' => 'SettingsController@save']);
-        Route::post('/update_module_sequence', ['as' => 'update.module.sequence', 'uses' => 'ModuleController@updateSequence']);
-        Route::post('/import_from_csv', ['as' => 'import.from.csv', 'uses' => 'ImportController@import']);
-        Route::post('/update_list_sorting', ['as' => 'update.list.sorting', 'uses' => 'ListViewController@updateSorting']);
+        Route::post('/update-module-sequence', ['as' => 'update.module.sequence', 'uses' => 'ModuleController@updateSequence']);
+        Route::post('/import-from-csv', ['as' => 'import.from.csv', 'uses' => 'ImportController@import']);
+        Route::post('/update-list-sorting', ['as' => 'update.list.sorting', 'uses' => 'ListViewController@updateSorting']);
+        Route::post('/editor-upload', ['as' => 'editor.upload', 'uses' => 'AppController@editorUpload']);
 
         // Backup routes...
         Route::get('/app/backups', ['as' => 'show.app.backups', 'uses' => 'BackupController@show']);
@@ -57,7 +58,7 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('/app/report/{report_name}', ['as' => 'show.report', 'uses' => 'ReportController@showReport']);
 
         // Autocomplete data...
-        Route::get('/get_auto_complete', ['as' => 'get.autocomplete', 'uses' => 'AutocompleteController@getData']);
+        Route::get('/get-auto-complete', ['as' => 'get.autocomplete', 'uses' => 'AutocompleteController@getData']);
 
         // App Form/Module routes...
         Route::get('/form/{slug}', ['as' => 'new.doc', 'uses' => 'OriginController@show']);

@@ -11,7 +11,9 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label class="control-label">{{ __('Name') }}</label>
+                    <label class="control-label">
+                        {{ __('Name') }} <span class="text-danger">*</span>
+                    </label>
                     <div>
                         <input type="text" name="name" class="bg-focus form-control" data-mandatory="yes" autocomplete="off">
                         <small class="block text-muted">{{ __('Should be without spaces and any special characters') }}</small>
@@ -20,7 +22,9 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label class="control-label">{{ __('Active') }}</label>
+                    <label class="control-label">
+                        {{ __('Active') }} <span class="text-danger">*</span>
+                    </label>
                     <div>
                         <select name="active" class="custom-select" data-mandatory="yes">
                             <option value="1" default selected>{{ __('Yes') }}</option>
@@ -33,7 +37,9 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label class="control-label">{{ __('Display Name') }}</label>
+                    <label class="control-label">
+                        {{ __('Display Name') }} <span class="text-danger">*</span>
+                    </label>
                     <div>
                         <input type="text" name="display_name" class="form-control" data-mandatory="yes" autocomplete="off">
                         <small class="block text-muted">{{ __('Title for the Module') }}</small>
@@ -42,7 +48,9 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label class="control-label">{{ __('Table Name') }}</label>
+                    <label class="control-label">
+                        {{ __('Table Name') }} <span class="text-danger">*</span>
+                    </label>
                     <div>
                         <input type="text" name="table_name" class="form-control" data-mandatory="yes" autocomplete="off">
                         <small class="block text-muted">{{ __('Name of table of your database you want to connect to this Module') }}</small>
@@ -61,7 +69,9 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label class="control-label">{{ __('Slug') }}</label>
+                    <label class="control-label">
+                        {{ __('Slug') }} <span class="text-danger">*</span>
+                    </label>
                     <div>
                         <input type="text" name="slug" class="form-control" data-mandatory="yes" autocomplete="off">
                         <small class="block text-muted">{{ __('Used as URL slug to show data in list & form view') }}</small>
@@ -72,7 +82,9 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label class="control-label">{{ __('Create Migration') }}</label>
+                    <label class="control-label">
+                        {{ __('Create Migration') }} <span class="text-danger">*</span>
+                    </label>
                     <div>
                         <select name="create_migration" class="custom-select" data-mandatory="yes">
                             <option value="1" default selected>{{ __('Yes') }}</option>
@@ -83,7 +95,9 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label class="control-label">{{ __('List View Columns') }}</label>
+                    <label class="control-label">
+                        {{ __('List View Columns') }} <span class="text-danger">*</span>
+                    </label>
                     <div>
                         <input type="text" name="list_view_columns" class="form-control" data-mandatory="yes" autocomplete="off">
                         <small class="block text-muted">{{ __('Separate multiple columns with comma') }}(,)</small>
@@ -94,7 +108,9 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label class="control-label">{{ __('Show') }}</label>
+                    <label class="control-label">
+                        {{ __('Show') }} <span class="text-danger">*</span>
+                    </label>
                     <div>
                         <select name="show" class="custom-select" data-mandatory="yes">
                             <option value="1" default selected>{{ __('Yes') }}</option>
@@ -106,7 +122,9 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label class="control-label">{{ __('Sequence No') }}</label>
+                    <label class="control-label">
+                        {{ __('Sequence No') }} <span class="text-danger">*</span>
+                    </label>
                     <div>
                         <input type="text" name="sequence_no" class="form-control" data-mandatory="yes" autocomplete="off">
                         <small class="block text-muted">{{ __('You can change the sequence of Modules by drag-drop method on Modules page') }}</small>
@@ -172,7 +190,9 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label class="control-label">{{ __('Form Title') }}</label>
+                    <label class="control-label">
+                        {{ __('Form Title') }} <span class="text-danger">*</span>
+                    </label>
                     <div>
                         <input type="text" name="form_title" class="form-control" data-mandatory="yes" autocomplete="off" val="id">
                         <small class="block text-muted">{{ __('This field is displayed as individual record title') }}</small>
@@ -200,7 +220,9 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label class="control-label">{{ __('Sort Order') }}</label>
+                    <label class="control-label">
+                        {{ __('Sort Order') }} <span class="text-danger">*</span>
+                    </label>
                     <div>
                         <select name="sort_order" class="custom-select" data-mandatory="yes">
                             <option value="desc" default selected>{{ __('Descending') }}</option>

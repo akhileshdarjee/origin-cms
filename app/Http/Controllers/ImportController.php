@@ -64,7 +64,7 @@ class ImportController extends Controller
                                 $response_data = app()->handle($module_request);
                             }
                             catch(Exception $e) {
-                                array_push($errors, $e->getMessage());
+                                array_push($errors, str_replace("'", "", $e->getMessage()));
                                 continue;
                             }
 

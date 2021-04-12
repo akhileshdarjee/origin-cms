@@ -177,7 +177,7 @@ $(document).ready(function() {
                     var add_new = getAddNewRecord('Backups', new_form);
 
                     list_records = '<tr class="no-results">\
-                        <td colspan="' + (list_columns.length + 1) + '" class="dataTables_empty">' + add_new + '</td>\
+                        <td colspan="' + (list_columns.length + 1) + '" class="not-found">' + add_new + '</td>\
                     </tr>';
                 }
 

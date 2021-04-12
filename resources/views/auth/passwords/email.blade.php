@@ -2,10 +2,10 @@
 <html lang="en">
     <head>
         <title>{{ __('Forgot Password') }} - {{ config('app.brand.name') }}</title>
-        @include('templates.headers')
+        @include('admin.templates.headers')
     </head>
     <body class="hold-transition login-page">
-        @include('templates.preloader')
+        @include('admin.templates.preloader')
         <div class="login-box">
             <div class="card card-outline card-primary elevation-2">
                 <div class="card-header text-center">

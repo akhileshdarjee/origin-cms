@@ -13,7 +13,7 @@ return [
 
     'UserReport' => [
         'label' => 'User Report', 
-        'icon' => 'fa fa-user', 
+        'icon' => 'fas fa-user', 
         'bg_color' => '#d35400', 
         'icon_color' => '#ffffff', 
         'description' => 'List of all User(s)'

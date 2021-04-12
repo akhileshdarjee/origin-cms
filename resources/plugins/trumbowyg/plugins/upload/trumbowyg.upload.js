@@ -180,7 +180,7 @@
                                                 } else {
                                                     trumbowyg.addErrorOnModalField(
                                                         $('input[type=file]', $modal),
-                                                        trumbowyg.lang[data.message]
+                                                        data.message
                                                     );
                                                     trumbowyg.$c.trigger('tbwuploaderror', [trumbowyg, data]);
                                                 }

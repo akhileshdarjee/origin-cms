@@ -20,7 +20,7 @@ class SettingsController extends Controller
             'form_title' => 'Settings',
             'title' => 'Settings',
             'icon' => 'fas fa-cogs',
-            'file' => 'layouts.origin.settings',
+            'file' => 'admin.layouts.origin.settings',
             'module' => 'Settings',
             'slug' => 'settings',
             'module_type' => 'Single',
@@ -28,7 +28,7 @@ class SettingsController extends Controller
             'permissions' => ['update' => true]
         ];
 
-        return view('templates.form_view', $settings_data);
+        return view('admin.templates.form_view', $settings_data);
     }
 
     // Save app settings

@@ -6,19 +6,10 @@ $(document).ready(function() {
     refreshGridView(current_page);
     enableAutocomplete();
 
-    // make search and show entries element as per bootstrap
-    $("#report-table_length").find("select").addClass("form-control");
-    $("#report-table_filter").find("input").addClass("form-control");
-    $("#report-table_filter").find("input").attr("title", "Search in table");
-    $("#report-table_filter").find("input").tooltip({
-        "container": 'body',
-        "placement": 'bottom',
-    });
-
     if ($("body").find("#from_date") && $("body").find("#to_date")) {
         $(function () {
-            $("#fromdate").on("dp.change", function (e) {
-                $("#todate").data("DateTimePicker").minDate(e.date);
+            $("body").on("dp.change", "#fromdate", function (e) {
+                $("body").find("#todate").data("DateTimePicker").minDate(e.date);
             });
         });
     }
@@ -158,6 +149,18 @@ $(document).ready(function() {
                             }
 
                             if (columns.contains(column_name)) {
+                                if (typeof column_value === 'string' && (column_value.isDate() || column_value.isDateTime() || column_value.isTime())) {
+                                    if (column_value.isDate()) {
+                                        column_value = moment.utc(column_value).local().format('DD-MM-YYYY');
+                                    }
+                                    else if (column_value.isDateTime()) {
+                                        column_value = moment.utc(column_value).local().format('DD-MM-YYYY hh:mm A');
+                                    }
+                                    else {
+                                        column_value = moment.utc('0001-01-01 ' + column_value).local().format('hh:mm A');
+                                    }
+                                }
+
                                 record.push(column_value);
                             }
                         });
@@ -170,10 +173,11 @@ $(document).ready(function() {
 
                     var report_info = '<span class="item-from">' + from + '</span> -\
                     <span class="item-to">' + to + '</span> of \
-                    <span class="badge badge-dark item-count">' + total + '</span>';
+                    <span class="badge badge-primary item-count">' + total + '</span>';
 
+                    $('body').find('.not-found').hide();
                     $("body").find(".report-actions").show();
-                    $("body").find(".dataTables_scrollHead").show();
+                    $("body").find("#report-table_wrapper").show();
                     $("body").find(".list-actions").show();
                     $("body").find("#report-table_info").html(report_info);
                     $("body").find("#report-table_paginate").empty().append(makePagination(data['rows']));
@@ -182,21 +186,28 @@ $(document).ready(function() {
                 }
                 else {
                     $("body").find(".report-actions").hide();
-                    $("body").find(".dataTables_scrollHead").hide();
+                    $("body").find("#report-table_wrapper").hide();
                     $("body").find(".list-actions").hide();
 
                     if (Object.keys(filters).length) {
-                        $('table').find('.dataTables_empty').html(getNoResults());
+                        $('body').find('.not-found').html(getNoResults());
                     }
                     else {
-                        var new_form = '<a href="' + data["module_new_record"] + '" class="btn bg-gradient-primary btn-sm elevation-2 new-form" data-toggle="tooltip" data-placement="bottom" title="New ' + data["module_name"] + '">\
-                            <i class="fas fa-plus fa-sm pr-1"></i>\
-                            New ' + data["module_name"] + '\
-                        </a>';
+                        if (typeof data['module_new_record'] !== 'undefined') {
+                            var new_form = '<a href="' + data["module_new_record"] + '" class="btn bg-gradient-primary btn-sm elevation-2 new-form" data-toggle="tooltip" data-placement="bottom" title="New ' + data["module_name"] + '">\
+                                <i class="fas fa-plus fa-sm pr-1"></i>\
+                                New ' + data["module_name"] + '\
+                            </a>';
 
-                        var add_new = getAddNewRecord(data['module_name'], new_form);
-                        $('table').find('.dataTables_empty').html(add_new);
+                            var add_new = getAddNewRecord(data['module_name'], new_form);
+                            $('body').find('.not-found').html(add_new);
+                        }
+                        else {
+                            $('body').find('.not-found').html(getNoResults(data['module_name']));
+                        }
                     }
+
+                    $('body').find('.not-found').show();
                 }
 
                 $("body").find(".data-loader").hide();

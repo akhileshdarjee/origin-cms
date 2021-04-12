@@ -134,18 +134,32 @@ $(document).ready(function() {
         }
         else if (column_type == "date") {
             new_input = '<div class="input-group">\
-                <span class="input-group-addon">\
-                    <i class="fas fa-calendar-alt"></i>\
+                <span class="input-group-prepend">\
+                    <span class="input-group-text">\
+                        <i class="fas fa-calendar-alt fa-sm"></i>\
+                    </span>\
                 </span>\
-                <input type="text" name="column_value" class="form-control date" autocomplete="off" data-toggle="tooltip" data-placement="bottom" title="Filter value">\
+                <input type="text" name="column_value" class="form-control datepicker" autocomplete="off" data-toggle="tooltip" data-placement="bottom" title="Filter value">\
+            </div>';
+        }
+        else if (column_type == "time") {
+            new_input = '<div class="input-group">\
+                <span class="input-group-prepend">\
+                    <span class="input-group-text">\
+                        <i class="fas fa-clock fa-sm"></i>\
+                    </span>\
+                </span>\
+                <input type="text" name="column_value" class="form-control timepicker" autocomplete="off" data-toggle="tooltip" data-placement="bottom" title="Filter value">\
             </div>';
         }
         else if (column_type == "datetime") {
-            new_input = '<div class="input-group datetimepicker">\
-                <span class="input-group-addon">\
-                    <i class="fas fa-calendar-alt"></i>\
+            new_input = '<div class="input-group">\
+                <span class="input-group-prepend">\
+                    <span class="input-group-text">\
+                        <i class="fas fa-calendar-alt fa-sm"></i>\
+                    </span>\
                 </span>\
-                <input type="text" name="column_value" class="form-control date" autocomplete="off" data-toggle="tooltip" data-placement="bottom" title="Filter value">\
+                <input type="text" name="column_value" class="form-control datetimepicker" autocomplete="off" data-toggle="tooltip" data-placement="bottom" title="Filter value">\
             </div>';
         }
         else {
@@ -155,10 +169,13 @@ $(document).ready(function() {
         $(value_container).empty().append(new_input);
 
         if (column_type == "date") {
-            enableDatepicker();
+            enableDatePicker();
+        }
+        else if (column_type == "time") {
+            enableTimePicker();
         }
         else if (column_type == "datetime") {
-            enableDateTimepicker();
+            enableDateTimePicker();
         }
         else if (column_type != "boolean") {
             enableAutocomplete();
@@ -197,7 +214,7 @@ $(document).ready(function() {
                         <div class="col-md-12">\
                             <div class="form-group text-center">\
                                 <label class="control-label">Import File (.csv, .xls, .xlsx)</label><br>\
-                                <label title="Upload file" for="import_file" class="btn btn-secondary btn-sm">\
+                                <label title="Upload file" for="import_file" class="btn bg-gradient-secondary btn-sm">\
                                     <input type="file" accept=".csv, .xls, .xlsx" name="import_file" id="import_file" class="d-none">\
                                     Change\
                                 </label>\
@@ -210,10 +227,10 @@ $(document).ready(function() {
                         <div class="col-md-12">\
                             <div class="alert alert-danger import-errors" style="display: none;"></div>\
                             <div class="import-progress progress progress-sm active" style="display: none;">\
-                                <div class="progress-bar progress-bar-primary progress-bar-striped" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">\
+                                <div class="progress-bar bg-primary progress-bar-striped" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">\
                                 </div>\
                             </div>\
-                            <button type="button" class="btn btn-block btn-primary" id="start-importing">Import</button>\
+                            <button type="button" class="btn btn-block bg-gradient-primary" id="start-importing">Import</button>\
                         </div>\
                     </div>\
                 </form>\
@@ -239,7 +256,7 @@ $(document).ready(function() {
                 var data = new FormData($(import_form)[0]);
 
                 $.ajax({
-                    url: base_url + '/import_from_csv',
+                    url: base_url + '/import-from-csv',
                     type: 'POST',
                     data: data,
                     cache: false,
@@ -327,6 +344,9 @@ $(document).ready(function() {
             data: filters,
             dataType: 'json',
             success: function(data) {
+                $("body").find('.record-selected-count').html('');
+                $("body").find('.record-selected-count').hide();
+
                 if (delete_list) {
                     processPostDelete(data['data']);
                 }
@@ -410,22 +430,34 @@ $(document).ready(function() {
                             var no_results = getNoResults();
 
                             list_records = '<tr class="no-results">\
-                                <td colspan="' + $(list_headers).find("th").length + '" class="dataTables_empty">' + no_results + '</td>\
+                                <td colspan="' + $(list_headers).find("th").length + '" class="not-found">' + no_results + '</td>\
                             </tr>';
                         }
                         else {
-                            var new_form = $('body').find('.new-form').clone().wrap("<div />").parent().html();
-                            var add_new = getAddNewRecord(data['module']['display_name'], new_form);
+                            if (data['can_create']) {
+                                var new_form = $('body').find('.new-form').clone().wrap("<div />").parent().html();
+                                var add_new = getAddNewRecord(data['module']['display_name'], new_form);
 
-                            list_records = '<tr class="no-results">\
-                                <td colspan="' + $(list_headers).find("th").length + '" class="dataTables_empty">' + add_new + '</td>\
-                            </tr>';
+                                list_records = '<tr class="no-results">\
+                                    <td colspan="' + $(list_headers).find("th").length + '" class="not-found">' + add_new + '</td>\
+                                </tr>';
+                            }
+                            else {
+                                var no_results = getNoResults(data['module']['display_name']);
+
+                                list_records = '<tr class="no-results">\
+                                    <td colspan="' + $(list_headers).find("th").length + '" class="not-found">' + no_results + '</td>\
+                                </tr>';
+                            }
+
+                            $("body").find(".list-filter-sorting").hide();
                         }
                     }
 
                     $(list_table).find('.list-view-items').empty().append(list_records);
 
                     if (list_rows.length > 0) {
+                        $("body").find(".list-filter-sorting").show();
                         $("body").find(".list-header").show();
                         $("body").find(".list-actions").show();
                         $("body").find(".list-page-no").html(data['rows']['current_page'] || '0');
@@ -457,29 +489,6 @@ $(document).ready(function() {
                 $("body").find(".data-loader").hide();
             }
         });
-    }
-
-    // show delete button if any record is selected or show new
-    function toggle_action_button() {
-        var list_items = $(".list-view").find(".list-view-items");
-        var checked_length = $(list_items).find("input[type='checkbox']:checked").length;
-
-        toggle_check_all_box(checked_length);
-
-        if (checked_length > 0) {
-            var total_records = $("body").find(".item-count").html();
-            var selected_msg = checked_length + ' of ' + total_records + ' selected';
-            $("body").find('.record-selected-count').html(selected_msg);
-            $("body").find('.record-selected-count').show();
-            $("body").find(".new-form").hide();
-            $("body").find(".delete-selected").show();
-        }
-        else {
-            $("body").find('.record-selected-count').html('');
-            $("body").find('.record-selected-count').hide();
-            $("body").find(".new-form").show();
-            $("body").find(".delete-selected").hide();
-        }
     }
 
     // show delete button if any record is selected or show new

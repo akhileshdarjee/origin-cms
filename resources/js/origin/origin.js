@@ -187,8 +187,9 @@ $(document).ready(function() {
     });
 
     enableAutocomplete();
-    enableDatepicker();
-    enableDateTimepicker();
+    enableDatePicker();
+    enableTimePicker();
+    enableDateTimePicker();
     enableTextEditor();
     enableAdvancedTextEditor();
     enableFancyBox();
@@ -198,6 +199,19 @@ $(document).ready(function() {
         this.value = this.value.replace(/[^0-9\.]/g,'');
     });
 });
+
+function applyTheme(theme) {
+    if (theme == 'dark') {
+        $('body').find('.navbar').removeClass('navbar-light navbar-white');
+        $('body').find('.navbar').addClass('navbar-dark');
+        $('body').addClass('dark-mode');
+    }
+    else {
+        $('body').find('.navbar').removeClass('navbar-dark');
+        $('body').find('.navbar').addClass('navbar-light navbar-white');
+        $('body').removeClass('dark-mode');
+    }
+}
 
 // Autocomplete
 function enableAutocomplete() {
@@ -214,7 +228,7 @@ function enableAutocomplete() {
             module_fields[data_module] = [data_field];
         }
         else {
-            $.each($("body").find('input[data-ac-module="' + data_module + '"]'), function(index, element) {
+            $.each($("body").find('[data-ac-module="' + data_module + '"]'), function(index, element) {
                 if (module_fields[data_module]) {
                     module_fields[data_module].push($(element).data("ac-field"));
                 }
@@ -231,7 +245,7 @@ function enableAutocomplete() {
         $(this).autocomplete({
             source: function(request, response) {
                 $.ajax({
-                    url: base_url + '/get_auto_complete',
+                    url: base_url + '/get-auto-complete',
                     dataType: "json",
                     data: {
                         module: data_module,
@@ -296,13 +310,13 @@ function enableAutocomplete() {
                         var input_field = $(field);
                     }
                     else {
-                        var input_field = $('body').find('input[data-ac-field="' + key + '"][data-ac-module="' + data_module + '"]');
+                        var input_field = $('body').find('[data-ac-field="' + key + '"][data-ac-module="' + data_module + '"]');
                     }
 
                     if (input_field.length > 1) {
                         // when autocomplete for same module is present in parent and child
-                        if ($(field).closest('.table_record').find('input[data-ac-field="' + key + '"][data-ac-module="' + data_module + '"]').length) {
-                            $(field).closest('.table_record').find('input[data-ac-field="' + key + '"][data-ac-module="' + data_module + '"]').val(value).trigger('change');
+                        if ($(field).closest('.table_record').find('[data-ac-field="' + key + '"][data-ac-module="' + data_module + '"]').length) {
+                            $(field).closest('.table_record').find('[data-ac-field="' + key + '"][data-ac-module="' + data_module + '"]').val(value).trigger('change');
                         }
                         else {
                             $(input_field).val(value).trigger('change');
@@ -395,8 +409,8 @@ function enableAutocomplete() {
 }
 
 // enable date picker for all elements on page
-function enableDatepicker() {
-    $("body").find(".date").datetimepicker({
+function enableDatePicker() {
+    $("body").find(".datepicker").datetimepicker({
         icons: {
             time: 'fas fa-clock',
             date: 'fas fa-calendar-alt',
@@ -410,7 +424,23 @@ function enableDatepicker() {
         },
         format: 'DD-MM-YYYY',
         allowInputToggle: true
-    }).on('dp.change', function(ev) {
+    }).on("dp.change", function(ev) {
+        if (typeof changeDoc === "function") {
+            changeDoc();
+        }
+    });
+}
+
+// enable time picker for all elements on page
+function enableTimePicker() {
+    $("body").find(".timepicker").datetimepicker({
+        icons: {
+            up: 'fas fa-chevron-up',
+            down: 'fas fa-chevron-down',
+        },
+        format: 'hh:mm A',
+        allowInputToggle: true
+    }).on("dp.change", function(ev) {
         if (typeof changeDoc === "function") {
             changeDoc();
         }
@@ -418,7 +448,7 @@ function enableDatepicker() {
 }
 
 // enable datetime picker for all elements on page
-function enableDateTimepicker() {
+function enableDateTimePicker() {
     $("body").find(".datetimepicker").datetimepicker({
         icons: {
             time: 'fas fa-clock',
@@ -433,7 +463,7 @@ function enableDateTimepicker() {
         },
         format: 'DD-MM-YYYY hh:mm A',
         allowInputToggle: true
-    }).on("dp.change", function(e) {
+    }).on("dp.change", function(ev) {
         if (typeof changeDoc === "function") {
             changeDoc();
         }
@@ -451,7 +481,7 @@ function enableTextEditor() {
             'btnGrp-justify',
             ['fullscreen']
         ]
-    }).on('tbwchange', function(){ 
+    }).on('tbwchange', function() { 
         if (typeof changeDoc === "function") {
             changeDoc();
         }
@@ -481,8 +511,14 @@ function enableAdvancedTextEditor() {
             ['table'],
             ['horizontalRule'],
             ['fullscreen']
-        ]
-    }).on('tbwchange', function(){ 
+        ],
+        plugins: {
+            upload: {
+                serverPath: base_url + '/editor-upload',
+                fileFieldName: 'image'
+            }
+        }
+    }).on('tbwchange', function() { 
         if (typeof changeDoc === "function") {
             changeDoc();
         }
@@ -553,7 +589,7 @@ function notify(msg, type) {
 // add status labels, icon for money related fields
 function beautifyListView(list_view) {
     // field defaults
-    var money_list = ['total_amount', 'grand_total', 'rate', 'amount', 'debit', 'credit', 'price'];
+    var money_list = ['total_amount', 'grand_total', 'rate', 'amount', 'debit', 'credit', 'price', 'total'];
     var contact_list = ['contact_no', 'phone_no', 'phone', 'mobile', 'mobile_no'];
     var address_list = ['address', 'full_address', 'city', 'venue'];
     var email_list = ['email_id', 'guest_id'];
@@ -595,16 +631,16 @@ function beautifyListView(list_view) {
 
                 if ($.trim(column_value) != "") {
                     if (money_list.contains(column_name)) {
-                        $(this).html('<i class="fas fa-rupee-sign"></i> ' + column_value);
+                        $(this).html('<i class="fas fa-rupee-sign mr-1"></i> ' + column_value);
                     }
                     else if (contact_list.contains(column_name)) {
-                        $(this).html('<i class="fas fa-phone-alt"></i> ' + column_value);
+                        $(this).html('<i class="fas fa-phone-alt mr-1"></i> ' + column_value);
                     }
                     else if (address_list.contains(column_name)) {
-                        $(this).html('<i class="fas fa-map-marker-alt"></i> ' + column_value);
+                        $(this).html('<i class="fas fa-map-marker-alt mr-1"></i> ' + column_value);
                     }
                     else if (email_list.contains(column_name)) {
-                        $(this).html('<i class="fas fa-envelope"></i> ' + column_value);
+                        $(this).html('<i class="fas fa-envelope mr-1"></i> ' + column_value);
                     }
                     else if (label_list.contains(column_name)) {
                         if (typeof label_bg[column_name][column_value] === "object") {
@@ -615,13 +651,13 @@ function beautifyListView(list_view) {
                         }
                     }
                     else if (column_value.isDate()) {
-                        $(this).html('<i class="fas fa-calendar-alt"></i> ' + moment.utc(column_value).local().format('DD-MM-YYYY'));
+                        $(this).html('<i class="fas fa-calendar-alt mr-1"></i> ' + moment.utc(column_value).local().format('DD-MM-YYYY'));
                     }
                     else if (column_value.isDateTime()) {
-                        $(this).html('<i class="fas fa-calendar-alt"></i> ' + moment.utc(column_value).local().format('DD-MM-YYYY hh:mm A'));
+                        $(this).html('<i class="fas fa-calendar-alt mr-1"></i> ' + moment.utc(column_value).local().format('DD-MM-YYYY hh:mm A'));
                     }
                     else if (column_value.isTime()) {
-                        $(this).html('<i class="fas fa-clock"></i> ' + column_value);
+                        $(this).html('<i class="fas fa-clock mr-1"></i> ' + moment.utc('0001-01-01 ' + column_value).local().format('hh:mm A'));
                     }
                 }
             }
@@ -697,7 +733,8 @@ function makePagination(data) {
     return pagination;
 }
 
-function getNoResults() {
+function getNoResults(title) {
+    var title = title ? title : 'results';
     var no_results = '<div class="row vertical-center">\
         <div class="col-sm-12">\
             <svg width="100" height="100" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" version="1.1" width="512" height="512" x="0" y="0" viewBox="0 0 24 24" style="enable-background:new 0 0 512 512" xml:space="preserve">\
@@ -711,7 +748,7 @@ function getNoResults() {
                     <circle xmlns="http://www.w3.org/2000/svg" cx="17" cy="21.5" r=".5" fill="#ffc107"/>\
                 </g>\
             </svg>\
-            <div class="text-muted text-sm font-weight-normal mt-2">No results found</div>\
+            <div class="text-muted text-sm font-weight-normal mt-2">No ' + title + ' found</div>\
         </div>\
     </div>';
 

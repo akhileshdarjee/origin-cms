@@ -21,7 +21,7 @@
                         @endif
                         </div>
                         <div class="media-body">
-                            <label title="{{ __('Upload image file') }}" for="avatar" class="btn btn-secondary btn-sm ml-3">
+                            <label title="{{ __('Upload image file') }}" for="avatar" class="btn bg-gradient-secondary btn-sm ml-3">
                                 <input type="file" accept="image/*" name="avatar" id="avatar" class="d-none">
                                 {{ __('Change') }}
                             </label>
@@ -31,7 +31,9 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label class="control-label">{{ __('Active') }}</label>
+                    <label class="control-label">
+                        {{ __('Active') }} <span class="text-danger">*</span>
+                    </label>
                     <div>
                         <select name="active" class="custom-select" data-mandatory="yes">
                             <option value="1">{{ __('Yes') }}</option>
@@ -67,7 +69,9 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label class="control-label">{{ __('Email') }}</label>
+                    <label class="control-label">
+                        {{ __('Email') }} <span class="text-danger">*</span>
+                    </label>
                     <div>
                         <input type="text" name="email" class="form-control" data-mandatory="yes" autocomplete="off">
                     </div>
@@ -77,7 +81,9 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label class="control-label">{{ __('Username') }}</label>
+                    <label class="control-label">
+                        {{ __('Username') }} <span class="text-danger">*</span>
+                    </label>
                     <div>
                         <input type="text" name="username" class="form-control" data-mandatory="yes" autocomplete="off">
                     </div>
@@ -86,7 +92,9 @@
             @if (!isset($form_data[$table_name]['id']))
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label class="control-label">{{ __('Password') }}</label>
+                        <label class="control-label">
+                            {{ __('Password') }} <span class="text-danger">*</span>
+                        </label>
                         <div>
                             <input type="password" name="password" class="form-control" data-mandatory="yes" autocomplete="off">
                         </div>
@@ -97,7 +105,9 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label class="control-label">{{ __('Role') }}</label>
+                    <label class="control-label">
+                        {{ __('Role') }} <span class="text-danger">*</span>
+                    </label>
                     <div>
                         <select name="role" class="custom-select" data-mandatory="yes">
                             <option value="Administrator">{{ __('Administrator') }}</option>

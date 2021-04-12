@@ -21,7 +21,7 @@ class ListViewController extends Controller
         try {
             $this->module = $this->setModule($slug);
         } catch(Exception $e) {
-            return back()->with(['msg' => $e->getMessage()]);
+            return back()->with(['msg' => str_replace("'", "", $e->getMessage())]);
         }
 
         if ($slug == "report") {
@@ -36,7 +36,7 @@ class ListViewController extends Controller
                     $msg = __('You are not authorized to view') . ' "'. __($this->module["display_name"]) . '" ' . __('records');
 
                     if (url()->current() === url()->previous()) {
-                        return redirect()->route('home')->with('msg', $msg);
+                        return redirect()->route('home')->with(['msg' => $msg]);
                     } else {
                         return back()->with(['msg' => $msg]);
                     }
@@ -50,10 +50,6 @@ class ListViewController extends Controller
     public function showListView($request)
     {
         if ($request->ajax() || $request->is('api/*')) {
-            $table_name = $this->module['table_name'];
-            $columns = array_map('trim', explode(",", $this->module['list_view_columns']));
-            $form_title = $this->module['form_title'];
-
             if ($request->filled('delete_list')) {
                 $delete_data = $this->deleteSelectedRecords($request, $request->get('delete_list'));
                 return response()->json(['data' => $delete_data], 200);
@@ -63,15 +59,25 @@ class ListViewController extends Controller
                 $list_view_data = $this->prepareListViewData($request);
                 return $list_view_data;
             } catch(Exception $e) {
-                return response()->json(['msg' => $e->getMessage()], 200);
+                return response()->json(['msg' => str_replace("'", "", $e->getMessage())], 200);
             }
         }
         else {
             try {
-                $list_view_data = $this->prepareListViewData($request);
-                return view('templates.list_view', $list_view_data);
+                $columns = array_map('trim', explode(",", $this->module['list_view_columns']));
+
+                $records = DB::table($this->module['table_name'])
+                    ->select($columns)
+                    ->first();
             } catch(Exception $e) {
-                return back()->with(['msg' => $e->getMessage()]);
+                return back()->with(['msg' => str_replace("'", "", $e->getMessage())]);
+            }
+
+            try {
+                $list_view_data = $this->prepareListViewData($request);
+                return view('admin.templates.list_view', $list_view_data);
+            } catch(Exception $e) {
+                return back()->with(['msg' => str_replace("'", "", $e->getMessage())]);
             }
         }
     }
@@ -86,8 +92,7 @@ class ListViewController extends Controller
             try {
                 $rows = $this->getRecords($request, $table_schema);
             } catch(Exception $e) {
-                $error = str_replace("'", "", $e->getMessage());
-                throw new Exception($error);
+                throw new Exception(str_replace("'", "", $e->getMessage()));
             }
         } else {
             $rows = [];
@@ -134,7 +139,6 @@ class ListViewController extends Controller
 
     public function getRecords($request, $table_schema)
     {
-        logger('getRecords');
         $table = $this->module['table_name'];
         $table_columns = array_map('trim', explode(",", $this->module['list_view_columns']));
         $sort_field = $this->module['sort_field'];

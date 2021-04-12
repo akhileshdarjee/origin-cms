@@ -96,7 +96,7 @@ trait CommonController
         $settings = array(
             ['field_name' => 'home_page', 'field_value' => 'modules', 'module' => 'Other', 'owner' => $username, 'last_updated_by' => $username, 'created_at' => date("Y-m-d H:i:s"), "updated_at" => date("Y-m-d H:i:s")],
             ['field_name' => 'list_view_records', 'field_value' => '15', 'module' => 'Other', 'owner' => $username, 'last_updated_by' => $username, 'created_at' => date("Y-m-d H:i:s"), "updated_at" => date("Y-m-d H:i:s")],
-            ['field_name' => 'display_type', 'field_value' => 'comfortable', 'module' => 'Other', 'owner' => $username, 'last_updated_by' => $username, 'created_at' => date("Y-m-d H:i:s"), "updated_at" => date("Y-m-d H:i:s")]
+            ['field_name' => 'theme', 'field_value' => 'light', 'module' => 'Other', 'owner' => $username, 'last_updated_by' => $username, 'created_at' => date("Y-m-d H:i:s"), "updated_at" => date("Y-m-d H:i:s")]
         );
 
         DB::table('oc_settings')->insert($settings);
@@ -131,7 +131,7 @@ trait CommonController
 
                     $app_modules[$module->name]['link_field'] = 'id';
                     $app_modules[$module->name]['link_field_label'] = 'ID';
-                    $app_modules[$module->name]['view'] = 'layouts.modules.' . $module->slug;
+                    $app_modules[$module->name]['view'] = 'admin.layouts.modules.' . $module->slug;
                     $app_modules[$module->name]['upload_folder'] = '/uploads/' . $module->slug;
                 }
 
