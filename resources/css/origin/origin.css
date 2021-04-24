@@ -8,6 +8,12 @@
 .disabled, button:disabled, input:disabled {
 	cursor: not-allowed;
 }
+.btrr-0 {
+	border-top-right-radius: 0;
+}
+.bbrr-0 {
+	border-bottom-right-radius: 0;
+}
 .vertical-center {
 	align-items: center;
 	height: inherit;
@@ -91,14 +97,24 @@
 	background-color: #f4f6f9;
 	height: calc(2rem + 2px);
 	font-size: .9rem;
+	box-shadow: none;
 }
 .form-control-sm, .custom-select-sm {
 	height: calc(1.8125rem + 2px);
 }
-.form-control:focus, .custom-select:focus {
+.form-control.is-invalid, .custom-select.is-invalid {
+	border: 1px solid #dc3545;
+	background-image: none;
+}
+.form-control:focus:not(.is-invalid), .custom-select:focus:not(.is-invalid) {
 	outline: 0;
 	background-color: #f4f6f9;
-	box-shadow: 0 0 0 0.2rem rgb(104 113 120 / 25%);
+	box-shadow: 0 0 0 0.15rem rgb(104 113 120 / 25%);
+}
+.form-control.is-invalid:focus, .custom-select.is-invalid:focus {
+	outline: 0;
+	background-color: #f4f6f9;
+	box-shadow: 0 0 0 0.15rem #f7eced;
 }
 .input-group-text {
 	background-color: #f4f6f9;
@@ -106,7 +122,7 @@
 }
 .input-group:focus-within {
 	outline: 0;
-	box-shadow: 0 0 0 0.18rem rgb(104 113 120 / 25%);
+	box-shadow: 0 0 0 0.15rem rgb(104 113 120 / 25%);
 	border-radius: .2rem;
 }
 .input-group:focus-within .form-control:focus, .input-group:focus-within .custom-select:focus {
@@ -464,7 +480,7 @@ table > tbody > tr > td > a:hover {
 	background: #f8f9fa;
 }
 .origin-pagination .page-link:focus {
-	box-shadow: 0 0 0 0.18rem rgb(104 113 120 / 25%);
+	box-shadow: 0 0 0 0.15rem rgb(104 113 120 / 25%);
 }
 .dropdown-menu {
 	padding: 0px;
@@ -977,10 +993,20 @@ table > tbody > tr > td > a:hover {
 	background-color: #3f474e !important;
 	color: #fff !important;
 }
-.dark-mode .form-control, .dark-mode .custom-select {
+.dark-mode .form-control, .dark-mode .custom-select, .dark-mode .origin-static {
 	background-color: #495057 !important;
 	border-color: #6c757d !important;
 	color: #ced4da !important;
+}
+.dark-mode .form-control.is-invalid, .dark-mode .custom-select.is-invalid {
+	border: 1px solid #e74c3c !important;
+	background-image: none;
+}
+.dark-mode .form-control.is-invalid:focus, .dark-mode .custom-select.is-invalid:focus {
+	box-shadow: 0 0 0 0.15rem rgb(231 76 60 / 25%);
+}
+.dark-mode .form-control:focus, .dark-mode .custom-select:focus, .dark-mode .input-group:focus-within {
+	box-shadow: 0 0 0 0.15rem rgb(104 113 120 / 70%);
 }
 .dark-mode .child-table > thead > tr > td, .dark-mode .child-table > thead > tr > th {
 	background-color: #495057 !important;

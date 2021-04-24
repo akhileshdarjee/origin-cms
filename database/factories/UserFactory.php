@@ -37,7 +37,7 @@ $factory->define(User::class, function (Faker $faker) {
         'email_verified_at' => $active ? $now_time : null,
         'password' => bcrypt(Str::random(10)),
         'role' => $roles[array_rand($roles)],
-        'lang' => 'en',
+        'locale' => 'en',
         'active' => $active,
         'owner' => 'admin',
         'last_updated_by' => 'admin',

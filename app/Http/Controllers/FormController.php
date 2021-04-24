@@ -87,6 +87,7 @@ trait FormController
                 foreach ($module['parent_foreign_map'] as $foreign_table => $foreign_details) {
                     $foreign_key = $foreign_details['foreign_key'];
                     $foreign_field = $foreign_details['fetch_field'];
+                    $local_key = isset($foreign_details['local_key']) ? $foreign_details['local_key'] : 'id';
                     $foreign_field = explode(",", $foreign_field);
 
                     foreach ($foreign_field as $field) {
@@ -94,7 +95,7 @@ trait FormController
                     }
 
                     $data[$module['table_name']] = $data[$module['table_name']]
-                        ->leftJoin($foreign_table, $module['table_name'].'.'.$foreign_key, '=', $foreign_table.'.id');
+                        ->leftJoin($foreign_table, $module['table_name'].'.'.$foreign_key, '=', $foreign_table.'.'.$local_key);
                 }
 
                 $data[$module['table_name']] = $data[$module['table_name']]
@@ -202,6 +203,27 @@ trait FormController
             'table_name' => $module['table_name'],
             'permissions' => $perms
         ];
+
+        if ($module['link_field_value']) {
+            $previous = DB::table($module['table_name'])
+                ->where('id', '<', $module['link_field_value'])
+                ->max('id');
+
+            $next = DB::table($module['table_name'])
+                ->where('id', '>', $module['link_field_value'])
+                ->min('id');
+
+            if ($previous) {
+                $previous = route('show.doc', ['slug' => $module['slug'], 'id' => $previous]);
+            }
+
+            if ($next) {
+                $next = route('show.doc', ['slug' => $module['slug'], 'id' => $next]);
+            }
+
+            $form_data['previous'] = $previous;
+            $form_data['next'] = $next;
+        }
 
         return $this->sendResponse(200, __('Ok'), $form_data);
     }
@@ -345,7 +367,6 @@ trait FormController
     // insert or updates records into the database
     public function saveDataInDb($form_data, $module, $action)
     {
-        // DB::enableQueryLog();
         $user_role = auth()->user()->role;
 
         // save parent data and child table data if found

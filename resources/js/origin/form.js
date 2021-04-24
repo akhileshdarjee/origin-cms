@@ -136,10 +136,10 @@ function highlightMandatoryFields(mandatory_fields) {
         if ($.trim($(this).val()) == "") {
             // if not child table field
             if (!$(field).closest('.table_record')) {
-                $(field).closest(".form-group").addClass("has-error");
+                $(field).closest(".form-group").addClass("is-invalid");
             }
 
-            $(field).addClass("error");
+            $(field).addClass("is-invalid");
         }
     });
 }
@@ -156,18 +156,18 @@ function removeMandatoryHighlight(mandatory_fields) {
         if ($.trim($(this).val())) {
             // if not child table field
             if (!$(this).closest('.table_record')) {
-                $($parent_div).removeClass("has-error");
+                $($parent_div).removeClass("is-invalid");
             }
 
-            $(this).removeClass("error");
+            $(this).removeClass("is-invalid");
         }
         else {
             // if not child table field
             if (!$(this).closest('.table_record')) {
-                $($parent_div).addClass("has-error");
+                $($parent_div).addClass("is-invalid");
             }
 
-            $(this).addClass("error");
+            $(this).addClass("is-invalid");
         }
     });
 }

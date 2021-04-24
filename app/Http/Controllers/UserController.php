@@ -14,6 +14,22 @@ class UserController extends Controller
 {
     use CommonController;
 
+    // define common variables
+    public $module_config;
+
+    public function __construct()
+    {
+        $this->module_config = [
+            'parent_foreign_map' => [
+                'oc_language' => [
+                    'foreign_key' => 'locale',
+                    'local_key' => 'locale',
+                    'fetch_field' => 'oc_language.name as language'
+                ]
+            ],
+        ];
+    }
+
     // define what should process before save
     public function beforeSave($request)
     {

@@ -14,7 +14,7 @@
                     </h1>
                 </div>
                 <div class="col-sm-6 col-4 text-right list-btns">
-                    <button class="btn btn-outline-default btn-sm elevation-2 refresh-backups" data-toggle="tooltip" data-placement="bottom" data-container="body" title="{{ __('Refresh') }}">
+                    <button class="btn btn-default btn-sm elevation-2 refresh-backups" data-toggle="tooltip" data-placement="bottom" data-container="body" title="{{ __('Refresh') }}">
                         <span class="d-none d-sm-none d-md-inline-block">{{ __('Refresh') }}</span>
                         <span class="d-md-none d-lg-none d-xl-none"><i class="fas fa-redo"></i></span>
                     </button>

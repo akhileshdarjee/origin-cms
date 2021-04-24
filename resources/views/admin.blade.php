@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app()->getLocale() }}">
     <head>
         <title>@yield('title')</title>
         @stack('meta')
@@ -31,12 +31,14 @@
             @include('admin.templates.footer')
             @include('admin.templates.msgbox')
         </div>
+        <div class="d-none page-error-msg">{{ __('Please refresh the page and try again') }}</div>
+        <div class="d-none some-error-msg">{{ __('Some error occured. Please try again') }}</div>
         <script type="text/javascript" src="{{ asset(mix('js/all.js')) }}"></script>
         @if (session()->exists('msg'))
             <script type="text/javascript">
                 @if (session()->has('msg'))
                     @if (session('success'))
-                        notify('{!! nl2br(session("msg")) !!}');
+                        notify('{!! nl2br(session("msg")) !!}', 'success');
                     @elseif (!session('success'))
                         notify('{!! nl2br(session("msg")) !!}', 'error');
                     @else

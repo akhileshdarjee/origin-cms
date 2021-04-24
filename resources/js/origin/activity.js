@@ -58,7 +58,7 @@ $(document).ready(function() {
                         var user_name = (current_user["id"] == row["user_id"]) ? "You" : row["user"];
                         var user = '<strong>' + user_name + '</strong>';
                         var from_now_time = moment.utc(row['created_at']).fromNow();
-                        var actual_time = moment.utc(row['created_at']).local().format("MMM D, YYYY on hh:mm A");
+                        var actual_time = moment.utc(row['created_at']).local().format("MMM D, YYYY • hh:mm A");
 
                         if (row['action'] == "Create") {
                             var icon_bg = "bg-green"

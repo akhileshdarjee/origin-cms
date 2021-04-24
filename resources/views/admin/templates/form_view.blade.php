@@ -69,9 +69,19 @@
                     </h1>
                 </div>
                 <div class="col-sm-4 col-4 text-right list-btns">
+                    @if (isset($previous) || isset($next))
+                        <div class="btn-group elevation-2 img-rounded">
+                            <a href="{{ $previous ? $previous : '#' }}" class="btn btn-default btn-sm m-0{{ $previous ? '' : ' disabled' }}"{{ $previous ? '' : " disabled" }}>
+                                <i class="fas fa-chevron-left"></i>
+                            </a>
+                            <a href="{{ $next ? $next : '#' }}" class="btn btn-default btn-sm{{ $next ? '' : ' disabled' }}"{{ $next ? '' : " disabled" }}>
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                        </div>
+                    @endif
                     @if (isset($form_data[$table_name]['id']) && ($permissions['create'] || $permissions['delete']))
                         <div class="btn-group">
-                            <button type="button" class="btn btn-outline-default btn-sm dropdown-toggle dropdown-icon elevation-2" data-toggle="dropdown">
+                            <button type="button" class="btn btn-default btn-sm dropdown-toggle dropdown-icon elevation-2" data-toggle="dropdown">
                                 <span class="d-none d-sm-none d-md-inline-block">
                                     {{ __('Menu') }}
                                 </span>

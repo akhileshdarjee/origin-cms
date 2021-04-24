@@ -34,14 +34,16 @@ cd /path/to/your/laravel/directory
 sudo find . -type f -exec chmod 664 {} \;
 sudo find . -type d -exec chmod 755 {} \;
 
-sudo chown -R :www-data bootstrap/cache
-sudo chmod -R ug+rwx bootstrap/cache
-sudo chown -R :www-data storage/
-sudo chmod -R ug+rwx storage/
 sudo chown -R :www-data app/
 sudo chmod -R ug+rwx app/
+sudo chown -R :www-data bootstrap/cache
+sudo chmod -R ug+rwx bootstrap/cache
 sudo chown -R :www-data database/migrations
 sudo chmod -R ug+rwx database/migrations
+sudo chown -R :www-data storage/
+sudo chmod -R ug+rwx storage/
+sudo chown -R :www-data resources/lang
+sudo chmod -R ug+rw resources/lang
 ```
 
 ### Production (Server)
@@ -55,6 +57,8 @@ sudo chown -R :www-data bootstrap/cache
 sudo chmod -R ug+rwx bootstrap/cache
 sudo chown -R :www-data storage/
 sudo chmod -R ug+rwx storage/
+sudo chown -R :www-data resources/lang
+sudo chmod -R ug+rw resources/lang
 ```
 
   

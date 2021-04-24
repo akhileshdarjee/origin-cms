@@ -27,7 +27,7 @@ class CreateUsersTable extends Migration
             $table->string('email_verification_code')->nullable();
             $table->string('role');
             $table->boolean('active')->default('1');
-            $table->string('lang', 10)->default('en');
+            $table->string('locale')->default('en');
             $table->boolean('first_login')->default('0')->nullable();
             $table->rememberToken();
             $table->string('owner');

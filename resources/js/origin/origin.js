@@ -123,7 +123,8 @@ Storage.prototype.setObject = function(key, value) {
 
 // set common global variables
 var app_route = window.location.href;
-var base_url = $("body").attr("data-base-url");
+var app_locale = $('html').attr('lang');
+var base_url = $('body').attr('data-base-url');
 
 var isMobile = false;
 // device detection
@@ -145,6 +146,8 @@ $(function() {
     $(window).scroll(stickyRelocate);
     stickyRelocate();
 });
+
+moment.lang(app_locale);
 
 $(document).ready(function() {
     // set body data url
@@ -415,11 +418,11 @@ function enableAutocomplete() {
             open: function(event, ui) {
                 if (data_module == 'Universe') {
                     var left = $(this).closest('.input-group').innerWidth() - $(this).innerWidth();
-                    $(".ui-autocomplete").css({"z-index": 1050, "padding": "0px", "top": "+=3", "left": "-=" + left});
+                    $(".ui-autocomplete").css({"z-index": 1050, "padding": "0px", "top": "+=2", "left": "-=" + left});
                     $(".ui-autocomplete").width($(this).closest('.form-group').innerWidth());
                 }
                 else {
-                    $(".ui-autocomplete").css({"z-index": 1050, "padding": "0px", "top": "+=3"});
+                    $(".ui-autocomplete").css({"z-index": 1050, "padding": "0px", "top": "+=2"});
                     $(".ui-autocomplete").width($(this).innerWidth());
                 }
             }

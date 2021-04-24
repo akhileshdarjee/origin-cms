@@ -615,6 +615,7 @@ $(document).ready(function() {
         }
         else {
             notify("Records deleted successfully", "success");
+            toggleActionButton();
         }
 
         if (result.length == error_data.length) {

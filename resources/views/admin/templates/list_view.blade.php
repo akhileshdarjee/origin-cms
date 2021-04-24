@@ -28,13 +28,13 @@
                 </div>
                 <div class="col-sm-6 col-6 text-right list-btns">
                     @if ($can_create)
-                        <button class="btn btn-outline-default btn-sm elevation-2" id="import-from-csv" data-toggle="tooltip" data-placement="bottom" data-container="body" title="{{ __('Import') }} {{ __($module['display_name']) }}" data-module="{{ $module['name'] }}">
+                        <button class="btn btn-default btn-sm elevation-2" id="import-from-csv" data-toggle="tooltip" data-placement="bottom" data-container="body" title="{{ __('Import') }} {{ __($module['display_name']) }}" data-module="{{ $module['name'] }}">
                             <span class="d-none d-sm-none d-md-inline-block">{{ __('Import') }}</span>
                             <span class="d-md-none d-lg-none d-xl-none"><i class="fas fa-upload"></i></span>
                         </button>
                     @endif
 
-                    <button class="btn btn-outline-default btn-sm elevation-2 refresh-list-view" data-toggle="tooltip" data-placement="bottom" title="{{ __('Refresh records') }}">
+                    <button class="btn btn-default btn-sm elevation-2 refresh-list-view" data-toggle="tooltip" data-placement="bottom" title="{{ __('Refresh records') }}">
                         <span class="d-none d-sm-none d-md-inline-block">{{ __('Refresh') }}</span>
                         <span class="d-md-none d-lg-none d-xl-none"><i class="fas fa-redo"></i></span>
                     </button>

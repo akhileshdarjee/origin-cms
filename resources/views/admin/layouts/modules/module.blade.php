@@ -15,7 +15,7 @@
                         {{ __('Name') }} <span class="text-danger">*</span>
                     </label>
                     <div>
-                        <input type="text" name="name" class="bg-focus form-control" data-mandatory="yes" autocomplete="off">
+                        <input type="text" name="name" class="form-control" data-mandatory="yes" autocomplete="off">
                         <small class="block text-muted">{{ __('Should be without spaces and any special characters') }}</small>
                     </div>
                 </div>

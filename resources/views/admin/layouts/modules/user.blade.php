@@ -49,7 +49,7 @@
                     <label class="control-label">{{ __('Title, First & Last Name') }}</label>
                     <div class="input-group">
                         <div class="input-group-addon user-name-addon">
-                            <select name="title" class="custom-select" data-mandatory="no" style="height: auto;">
+                            <select name="title" class="custom-select btrr-0 bbrr-0" data-mandatory="no">
                                 <option value="" default selected>{{ __('Title') }}</option>
                                 <option value="Mr.">{{ __('Mr.') }}</option>
                                 <option value="Dr.">{{ __('Dr.') }}</option>
@@ -64,7 +64,7 @@
                         <input type="text" name="first_name" class="form-control" placeholder="{{ __('First Name') }}" data-mandatory="yes" autocomplete="off">
                         <input type="text" name="last_name" class="form-control" placeholder="{{ __('Last Name') }}" data-mandatory="no" autocomplete="off">
                     </div>
-                    <input type="hidden" name="full_name" class="form-control" data-mandatory="yes" autocomplete="off">
+                    <input type="hidden" name="full_name" data-mandatory="yes" autocomplete="off">
                 </div>
             </div>
             <div class="col-md-6">
@@ -113,6 +113,17 @@
                             <option value="Administrator">{{ __('Administrator') }}</option>
                             <option value="Guest">{{ __('Guest') }}</option>
                         </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label">
+                        {{ __('Language') }} <span class="text-danger">*</span>
+                    </label>
+                    <div>
+                        <input type="text" name="language" class="form-control autocomplete" data-ac-module="Language" data-ac-field="name" data-mandatory="yes" autocomplete="off">
+                        <input type="hidden" name="locale" data-ac-module="Language" data-ac-field="locale">
                     </div>
                 </div>
             </div>
