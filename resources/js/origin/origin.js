@@ -238,11 +238,43 @@ function applyTheme(theme) {
         $('body').find('.navbar').removeClass('navbar-light navbar-white');
         $('body').find('.navbar').addClass('navbar-dark');
         $('body').addClass('dark-mode');
+
+        if ($('body').find('.module-btn').length) {
+            $.each($('body').find('.module-btn'), function(idx, mod_btn) {
+                var default_color = $(mod_btn).data('default-color');
+                var dark_color = luminance(default_color, -0.4);
+                $(mod_btn).css('background-color', dark_color);
+            });
+        }
+
+        if ($('body').find('.report-btn').length) {
+            $.each($('body').find('.report-btn'), function(idx, rep_btn) {
+                var default_color = $(rep_btn).data('default-color');
+                var dark_color = luminance(default_color, -0.4);
+                $(rep_btn).css('background-color', dark_color);
+                $(rep_btn).css('border-color', dark_color);
+            });
+        }
     }
     else {
         $('body').find('.navbar').removeClass('navbar-dark');
         $('body').find('.navbar').addClass('navbar-light navbar-white');
         $('body').removeClass('dark-mode');
+
+        if ($('body').find('.module-btn').length) {
+            $.each($('body').find('.module-btn'), function(idx, mod_btn) {
+                var default_color = $(mod_btn).data('default-color');
+                $(mod_btn).css('background-color', default_color);
+            });
+        }
+
+        if ($('body').find('.report-btn').length) {
+            $.each($('body').find('.report-btn'), function(idx, rep_btn) {
+                var default_color = $(rep_btn).data('default-color');
+                $(rep_btn).css('background-color', default_color);
+                $(rep_btn).css('border-color', default_color);
+            });
+        }
     }
 }
 
@@ -266,10 +298,7 @@ function changeTheme(theme) {
             data: {'theme': theme},
             dataType: 'json',
             success: function(data) {
-                if (data['success']) {
-                    location.reload();
-                }
-                else {
+                if (!data['success']) {
                     applyTheme(theme_alt);
                     notify(data['msg'], "error");
                 }
@@ -969,6 +998,31 @@ function getImage(path, width, height, quality, crop, align, sharpen) {
     }
 
     return url;
+}
+
+/**
+    * Lightens/darkens a given colour (hex format), returning the altered colour in hex format.7
+    * @param str $hex Colour as hexadecimal (with or without hash);
+    * @percent float $percent Decimal ( 0.2 = lighten by 20%(), -0.4 = darken by 40%() )
+    * @return str Lightened/Darkend colour as hexadecimal (with hash);
+*/
+function luminance(hex, percent) {
+    // validate hex string
+    hex = String(hex).replace(/[^0-9a-f]/gi, '');
+    if (hex.length < 6) {
+        hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
+    }
+    percent = percent || 0;
+
+    // convert to decimal and change luminosity
+    var new_hex = "#", c, i;
+    for (i = 0; i < 3; i++) {
+        c = parseInt(hex.substr(i*2,2), 16);
+        c = Math.round(Math.min(Math.max(0, c + (c * percent)), 255)).toString(16);
+        new_hex += ("00"+c).substr(c.length);
+    }
+
+    return new_hex;
 }
 
 // Removes any white space to the right and left of the string

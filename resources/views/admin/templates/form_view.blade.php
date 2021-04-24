@@ -44,7 +44,7 @@
     <div class="content-header" id="sticky">
         <div class="container">
             <div class="row">
-                <div class="col-sm-8 col-8">
+                <div class="col-sm-8 col-6">
                     <h1 class="m-0">
                         <small>
                             @if (isset($module_type) && $module_type == "Single")
@@ -68,7 +68,7 @@
                         @endif
                     </h1>
                 </div>
-                <div class="col-sm-4 col-4 text-right list-btns">
+                <div class="col-sm-4 col-6 text-right list-btns">
                     @if (isset($previous) || isset($next))
                         <div class="btn-group elevation-2 img-rounded">
                             <a href="{{ $previous ? $previous : '#' }}" class="btn btn-default btn-sm m-0{{ $previous ? '' : ' disabled' }}"{{ $previous ? '' : " disabled" }}>

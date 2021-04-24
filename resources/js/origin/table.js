@@ -126,7 +126,7 @@ function addRow(table, idx, action) {
                             <i class="fas fa-image fa-2x avatar"></i>\
                         </div>\
                         <div class="media-body text-left">\
-                            <label title="Upload image file" class="btn bg-gradient-secondary btn-xs ml-3">\
+                            <label title="Upload image file" class="btn bg-gradient-secondary btn-xs ml-3 text-xs">\
                                 <input type="file" accept="image/*" name="' + table_name + '[' + (idx - 1) + '][' + field_name + ']" class="d-none">\
                                 Change\
                             </label>\
@@ -356,7 +356,7 @@ function addNewRows(table_name, records) {
 
                     rows += '</div>\
                             <div class="media-body text-left">\
-                                <label title="Upload image file" class="btn bg-gradient-secondary btn-xs ml-3">\
+                                <label title="Upload image file" class="btn bg-gradient-secondary btn-xs ml-3 text-xs">\
                                     <input type="file" accept="image/*" name="' + table_name + '[' + idx + '][' + field_name + ']" class="d-none">\
                                     Change\
                                 </label>\

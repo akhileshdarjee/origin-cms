@@ -21,7 +21,7 @@
                         @endif
                         </div>
                         <div class="media-body">
-                            <label title="{{ __('Upload image file') }}" for="avatar" class="btn bg-gradient-secondary btn-sm ml-3">
+                            <label title="{{ __('Upload image file') }}" for="avatar" class="btn bg-gradient-secondary btn-sm ml-3 text-xs">
                                 <input type="file" accept="image/*" name="avatar" id="avatar" class="d-none">
                                 {{ __('Change') }}
                             </label>
@@ -44,27 +44,39 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-1">
                 <div class="form-group">
-                    <label class="control-label">{{ __('Title, First & Last Name') }}</label>
-                    <div class="input-group">
-                        <div class="input-group-addon user-name-addon">
-                            <select name="title" class="custom-select btrr-0 bbrr-0" data-mandatory="no">
-                                <option value="" default selected>{{ __('Title') }}</option>
-                                <option value="Mr.">{{ __('Mr.') }}</option>
-                                <option value="Dr.">{{ __('Dr.') }}</option>
-                                <option value="Prof.">{{ __('Prof.') }}</option>
-                                <option value="Rev.">{{ __('Rev.') }}</option>
-                                <option value="Hon.">{{ __('Hon.') }}</option>
-                                <option value="Mrs.">{{ __('Mrs.') }}</option>
-                                <option value="Ms.">{{ __('Ms.') }}</option>
-                                <option value="Miss">{{ __('Miss') }}</option>
-                            </select>
-                        </div>
-                        <input type="text" name="first_name" class="form-control" placeholder="{{ __('First Name') }}" data-mandatory="yes" autocomplete="off">
-                        <input type="text" name="last_name" class="form-control" placeholder="{{ __('Last Name') }}" data-mandatory="no" autocomplete="off">
+                    <label class="control-label">{{ __('Title') }}</label>
+                    <div>
+                        <select name="title" class="custom-select" data-mandatory="no">
+                            <option value="" default selected>{{ __('Title') }}</option>
+                            <option value="Mr.">{{ __('Mr.') }}</option>
+                            <option value="Dr.">{{ __('Dr.') }}</option>
+                            <option value="Prof.">{{ __('Prof.') }}</option>
+                            <option value="Rev.">{{ __('Rev.') }}</option>
+                            <option value="Hon.">{{ __('Hon.') }}</option>
+                            <option value="Mrs.">{{ __('Mrs.') }}</option>
+                            <option value="Ms.">{{ __('Ms.') }}</option>
+                            <option value="Miss">{{ __('Miss') }}</option>
+                        </select>
                     </div>
-                    <input type="hidden" name="full_name" data-mandatory="yes" autocomplete="off">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="control-label">{{ __('First Name') }}</label>
+                    <div>
+                        <input type="text" name="first_name" class="form-control" data-mandatory="yes" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label class="control-label">{{ __('Last Name') }}</label>
+                    <div>
+                        <input type="text" name="last_name" class="form-control" data-mandatory="no" autocomplete="off">
+                        <input type="hidden" name="full_name" data-mandatory="yes" autocomplete="off">
+                    </div>
                 </div>
             </div>
             <div class="col-md-6">
