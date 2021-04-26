@@ -114,7 +114,7 @@ class LoginController extends Controller
         if ($request->ajax()) {
             return response()->json([
                 'success' => true,
-                'msg' => 'User successfully logged in'
+                'msg' => __('Successfully logged in')
             ], 200);
         } else {
             if ($request->filled('redirect_to')) {

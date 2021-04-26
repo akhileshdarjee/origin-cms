@@ -12,10 +12,10 @@ $(document).ready(function() {
     $("body").on("click", ".delete-backup",  function() {
         var href = $(this).data("href");
 
-        var modal_footer = '<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">No</button>\
-            <button type="button" class="btn btn-danger btn-sm confirm-delete-backup" data-href="' + href + '">Yes</button>';
+        var modal_footer = '<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">' + __("No") + '</button>\
+            <button type="button" class="btn btn-danger btn-sm confirm-delete-backup" data-href="' + href + '">' + __("Yes") + '</button>';
 
-        msgbox("Sure you want to delete this backup permanently?", modal_footer);
+        msgbox(__('Sure you want to delete this backup permanently') + "?", modal_footer);
     });
 
     $("body").on("click", ".confirm-delete-backup", function() {
@@ -41,7 +41,7 @@ $(document).ready(function() {
                     var error_msg = JSON.parse(e.responseText)['message'];
                 }
                 else {
-                    var error_msg = 'Some error occured. Please try again';
+                    var error_msg = __('Some error occured. Please try again');
                 }
 
                 notify(error_msg, "error");
@@ -76,7 +76,7 @@ $(document).ready(function() {
                     var error_msg = JSON.parse(e.responseText)['message'];
                 }
                 else {
-                    var error_msg = 'Some error occured. Please try again';
+                    var error_msg = __('Some error occured. Please try again');
                 }
 
                 notify(error_msg, "error");
@@ -135,32 +135,32 @@ $(document).ready(function() {
 
                             if (column_name == "download") {
                                 list_records += '<td data-field-name="' + column_name + '">\
-                                    <a href="' + field_value + '" class="btn btn-success btn-xs" data-toggle="tooltip" data-placement="bottom" title="Download backup">\
-                                        Download\
+                                    <a href="' + field_value + '" class="btn btn-success btn-xs" data-toggle="tooltip" data-placement="bottom" title="' + __("Download backup") + '">\
+                                        ' + __("Download") + '\
                                     </a>\
                                 </td>';
                             }
                             else if (column_name == "delete") {
                                 list_records += '<td data-field-name="' + column_name + '">\
-                                    <button class="btn btn-danger btn-xs delete-backup" data-toggle="tooltip" data-placement="bottom" title="Delete backup" data-href="' + field_value + '">\
-                                        Delete\
+                                    <button class="btn btn-danger btn-xs delete-backup" data-toggle="tooltip" data-placement="bottom" title="' + __("Delete backup") + '" data-href="' + field_value + '">\
+                                        ' + __("Delete") + '\
                                     </button>\
                                 </td>';
                             }
                             else if (column_name == "type") {
                                 if (field_value == "Database") {
                                     list_records += '<td data-field-name="' + column_name + '">\
-                                        <span class="label label-info">' + field_value + '</span>\
+                                        <span class="label label-info">' + __("Database") + '</span>\
                                     </td>';
                                 }
                                 else if (field_value == "Files") {
                                     list_records += '<td data-field-name="' + column_name + '">\
-                                        <span class="label label-warning">' + field_value + '</span>\
+                                        <span class="label label-warning">' + __("Files") + '</span>\
                                     </td>';
                                 }
                                 else if (field_value == "Database + Files") {
                                     list_records += '<td data-field-name="' + column_name + '">\
-                                        <span class="label label-primary">' + field_value + '</span>\
+                                        <span class="label label-primary">' + __("Database") + ' + ' + __("Files") + '</span>\
                                     </td>';
                                 }
                             }
@@ -203,7 +203,7 @@ $(document).ready(function() {
                     var error_msg = JSON.parse(e.responseText)['message'];
                 }
                 else {
-                    var error_msg = 'Some error occured. Please try again';
+                    var error_msg = __('Some error occured. Please try again');
                 }
 
                 notify(error_msg, "error");

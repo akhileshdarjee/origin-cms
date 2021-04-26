@@ -1,18 +1,20 @@
 @extends('admin')
 
-@var $page_title = isset($form_data[$table_name]['id']) ? $form_data[$table_name][$form_title] : $title
+@var $page_title = isset($form_data[$table_name]['id']) ? $form_data[$table_name][$form_title] . ' - ' . __($title) : __($title)
 @section('title', $page_title . ' - ' . config('app.brand.name'))
 
 @section('data')
     <script type="text/javascript">
         window.origin = {
-            data: <?php echo isset($form_data) ? json_encode($form_data) : json_encode(false) ?>,
+            data: <?php echo isset($form_data) ? json_encode($form_data) : 'false' ?>,
+            locale: <?php echo json_encode(app()->getLocale()) ?>,
+            translations: <?php echo json_encode(session()->get('translations')) ?>,
             title: "{{ $title }}",
             slug: "{{ $slug }}",
             module: "{{ $module }}",
             changed: false,
             table_name: "{{ $table_name }}",
-            permissions: <?php echo isset($permissions) ? json_encode($permissions) : json_encode(false) ?>
+            permissions: <?php echo isset($permissions) ? json_encode($permissions) : 'false' ?>
         };
     </script>
 @endsection

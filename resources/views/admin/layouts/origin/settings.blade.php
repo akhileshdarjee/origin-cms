@@ -32,6 +32,15 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
+                        <label class="control-label">{{ __('Language') }}</label>
+                        <div>
+                            <input type="text" name="language" class="form-control autocomplete" data-ac-module="Language" data-ac-field="name" data-mandatory="yes" autocomplete="off">
+                            <input type="hidden" name="locale" data-ac-module="Language" data-ac-field="locale">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
                         <label class="control-label">{{ __('Theme') }}</label>
                         <div>
                             <select name="theme" id="theme" class="custom-select" data-mandatory="yes">
@@ -41,7 +50,9 @@
                         </div>
                     </div>
                 </div>
-                @if (auth()->user()->role == "Administrator" && auth()->user()->username == "admin")
+            </div>
+            @if (auth()->user()->role == "Administrator" && auth()->user()->username == "admin")
+                <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="control-label">{{ __('Enable Backups') }}</label>
@@ -57,7 +68,8 @@
                             </div>
                         </div>
                     </div>
-                @endif
+                </div>
+            @endif
             </div>
         </div>
     </div>

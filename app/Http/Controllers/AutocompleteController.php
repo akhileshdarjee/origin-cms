@@ -267,8 +267,8 @@ class AutocompleteController extends Controller
                         if ($data && count($data)) {
                             foreach ($data as $idx => $record) {
                                 array_push($result, [
-                                    'label' => $table['module_label'] . ' <b>' . __(strval($record->{$table['fetch_fields'][1]})) . '</b>', 
-                                    'value' => $table['module_label'] . ' ' . __(strval($record->{$table['fetch_fields'][1]})), 
+                                    'label' => $table['module_label'] . ' <b>' . strval($record->{$table['fetch_fields'][1]}) . '</b>', 
+                                    'value' => $table['module_label'] . ' ' . strval($record->{$table['fetch_fields'][1]}), 
                                     'redirect_to' => route('show.doc', ['slug' => $table['module_slug'], 'id' => $record->id])
                                 ]);
                             }

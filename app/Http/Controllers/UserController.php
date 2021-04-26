@@ -124,7 +124,7 @@ class UserController extends Controller
                 $msg = __('Invalid Token or Token Expired');
             }
         } else {
-            $msg = __('Please provide token to verify email address');
+            $msg = __('Please provide token to verify email');
         }
 
         if ($request->ajax()) {

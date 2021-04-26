@@ -7,6 +7,7 @@ use Exception;
 use File;
 use App\Module;
 use App\Activity;
+use App\User;
 
 trait CommonController
 {
@@ -227,5 +228,27 @@ trait CommonController
         }
 
         return $table_schema;
+    }
+
+    // update locale for user and update the session translations
+    public function updateLocale($locale)
+    {
+        $user_updated = User::where('id', auth()->user()->id)
+            ->update(['locale' => $locale, 'updated_at' => date('Y-m-d H:i:s')]);
+
+        if ($user_updated) {
+            session()->put('locale', $locale);
+            app()->setLocale($locale);
+            session()->forget('translations');
+
+            $translations = [];
+
+            if ($locale != 'en' && File::exists(resource_path('lang/' . $locale . '.json'))) {
+                $translations = File::get(resource_path('lang/' . $locale . '.json'));
+                $translations = json_decode($translations, true);
+            }
+
+            session()->put('translations', $translations);
+        }
     }
 }

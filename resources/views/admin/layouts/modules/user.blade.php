@@ -21,7 +21,7 @@
                         @endif
                         </div>
                         <div class="media-body">
-                            <label title="{{ __('Upload image file') }}" for="avatar" class="btn bg-gradient-secondary btn-sm ml-3 text-xs">
+                            <label for="avatar" class="btn bg-gradient-secondary btn-sm ml-3 text-xs">
                                 <input type="file" accept="image/*" name="avatar" id="avatar" class="d-none">
                                 {{ __('Change') }}
                             </label>
@@ -49,7 +49,7 @@
                     <label class="control-label">{{ __('Title') }}</label>
                     <div>
                         <select name="title" class="custom-select" data-mandatory="no">
-                            <option value="" default selected>{{ __('Title') }}</option>
+                            <option value="" default selected></option>
                             <option value="Mr.">{{ __('Mr.') }}</option>
                             <option value="Dr.">{{ __('Dr.') }}</option>
                             <option value="Prof.">{{ __('Prof.') }}</option>
@@ -125,17 +125,6 @@
                             <option value="Administrator">{{ __('Administrator') }}</option>
                             <option value="Guest">{{ __('Guest') }}</option>
                         </select>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label class="control-label">
-                        {{ __('Language') }} <span class="text-danger">*</span>
-                    </label>
-                    <div>
-                        <input type="text" name="language" class="form-control autocomplete" data-ac-module="Language" data-ac-field="name" data-mandatory="yes" autocomplete="off">
-                        <input type="hidden" name="locale" data-ac-module="Language" data-ac-field="locale">
                     </div>
                 </div>
             </div>

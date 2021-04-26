@@ -128,7 +128,7 @@ function addRow(table, idx, action) {
                         <div class="media-body text-left">\
                             <label title="Upload image file" class="btn bg-gradient-secondary btn-xs ml-3 text-xs">\
                                 <input type="file" accept="image/*" name="' + table_name + '[' + (idx - 1) + '][' + field_name + ']" class="d-none">\
-                                Change\
+                                ' + __("Change") + '\
                             </label>\
                         </div>\
                     </div>\
@@ -358,7 +358,7 @@ function addNewRows(table_name, records) {
                             <div class="media-body text-left">\
                                 <label title="Upload image file" class="btn bg-gradient-secondary btn-xs ml-3 text-xs">\
                                     <input type="file" accept="image/*" name="' + table_name + '[' + idx + '][' + field_name + ']" class="d-none">\
-                                    Change\
+                                    ' + __("Change") + '\
                                 </label>\
                             </div>\
                         </div>\
@@ -504,7 +504,7 @@ function setPickersInTable(table_name, table, field_types) {
 
                 var tab_records = $(table).find("tbody > tr").length;
 
-                if ($.trim($('body').find('[name="id"]').val()) && doc_records == tab_records) {
+                if (trim($('body').find('[name="id"]').val()) && doc_records == tab_records) {
                     $(element).closest("tr").find("td.action > input").val("update");
                 }
 
@@ -535,7 +535,7 @@ function setPickersInTable(table_name, table, field_types) {
 
                 var tab_records = $(table).find("tbody > tr").length;
 
-                if ($.trim($('body').find('[name="id"]').val()) && doc_records == tab_records) {
+                if (trim($('body').find('[name="id"]').val()) && doc_records == tab_records) {
                     $(element).closest("tr").find("td.action > input").val("update");
                 }
 
@@ -573,7 +573,7 @@ function setPickersInTable(table_name, table, field_types) {
 
                 var tab_records = $(table).find("tbody > tr").length;
 
-                if ($.trim($('body').find('[name="id"]').val()) && doc_records == tab_records) {
+                if (trim($('body').find('[name="id"]').val()) && doc_records == tab_records) {
                     $(element).closest("tr").find("td.action > input").val("update");
                 }
 

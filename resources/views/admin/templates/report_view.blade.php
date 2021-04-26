@@ -35,7 +35,7 @@
                 </div>
                 <div class="col-sm-6 col-4 text-right list-btns">
                     @if (view()->exists('admin/layouts/reports/' . Str::snake($title)))
-                        <button class="btn btn-default btn-sm elevation-2" id="filter_report" name="filter_report" data-toggle="tooltip" data-placement="top" title="{{ __('Apply filters') }}">
+                        <button class="btn btn-default btn-sm elevation-2" id="filter_report" name="filter_report" data-toggle="tooltip" data-placement="top" title="{{ __('Apply filter') }}">
                             <span class="d-none d-sm-none d-md-inline-block">{{ __('Filter') }}</span>
                             <span class="d-md-none d-lg-none d-xl-none"><i class="fas fa-filter"></i></span>
                         </button>

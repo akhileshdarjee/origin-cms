@@ -76,17 +76,17 @@ class OriginBackup extends Command
                             $this->backupFiles(true); // backup user uploaded files
                         }
 
-                        $this->info('Backup has been created successfully.');
+                        $this->info(__('Backup created successfully'));
                     }
                 } else {
-                    $this->error('Backups are not enabled. Please enable it from Settings');
+                    $this->error(__('Backups are not enabled. Please enable it from Settings'));
                 }
             } else {
-                $this->error('Backups are not enabled. Please enable it from Settings');
+                $this->error(__('Backups are not enabled. Please enable it from Settings'));
             }
         } catch (ProcessFailedException $e) {
-            logger()->error('Backup process failed: ' . str_replace("'", "", $e->getMessage()));
-            $this->error('Backup process has been failed.');
+            logger()->error('Backup creation failed: ' . str_replace("'", "", $e->getMessage()));
+            $this->error(__('Backup creation failed'));
         }
     }
 

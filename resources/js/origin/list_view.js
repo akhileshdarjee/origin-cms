@@ -7,7 +7,7 @@ $(document).ready(function() {
 
     $("body").on("click", "#add-filter", function() {
         resetFilterInputs();
-        $('.list-column-filters').toggle();
+        $('body').find('.list-column-filters').toggle();
     });
 
     $("body").on("click", ".refresh-list-view", function() {
@@ -20,19 +20,24 @@ $(document).ready(function() {
         var order = $(this).data("value");
         var btn_html = '';
         var sort_order = '';
+        var sort_title = '';
 
         if (order == "desc") {
             sort_order = 'asc';
             btn_html = '<i class="fas fa-sort-amount-up"></i>';
+            sort_title = __('Ascending');
         }
         else {
             sort_order = 'desc';
             btn_html = '<i class="fas fa-sort-amount-down"></i>';
+            sort_title = __('Descending');
         }
 
         $(this).html(btn_html);
         $(this).attr("data-value", sort_order);
         $(this).data("value", sort_order);
+        $(this).attr("data-original-title", sort_title);
+        $(this).data("original-title", sort_title);
 
         updateSortingFields();
     });
@@ -41,7 +46,7 @@ $(document).ready(function() {
     $("body").on("click", ".sort-list-by-name", function(e) {
         e.preventDefault();
         var sort_field = $(this).data("value");
-        var field_label = $.trim($(this).html());
+        var field_label = trim($(this).html());
 
         $("body").find("#sort-field").attr("data-value", sort_field);
         $("body").find("#sort-field").data("value", sort_field);
@@ -100,7 +105,7 @@ $(document).ready(function() {
 
             var filter_tag = '<div class="btn-group filter-tag" data-cn="' + column_name + '" data-co="' + column_operator + '" data-cv="' + column_value + '">\
                 <button class="btn btn-light btn-sm elevation-1" type="button">' + tag_text + '</button>\
-                <button class="btn btn-light btn-sm elevation-1 remove-filter" type="button" data-toggle="tooltip" data-placement="right" title="Remove filter">\
+                <button class="btn btn-light btn-sm elevation-1 remove-filter" type="button" data-toggle="tooltip" data-placement="right" title="' + __("Remove filter") + '">\
                     <i class="fas fa-times"></i>\
                 </button>\
             </div>';
@@ -115,7 +120,7 @@ $(document).ready(function() {
             refreshListView(current_page);
         }
         else {
-            notify("Please select Column Name & Column Operator", "error");
+            notify(__('Please select Filter field name & Filter condition'), "error");
         }
     });
 
@@ -127,9 +132,9 @@ $(document).ready(function() {
         var new_input = '';
 
         if (column_type == "boolean") {
-            new_input = '<select class="custom-select" name="column_value" data-toggle="tooltip" data-placement="bottom" title="Filter value">\
-                <option value="1">Yes</option>\
-                <option value="0">No</option>\
+            new_input = '<select class="custom-select" name="column_value" data-toggle="tooltip" data-placement="bottom" title="' + __("Select value") + '">\
+                <option value="1">' + __("Yes") + '</option>\
+                <option value="0">' + __("No") + '</option>\
             </select>';
         }
         else if (column_type == "date") {
@@ -139,7 +144,7 @@ $(document).ready(function() {
                         <i class="fas fa-calendar-alt fa-sm"></i>\
                     </span>\
                 </span>\
-                <input type="text" name="column_value" class="form-control datepicker" autocomplete="off" data-toggle="tooltip" data-placement="bottom" title="Filter value">\
+                <input type="text" name="column_value" class="form-control datepicker" autocomplete="off" data-toggle="tooltip" data-placement="bottom" title="' + __("Select value") + '">\
             </div>';
         }
         else if (column_type == "time") {
@@ -149,7 +154,7 @@ $(document).ready(function() {
                         <i class="fas fa-clock fa-sm"></i>\
                     </span>\
                 </span>\
-                <input type="text" name="column_value" class="form-control timepicker" autocomplete="off" data-toggle="tooltip" data-placement="bottom" title="Filter value">\
+                <input type="text" name="column_value" class="form-control timepicker" autocomplete="off" data-toggle="tooltip" data-placement="bottom" title="' + __("Select value") + '">\
             </div>';
         }
         else if (column_type == "datetime") {
@@ -159,11 +164,11 @@ $(document).ready(function() {
                         <i class="fas fa-calendar-alt fa-sm"></i>\
                     </span>\
                 </span>\
-                <input type="text" name="column_value" class="form-control datetimepicker" autocomplete="off" data-toggle="tooltip" data-placement="bottom" title="Filter value">\
+                <input type="text" name="column_value" class="form-control datetimepicker" autocomplete="off" data-toggle="tooltip" data-placement="bottom" title="' + __("Select value") + '">\
             </div>';
         }
         else {
-            new_input = '<input type="text" name="column_value" class="form-control autocomplete" autocomplete="off" data-ac-module="' + module_name + '" data-ac-field="' + column_name + '" data-ac-unique="Yes" data-toggle="tooltip" data-placement="bottom" title="Filter value">';
+            new_input = '<input type="text" name="column_value" class="form-control autocomplete" autocomplete="off" data-ac-module="' + module_name + '" data-ac-field="' + column_name + '" data-ac-unique="Yes" data-toggle="tooltip" data-placement="bottom" title="' + __("Select value") + '">';
         }
 
         $(value_container).empty().append(new_input);
@@ -213,10 +218,10 @@ $(document).ready(function() {
                     <div class="row">\
                         <div class="col-md-12">\
                             <div class="form-group text-center">\
-                                <label class="control-label">Import File (.csv, .xls, .xlsx)</label><br>\
-                                <label title="Upload file" for="import_file" class="btn bg-gradient-secondary btn-sm">\
+                                <label class="control-label">' + __("Import File") + ' (.csv, .xls, .xlsx)</label><br>\
+                                <label for="import_file" class="btn bg-gradient-secondary btn-sm text-xs">\
                                     <input type="file" accept=".csv, .xls, .xlsx" name="import_file" id="import_file" class="d-none">\
-                                    Change\
+                                    ' + __("Change") + '\
                                 </label>\
                                 <input type="hidden" class="form-control" name="module" value="' + $(this).data("module") + '">\
                                 <div id="import-file-name"></div>\
@@ -230,7 +235,7 @@ $(document).ready(function() {
                                 <div class="progress-bar bg-primary progress-bar-striped" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">\
                                 </div>\
                             </div>\
-                            <button type="button" class="btn btn-block bg-gradient-primary" id="start-importing">Import</button>\
+                            <button type="button" class="btn btn-block bg-gradient-primary" id="start-importing">' + __("Import") + '</button>\
                         </div>\
                     </div>\
                 </form>\
@@ -295,11 +300,18 @@ $(document).ready(function() {
                             $(import_form).find('.import-errors').show();
                         }
                     },
-                    error: function (data) {
+                    error: function (e) {
                         $(import_form).find('.progress').hide();
                         $(me).show();
 
-                        $(import_form).find('.import-errors').empty().append("Some internal error occured. Please try again");
+                        if (typeof JSON.parse(e.responseText)['message'] !== 'undefined') {
+                            var error_msg = JSON.parse(e.responseText)['message'];
+                        }
+                        else {
+                            var error_msg = __('Some error occured. Please try again');
+                        }
+
+                        $(import_form).find('.import-errors').empty().append(error_msg);
                         $(import_form).find('.import-errors').show();
                     }
                 });
@@ -308,7 +320,7 @@ $(document).ready(function() {
                 $(import_form).find('.progress').hide();
                 $(me).show();
 
-                $(import_form).find('.import-errors').empty().append("Please attach import template to import data");
+                $(import_form).find('.import-errors').empty().append(__('Please attach import template to import data'));
                 $(import_form).find('.import-errors').show();
             }
         });
@@ -482,7 +494,7 @@ $(document).ready(function() {
                     var error_msg = JSON.parse(e.responseText)['message'];
                 }
                 else {
-                    var error_msg = 'Some error occured. Please try again';
+                    var error_msg = __('Some error occured. Please try again');
                 }
 
                 notify(error_msg, "error");
@@ -500,7 +512,7 @@ $(document).ready(function() {
 
         if (checked_length > 0) {
             var total_records = $("body").find(".item-count").html();
-            var selected_msg = checked_length + ' of ' + total_records + ' selected';
+            var selected_msg = checked_length + ' ' + __("of") + ' ' + total_records + ' ' + __("selected");
             $("body").find('.record-selected-count').html(selected_msg);
             $("body").find('.record-selected-count').show();
             $("body").find(".new-form").hide();
@@ -519,15 +531,16 @@ $(document).ready(function() {
         var checked_rows = getCheckedRows();
 
         if (checked_rows.length > 0) {
-            var modal_footer = '<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">No</button>\
-                <button type="button" class="btn btn-danger btn-sm" id="delete-records">Yes</button>';
-            msgbox("Sure you want to delete selected records permanently?", modal_footer);
+            var modal_footer = '<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">' + __("No") + '</button>\
+                <button type="button" class="btn btn-danger btn-sm" id="delete-records">' + __("Yes") + '</button>';
+
+            msgbox(__('Sure you want to delete selected records permanently') + "?", modal_footer);
         }
         else {
-            notify("Please select any record to delete", "error");
+            notify(__('Please select any record to delete'), "error");
         }
 
-        $("#delete-records").on("click", function() {
+        $("body").on("click", "#delete-records", function() {
             refreshListView(current_page, checked_rows);
         });
     }
@@ -614,7 +627,7 @@ $(document).ready(function() {
             });
         }
         else {
-            notify("Records deleted successfully", "success");
+            notify(__('Records deleted successfully'), "success");
             toggleActionButton();
         }
 
@@ -667,7 +680,7 @@ $(document).ready(function() {
                         var error_msg = JSON.parse(e.responseText)['message'];
                     }
                     else {
-                        var error_msg = 'Some error occured. Please try again';
+                        var error_msg = __('Some error occured. Please try again');
                     }
 
                     notify(error_msg, "error");

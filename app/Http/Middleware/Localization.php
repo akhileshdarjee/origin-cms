@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use File;
 use Closure;
 
 class Localization
@@ -21,6 +22,18 @@ class Localization
 
         if (session()->has('locale')) {
             app()->setLocale(session()->get('locale'));
+        }
+
+        if (!session()->get('translations')) {
+            $locale = app()->getLocale();
+            $translations = [];
+
+            if ($locale != 'en' && File::exists(resource_path('lang/' . $locale . '.json'))) {
+                $translations = File::get(resource_path('lang/' . $locale . '.json'));
+                $translations = json_decode($translations, true);
+            }
+
+            session()->put('translations', $translations);
         }
 
         return $next($request);

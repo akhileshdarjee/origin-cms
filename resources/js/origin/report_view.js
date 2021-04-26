@@ -172,8 +172,8 @@ $(document).ready(function() {
                     report_table.rows.add(table_rows).draw('false');
 
                     var report_info = '<span class="item-from">' + from + '</span> -\
-                    <span class="item-to">' + to + '</span> of \
-                    <span class="badge badge-primary item-count">' + total + '</span>';
+                        <span class="item-to">' + to + '</span> ' + __("of") + ' \
+                        <span class="badge badge-primary item-count">' + total + '</span>';
 
                     $('body').find('.not-found').hide();
                     $("body").find(".report-actions").show();
@@ -194,9 +194,9 @@ $(document).ready(function() {
                     }
                     else {
                         if (typeof data['module_new_record'] !== 'undefined') {
-                            var new_form = '<a href="' + data["module_new_record"] + '" class="btn bg-gradient-primary btn-sm elevation-2 new-form" data-toggle="tooltip" data-placement="bottom" title="New ' + data["module_name"] + '">\
+                            var new_form = '<a href="' + data["module_new_record"] + '" class="btn bg-gradient-primary btn-sm elevation-2 new-form" data-toggle="tooltip" data-placement="bottom" title="' + __("New") + ' ' + data["module_name"] + '">\
                                 <i class="fas fa-plus fa-sm pr-1"></i>\
-                                New ' + data["module_name"] + '\
+                                ' + __("New") + ' ' + data["module_name"] + '\
                             </a>';
 
                             var add_new = getAddNewRecord(data['module_name'], new_form);
@@ -217,7 +217,7 @@ $(document).ready(function() {
                     var error_msg = JSON.parse(e.responseText)['message'];
                 }
                 else {
-                    var error_msg = 'Some error occured. Please try again';
+                    var error_msg = __('Some error occured. Please try again');
                 }
 
                 notify(error_msg, "error");
@@ -236,7 +236,7 @@ $(document).ready(function() {
             label = label.toProperCase();
             label = label.replace("Id", "ID");
 
-            headers += '<th name="' + column + '">' + label + '</th>';
+            headers += '<th name="' + column + '">' + __(label) + '</th>';
         });
 
         headers += '</tr>';
@@ -250,8 +250,10 @@ $(document).ready(function() {
             "sPaginationType": "full_numbers",
             "bAutoWidth": false,
             "oLanguage": {
-                "sEmptyTable": "No Data",
-                "sProcessing": '<div class="text-center>Processing...</div>'
+                "sLengthMenu": __('Show') + " _MENU_ " + __('records'),
+                "sSearch": __('Search') + ": ",
+                "sEmptyTable": __('No Data'),
+                "sProcessing": '<div class="text-center>' + __("Processing") + '...</div>'
             },
             "scrollY": 380,
             "scrollX": true

@@ -86,7 +86,7 @@ class BackupController extends Controller
 
     public function download(Request $request, $name)
     {
-        $msg = __('You are not authorized to view this page');
+        $msg = __('You are not authorized to download backups');
 
         if (auth()->user()->role == "Administrator" && auth()->user()->username == "admin") {
             if ($name) {
@@ -122,7 +122,7 @@ class BackupController extends Controller
 
     public function delete(Request $request, $name)
     {
-        $msg = __('You are not authorized');
+        $msg = __('You are not authorized to delete backups');
         $success = false;
 
         if (auth()->user()->role == "Administrator" && auth()->user()->username == "admin") {
@@ -168,7 +168,7 @@ class BackupController extends Controller
 
     public function create(Request $request)
     {
-        $msg = __('You are not authorized');
+        $msg = __('You are not authorized to create backups');
         $success = false;
 
         if (auth()->user()->role == "Administrator" && auth()->user()->username == "admin") {

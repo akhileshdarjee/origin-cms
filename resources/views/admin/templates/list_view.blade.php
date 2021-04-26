@@ -21,7 +21,7 @@
                 <div class="col-sm-6 col-6">
                     <h1 class="m-0">
                         <small>
-                            <i class="fas fa-list-ul"></i>
+                            <i class="{{ $module['icon'] }}"></i>
                             {{ __($module['display_name']) }} {{ __('List') }}
                         </small>
                     </h1>
@@ -72,7 +72,7 @@
                     <div class="card-header list-filter-sorting">
                         <div class="row">
                             <div class="col-md-9 col-sm-6 col-6">
-                                <button type="button" class="btn btn-default btn-sm" id="add-filter" data-toggle="tooltip" data-placement="right" title="{{ __('Add filters to show specific records') }}">
+                                <button type="button" class="btn btn-default btn-sm" id="add-filter" data-toggle="tooltip" data-placement="right" title="{{ __('Show filters') }}">
                                     <i class="fas fa-search fa-sm pr-1"></i>
                                     {{ __('Search') }}
                                 </button>
@@ -82,21 +82,19 @@
                                 <div class="btn-group">
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
-                                            <span class="clear" id="sort-field" data-value="{{ $module['sort_field'] }}" data-toggle="tooltip" data-placement="bottom" title="{{ __('Sort records by field name') }}">
+                                            <span class="clear" id="sort-field" data-value="{{ $module['sort_field'] }}" data-toggle="tooltip" data-placement="bottom" title="{{ __('Sort by field name') }}">
                                                 {{ __(str_replace("Id", "ID", awesome_case($module['sort_field']))) }}
                                             </span>
                                         </button>
                                         <div class="dropdown-menu dropdown-menu-right list-column-dropdown">
-                                            @foreach($table_columns as $column_name => $column_type)
-                                                @if (!in_array($column_name, ['avatar', 'password', 'remember_token']))
-                                                    <a href="#" class="dropdown-item sort-list-by-name" data-value="{{ $column_name }}">
-                                                        {{ __(str_replace("Id", "ID", awesome_case($column_name))) }}
-                                                    </a>
-                                                @endif
+                                            @foreach($table_columns as $column_name => $col)
+                                                <a href="#" class="dropdown-item sort-list-by-name" data-value="{{ $column_name }}">
+                                                    {{ $col['label'] }}
+                                                </a>
                                             @endforeach
                                         </div>
                                     </div>
-                                    <button type="button" class="btn btn-default btn-sm" id="sort-list-order" data-value="{{ $module['sort_order'] }}" data-toggle="tooltip" data-placement="bottom" title="{{ __('Sort in ascending/descending order') }}">
+                                    <button type="button" class="btn btn-default btn-sm" id="sort-list-order" data-value="{{ $module['sort_order'] }}" data-toggle="tooltip" data-placement="bottom" title="{{ ($module['sort_order'] == 'asc') ? __('Ascending') : __('Descending') }}">
                                         @if ($module['sort_order'] == "asc")
                                             <i class="fas fa-sort-amount-up"></i>
                                         @else
@@ -111,20 +109,18 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <select class="custom-select" name="column_name" data-toggle="tooltip" data-placement="bottom" title="{{ __('Filter field name') }}">
-                                        @foreach($table_columns as $column_name => $column_type)
-                                            @if (!in_array($column_name, ['avatar', 'password', 'remember_token']))
-                                                <option value="{{ $column_name }}" data-type="{{ $column_type }}">
-                                                    {{ __(str_replace("Id", "ID", awesome_case($column_name))) }}
-                                                </option>
-                                            @endif
+                                    <select class="custom-select" name="column_name" data-toggle="tooltip" data-placement="bottom" title="{{ __('Select field name') }}">
+                                        @foreach($table_columns as $column_name => $col)
+                                            <option value="{{ $column_name }}" data-type="{{ $col['type'] }}">
+                                                {{ $col['label'] }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <select class="custom-select" name="column_operator" data-toggle="tooltip" data-placement="bottom" title="{{ __('Filter condition') }}">
+                                    <select class="custom-select" name="column_operator" data-toggle="tooltip" data-placement="bottom" title="{{ __('Select condition') }}">
                                         <option value="=">{{ __('Equals') }}</option>
                                         <option value="!=">{{ __('Not Equals') }}</option>
                                         <option value="like">{{ __('Like') }}</option>
@@ -141,7 +137,7 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group column-value-container">
-                                    <input type="text" name="column_value" class="form-control" autocomplete="off" data-toggle="tooltip" data-placement="bottom" title="{{ __('Filter value') }}">
+                                    <input type="text" name="column_value" class="form-control" autocomplete="off" data-toggle="tooltip" data-placement="bottom" title="{{ __('Select value') }}">
                                 </div>
                             </div>
                             <div class="col-md-3">

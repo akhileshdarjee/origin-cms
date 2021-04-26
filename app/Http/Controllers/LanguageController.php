@@ -41,7 +41,7 @@ class LanguageController extends Controller
 
         if ($language) {
             if ($language->locale == 'en') {
-                throw new Exception(__('Cannot delete system default locale: en'));
+                throw new Exception(__('Cannot delete system default language: en'));
             }
         } else {
             throw new Exception(__('No such language found'));

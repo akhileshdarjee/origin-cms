@@ -6,7 +6,7 @@
             Akhilesh Darjee
         </a>
     </div>
-    Copyright &copy; {{ date('Y') }} - 
+    {{ __('Copyright') }} &copy; {{ date('Y') }} - 
     <a href="https://github.com/akhileshdarjee/origin-cms" class="footer-link" target="_blank">
         Origin CMS
     </a>

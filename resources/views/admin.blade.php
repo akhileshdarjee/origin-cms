@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}">
+<html lang="en">
     <head>
         <title>@yield('title')</title>
         @stack('meta')
@@ -9,7 +9,9 @@
         @section('data')
             <script type="text/javascript">
                 window.origin = {
-                    data: <?php echo isset($data) ? json_encode($data) : "false" ?>,
+                    data: <?php echo isset($data) ? json_encode($data) : 'false' ?>,
+                    locale: <?php echo json_encode(app()->getLocale()) ?>,
+                    translations: <?php echo json_encode(session()->get('translations')) ?>,
                 };
             </script>
         @show
@@ -31,8 +33,6 @@
             @include('admin.templates.footer')
             @include('admin.templates.msgbox')
         </div>
-        <div class="d-none page-error-msg">{{ __('Please refresh the page and try again') }}</div>
-        <div class="d-none some-error-msg">{{ __('Some error occured. Please try again') }}</div>
         <script type="text/javascript" src="{{ asset(mix('js/all.js')) }}"></script>
         @if (session()->exists('msg'))
             <script type="text/javascript">

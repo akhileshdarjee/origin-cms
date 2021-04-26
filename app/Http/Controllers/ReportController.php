@@ -20,6 +20,13 @@ class ReportController extends Controller
     {
         if (in_array(auth()->user()->role, ["System Administrator", "Administrator"])) {
             $app_reports = config('reports');
+
+            foreach ($app_reports as $report_name => $report) {
+                if (isset($report['allowed_roles']) && $report['allowed_roles'] && !in_array(auth()->user()->role, $report['allowed_roles'])) {
+                    unset($app_reports[$report_name]);
+                }
+            }
+
             return view('admin.layouts.origin.reports')->with(['data' => $app_reports]);
         } else {
             return back()->withInput()->with(['msg' => __('You are not authorized to view "Reports"')]);
@@ -68,7 +75,7 @@ class ReportController extends Controller
                                 $report_data['module_new_record'] = route('new.doc', ['slug' => $report_data['module_slug']]);
                             }
                         } else {
-                            throw new Exception('"' . $report_module . '" Module does not exist. Please update the module in ' . Str::studly($report_name) . ' controller');
+                            throw new Exception('"' . $report_module . '" module does not exist. Please update the module in ' . Str::studly($report_name) . ' controller');
                         }
                     }
 

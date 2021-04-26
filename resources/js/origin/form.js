@@ -21,12 +21,12 @@ $(document).ready(function() {
         var link_field_value = current_url.split('/').pop();
         var delete_path = current_url.replace("/" + link_field_value, "/delete/" + link_field_value);
 
-        var footer = '<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">No</button>\
-            <a class="btn btn-danger btn-sm" href="' + delete_path + '" id="yes" name="yes">\
-                Delete\
+        var footer = '<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">' + __("No") + '</button>\
+            <a class="btn btn-danger btn-sm" href="' + delete_path + '">\
+                ' + __("Delete") + '\
             </a>';
 
-        msgbox("Sure you want to delete this record permanently?", footer);
+        msgbox(__('Sure you want to delete this record permanently') + "?", footer);
     });
 
     // bind save and reset button to form
@@ -66,15 +66,16 @@ $(document).ready(function() {
             if (!trim($(field).val())) {
                 e.preventDefault();
                 validated = false;
-                var field_name = $(field).attr("name");
+                var field_label = trim($(field).closest('.form-group').find('.control-label').html());
 
-                if ($(field).closest('.table_record')) {
-                    if (field_name.match(/\[(.*?)\]/g)) {
-                        field_name = field_name.match(/\[(.*?)\]/g).pop().replace('[', '').replace(']', '');
-                    }
+                if ($(field).closest('.table_record').length) {
+                    var table_record = $(field).closest('.table_record');
+                    var cell_index = $(table_record).index();
+                    var field_label = $(table_record).closest('.child-table').find("thead > tr > th").eq(cell_index).html();
                 }
 
-                notify("Please Enter " + field_name.replace("_", " ").toProperCase(), "error");
+                field_label = field_label.replace(' <span class="text-danger">*</span>', '');
+                notify(__('Please enter') + " " + field_label, "error");
                 $(field).focus();
 
                 return false;
@@ -133,9 +134,9 @@ function highlightMandatoryFields(mandatory_fields) {
     }
 
     $.each(mandatory_fields, function(index, field) {
-        if ($.trim($(this).val()) == "") {
+        if (trim($(this).val()) == "") {
             // if not child table field
-            if (!$(field).closest('.table_record')) {
+            if (!$(field).closest('.table_record').length) {
                 $(field).closest(".form-group").addClass("is-invalid");
             }
 
@@ -153,9 +154,9 @@ function removeMandatoryHighlight(mandatory_fields) {
     $.each(mandatory_fields, function() {
         $parent_div = $(this).closest(".form-group");
 
-        if ($.trim($(this).val())) {
+        if (trim($(this).val())) {
             // if not child table field
-            if (!$(this).closest('.table_record')) {
+            if (!$(this).closest('.table_record').length) {
                 $($parent_div).removeClass("is-invalid");
             }
 
@@ -163,7 +164,7 @@ function removeMandatoryHighlight(mandatory_fields) {
         }
         else {
             // if not child table field
-            if (!$(this).closest('.table_record')) {
+            if (!$(this).closest('.table_record').length) {
                 $($parent_div).addClass("is-invalid");
             }
 
@@ -205,10 +206,10 @@ function makeFieldsReadable() {
                     var input_group = $(element).closest('.form-group').find('.input-group');
 
                     if ($(input_group).find('.input-group-append').length) {
-                        ele_val = '<span class="mr-2">' + ele_val + '</span>' + $.trim($(input_group).find('.input-group-text').html());
+                        ele_val = '<span class="mr-2">' + ele_val + '</span>' + trim($(input_group).find('.input-group-text').html());
                     }
                     else {
-                        ele_val = $.trim($(input_group).find('.input-group-text').html()) + '<span class="ml-2">' + ele_val + '</span>';
+                        ele_val = trim($(input_group).find('.input-group-text').html()) + '<span class="ml-2">' + ele_val + '</span>';
                     }
 
                     new_control = '<p class="form-control-static origin-static">' + ele_val + '</p>';
@@ -263,7 +264,7 @@ function enableSaveButton() {
     $("body").find("#save_form").removeClass("disabled");
     $("body").find("#save_form").prop("disabled", false);
     $("body").find("#form-stats > i").removeClass("text-green").addClass("text-warning");
-    $("body").find("#form-status").html('Not Saved');
+    $("body").find("#form-status").html(__('Not Saved'));
 }
 
 // show selected image file preview

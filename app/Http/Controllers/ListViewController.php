@@ -87,6 +87,8 @@ class ListViewController extends Controller
     {
         $user_role = auth()->user()->role;
         $table_schema = $this->getTableSchema($this->module['table_name']);
+        $rows = [];
+        $table_columns = [];
 
         if ($request->ajax() || $request->is('api/*')) {
             try {
@@ -94,8 +96,6 @@ class ListViewController extends Controller
             } catch(Exception $e) {
                 throw new Exception(str_replace("'", "", $e->getMessage()));
             }
-        } else {
-            $rows = [];
         }
 
         if ($user_role == 'System Administrator') {
@@ -106,11 +106,31 @@ class ListViewController extends Controller
             $can_delete = $this->roleWiseModules($user_role, "Delete", $this->module['name']);
         }
 
+        foreach ($table_schema as $column_name => $column_type) {
+            if (!in_array($column_name, ['avatar', 'password', 'remember_token'])) {
+                $column_label = str_replace("Id", "ID", awesome_case($column_name));
+                $column_label = explode(" ", $column_label);
+
+                foreach ($column_label as $c_idx => $col_part) {
+                    if ($col_part == 'Bg') {
+                        $column_label[$c_idx] = 'Background';
+                    }
+                }
+
+                $column_label = implode(" ", $column_label);
+
+                $table_columns[$column_name] = [
+                    'label' => __($column_label),
+                    'type' => $column_type
+                ];
+            }
+        }
+
         $list_view_data = [
             'module' => $this->module,
             'rows' => $rows,
             'columns' => array_map('trim', explode(",", $this->module['list_view_columns'])),
-            'table_columns' => $table_schema,
+            'table_columns' => $table_columns,
             'can_create' => $can_create,
             'can_delete' => $can_delete
         ];
@@ -279,7 +299,7 @@ class ListViewController extends Controller
 
                     $data = [
                         'success' => true,
-                        'msg' => __('List View sorting fields updated for current module')
+                        'msg' => __('Sorting fields has been updated')
                     ];
                 }
             } else {

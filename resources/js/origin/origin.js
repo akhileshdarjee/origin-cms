@@ -123,7 +123,6 @@ Storage.prototype.setObject = function(key, value) {
 
 // set common global variables
 var app_route = window.location.href;
-var app_locale = $('html').attr('lang');
 var base_url = $('body').attr('data-base-url');
 
 var isMobile = false;
@@ -147,7 +146,7 @@ $(function() {
     stickyRelocate();
 });
 
-moment.lang(app_locale);
+moment.locale(origin.locale);
 
 $(document).ready(function() {
     // set body data url
@@ -310,7 +309,7 @@ function changeTheme(theme) {
                     var error_msg = JSON.parse(e.responseText)['message'];
                 }
                 else {
-                    var error_msg = 'Some error occured. Please try again';
+                    var error_msg = __('Some error occured. Please try again');
                 }
 
                 notify(error_msg, "error");
@@ -318,7 +317,7 @@ function changeTheme(theme) {
         });
     }
     else {
-        notify("Please refresh the page and try again", "error");
+        notify(__('Please refresh the page and try again'), "error");
     }
 }
 
@@ -386,13 +385,15 @@ function enableAutocomplete() {
                         }
                         else {
                             if (request.term) {
-                                var label_value = 'No matches found';
+                                var label_value = __('No matches found');
+                                var label_title = 'No matches found';
                             }
                             else {
-                                var label_value = 'No Data';
+                                var label_value = __('No Data');
+                                var label_title = 'No Data';
                             }
 
-                            response([{label: label_value, val: request.term}]);
+                            response([{label: label_value, label_title: label_title, val: request.term}]);
                         }
                     },
                     error: function(e) {
@@ -400,7 +401,7 @@ function enableAutocomplete() {
                             var error_msg = JSON.parse(e.responseText)['message'];
                         }
                         else {
-                            var error_msg = 'Some error occured. Please try again';
+                            var error_msg = __('Some error occured. Please try again');
                         }
 
                         notify(error_msg, "error");
@@ -456,7 +457,7 @@ function enableAutocomplete() {
                 }
             }
         }).autocomplete("instance")._renderItem = function(ul, item) {
-            if (item["label"] == "No matches found" || item["label"] == "No Data") {
+            if (item["label_title"] == 'No matches found' || item["label_title"] == 'No Data') {
                 var list_item = '<li class="text-center autocomplete-no-data ui-state-disabled">\
                     <div class="autocomplete-no-data text-muted text-sm">' + item["label"] + '</div>\
                 </li>';
@@ -640,13 +641,13 @@ function msgbox(msg, footer, title, size) {
 
     $(modal).on('hidden.bs.modal', function (e) {
         $(this).find('.modal-dialog').removeClass("modal-lg modal-sm");
-        $(this).find('.modal-title').html("Message");
+        $(this).find('.modal-title').html(__('Message'));
         $(this).find('.modal-body').html("");
         $(this).find('.modal-footer').html("");
         $(this).find('.modal-footer').hide();
     });
 
-    $(modal).find('.modal-title').html(title ? title : "Message");
+    $(modal).find('.modal-title').html(title ? title : __('Message'));
     $(modal).find('.modal-body').html(msg);
 
     if (size == "large") {
@@ -670,25 +671,26 @@ function msgbox(msg, footer, title, size) {
 
 // toastr notification
 function notify(msg, type) {
-    if (type == 'success') {
-        var icon = 'fas fa-check text-green';
-    }
-    else if (type == 'warning') {
+    if (type == 'warning') {
         var icon = 'fas fa-exclamation-triangle text-warning';
+        var title = __('Warning');
     }
     else if (type == 'info') {
         var icon = 'fas fa-info-circle text-info';
+        var title = __('Info');
     }
     else if (type == 'error') {
         var icon = 'fas fa-bug text-danger';
+        var title = __('Error');
     }
     else {
         var icon = 'fas fa-check text-green';
+        var title = __('Success');
     }
 
     $(document).Toasts('create', {
         body: msg,
-        title: type ? type.toProperCase() : 'Success',
+        title: title,
         autohide: true,
         delay: 5000,
         icon: icon + ' fa-lg',
@@ -701,12 +703,13 @@ function beautifyListView(list_view) {
     var money_list = ['total_amount', 'grand_total', 'rate', 'amount', 'debit', 'credit', 'price', 'total'];
     var contact_list = ['contact_no', 'phone_no', 'phone', 'mobile', 'mobile_no'];
     var address_list = ['address', 'full_address', 'city', 'venue'];
-    var email_list = ['email_id', 'guest_id'];
-    var label_list = ['active', 'show_in_module_section', 'role'];
+    var email_list = ['email_id', 'email'];
+    var label_list = ['active', 'verified', 'show_in_module_section', 'role'];
     var label_bg = {
-        'active' : { '1' : {'value': 'Yes', 'label': 'badge-success'}, '0' : {'value': 'No', 'label': 'badge-danger'} }, 
+        'active' : { '1' : {'value': __('Yes'), 'label': 'badge-success'}, '0' : {'value': __('No'), 'label': 'badge-danger'} }, 
+        'verified' : { '1' : {'value': __('Yes'), 'label': 'badge-success'}, '0' : {'value': __('No'), 'label': 'badge-danger'} }, 
+        'show_in_module_section' : { '1' : {'value': __('Yes'), 'label': 'badge-success'}, '0' : {'value': __('No'), 'label': 'badge-danger'} }, 
         'role' : { 'System Administrator' : 'badge-light', 'Administrator' : 'badge-dark', 'Guest' : 'badge-info' }, 
-        'show_in_module_section' : { '1' : 'badge-success', '0' : 'badge-danger' }, 
     }
 
     var list_view = list_view ? list_view : ".list-view";
@@ -723,11 +726,21 @@ function beautifyListView(list_view) {
                 heading = heading.replace("Id", "ID");
             }
 
+            heading = heading.split(' ');
+
+            $.each(heading, function(i, heading_part) {
+                if (heading_part == 'Bg') {
+                    heading[i] = 'Background';
+                }
+            });
+
+            heading = heading.join(' ');
+
             if (money_list.contains(heading_name)) {
-                $(this).html(heading + ' (<i class="fas fa-rupee-sign"></i>)');
+                $(this).html(__(heading) + ' (<i class="fas fa-rupee-sign"></i>)');
             }
             else {
-                $(this).html(heading);
+                $(this).html(__(heading));
             }
         }
     });
@@ -736,9 +749,9 @@ function beautifyListView(list_view) {
         $.each($(list_view_items).find(".clickable_row > td"), function() {
             if ($(this).attr("data-field-name")) {
                 var column_name = $(this).attr("data-field-name");
-                var column_value = $.trim($(this).html());
+                var column_value = trim($(this).html());
 
-                if ($.trim(column_value) != "") {
+                if (trim(column_value) != "") {
                     if (money_list.contains(column_name)) {
                         $(this).html('<i class="fas fa-rupee-sign mr-1"></i> ' + column_value);
                     }
@@ -753,10 +766,10 @@ function beautifyListView(list_view) {
                     }
                     else if (label_list.contains(column_name)) {
                         if (typeof label_bg[column_name][column_value] === "object") {
-                            $(this).html('<span class="badge ' + label_bg[column_name][column_value]["label"] + '">' + label_bg[column_name][column_value]["value"] + '</span>');
+                            $(this).html('<span class="badge ' + label_bg[column_name][column_value]["label"] + '">' + __(label_bg[column_name][column_value]["value"]) + '</span>');
                         }
                         else {
-                            $(this).html('<span class="badge ' + label_bg[column_name][column_value] + '">' + column_value + '</span>');
+                            $(this).html('<span class="badge ' + label_bg[column_name][column_value] + '">' + __(column_value) + '</span>');
                         }
                     }
                     else if (column_value.isDate()) {
@@ -767,6 +780,9 @@ function beautifyListView(list_view) {
                     }
                     else if (column_value.isTime()) {
                         $(this).html('<i class="fas fa-clock mr-1"></i> ' + moment.utc('0001-01-01 ' + column_value).local().format('hh:mm A'));
+                    }
+                    else if (isHexColor(column_value)) {
+                        $(this).html('<span style="color: ' + column_value + ';"> ' + column_value + '</span>');
                     }
                 }
             }
@@ -814,26 +830,26 @@ function makePagination(data) {
 
     pagination += '<li class="page-item first' + (first_enabled ? "" : " disabled") + '">\
         <a class="page-link" href="' + (first_enabled ? first : "#") + '" data-dt-idx="0" tabindex="0">\
-            <span class="d-none d-sm-none d-md-block">First</span>\
+            <span class="d-none d-sm-none d-md-block">' + __("First") + '</span>\
             <span class="d-md-none d-lg-none d-xl-none"><i class="fas fa-angle-double-left"></i></span>\
         </a>\
     </li>\
     <li class="page-item previous' + (prev ? "" : " disabled") + '">\
         <a class="page-link" href="' + (prev ? prev : "#") + '" data-dt-idx="1" tabindex="0">\
-            <span class="d-none d-sm-none d-md-block">Previous</span>\
+            <span class="d-none d-sm-none d-md-block">' + __("Previous") + '</span>\
             <span class="d-md-none d-lg-none d-xl-none"><i class="fas fa-angle-left"></i></span>\
         </a>\
     </li>';
 
     pagination += '<li class="page-item next' + (next ? "" : " disabled") + '">\
         <a class="page-link" href="' + (next ? next : "#") + '" data-dt-idx="2" tabindex="0">\
-            <span class="d-none d-sm-none d-md-block">Next</span>\
+            <span class="d-none d-sm-none d-md-block">' + __("Next") + '</span>\
             <span class="d-md-none d-lg-none d-xl-none"><i class="fas fa-angle-right"></i></span>\
         </a>\
     </li>\
     <li class="page-item last' + (last_enabled ? "" : " disabled") + '">\
         <a class="page-link" href="' + (last_enabled ? last : "#") + '" data-dt-idx="3" tabindex="0">\
-            <span class="d-none d-sm-none d-md-block">Last</span>\
+            <span class="d-none d-sm-none d-md-block">' + __("Last") + '</span>\
             <span class="d-md-none d-lg-none d-xl-none"><i class="fas fa-angle-double-right"></i></span>\
         </a>\
     </li>';
@@ -843,7 +859,8 @@ function makePagination(data) {
 }
 
 function getNoResults(title) {
-    var title = title ? title : 'results';
+    var title = title ? title : __('results');
+
     var no_results = '<div class="row vertical-center">\
         <div class="col-sm-12">\
             <svg width="100" height="100" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" version="1.1" width="512" height="512" x="0" y="0" viewBox="0 0 24 24" style="enable-background:new 0 0 512 512" xml:space="preserve">\
@@ -857,7 +874,7 @@ function getNoResults(title) {
                     <circle xmlns="http://www.w3.org/2000/svg" cx="17" cy="21.5" r=".5" fill="#ffc107"/>\
                 </g>\
             </svg>\
-            <div class="text-muted text-sm font-weight-normal mt-2">No ' + title + ' found</div>\
+            <div class="text-muted text-sm font-weight-normal mt-2">' + __("No") + ' ' + __(title) + ' ' + __("found") + '</div>\
         </div>\
     </div>';
 
@@ -878,7 +895,7 @@ function getAddNewRecord(title, btn) {
                     <path xmlns="http://www.w3.org/2000/svg" d="m20.5 18h-6c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h6c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#007bff"/>\
                 </g>\
             </svg>\
-            <div class="text-muted text-sm font-weight-normal mt-2">No ' + title + ' found</div>\
+            <div class="text-muted text-sm font-weight-normal mt-2">' + __("No") + ' ' + __(title) + ' ' + __("found") + '</div>\
             <div class="mt-2">' + btn + '</div>\
         </div>\
     </div>';
@@ -1001,6 +1018,17 @@ function getImage(path, width, height, quality, crop, align, sharpen) {
 }
 
 /**
+    * @return str Translated text from window object;
+*/
+function __(text) {
+    if (origin.locale != 'en' && typeof origin.translations[text] !== "undefined") {
+        text = origin.translations[text];
+    }
+
+    return text;
+}
+
+/**
     * Lightens/darkens a given colour (hex format), returning the altered colour in hex format.7
     * @param str $hex Colour as hexadecimal (with or without hash);
     * @percent float $percent Decimal ( 0.2 = lighten by 20%(), -0.4 = darken by 40%() )
@@ -1049,6 +1077,15 @@ function isString(obj) {
 function isEmail(obj) {
     if (isString(obj)) {
         return obj.match(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/ig);
+    }
+    else {
+        return false;
+    }
+}
+
+function isHexColor(str) {
+    if (isString(str)) {
+        return str.match(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/);
     }
     else {
         return false;

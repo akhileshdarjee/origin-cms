@@ -55,8 +55,8 @@ $(document).ready(function() {
                 if (app_activities.length > 0) {
                     $.each(app_activities, function(index, row) {
                         var desc = false;
-                        var user_name = (current_user["id"] == row["user_id"]) ? "You" : row["user"];
-                        var user = '<strong>' + user_name + '</strong>';
+                        var user = (current_user["id"] == row["user_id"]) ? __('You') : row["user"];
+                        user = '<strong>' + __(user) + '</strong>';
                         var from_now_time = moment.utc(row['created_at']).fromNow();
                         var actual_time = moment.utc(row['created_at']).local().format("MMM D, YYYY • hh:mm A");
 
@@ -78,31 +78,31 @@ $(document).ready(function() {
 
                         if (row["module"] == "Auth") {
                             if (row["action"] == "Login") {
-                                desc = user + " " + "logged in";
+                                desc = user + " " + __('logged in');
                             }
                             else {
-                                desc = user + " " + "logged out";
+                                desc = user + " " + __('logged out');
                             }
                         }
                         else {
-                            var activity_link = '<strong>' + row["module"] + ': ' + row["form_title"] + '</strong>';
+                            var activity_link = '<strong>' + __(row["module"]) + ': ' + row["form_title"] + '</strong>';
 
                             if (row["action"] == "Create") {
-                                desc = "New" + " " + activity_link + " " + "created by" + " " + user;
+                                desc = __('New') + " " + activity_link + " " + __('created by') + " " + user;
                             }
                             else if (row["action"] == "Update") {
-                                desc = activity_link + " " + "updated by" + " " + user;
+                                desc = activity_link + " " + __('updated by') + " " + user;
                             }
                             else if (row["action"] == "Delete") {
-                                desc = '<strong>' + row["module"] + ': ' + row["form_title"] + '</strong>';
-                                desc += ' ' + 'deleted by' + ' ' + user;
+                                desc = '<strong>' + __(row["module"]) + ': ' + row["form_title"] + '</strong>';
+                                desc += ' ' + __('deleted by') + ' ' + user;
                             }
                             else if (row["action"] == "Download") {
                                 if (row["module"] == "Report") {
-                                    desc = '<strong>' + row["form_title"] + '</strong> was downloaded by ' + user;
+                                    desc = '<strong>' + row["form_title"] + '</strong> ' + __('was downloaded by') + ' ' + user;
                                 }
                                 else {
-                                    desc = activity_link + " was downloaded by " + user;
+                                    desc = activity_link + " " + __('was downloaded by') + " " + user;
                                 }
                             }
                         }
@@ -142,7 +142,7 @@ $(document).ready(function() {
                     var error_msg = JSON.parse(e.responseText)['message'];
                 }
                 else {
-                    var error_msg = 'Some error occured. Please try again';
+                    var error_msg = __('Some error occured. Please try again');
                 }
 
                 notify(error_msg, "error");

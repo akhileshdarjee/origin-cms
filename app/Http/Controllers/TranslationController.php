@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use File;
 use Exception;
+use DB;
 use App\Translation;
 use App\Http\Controllers\CommonController;
 use Illuminate\Http\Request;
@@ -35,29 +36,61 @@ class TranslationController extends Controller
             $locale = trim($request->get('locale'));
             $from = trim($request->get('from'));
             $to = trim($request->get('to'));
+            $proceed = true;
+            $error_msg = null;
 
-            $transData = $this->openTranslationFile($locale);
+            $existing = Translation::select('id', 'from', 'locale')
+                ->where(DB::raw('BINARY `from`'), '=', $from)
+                ->where('locale', $locale);
 
             if ($request->filled('id')) {
-                $existing = Translation::select('id', 'from')
-                    ->where('id', trim($request->get('id')))
-                    ->first();
-
-                if (isset($transData[$existing->from]) || isset($transData[$from])) {
-                    if ($from != $existing->from) {
-                        unset($transData[$existing->from]);
-                    }
-                }
+                $existing = $existing->where('id', '!=', trim($request->get('id')));
             }
 
-            $transData[$from] = $to;
-            $saved = $this->saveTranslationFile($locale, $transData);
+            $existing = $existing->first();
 
-            if (!$saved) {
-                throw new Exception(__('Cannot save translation file. Please try again'));
+            if ($existing) {
+                $proceed = false;
+                $error_msg = __('Record already exist. Please enter different value for') . ': ' . __('From');
+            }
+
+            if ($proceed) {
+                $transData = $this->openTranslationFile($locale);
+
+                if ($request->filled('id')) {
+                    $existing = Translation::select('id', 'from')
+                        ->where('id', trim($request->get('id')))
+                        ->first();
+
+                    if (isset($transData[$existing->from]) || isset($transData[$from])) {
+                        if ($from != $existing->from) {
+                            unset($transData[$existing->from]);
+                        }
+                    }
+                }
+
+                $transData[$from] = $to;
+                $saved = $this->saveTranslationFile($locale, $transData);
+
+                if (!$saved) {
+                    throw new Exception(__('Cannot save translation file. Please try again'));
+                }
+            } else {
+                throw new Exception($error_msg);
             }
         } else {
             throw new Exception(__('Please provide Language, From & To'));
+        }
+    }
+
+    // put all functions to be performed after save
+    public function afterSave($data)
+    {
+        $table_name = $data['table_name'];
+        $form_data = $data['form_data'][$table_name];
+
+        if ($form_data['locale'] == app()->getLocale()) {
+            session()->forget('translations');
         }
     }
 
@@ -89,6 +122,10 @@ class TranslationController extends Controller
                     throw new Exception($msg);
                 }
             }
+        }
+
+        if ($locale == app()->getLocale()) {
+            session()->forget('translations');
         }
     }
 

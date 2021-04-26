@@ -179,7 +179,7 @@ class ActivityController extends Controller
         foreach ($activities as $act) {
             $icon = $act->icon;
             $description = '';
-            $user = (auth()->user()->id == $act->user_id) ? "You" : $act->user;
+            $user = (auth()->user()->id == $act->user_id) ? __('You') : $act->user;
             $time_diff = $act->created_at->diffForHumans();
 
             if ($act->module == "Auth") {
@@ -189,7 +189,7 @@ class ActivityController extends Controller
                     $description = $user . " " . __('logged out');
                 }
             } else {
-                $activity_link = $act->module . ': ' . $act->form_title;
+                $activity_link = __($act->module) . ': ' . $act->form_title;
 
                 if ($act->action == "Create") {
                     $description = __('New') . " " . $activity_link . " " . __('created by') . " " . $user;

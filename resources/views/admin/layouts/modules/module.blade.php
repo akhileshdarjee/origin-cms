@@ -147,7 +147,7 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label class="control-label">{{ __('Background color') }}</label>
+                    <label class="control-label">{{ __('Background Color') }}</label>
                     <div>
                         <input type="text" name="bg_color" class="form-control" data-mandatory="no" autocomplete="off">
                         <small class="block text-muted">{{ __('Background color of the Module icon') }}</small>

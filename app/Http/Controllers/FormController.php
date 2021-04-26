@@ -276,7 +276,7 @@ trait FormController
             // if record already exists in database while creating
             session()->flash('success', false);
 
-            $message = __($module['display_name']) . ': "' . $request->get($module['link_field']) . '" ' . __('already exist');
+            $message = __($module['display_name']) . ': "' . $request->get($module['link_field']) . '" ' . __('already exists');
             return $this->sendResponse(400, $message);
         } elseif ($action == "update" && $request->get($module['link_field']) != $module['link_field_value']) {
             // if link field value is not matching the request link value

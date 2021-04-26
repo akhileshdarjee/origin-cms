@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use DB;
+use App\Language;
 use App\Http\Controllers\CommonController;
 use Illuminate\Http\Request;
 
@@ -10,10 +11,18 @@ class SettingsController extends Controller
 {
     use CommonController;
 
-    // Show app settings page
     public function show()
     {
         $data['oc_settings'] = $this->getAppSetting();
+
+        $language = Language::select('name', 'locale')
+            ->where('locale', app()->getLocale())
+            ->first();
+
+        if ($language) {
+            $data['oc_settings']['language'] = $language->name;
+            $data['oc_settings']['locale'] = $language->locale;
+        }
 
         $settings_data = [
             'form_data' => isset($data) ? $data : [],
@@ -31,11 +40,26 @@ class SettingsController extends Controller
         return view('admin.templates.form_view', $settings_data);
     }
 
-    // Save app settings
     public function save(Request $request)
     {
         $settings_data = $request->all();
         unset($settings_data["_token"]);
+
+        if (isset($settings_data['language'])) {
+            unset($settings_data["language"]);
+        }
+
+        $locale = app()->getLocale();
+        $locale_updated = false;
+
+        if (isset($settings_data['locale']) && trim($settings_data['locale'])) {
+            if (trim($settings_data['locale']) != $locale) {
+                $locale = trim($settings_data['locale']);
+                $locale_updated = true;
+            }
+
+            unset($settings_data['locale']);
+        }
 
         foreach ($settings_data as $setting => $value) {
             $result = DB::table('oc_settings')
@@ -53,6 +77,10 @@ class SettingsController extends Controller
         }
 
         $this->putAppSettingsInSession();
+
+        if ($locale_updated) {
+            $this->updateLocale($locale);
+        }
 
         $data = [
             'success' => true,
