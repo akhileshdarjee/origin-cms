@@ -136,7 +136,7 @@
                         @else
                             @var $action = route('new.doc', $slug)
                         @endif
-                        <form method="POST" action="{{ $action }}" name="{{ $slug }}" id="{{ $slug }}" enctype="multipart/form-data">
+                        <form method="POST" action="{{ $action }}" name="{{ $slug }}" id="{{ $slug }}" enctype="multipart/form-data" accept-charset="utf-8">
                             {!! csrf_field() !!}
                             <input type="hidden" name="id" id="id" class="form-control" data-mandatory="no" autocomplete="off" readonly>
                             @if (view()->exists(str_replace('.', '/', $file)))

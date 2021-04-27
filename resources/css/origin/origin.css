@@ -216,7 +216,7 @@ a.back-to-top:hover {
 	cursor: pointer;
 	background-color: #fff;
 	color: rgba(0,0,0,.9);
-	font-family: 'Roboto',sans-serif,'Helvetica Neue',Helvetica,Arial;
+	font-family: 'Roboto',arial,sans-serif;
 	font-size: .9rem;
 }
 .ui-menu .ui-menu-item:last-child, .ui-menu .ui-menu-item:last-child:hover {
@@ -342,7 +342,7 @@ a.back-to-top:hover {
 .breadcrumb.app-breadcrumb > li+li:before {
 	padding: 0 5px;
 	content: "\f105";
-	font-family: FontAwesome;
+	font-family: 'Font Awesome 5 Free';
 	color: #fff;
 }
 .title-section {

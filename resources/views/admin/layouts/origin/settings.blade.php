@@ -1,4 +1,4 @@
-<form method="POST" action="{{ route('save.app.settings') }}" name="settings" id="settings" enctype="multipart/form-data">
+<form method="POST" action="{{ route('save.app.settings') }}" name="settings" id="settings" enctype="multipart/form-data" accept-charset="utf-8">
     {!! csrf_field() !!}
     <div class="card form-section elevation-2" id="setting-details">
         <div class="card-body form-content pt-3">
