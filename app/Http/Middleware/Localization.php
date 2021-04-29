@@ -30,7 +30,7 @@ class Localization
 
             if ($locale != 'en' && File::exists(resource_path('lang/' . $locale . '.json'))) {
                 $translations = File::get(resource_path('lang/' . $locale . '.json'));
-                $translations = json_decode($translations, false, 512, JSON_UNESCAPED_UNICODE);
+                $translations = json_decode($translations, false, 512, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE);
             }
 
             session()->put('translations', $translations);

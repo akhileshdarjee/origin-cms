@@ -2,17 +2,6 @@
 
 @section('title', __($module['display_name']) . ' ' . __('List') . ' - ' . config('app.brand.name'))
 
-@section('breadcrumb')
-    <ol class="breadcrumb app-breadcrumb">
-        <li class="breadcrumb-item">
-            <a href="{{ route('show.app.modules') }}">{{ __('Home') }}</a>
-        </li>
-        <li class="breadcrumb-item active">
-            {{ __($module['display_name']) }}
-        </li>
-    </ol>
-@endsection
-
 @section('title_section')
     <div id="sticky-anchor"></div>
     <div class="content-header" id="sticky">

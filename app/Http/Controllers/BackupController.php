@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
-use Storage;
 use Artisan;
+use Storage;
+use Str;
+use Carbon\Carbon;
 use App\Http\Controllers\CommonController;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
-use Str;
 
 class BackupController extends Controller
 {
@@ -57,7 +57,7 @@ class BackupController extends Controller
             });
 
             foreach ($backups as $idx => $backup) {
-                $backups[$idx]['date'] = Carbon::createFromTimestamp($backup['date'], 'UTC')->format('d-m-Y h:i A');
+                $backups[$idx]['date'] = Carbon::parse($backup['date'], 'UTC')->setTimezone(auth()->user()->time_zone)->format('d-m-Y h:i A');
             }
 
             $backups = collect($backups)->values();

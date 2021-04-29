@@ -17,7 +17,7 @@
                     <div>
                         <input type="text" name="language" class="form-control autocomplete" data-ac-module="Language" data-ac-field="name" data-mandatory="yes" autocomplete="off">
                         <input type="hidden" name="locale" data-ac-module="Language" data-ac-field="locale">
-                        <small class="block text-muted">
+                        <small class="text-muted">
                             {{ __('Text will be translated in this language') }}
                         </small>
                     </div>
@@ -32,7 +32,7 @@
                     </label>
                     <div>
                         <textarea rows="5" name="from" class="form-control" data-mandatory="yes" autocomplete="off"></textarea>
-                        <small class="block text-muted">
+                        <small class="text-muted">
                             {{ __('Text that you wish to translate (English)') }}
                         </small>
                     </div>
@@ -45,7 +45,7 @@
                     </label>
                     <div>
                         <textarea rows="5" name="to" class="form-control" data-mandatory="yes" autocomplete="off"></textarea>
-                        <small class="block text-muted">
+                        <small class="text-muted">
                             {{ __('Translated text') }}
                             (<span class="selected-language">{{ __('Selected') }}</span>)
                         </small>

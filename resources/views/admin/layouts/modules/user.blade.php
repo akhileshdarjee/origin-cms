@@ -93,6 +93,31 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
+                    <label class="control-label">{{ __('Language') }}</label>
+                    <div>
+                        <input type="text" name="language" class="form-control autocomplete" data-ac-module="Language" data-ac-field="name" data-mandatory="yes" autocomplete="off">
+                        <input type="hidden" name="locale" data-ac-module="Language" data-ac-field="locale">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label">{{ __('Time Zone') }}</label>
+                    <div>
+                        <select name="time_zone" class="custom-select" data-mandatory="yes">
+                            @foreach(timezone_identifiers_list() as $timezone)
+                                <option value="{{ $timezone }}"{{ ($timezone == 'UTC') ? ' default selected' : '' }}>
+                                    {{ $timezone }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
                     <label class="control-label">
                         {{ __('Username') }} <span class="text-danger">*</span>
                     </label>

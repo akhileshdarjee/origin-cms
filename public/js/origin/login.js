@@ -1,7 +1,7 @@
 $(document).ready(function() {
     $('form#login-form').on('change input', 'input', function() {
         $(this).removeClass("is-invalid");
-        $(this).closest('.input-group').find('.invalid-feedback').hide();
+        $(this).closest('.form-group').find('.invalid-feedback').hide();
     });
 
     $("form#login-form").on("submit", function(e) {
@@ -15,13 +15,13 @@ $(document).ready(function() {
 
         if (!trim($(username).val())) {
             $(username).addClass("is-invalid");
-            $(username).closest('.input-group').find('.invalid-feedback').show();
+            $(username).closest('.form-group').find('.invalid-feedback').show();
             e.preventDefault();
         }
 
         if (!trim($(password).val())) {
             $(password).addClass("is-invalid");
-            $(password).closest('.input-group').find('.invalid-feedback').show();
+            $(password).closest('.form-group').find('.invalid-feedback').show();
             e.preventDefault();
         }
     });

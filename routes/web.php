@@ -13,69 +13,70 @@
 
 Route::group(['middleware' => ['web']], function () {
     // Website routes...
-    Route::get('/', ['as' => 'show.website', 'uses' => 'WebsiteController@showIndex']);
+    Route::get('/', 'WebsiteController@showIndex')->name('show.website');
 
     // Authentication routes...
-    Route::get('/admin', ['as' => 'show.app.login', 'uses' => 'Auth\LoginController@getLogin']);
-    Route::get('/login', ['as' => 'login', 'uses' => 'Auth\LoginController@showLoginForm']);
-    Route::post('/login', ['as' => 'submit.login', 'uses' => 'Auth\LoginController@login']);
-    Route::get('/logout', ['as' => 'logout', 'uses' => 'Auth\LoginController@logout']);
+    Route::get('/admin', 'Auth\LoginController@getLogin')->name('show.app.login');
+    Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
+    Route::post('/login', 'Auth\LoginController@login')->name('submit.login');
+    Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 
     // Password Reset routes...
-    Route::get('/password/reset', ['as' => 'password.request', 'uses' => 'Auth\ForgotPasswordController@showLinkRequestForm']);
-    Route::post('/password/email', ['as' => 'password.email', 'uses' => 'Auth\ForgotPasswordController@sendResetLinkEmail']);
-    Route::get('/password/reset/{token}', ['as' => 'password.reset', 'uses' => 'Auth\ResetPasswordController@showResetForm']);
-    Route::post('/password/reset', ['as' => 'password.update', 'uses' => 'Auth\ResetPasswordController@reset']);
-    Route::get('/verify/email/{token}', ['as' => 'verify.email', 'uses' => 'UserController@verifyUserEmail']);
+    Route::get('/password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+    Route::post('/password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+    Route::get('/password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+    Route::post('/password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');
+    Route::get('/verify/email/{token}', 'UserController@verifyUserEmail')->name('verify.email');
 
     // Request that requires authorization...
     Route::group(['middleware' => 'auth'], function () {
 
         // App routes...
-        Route::get('/home', ['as' => 'home', 'uses' => 'AppController@showHome']);
+        Route::get('/home', 'AppController@showHome')->name('home');
 
         // App Home page module routes...
-        Route::get('/app/modules', ['as' => 'show.app.modules', 'uses' => 'ModuleController@show']);
-        Route::get('/app/reports', ['as' => 'show.app.reports', 'uses' => 'ReportController@show']);
-        Route::get('/app/activity', ['as' => 'show.app.activity', 'uses' => 'ActivityController@show']);
-        Route::get('/app/settings', ['as' => 'show.app.settings', 'uses' => 'SettingsController@show']);
-        Route::post('/app/settings', ['as' => 'save.app.settings', 'uses' => 'SettingsController@save']);
-        Route::post('/update-module-sequence', ['as' => 'update.module.sequence', 'uses' => 'ModuleController@updateSequence']);
-        Route::post('/import-from-csv', ['as' => 'import.from.csv', 'uses' => 'ImportController@import']);
-        Route::post('/update-list-sorting', ['as' => 'update.list.sorting', 'uses' => 'ListViewController@updateSorting']);
-        Route::post('/editor-upload', ['as' => 'editor.upload', 'uses' => 'AppController@editorUpload']);
-        Route::post('/change-theme', ['as' => 'change.theme', 'uses' => 'SettingsController@changeTheme']);
+        Route::get('/app/modules', 'ModuleController@show')->name('show.app.modules');
+        Route::get('/app/reports', 'ReportController@show')->name('show.app.reports');
+        Route::get('/app/activity', 'ActivityController@show')->name('show.app.activity');
+        Route::get('/app/settings', 'SettingsController@show')->name('show.app.settings');
+        Route::post('/app/settings', 'SettingsController@save')->name('save.app.settings');
+        Route::post('/app/change-password', 'AppController@changePassword')->name('change.password');
+        Route::post('/update-module-sequence', 'ModuleController@updateSequence')->name('update.module.sequence');
+        Route::post('/import-from-csv', 'ImportController@import')->name('import.from.csv');
+        Route::post('/update-list-sorting', 'ListViewController@updateSorting')->name('update.list.sorting');
+        Route::post('/editor-upload', 'AppController@editorUpload')->name('editor.upload');
+        Route::post('/change-theme', 'SettingsController@changeTheme')->name('change.theme');
 
         // Backup routes...
-        Route::get('/app/backups', ['as' => 'show.app.backups', 'uses' => 'BackupController@show']);
-        Route::get('/app/backups/download/{name}', ['as' => 'download.app.backups', 'uses' => 'BackupController@download']);
-        Route::post('/app/backups/delete/{name}', ['as' => 'delete.app.backups', 'uses' => 'BackupController@delete']);
-        Route::post('/app/backups/create', ['as' => 'create.app.backups', 'uses' => 'BackupController@create']);
+        Route::get('/app/backups', 'BackupController@show')->name('show.app.backups');
+        Route::get('/app/backups/download/{name}', 'BackupController@download')->name('download.app.backups');
+        Route::post('/app/backups/delete/{name}', 'BackupController@delete')->name('delete.app.backups');
+        Route::post('/app/backups/create', 'BackupController@create')->name('create.app.backups');
 
         // List View...
-        Route::get('/list/{slug}', ['as' => 'show.list', 'uses' => 'ListViewController@showList']);
+        Route::get('/list/{slug}', 'ListViewController@showList')->name('show.list');
 
         // Report View...
-        Route::get('/app/report/{report_name}', ['as' => 'show.report', 'uses' => 'ReportController@showReport']);
+        Route::get('/app/report/{report_name}', 'ReportController@showReport')->name('show.report');
 
         // Autocomplete data...
-        Route::get('/get-auto-complete', ['as' => 'get.autocomplete', 'uses' => 'AutocompleteController@getData']);
+        Route::get('/get-auto-complete', 'AutocompleteController@getData')->name('get.autocomplete');
 
         // App Form/Module routes...
-        Route::get('/form/{slug}', ['as' => 'new.doc', 'uses' => 'OriginController@show']);
-        Route::post('/form/{slug}', ['as' => 'create.doc', 'uses' => 'OriginController@save']);
-        Route::get('/form/{slug}/{id}', ['as' => 'show.doc', 'uses' => 'OriginController@show']);
-        Route::get('/form/{slug}/draft/{id}', ['as' => 'copy.doc', 'uses' => 'OriginController@copy']);
-        Route::post('/form/{slug}/{id}', ['as' => 'update.doc', 'uses' => 'OriginController@save']);
-        Route::get('/form/{slug}/delete/{id}', ['as' => 'delete.doc', 'uses' => 'OriginController@delete']);
+        Route::get('/form/{slug}', 'OriginController@show')->name('new.doc');
+        Route::post('/form/{slug}', 'OriginController@save')->name('create.doc');
+        Route::get('/form/{slug}/{id}', 'OriginController@show')->name('show.doc');
+        Route::get('/form/{slug}/draft/{id}', 'OriginController@copy')->name('copy.doc');
+        Route::post('/form/{slug}/{id}', 'OriginController@save')->name('update.doc');
+        Route::get('/form/{slug}/delete/{id}', 'OriginController@delete')->name('delete.doc');
 
         // App API routes...
         Route::group(['prefix' => 'api'], function () {
-            Route::post('/doc/create/{slug}', ['as' => 'api.create.doc', 'uses' => 'OriginController@save']);
-            Route::get('/doc/list/{slug}', ['as' => 'api.get.doclist', 'uses' => 'ListViewController@showList']);
-            Route::get('/doc/{slug}/{id}', ['as' => 'api.get.doc', 'uses' => 'OriginController@show']);
-            Route::post('/doc/update/{slug}/{id}', ['as' => 'api.update.doc', 'uses' => 'OriginController@save']);
-            Route::get('/doc/delete/{slug}/{id}', ['as' => 'api.delete.doc', 'uses' => 'OriginController@delete']);
+            Route::post('/doc/create/{slug}', 'OriginController@save')->name('api.create.doc');
+            Route::get('/doc/list/{slug}', 'ListViewController@showList')->name('api.get.doclist');
+            Route::get('/doc/{slug}/{id}', 'OriginController@show')->name('api.get.doc');
+            Route::post('/doc/update/{slug}/{id}', 'OriginController@save')->name('api.update.doc');
+            Route::get('/doc/delete/{slug}/{id}', 'OriginController@delete')->name('api.delete.doc');
         });
     });
 });

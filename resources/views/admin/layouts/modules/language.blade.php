@@ -30,7 +30,7 @@
                         @else
                             <input type="text" name="locale" class="form-control" maxlength="2" data-mandatory="yes" autocomplete="off">
                         @endif
-                        <small class="block text-muted">
+                        <small class="text-muted">
                             {{ __('Please enter two-letter ISO 639-1 code from') }}
                             <a href="https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes" target="_blank">{{ __('here') }}</a>
                         </small>

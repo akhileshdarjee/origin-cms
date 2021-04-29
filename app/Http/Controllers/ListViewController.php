@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use DB;
 use Exception;
+use Carbon\Carbon;
 use App\Module;
 use App\Http\Controllers\CommonController;
 use App\Http\Controllers\PermController;
@@ -211,11 +212,11 @@ class ListViewController extends Controller
                     $value = $filter['column_value'];
 
                     if (isset($table_schema[$column]) && $table_schema[$column] == "date" && $value) {
-                        $value = date('Y-m-d', strtotime($value));
+                        $value = Carbon::parse($value, auth()->user()->time_zone)->setTimezone('UTC')->format('Y-m-d');
                     } elseif (isset($table_schema[$column]) && $table_schema[$column] == "datetime" && $value) {
-                        $value = date('Y-m-d H:i:s', strtotime($value));
+                        $value = Carbon::parse($value, auth()->user()->time_zone)->setTimezone('UTC')->format('Y-m-d H:i:s');
                     } elseif (isset($table_schema[$column]) && $table_schema[$column] == "time" && $value) {
-                        $value = date('H:i:s', strtotime($value));
+                        $value = Carbon::parse($value, auth()->user()->time_zone)->setTimezone('UTC')->format('H:i:s');
                     }
 
                     if ($operator == "like") {
@@ -253,10 +254,10 @@ class ListViewController extends Controller
                             $rows = $rows->where($column, $operator, $value);
                         } else {
                             $rows = $rows->where(function($query) use ($column) {
-                                    $query->orWhere($column, '')
-                                        ->orWhere($column, '0')
-                                        ->orWhereNull($column);
-                                });
+                                $query->orWhere($column, '')
+                                    ->orWhere($column, '0')
+                                    ->orWhereNull($column);
+                            });
                         }
                     }
                 }
@@ -290,7 +291,7 @@ class ListViewController extends Controller
                     ->update([
                         'sort_field' => $sort_field, 
                         'sort_order' => $sort_order, 
-                        'updated_at' => date('Y-m-d H:i:s')
+                        'updated_at' => Carbon::now('UTC')->format('Y-m-d H:i:s')
                     ]);
 
                 if ($updated) {

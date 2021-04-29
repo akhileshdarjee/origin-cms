@@ -26,10 +26,11 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('email_verification_code')->nullable();
             $table->string('role');
-            $table->boolean('active')->default('1');
             $table->string('locale')->default('en');
+            $table->string('time_zone')->default('UTC');
             $table->boolean('first_login')->default('0')->nullable();
             $table->rememberToken();
+            $table->boolean('active')->default('1');
             $table->string('owner');
             $table->string('last_updated_by');
             $table->timestamps();

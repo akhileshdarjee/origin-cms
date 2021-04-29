@@ -1009,6 +1009,9 @@ table > tbody > tr > td > a:hover {
 	border: 1px solid #e74c3c !important;
 	background-image: none;
 }
+.dark-mode .custom-select, .dark-mode .custom-select.is-invalid {
+	background-image: url(data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23fff' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E);
+}
 .dark-mode .form-control.is-invalid:focus, .dark-mode .custom-select.is-invalid:focus {
 	box-shadow: 0 0 0 0.15rem rgb(231 76 60 / 25%);
 }

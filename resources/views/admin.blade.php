@@ -11,6 +11,7 @@
                 window.origin = {
                     data: <?php echo isset($data) ? json_encode($data) : 'false' ?>,
                     locale: <?php echo json_encode(app()->getLocale()) ?>,
+                    time_zone: <?php echo json_encode(auth()->user()->time_zone) ?>,
                     translations: <?php echo json_encode(session()->get('translations')) ?>,
                 };
             </script>

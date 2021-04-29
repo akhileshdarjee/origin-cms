@@ -290,14 +290,14 @@ function addNewRows(table_name, records) {
             // get value for the field
             if (value[field_name] && typeof value[field_name] === 'string' && (value[field_name].isDate() || value[field_name].isDateTime())) {
                 if (value[field_name].split(" ").length > 1) {
-                    field_value = moment.utc(value[field_name]).local().format('DD-MM-YYYY hh:mm A');
+                    field_value = moment.utc(value[field_name]).tz(origin.time_zone).format('DD-MM-YYYY hh:mm A');
                 }
                 else {
-                    field_value = moment.utc(value[field_name]).local().format('DD-MM-YYYY');
+                    field_value = moment.utc(value[field_name]).tz(origin.time_zone).format('DD-MM-YYYY');
                 }
             }
             else if (value[field_name] && typeof value[field_name] === 'string' && value[field_name].isTime()) {
-                field_value = moment.utc(value[field_name], ["HH:mm:ss"]).local().format('HH:mm');
+                field_value = moment.utc(value[field_name], ["HH:mm:ss"]).tz(origin.time_zone).format('HH:mm');
             }
             else {
                 field_value = value[field_name] || '';

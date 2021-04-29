@@ -773,13 +773,13 @@ function beautifyListView(list_view) {
                         }
                     }
                     else if (column_value.isDate()) {
-                        $(this).html('<i class="fas fa-calendar-alt mr-1"></i> ' + moment.utc(column_value).local().format('DD-MM-YYYY'));
+                        $(this).html('<i class="fas fa-calendar-alt mr-1"></i> ' + moment.utc(column_value).tz(origin.time_zone).format('DD-MM-YYYY'));
                     }
                     else if (column_value.isDateTime()) {
-                        $(this).html('<i class="fas fa-calendar-alt mr-1"></i> ' + moment.utc(column_value).local().format('DD-MM-YYYY hh:mm A'));
+                        $(this).html('<i class="fas fa-calendar-alt mr-1"></i> ' + moment.utc(column_value).tz(origin.time_zone).format('DD-MM-YYYY hh:mm A'));
                     }
                     else if (column_value.isTime()) {
-                        $(this).html('<i class="fas fa-clock mr-1"></i> ' + moment.utc('0001-01-01 ' + column_value).local().format('hh:mm A'));
+                        $(this).html('<i class="fas fa-clock mr-1"></i> ' + moment.utc('0001-01-01 ' + column_value).tz(origin.time_zone).format('hh:mm A'));
                     }
                     else if (isHexColor(column_value)) {
                         $(this).html('<span style="color: ' + column_value + ';"> ' + column_value + '</span>');

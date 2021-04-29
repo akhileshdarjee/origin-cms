@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use DB;
 use Auth;
 use Exception;
+use Str;
+use Carbon\Carbon;
 use App\User;
 use App\Http\Controllers\CommonController;
 use Illuminate\Http\Request;
-use Str;
 
 class UserController extends Controller
 {
@@ -16,6 +17,7 @@ class UserController extends Controller
 
     // define common variables
     public $module_config;
+    public $locale_updated;
 
     public function __construct()
     {
@@ -28,6 +30,8 @@ class UserController extends Controller
                 ]
             ],
         ];
+
+        $this->locale_updated = false;
     }
 
     // define what should process before save
@@ -48,6 +52,16 @@ class UserController extends Controller
             $request->offsetSet('full_name', $full_name);
         }
 
+        // check if logged in user locale is changed
+        if ($request->filled('id') && $request->filled('locale')) {
+            $user_id = trim($request->get('id'));
+            $locale = trim($request->get('locale'));
+
+            if ($user_id == auth()->user()->id && $locale != auth()->user()->locale) {
+                $this->locale_updated = true;
+            }
+        }
+
         return $this->validateUsername($request);
     }
 
@@ -59,6 +73,10 @@ class UserController extends Controller
 
         if (session()->has('newly_created')) {
             $this->createUserSettings($form_data['username']);
+        }
+
+        if ($this->locale_updated && isset($form_data['locale']) && $form_data['locale']) {
+            $this->updateLocale($form_data['locale']);
         }
     }
 
@@ -106,7 +124,7 @@ class UserController extends Controller
             if ($user) {
                 $update_details = [
                     'email_verification_code' => null,
-                    'email_verified_at' => date('Y-m-d H:i:s'),
+                    'email_verified_at' => Carbon::now('UTC')->format('Y-m-d H:i:s'),
                     'active' => 1,
                     'first_login' => 1
                 ];
@@ -149,7 +167,7 @@ class UserController extends Controller
             $data = [
                 'email' => $email,
                 'token' => $token,
-                'created_at' => date('Y-m-d H:i:s')
+                'created_at' => Carbon::now('UTC')->format('Y-m-d H:i:s')
             ];
 
             $result = DB::table('password_resets')

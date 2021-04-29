@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use DB;
 use Exception;
+use Carbon\Carbon;
 use App\Activity;
 use App\Http\Controllers\CommonController;
 use App\Http\Controllers\PermController;
@@ -180,7 +181,7 @@ class ActivityController extends Controller
             $icon = $act->icon;
             $description = '';
             $user = (auth()->user()->id == $act->user_id) ? __('You') : $act->user;
-            $time_diff = $act->created_at->diffForHumans();
+            $time_diff = Carbon::parse($act->created_at, 'UTC')->setTimezone(auth()->user()->time_zone)->diffForHumans();
 
             if ($act->module == "Auth") {
                 if ($act->action == "Login") {

@@ -57,8 +57,8 @@ $(document).ready(function() {
                         var desc = false;
                         var user = (current_user["id"] == row["user_id"]) ? __('You') : row["user"];
                         user = '<strong>' + __(user) + '</strong>';
-                        var from_now_time = moment.utc(row['created_at']).fromNow();
-                        var actual_time = moment.utc(row['created_at']).local().format("MMM D, YYYY • hh:mm A");
+                        var from_now_time = moment.utc(row['created_at']).tz(origin.time_zone).fromNow();
+                        var actual_time = moment.utc(row['created_at']).tz(origin.time_zone).format("MMM D, YYYY • hh:mm A");
 
                         if (row['action'] == "Create") {
                             var icon_bg = "bg-green"

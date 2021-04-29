@@ -294,13 +294,13 @@ function setDocData() {
                             $(form_field).attr("data-field-value", value);
 
                             if (value.isDate()) {
-                                value = moment.utc(value).local().format('DD-MM-YYYY');
+                                value = moment.utc(value).tz(origin.time_zone).format('DD-MM-YYYY');
                             }
                             else if (value.isDateTime()) {
-                                value = moment.utc(value).local().format('DD-MM-YYYY hh:mm A');
+                                value = moment.utc(value).tz(origin.time_zone).format('DD-MM-YYYY hh:mm A');
                             }
                             else {
-                                value = moment.utc('0001-01-01 ' + column_value).local().format('hh:mm A');
+                                value = moment.utc('0001-01-01 ' + column_value).tz(origin.time_zone).format('hh:mm A');
                             }
                         }
 

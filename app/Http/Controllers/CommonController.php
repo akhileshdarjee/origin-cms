@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use DB;
 use Exception;
 use File;
+use Carbon\Carbon;
 use App\Module;
 use App\Activity;
 use App\User;
@@ -27,7 +28,7 @@ trait CommonController
             $data['user'] = auth()->user()->full_name;
             $data['user_id'] = auth()->user()->id;
             $data['owner'] = $data['last_updated_by'] = auth()->user()->username;
-            $data['created_at'] = $data['updated_at'] = date('Y-m-d H:i:s');
+            $data['created_at'] = $data['updated_at'] = Carbon::now('UTC')->format('Y-m-d H:i:s');
 
             Activity::insert($data);
         }
@@ -95,9 +96,9 @@ trait CommonController
     public function createUserSettings($username)
     {
         $settings = array(
-            ['field_name' => 'home_page', 'field_value' => 'modules', 'module' => 'Other', 'owner' => $username, 'last_updated_by' => $username, 'created_at' => date("Y-m-d H:i:s"), "updated_at" => date("Y-m-d H:i:s")],
-            ['field_name' => 'list_view_records', 'field_value' => '15', 'module' => 'Other', 'owner' => $username, 'last_updated_by' => $username, 'created_at' => date("Y-m-d H:i:s"), "updated_at" => date("Y-m-d H:i:s")],
-            ['field_name' => 'theme', 'field_value' => 'light', 'module' => 'Other', 'owner' => $username, 'last_updated_by' => $username, 'created_at' => date("Y-m-d H:i:s"), "updated_at" => date("Y-m-d H:i:s")]
+            ['field_name' => 'home_page', 'field_value' => 'modules', 'module' => 'Other', 'owner' => $username, 'last_updated_by' => $username, 'created_at' => Carbon::now('UTC')->format('Y-m-d H:i:s'), "updated_at" => Carbon::now('UTC')->format('Y-m-d H:i:s')],
+            ['field_name' => 'list_view_records', 'field_value' => '15', 'module' => 'Other', 'owner' => $username, 'last_updated_by' => $username, 'created_at' => Carbon::now('UTC')->format('Y-m-d H:i:s'), "updated_at" => Carbon::now('UTC')->format('Y-m-d H:i:s')],
+            ['field_name' => 'theme', 'field_value' => 'light', 'module' => 'Other', 'owner' => $username, 'last_updated_by' => $username, 'created_at' => Carbon::now('UTC')->format('Y-m-d H:i:s'), "updated_at" => Carbon::now('UTC')->format('Y-m-d H:i:s')]
         );
 
         DB::table('oc_settings')->insert($settings);
@@ -234,7 +235,7 @@ trait CommonController
     public function updateLocale($locale)
     {
         $user_updated = User::where('id', auth()->user()->id)
-            ->update(['locale' => $locale, 'updated_at' => date('Y-m-d H:i:s')]);
+            ->update(['locale' => $locale, 'updated_at' => Carbon::now('UTC')->format('Y-m-d H:i:s')]);
 
         if ($user_updated) {
             session()->put('locale', $locale);
@@ -250,5 +251,12 @@ trait CommonController
 
             session()->put('translations', $translations);
         }
+    }
+
+    // update user's timezone
+    public function updateTimeZone($time_zone)
+    {
+        $user_updated = User::where('id', auth()->user()->id)
+            ->update(['time_zone' => $time_zone, 'updated_at' => Carbon::now('UTC')->format('Y-m-d H:i:s')]);
     }
 }

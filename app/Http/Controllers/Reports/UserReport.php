@@ -12,8 +12,10 @@ class UserReport extends Controller
     public function getData($request, $per_page, $download)
     {
         $rows = User::select(
-                'id', 'full_name', 'username', 'email', 'role', 
-                DB::raw("if(active, 'Yes', 'No') as active")
+                'id', 'username', 'title', 'first_name', 'last_name', 'full_name', 
+                'email', 'email_verified_at', 'role', 'locale', 'time_zone',
+                DB::raw("if(active, 'Yes', 'No') as active"), 
+                'created_at', 'updated_at'
             );
 
         if ($request->filled('filters')) {
@@ -34,10 +36,6 @@ class UserReport extends Controller
             if (isset($filters['active'])) {
                 $rows = $rows->where('active', intval($filters['active']));
             }
-            if (isset($filters['from_date']) && isset($filters['to_date']) && $filters['from_date'] && $filters['to_date']) {
-                $rows = $rows->where('created_at', '>=', date('Y-m-d H:i:s', strtotime($filters['from_date'])))
-                    ->where('created_at', '<=', date('Y-m-d H:i:s', strtotime($filters['to_date'])));
-            }
         }
 
         if (!in_array(auth()->user()->role, ["System Administrator", "Administrator"])) {
@@ -52,7 +50,11 @@ class UserReport extends Controller
 
         return array(
             'rows' => $rows,
-            'columns' => array('full_name', 'username', 'email', 'role', 'active'),
+            'columns' => array(
+                'username', 'title', 'first_name', 'last_name', 'full_name', 
+                'email', 'email_verified_at', 'role', 'locale', 'time_zone', 
+                'active', 'created_at', 'updated_at'
+            ),
             'module' => 'User',
             'link_field' => 'id',
             'form_title' => 'username'

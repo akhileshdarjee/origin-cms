@@ -151,13 +151,13 @@ $(document).ready(function() {
                             if (columns.contains(column_name)) {
                                 if (typeof column_value === 'string' && (column_value.isDate() || column_value.isDateTime() || column_value.isTime())) {
                                     if (column_value.isDate()) {
-                                        column_value = moment.utc(column_value).local().format('DD-MM-YYYY');
+                                        column_value = moment.utc(column_value).tz(origin.time_zone).format('DD-MM-YYYY');
                                     }
                                     else if (column_value.isDateTime()) {
-                                        column_value = moment.utc(column_value).local().format('DD-MM-YYYY hh:mm A');
+                                        column_value = moment.utc(column_value).tz(origin.time_zone).format('DD-MM-YYYY hh:mm A');
                                     }
                                     else {
-                                        column_value = moment.utc('0001-01-01 ' + column_value).local().format('hh:mm A');
+                                        column_value = moment.utc('0001-01-01 ' + column_value).tz(origin.time_zone).format('hh:mm A');
                                     }
                                 }
 

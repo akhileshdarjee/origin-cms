@@ -27,6 +27,7 @@ mix.scripts([
     'resources/plugins/jquery-ui/jquery-ui.min.js',
     'resources/plugins/bootstrap/js/bootstrap.bundle.min.js',
     'resources/plugins/moment/moment-with-locales.min.js',
+    'resources/plugins/moment/moment-timezone-with-data.min.js',
     'resources/plugins/datetimepicker/bootstrap-datetimepicker.min.js',
     'resources/plugins/trumbowyg/trumbowyg.min.js',
     'resources/plugins/trumbowyg/plugins/upload/trumbowyg.upload.min.js',

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Str;
 use Exception;
+use Carbon\Carbon;
 use App\Exports\ExcelExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Controllers\CommonController;
@@ -135,7 +136,7 @@ class ReportController extends Controller
             }
         }
 
-        $filename = $report_name . "-" . date('Y-m-d H:i:s');
+        $filename = $report_name . "-" . Carbon::now(auth()->user()->time_zone)->format('Y-m-d-H-i-s');
 
         $export_data = [
             'headings' => $columns,

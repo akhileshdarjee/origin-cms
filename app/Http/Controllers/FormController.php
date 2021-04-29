@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use DB;
 use File;
 use Str;
+use Carbon\Carbon;
 
 trait FormController
 {
@@ -715,11 +716,11 @@ trait FormController
 
         foreach ($form_data as $column => $value) {
             if (isset($table_schema[$column]) && $table_schema[$column]['datatype'] == "date" && $value) {
-                $value = date('Y-m-d', strtotime($value));
+                $value = Carbon::parse($value, auth()->user()->time_zone)->setTimezone('UTC')->format('Y-m-d');
             } elseif (isset($table_schema[$column]) && $table_schema[$column]['datatype'] == "datetime" && $value) {
-                $value = date('Y-m-d H:i:s', strtotime($value));
+                $value = Carbon::parse($value, auth()->user()->time_zone)->setTimezone('UTC')->format('Y-m-d H:i:s');
             } elseif (isset($table_schema[$column]) && $table_schema[$column]['datatype'] == "time" && $value) {
-                $value = date('H:i:s', strtotime($value));
+                $value = Carbon::parse($value, auth()->user()->time_zone)->setTimezone('UTC')->format('H:i:s');
             } elseif (!is_array($value) && $value && isset($table_schema[$column])) {
                 // checking is array is important to eliminate convert type for child tables
                 $this->convertDataType($value, $table_schema[$column]['datatype']);
@@ -773,7 +774,7 @@ trait FormController
     public function mergeCommonData($data, $module, $action = null)
     {
         $owner = $last_updated_by = auth()->user()->username;
-        $created_at = $updated_at = date('Y-m-d H:i:s');
+        $created_at = $updated_at = Carbon::now('UTC')->format('Y-m-d H:i:s');
         $parent_table = $module['table_name'];
         $child_foreign_keys = [];
 
@@ -854,11 +855,11 @@ trait FormController
                                         unset($data[$table][$index][$column_name]);
                                     } elseif (isset($table_schema[$column_name])) {
                                         if ($column_value && $table_schema[$column_name]['datatype'] == "date") {
-                                            $data[$table][$index][$column_name] = date('Y-m-d', strtotime($column_value));
+                                            $data[$table][$index][$column_name] = Carbon::parse($value, auth()->user()->time_zone)->setTimezone('UTC')->format('Y-m-d');
                                         } elseif ($column_value && $table_schema[$column_name]['datatype'] == "datetime") {
-                                            $data[$table][$index][$column_name] = date('Y-m-d H:i:s', strtotime($column_value));
+                                            $data[$table][$index][$column_name] = Carbon::parse($value, auth()->user()->time_zone)->setTimezone('UTC')->format('Y-m-d H:i:s');
                                         } elseif ($column_value && $table_schema[$column_name]['datatype'] == "time") {
-                                            $data[$table][$index][$column_name] = date('H:i:s', strtotime($column_value));
+                                            $data[$table][$index][$column_name] = Carbon::parse($value, auth()->user()->time_zone)->setTimezone('UTC')->format('H:i:s');
                                         } else {
                                             if ($column_value) {
                                                 $this->convertDataType($column_value, $table_schema[$column_name]['datatype']);
@@ -962,7 +963,7 @@ trait FormController
                     "email" => $email,
                     "active" => $request->filled('active') ? $request->get('active') : 1,
                     "last_updated_by" => auth()->user()->username,
-                    "updated_at" => date('Y-m-d H:i:s')
+                    "updated_at" => Carbon::now('UTC')->format('Y-m-d H:i:s')
                 );
 
                 if (isset($user_avatar) && $user_avatar) {
@@ -986,7 +987,7 @@ trait FormController
                     $user_data["email_verification_code"] = Str::random(30);
                     $user_data["role"] = $role;
                     $user_data["owner"] = auth()->user()->username;
-                    $user_data["created_at"] = date('Y-m-d H:i:s');
+                    $user_data["created_at"] = Carbon::now('UTC')->format('Y-m-d H:i:s');
                     $result = $user->insert($user_data);
 
                     if ($result) {

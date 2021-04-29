@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use DB;
+use Carbon\Carbon;
 use App\Language;
 use App\Http\Controllers\CommonController;
 use Illuminate\Http\Request;
@@ -13,19 +14,21 @@ class SettingsController extends Controller
 
     public function show()
     {
-        $data['oc_settings'] = $this->getAppSetting();
+        $form_data['oc_settings'] = $this->getAppSetting();
 
         $language = Language::select('name', 'locale')
             ->where('locale', app()->getLocale())
             ->first();
 
         if ($language) {
-            $data['oc_settings']['language'] = $language->name;
-            $data['oc_settings']['locale'] = $language->locale;
+            $form_data['oc_settings']['language'] = $language->name;
+            $form_data['oc_settings']['locale'] = $language->locale;
         }
 
+        $form_data['oc_settings']['time_zone'] = auth()->user()->time_zone;
+
         $settings_data = [
-            'form_data' => isset($data) ? $data : [],
+            'form_data' => isset($form_data) ? $form_data : [],
             'form_title' => 'Settings',
             'title' => 'Settings',
             'icon' => 'fas fa-cogs',
@@ -52,6 +55,9 @@ class SettingsController extends Controller
         $locale = app()->getLocale();
         $locale_updated = false;
 
+        $time_zone = auth()->user()->time_zone;
+        $time_zone_updated = false;
+
         if (isset($settings_data['locale']) && trim($settings_data['locale'])) {
             if (trim($settings_data['locale']) != $locale) {
                 $locale = trim($settings_data['locale']);
@@ -61,13 +67,22 @@ class SettingsController extends Controller
             unset($settings_data['locale']);
         }
 
+        if (isset($settings_data['time_zone']) && trim($settings_data['time_zone'])) {
+            if (trim($settings_data['time_zone']) != $time_zone) {
+                $time_zone = trim($settings_data['time_zone']);
+                $time_zone_updated = true;
+            }
+
+            unset($settings_data['time_zone']);
+        }
+
         foreach ($settings_data as $setting => $value) {
             $result = DB::table('oc_settings')
                 ->where('field_name', $setting)
                 ->where('owner', auth()->user()->username)
                 ->update([
                     'field_value' => $value, 
-                    'updated_at' => date('Y-m-d H:i:s'), 
+                    'updated_at' => Carbon::now('UTC')->format('Y-m-d H:i:s'), 
                     'last_updated_by' => auth()->user()->username
                 ]);
 
@@ -80,6 +95,10 @@ class SettingsController extends Controller
 
         if ($locale_updated) {
             $this->updateLocale($locale);
+        }
+
+        if ($time_zone_updated) {
+            $this->updateTimeZone($time_zone);
         }
 
         $data = [
@@ -110,7 +129,7 @@ class SettingsController extends Controller
                     ->where('owner', auth()->user()->username)
                     ->update([
                         'field_value' => $theme, 
-                        'updated_at' => date('Y-m-d H:i:s'), 
+                        'updated_at' => Carbon::now('UTC')->format('Y-m-d H:i:s'), 
                         'last_updated_by' => auth()->user()->username
                     ]);
 

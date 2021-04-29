@@ -6,11 +6,12 @@ use DB;
 use Exception;
 use File;
 use Artisan;
+use Str;
+use Carbon\Carbon;
 use App\Module;
 use App\Http\Controllers\CommonController;
 use App\Http\Controllers\PermController;
 use Illuminate\Http\Request;
-use Str;
 
 class ModuleController extends Controller
 {
@@ -57,6 +58,9 @@ class ModuleController extends Controller
             $module_name = $form_data['name'];
             $table_name = $form_data['table_name'];
 
+            // create migration file for seeding module data
+            $this->createDataMigration($form_data);
+
             // create migration
             if (isset($form_data['create_migration']) && intval($form_data['create_migration'])) {
                 Artisan::call('make:migration', ['name' => 'create_' . $table_name . '_table', '--create' => $table_name]);
@@ -82,9 +86,6 @@ class ModuleController extends Controller
             if (!File::exists(resource_path('views/admin/layouts/modules/' . $form_data["slug"] . '.blade.php'))) {
                 File::put(resource_path('views/admin/layouts/modules/' . $form_data["slug"] . '.blade.php'), '');
             }
-
-            // create migration file for seeding module data
-            $this->createDataMigration($form_data);
         }
 
         cache()->forget('app_modules');
@@ -107,12 +108,14 @@ class ModuleController extends Controller
         $int_fields = ['active', 'create_migration', 'sequence_no', 'show', 'is_child_table'];
         $app_name = getAppName();
         $id_numbering = spell_numbers($data['id']);
+        $now_time = Carbon::now('UTC')->format('Y_m_d_His');
         $counter = 0;
 
         $file_text = "<?php\r\r";
         $file_text .= "use " . $app_name . "\Module;\r";
         $file_text .= "use Illuminate\Database\Schema\Blueprint;\r";
-        $file_text .= "use Illuminate\Database\Migrations\Migration;\r\r";
+        $file_text .= "use Illuminate\Database\Migrations\Migration;\r";
+        $file_text .= "use Illuminate\Support\Facades\Schema;\r\r";
         $file_text .= "class Seed" . $data['name'] . $id_numbering . "Module extends Migration\r";
         $file_text .= "{\r";
         $file_text .= "\t" . 'public function up()'. "\r";
@@ -148,13 +151,13 @@ class ModuleController extends Controller
         $file_text .= "\t}\r";
         $file_text .= "}\r";
 
-        $file_name = date('Y_m_d_His') . "_seed_" . strtolower($data['name']) . "_" . Str::snake($id_numbering) . "_module";
+        $file_name = $now_time . "_seed_" . strtolower($data['name']) . "_" . Str::snake($id_numbering) . "_module";
         File::put(database_path('migrations/' . $file_name . '.php'), $file_text);
 
         $max_migration_batch = DB::table('migrations')->max('batch');
         DB::table('migrations')->insert(['migration' => $file_name, 'batch' => $max_migration_batch + 1]);
 
-        system('composer dump-autoload');
+        system('composer dump-autoload -o');
     }
 
     // prepare migration file for deleting module
@@ -162,6 +165,7 @@ class ModuleController extends Controller
     {
         $app_name = getAppName();
         $id_numbering = spell_numbers($id);
+        $now_time = Carbon::now('UTC')->format('Y_m_d_His');
 
         $file_text = "<?php\r\r";
         $file_text .= "use " . $app_name . "\Module;\r";
@@ -179,13 +183,13 @@ class ModuleController extends Controller
         $file_text .= "\t}\r";
         $file_text .= "}\r";
 
-        $file_name = date('Y_m_d_His') . "_delete_" . strtolower($module_name) . "_" . Str::snake($id_numbering) . "_module";
+        $file_name = $now_time . "_delete_" . strtolower($module_name) . "_" . Str::snake($id_numbering) . "_module";
         File::put(database_path('migrations/' . $file_name . '.php'), $file_text);
 
         $max_migration_batch = DB::table('migrations')->max('batch');
         DB::table('migrations')->insert(['migration' => $file_name, 'batch' => $max_migration_batch + 1]);
 
-        system('composer dump-autoload');
+        system('composer dump-autoload -o');
     }
 
     // update module sequence no

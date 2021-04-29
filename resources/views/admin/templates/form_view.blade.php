@@ -8,6 +8,7 @@
         window.origin = {
             data: <?php echo isset($form_data) ? json_encode($form_data) : 'false' ?>,
             locale: <?php echo json_encode(app()->getLocale()) ?>,
+            time_zone: <?php echo json_encode(auth()->user()->time_zone) ?>,
             translations: <?php echo json_encode(session()->get('translations')) ?>,
             title: "{{ $title }}",
             slug: "{{ $slug }}",
@@ -136,7 +137,7 @@
                         @else
                             @var $action = route('new.doc', $slug)
                         @endif
-                        <form method="POST" action="{{ $action }}" name="{{ $slug }}" id="{{ $slug }}" enctype="multipart/form-data" accept-charset="utf-8">
+                        <form method="POST" action="{{ $action }}" name="{{ $slug }}" id="{{ $slug }}" enctype="multipart/form-data" accept-charset="UTF-8">
                             {!! csrf_field() !!}
                             <input type="hidden" name="id" id="id" class="form-control" data-mandatory="no" autocomplete="off" readonly>
                             @if (view()->exists(str_replace('.', '/', $file)))
