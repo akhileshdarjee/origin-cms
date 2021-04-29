@@ -97,7 +97,7 @@ trait CommonController
     {
         $settings = array(
             ['field_name' => 'home_page', 'field_value' => 'modules', 'module' => 'Other', 'owner' => $username, 'last_updated_by' => $username, 'created_at' => Carbon::now('UTC')->format('Y-m-d H:i:s'), "updated_at" => Carbon::now('UTC')->format('Y-m-d H:i:s')],
-            ['field_name' => 'list_view_records', 'field_value' => '15', 'module' => 'Other', 'owner' => $username, 'last_updated_by' => $username, 'created_at' => Carbon::now('UTC')->format('Y-m-d H:i:s'), "updated_at" => Carbon::now('UTC')->format('Y-m-d H:i:s')],
+            ['field_name' => 'list_view_records', 'field_value' => '20', 'module' => 'Other', 'owner' => $username, 'last_updated_by' => $username, 'created_at' => Carbon::now('UTC')->format('Y-m-d H:i:s'), "updated_at" => Carbon::now('UTC')->format('Y-m-d H:i:s')],
             ['field_name' => 'theme', 'field_value' => 'light', 'module' => 'Other', 'owner' => $username, 'last_updated_by' => $username, 'created_at' => Carbon::now('UTC')->format('Y-m-d H:i:s'), "updated_at" => Carbon::now('UTC')->format('Y-m-d H:i:s')]
         );
 

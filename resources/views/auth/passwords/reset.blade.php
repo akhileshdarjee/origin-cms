@@ -38,9 +38,9 @@
                         <input type="hidden" name="token" value="{{ $token }}">
                         <div class="form-group mb-3">
                             @if ($email)
-                                <input type="text" name="email" class="form-control" placeholder="{{ __('Email Address') }}" value="{{ $email }}" required autofocus readonly>
+                                <input type="email" name="email" class="form-control" placeholder="{{ __('Email Address') }}" value="{{ $email }}" required autofocus readonly>
                             @else
-                                <input type="text" name="email" class="form-control" placeholder="{{ __('Email Address') }}" value="" required autofocus>
+                                <input type="email" name="email" class="form-control" placeholder="{{ __('Email Address') }}" value="" required autofocus>
                             @endif
                         </div>
                         <div class="form-group mb-3">

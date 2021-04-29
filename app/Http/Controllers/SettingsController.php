@@ -109,7 +109,7 @@ class SettingsController extends Controller
         if ($request->ajax()) {
             return response()->json($data, 200);
         } else {
-            return redirect()->route('show.app.settings')->with($data);
+            return back()->with($data);
         }
     }
 

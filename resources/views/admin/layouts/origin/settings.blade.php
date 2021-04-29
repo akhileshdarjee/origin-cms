@@ -93,7 +93,7 @@
         </div>
     </div>
 </form>
-<form method="POST" action="{{ route('change.password') }}" name="change-password-form" id="change-password-form" accept-charset="UTF-8">
+<form method="POST" action="{{ route('password.change') }}" name="change-password-form" id="change-password-form" accept-charset="UTF-8">
     {!! csrf_field() !!}
     <div class="card form-section elevation-2" id="password-details">
         <div class="card-header">
@@ -153,7 +153,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <small class="text-muted">
-                        {{ __('Password should be atleast 8 characters including a number, uppercase letter and a lowercase letter and should not contain any blank spaces') }}
+                        {{ __('Password should be at least 8 characters including a number, an uppercase letter and a lowercase letter and should not contain any blank spaces') }}
                     </small>
                 </div>
             </div>

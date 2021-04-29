@@ -57,7 +57,7 @@ class AppController extends Controller
                             $data['msg'] = __('Current Password is invalid');
                         }
                     } else {
-                        $data['msg'] = __('Password should be atleast 8 characters including a number, uppercase letter and a lowercase letter and should not contain any blank spaces');
+                        $data['msg'] = __('Password should be at least 8 characters including a number, an uppercase letter and a lowercase letter and should not contain any blank spaces');
                     }
                 } else {
                     $data['msg'] = __('New Password and Confirm New Password does not match');
@@ -70,7 +70,7 @@ class AppController extends Controller
         if ($request->ajax()) {
             return response()->json($data, 200);
         } else {
-            return redirect()->route('show.app.settings')->with($data);
+            return back()->with($data);
         }
     }
 

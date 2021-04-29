@@ -40,7 +40,7 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('/app/activity', 'ActivityController@show')->name('show.app.activity');
         Route::get('/app/settings', 'SettingsController@show')->name('show.app.settings');
         Route::post('/app/settings', 'SettingsController@save')->name('save.app.settings');
-        Route::post('/app/change-password', 'AppController@changePassword')->name('change.password');
+        Route::post('/app/change-password', 'AppController@changePassword')->name('password.change');
         Route::post('/update-module-sequence', 'ModuleController@updateSequence')->name('update.module.sequence');
         Route::post('/import-from-csv', 'ImportController@import')->name('import.from.csv');
         Route::post('/update-list-sorting', 'ListViewController@updateSorting')->name('update.list.sorting');

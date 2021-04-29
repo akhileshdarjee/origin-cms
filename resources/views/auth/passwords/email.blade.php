@@ -36,7 +36,7 @@
                         @endif
                         {!! csrf_field() !!}
                         <div class="form-group mb-3">
-                            <input type="text" class="form-control" name="email" placeholder="{{ __('Email Address') }}" />
+                            <input type="email" class="form-control" name="email" placeholder="{{ __('Email Address') }}" />
                         </div>
                         <div class="row">
                             <div class="col-12">

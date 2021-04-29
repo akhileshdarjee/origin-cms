@@ -16,18 +16,18 @@
         <div class="collapse navbar-collapse order-3" id="navbarCollapse">
             <ul class="navbar-nav">
                 <li class="nav-item app-nav text-center">
-                    <a href="{{ route('show.app.modules') }}" class="nav-link" title="{{ __('Modules') }}">
+                    <a class="nav-link" href="{{ route('show.app.modules') }}" title="{{ __('Modules') }}">
                         <i class="fas fa-gem fa-sm"></i> {{ __('Modules') }}
                     </a>
                 </li>
                 <li class="nav-item app-nav text-center">
-                    <a href="{{ route('show.app.reports') }}" class="nav-link" title="{{ __('Reports') }}">
+                    <a class="nav-link" href="{{ route('show.app.reports') }}" title="{{ __('Reports') }}">
                         <i class="fas fa-sitemap fa-sm"></i> {{ __('Reports') }}
                     </a>
                 </li>
                 @if (auth()->user()->role == "Administrator" && auth()->user()->username == "admin")
                     <li class="nav-item app-nav text-center">
-                        <a href="{{ route('show.app.backups') }}" class="nav-link" title="{{ __('Backups') }}">
+                        <a class="nav-link" href="{{ route('show.app.backups') }}" title="{{ __('Backups') }}">
                             <i class="fas fa-hdd fa-sm"></i> {{ __('Backups') }}
                         </a>
                     </li>

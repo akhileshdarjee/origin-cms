@@ -20,7 +20,7 @@ class Localization
             session()->put('locale', auth()->user()->locale);
         }
 
-        if (session()->has('locale')) {
+        if (session()->get('locale')) {
             app()->setLocale(session()->get('locale'));
         }
 
