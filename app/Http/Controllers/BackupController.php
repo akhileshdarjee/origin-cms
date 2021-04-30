@@ -57,7 +57,7 @@ class BackupController extends Controller
             });
 
             foreach ($backups as $idx => $backup) {
-                $backups[$idx]['date'] = Carbon::parse($backup['date'], 'UTC')->setTimezone(auth()->user()->time_zone)->format('d-m-Y h:i A');
+                $backups[$idx]['date'] = Carbon::parse($backup['date'], 'UTC')->setTimezone(auth()->user()->time_zone)->translatedFormat('d-m-Y h:i A');
             }
 
             $backups = collect($backups)->values();

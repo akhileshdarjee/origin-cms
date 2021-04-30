@@ -4,16 +4,13 @@
     <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
 @endif
     <div class="container">
-        <a href="{{ route('home') }}" class="navbar-brand">
+        <a href="{{ route('home') }}" class="navbar-brand order-1">
             @if (file_exists('img/logo.svg'))
                 <img src="{{ asset('img/logo.svg') }}" alt="{{ config('app.brand.name') }}" class="brand-image img-circle elevation-3" style="opacity: .8">
             @endif
             <span class="brand-text font-weight-light d-none d-sm-none d-md-inline-block">{{ config('app.brand.name') }}</span>
         </a>
-        <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-            <i class="fas fa-bars"></i>
-        </button>
-        <div class="collapse navbar-collapse order-3" id="navbarCollapse">
+        <div class="collapse navbar-collapse order-5 order-md-2" id="navbarCollapse">
             <ul class="navbar-nav">
                 <li class="nav-item app-nav text-center">
                     <a class="nav-link" href="{{ route('show.app.modules') }}" title="{{ __('Modules') }}">
@@ -34,19 +31,19 @@
                 @endif
             </ul>
         </div>
-        <ul class="order-1 order-md-3 navbar-nav navbar-no-expand">
-            <form class="form-inline ml-0">
-                <div class="form-group">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text pr-0" style="padding-right: 2px !important;">
-                                <i class="fas fa-search fa-sm"></i>
-                            </span>
-                        </div>
-                        <input type="text" name="top-search" id="top-search" class="form-control form-control-sm form-control-navbar autocomplete" data-ac-module="Universe" data-ac-field="label" placeholder="{{ __('Search') }}" aria-label="Search" autocomplete="off">
+        <form class="form-inline order-2 order-md-3 univeral-search-form">
+            <div class="form-group mb-0">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text pr-0" style="padding-right: 2px !important;">
+                            <i class="fas fa-search fa-sm"></i>
+                        </span>
                     </div>
+                    <input type="text" name="top-search" id="top-search" class="form-control form-control-sm form-control-navbar autocomplete" data-ac-module="Universe" data-ac-field="label" placeholder="{{ __('Search') }}" aria-label="Search" autocomplete="off">
                 </div>
-            </form>
+            </div>
+        </form>
+        <ul class="order-3 navbar-nav navbar-no-expand">
             @inject('activities', 'App\Http\Controllers\ActivityController')
             @var $latest_activities = $activities->getLatestActivities(5)
             <li class="nav-item dropdown notifications-menu">
@@ -115,5 +112,8 @@
                 </ul>
             </li>
         </ul>
+        <button class="navbar-toggler order-4" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fas fa-bars"></i>
+        </button>
     </div>
 </nav>

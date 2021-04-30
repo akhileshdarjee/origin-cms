@@ -29,37 +29,35 @@
                             @endforeach
                         @endif
                         {!! csrf_field() !!}
-                        <div class="form-group mb-3">
+                        <div class="form-group">
                             <input type="text" name="username" id="username" class="form-control" placeholder="{{ __('Username') }}">
                             <span class="invalid-feedback">
                                 {{ __('Please Enter Username') }}
                             </span>
                         </div>
-                        <div class="form-group mb-3">
+                        <div class="form-group">
                             <input type="password" name="password" id="password" class="form-control" placeholder="{{ __('Password') }}">
                             <span class="invalid-feedback">
                                 {{ __('Please Enter Password') }}
                             </span>
                         </div>
-                        <div class="row vertical-center">
-                            <div class="col-8">
-                                <div class="custom-control custom-checkbox">
+                        <div class="row vertical-center mb-3">
+                            <div class="col-7">
+                                <div class="custom-control custom-checkbox d-flex vertical-center">
                                     <input type="checkbox" name="remember" id="remember-me" class="custom-control-input">
                                     <label class="custom-control-label remember-me" for="remember-me"> {{ __('Remember Me') }}</label>
                                 </div>
                             </div>
-                            <div class="col-4">
-                                <button type="submit" class="btn btn-primary btn-sm btn-block" id="submit-login">
-                                    {{ __('Login') }}
-                                </button>
+                            <div class="col-5">
+                                <a href="{{ route('password.request') }}" class="text-sm">
+                                    {{ __('Forgot password') }}?
+                                </a>
                             </div>
                         </div>
+                        <button type="submit" class="btn btn-primary btn-sm btn-block" id="submit-login">
+                            {{ __('Login') }}
+                        </button>
                     </form>
-                    <p class="mb-1 mt-3 text-sm text-center">
-                        <a href="{{ route('password.request') }}">
-                            {{ __('Forgot password') }}?
-                        </a>
-                    </p>
                 </div>
             </div>
         </div>

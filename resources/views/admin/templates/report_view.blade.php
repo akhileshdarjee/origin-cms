@@ -25,15 +25,15 @@
     <div class="content-header" id="sticky">
         <div class="container">
             <div class="row">
-                <div class="col-sm-6 col-8">
+                <div class="col-sm-8 col-8 content-title">
                     <h1 class="m-0">
-                        <small>
+                        <small class="content-title-label">
                             <i class="fas fa-sitemap"></i>
                             {{ __($title) }}
                         </small>
                     </h1>
                 </div>
-                <div class="col-sm-6 col-4 text-right list-btns">
+                <div class="col-sm-4 col-4 text-right list-btns">
                     @if (view()->exists('admin/layouts/reports/' . Str::snake($title)))
                         <button class="btn btn-default btn-sm elevation-2" id="filter_report" name="filter_report" data-toggle="tooltip" data-placement="top" title="{{ __('Apply filter') }}">
                             <span class="d-none d-sm-none d-md-inline-block">{{ __('Filter') }}</span>
@@ -85,10 +85,10 @@
                     </div>
                     <div class="card-body list-actions with-border-top">
                         <div class="row page-info">
-                            <div class="col-sm-5 col-6">
+                            <div class="col-sm-7 col-7">
                                 <div class="dataTables_info" id="report-table_info" role="status" aria-live="polite"></div>
                             </div>
-                            <div class="col-sm-7 col-6 text-right">
+                            <div class="col-sm-5 col-5 text-right">
                                 <div class="dataTables_paginate" id="report-table_paginate"></div>
                             </div>
                         </div>

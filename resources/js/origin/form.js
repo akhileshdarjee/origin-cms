@@ -261,10 +261,11 @@ function makeFieldsReadable() {
 function enableSaveButton() {
     form_changed = true;
 
-    $("body").find("#save_form").removeClass("disabled");
-    $("body").find("#save_form").prop("disabled", false);
-    $("body").find("#form-stats > i").removeClass("text-green").addClass("text-warning");
-    $("body").find("#form-status").html(__('Not Saved'));
+    $('body').find('#save_form').removeClass("disabled");
+    $('body').find('#save_form').prop("disabled", false);
+    $('body').find('.status-indicator').removeClass('indicator-success');
+    $('body').find('.status-indicator').addClass('indicator-warning');
+    $('body').find('.status-indicator').html(__('Not Saved'));
 }
 
 // show selected image file preview

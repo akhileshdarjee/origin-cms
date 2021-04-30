@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Blade;
+use Carbon\Carbon;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -27,5 +28,8 @@ class AppServiceProvider extends ServiceProvider
         Blade::extend(function($value) {
             return preg_replace('/\@var(.+)/', '<?php ${1}; ?>', $value);
         });
+
+        setlocale(LC_TIME, app()->getLocale(), app()->getLocale() . '.UTF-8');
+        Carbon::setLocale(app()->getLocale());
     }
 }

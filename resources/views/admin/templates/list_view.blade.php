@@ -7,15 +7,15 @@
     <div class="content-header" id="sticky">
         <div class="container">
             <div class="row">
-                <div class="col-sm-6 col-6">
+                <div class="col-sm-8 col-7 content-title">
                     <h1 class="m-0">
-                        <small>
+                        <small class="content-title-label">
                             <i class="{{ $module['icon'] }}"></i>
                             {{ __($module['display_name']) }} {{ __('List') }}
                         </small>
                     </h1>
                 </div>
-                <div class="col-sm-6 col-6 text-right list-btns">
+                <div class="col-sm-4 col-5 text-right list-btns">
                     @if ($can_create)
                         <button class="btn btn-default btn-sm elevation-2" id="import-from-csv" data-toggle="tooltip" data-placement="bottom" data-container="body" title="{{ __('Import') }} {{ __($module['display_name']) }}" data-module="{{ $module['name'] }}">
                             <span class="d-none d-sm-none d-md-inline-block">{{ __('Import') }}</span>
@@ -168,7 +168,7 @@
                     </div>
                     <div class="card-body list-actions">
                         <div class="row page-info">
-                            <div class="col-md-6 col-sm-6 col-5">
+                            <div class="col-sm-7 col-7">
                                 {{ __('Page') }} :
                                 <strong><span class="list-page-no mr-1"></span></strong> • 
                                 <span class="item-from ml-1"></span> -
@@ -176,7 +176,7 @@
                                 <span class="badge badge-primary item-count"></span>
                                 {{ __('records') }}
                             </div>
-                            <div class="col-md-6 col-sm-6 col-7">
+                            <div class="col-sm-5 col-5">
                                 <div class="origin-pagination-content text-right"></div>
                             </div>
                         </div>

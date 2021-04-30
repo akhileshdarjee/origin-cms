@@ -7,17 +7,16 @@
     <div class="content-header" id="sticky">
         <div class="container">
             <div class="row">
-                <div class="col-sm-6 col-6">
+                <div class="col-sm-8 col-8 content-title">
                     <h1 class="m-0">
-                        <small>
+                        <small class="content-title-label">
                             <i class="fas fa-bell"></i> {{ __('Activity') }}
                         </small>
                     </h1>
                 </div>
-                <div class="col-sm-6 col-6 text-right list-btns">
+                <div class="col-sm-4 col-4 text-right list-btns">
                     <button class="btn bg-gradient-primary btn-sm elevation-2 refresh-activity" data-toggle="tooltip" data-placement="bottom" data-container="body" title="{{ __('Refresh') }}">
-                        <span class="d-none d-sm-none d-md-inline-block">{{ __('Refresh') }}</span>
-                        <span class="d-md-none d-lg-none d-xl-none"><i class="fas fa-redo"></i></span>
+                        {{ __('Refresh') }}
                     </button>
                 </div>
             </div>
@@ -79,12 +78,12 @@
                     </div>
                     <div class="card-body list-actions with-border-top">
                         <div class="row page-info">
-                            <div class="col-md-6 col-sm-6 col-5">
+                            <div class="col-sm-7 col-7">
                                 <span class="item-from"></span> -
                                 <span class="item-to"></span> {{ __('of') }} 
                                 <span class="badge badge-primary item-count"></span>
                             </div>
-                            <div class="col-md-6 col-sm-6 col-7">
+                            <div class="col-sm-5 col-5">
                                 <div class="origin-pagination-content"></div>
                             </div>
                         </div>

@@ -18,11 +18,10 @@
         @show
     </head>
     @if (session('app_settings') && isset(session('app_settings')['theme']) && session('app_settings')['theme'] == 'dark')
-        <body class="hold-transition layout-top-nav dark-mode" data-url="{{ route('home') }}" data-base-url="{{ route('show.website') }}">
+        <body class="hold-transition layout-top-nav layout-navbar-fixed dark-mode" data-url="{{ route('home') }}" data-base-url="{{ route('show.website') }}">
     @else
-        <body class="hold-transition layout-top-nav" data-url="{{ route('home') }}" data-base-url="{{ route('show.website') }}">
+        <body class="hold-transition layout-top-nav layout-navbar-fixed" data-url="{{ route('home') }}" data-base-url="{{ route('show.website') }}">
     @endif
-        @include('admin.templates.preloader')
         <div class="wrapper">
             @include('admin.templates.navbar')
             <div class="content-wrapper">

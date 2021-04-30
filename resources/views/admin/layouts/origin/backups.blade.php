@@ -6,24 +6,21 @@
     <div class="content-header" id="sticky">
         <div class="container">
             <div class="row">
-                <div class="col-sm-6 col-8">
+                <div class="col-sm-8 col-6 content-title">
                     <h1 class="m-0">
-                        <small>
+                        <small class="content-title-label">
                             <i class="fas fa-hdd"></i> {{ __('Backups') }}
                         </small>
                     </h1>
                 </div>
-                <div class="col-sm-6 col-4 text-right list-btns">
+                <div class="col-sm-4 col-6 text-right list-btns">
                     <button class="btn btn-default btn-sm elevation-2 refresh-backups" data-toggle="tooltip" data-placement="bottom" data-container="body" title="{{ __('Refresh') }}">
                         <span class="d-none d-sm-none d-md-inline-block">{{ __('Refresh') }}</span>
                         <span class="d-md-none d-lg-none d-xl-none"><i class="fas fa-redo"></i></span>
                     </button>
                     <div class="btn-group new-backup">
                         <button type="button" class="btn bg-gradient-primary btn-sm dropdown-toggle dropdown-icon elevation-2" data-toggle="dropdown">
-                            <span class="d-none d-sm-none d-md-inline-block">
-                                {{ __('Create Backup') }}
-                            </span>
-                            <span class="d-md-none d-lg-none d-xl-none"><i class="fas fa-plus"></i></span>
+                            {{ __('Create Backup') }}
                         </button>
                         <div class="dropdown-menu dropdown-menu-right">
                             <a class="dropdown-item create-backup" href="#" data-href="{{ route('create.app.backups') }}">
@@ -68,12 +65,12 @@
                     </div>
                     <div class="card-body list-actions">
                         <div class="row page-info">
-                            <div class="col-md-6 col-sm-6 col-5">
+                            <div class="col-sm-7 col-7">
                                 <span class="item-from"></span> -
                                 <span class="item-to"></span> {{ __('of') }} 
                                 <span class="badge badge-primary item-count"></span>
                             </div>
-                            <div class="col-md-6 col-sm-6 col-7">
+                            <div class="col-sm-5 col-5">
                                 <div class="origin-pagination-content"></div>
                             </div>
                         </div>

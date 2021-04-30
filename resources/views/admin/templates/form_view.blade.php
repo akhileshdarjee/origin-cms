@@ -47,9 +47,9 @@
     <div class="content-header" id="sticky">
         <div class="container">
             <div class="row">
-                <div class="col-sm-8 col-6">
+                <div class="col-sm-8 col-8 content-title">
                     <h1 class="m-0">
-                        <small>
+                        <small class="content-title-label">
                             @if (isset($module_type) && $module_type == "Single")
                                 <i class="{{ $icon }}"></i> {{ __($title) }}
                             @else
@@ -62,18 +62,15 @@
                             @endif
                         </small>
                         @if (isset($form_data[$table_name]['id']) && $permissions['update'])
-                            <div class="form-status ml-1">
-                                <span class="text-center text-xs font-weight-normal" id="form-stats">
-                                    <i class="fas fa-circle fa-sm text-green"></i>
-                                    <span id="form-status">{{ __('Saved') }}</span>
-                                </span>
+                            <div class="status-indicator indicator-pill indicator-success ml-2">
+                                {{ __('Saved') }}
                             </div>
                         @endif
                     </h1>
                 </div>
-                <div class="col-sm-4 col-6 text-right list-btns">
+                <div class="col-sm-4 col-4 text-right list-btns">
                     @if (isset($previous) || isset($next))
-                        <div class="btn-group elevation-2 img-rounded">
+                        <div class="btn-group elevation-2 img-rounded d-none d-sm-none d-md-inline-flex">
                             <a href="{{ $previous ? $previous : '#' }}" class="btn btn-default btn-sm m-0{{ $previous ? '' : ' disabled' }}"{{ $previous ? '' : " disabled" }}>
                                 <i class="fas fa-chevron-left"></i>
                             </a>
@@ -111,11 +108,7 @@
                     @endif
                     @if ((isset($module_type) && $module_type == "Single") || $permissions['update'])
                         <button type="submit" class="btn bg-gradient-primary btn-sm elevation-2 disabled" id="save_form" disabled>
-                            <span class="d-none d-sm-none d-md-inline-block">
-                                <i class="fas fa-save fa-sm pr-1"></i>
-                                {{ __('Save') }}
-                            </span>
-                            <span class="d-md-none d-lg-none d-xl-none"><i class="fas fa-save"></i></span>
+                            {{ __('Save') }}
                         </button>
                     @endif
                 </div>
