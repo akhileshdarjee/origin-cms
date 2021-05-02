@@ -855,11 +855,11 @@ trait FormController
                                         unset($data[$table][$index][$column_name]);
                                     } elseif (isset($table_schema[$column_name])) {
                                         if ($column_value && $table_schema[$column_name]['datatype'] == "date") {
-                                            $data[$table][$index][$column_name] = Carbon::parse($value, auth()->user()->time_zone)->setTimezone('UTC')->format('Y-m-d');
+                                            $data[$table][$index][$column_name] = Carbon::parse($column_value, auth()->user()->time_zone)->setTimezone('UTC')->format('Y-m-d');
                                         } elseif ($column_value && $table_schema[$column_name]['datatype'] == "datetime") {
-                                            $data[$table][$index][$column_name] = Carbon::parse($value, auth()->user()->time_zone)->setTimezone('UTC')->format('Y-m-d H:i:s');
+                                            $data[$table][$index][$column_name] = Carbon::parse($column_value, auth()->user()->time_zone)->setTimezone('UTC')->format('Y-m-d H:i:s');
                                         } elseif ($column_value && $table_schema[$column_name]['datatype'] == "time") {
-                                            $data[$table][$index][$column_name] = Carbon::parse($value, auth()->user()->time_zone)->setTimezone('UTC')->format('H:i:s');
+                                            $data[$table][$index][$column_name] = Carbon::parse($column_value, auth()->user()->time_zone)->setTimezone('UTC')->format('H:i:s');
                                         } else {
                                             if ($column_value) {
                                                 $this->convertDataType($column_value, $table_schema[$column_name]['datatype']);
@@ -916,7 +916,7 @@ trait FormController
         }
 
         if ($action == "delete") {
-            $result = $user->where('username', $usename)->delete();
+            $result = $user->where('username', $username)->delete();
         } else {
             $first_name = '';
             $last_name = null;

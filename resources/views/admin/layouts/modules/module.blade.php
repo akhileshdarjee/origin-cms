@@ -169,7 +169,7 @@
                 <div class="form-group">
                     <label class="control-label">{{ __('Icon Color') }}</label>
                     <div>
-                        <input type="text" name="icon_color" class="form-control" data-mandatory="no" autocomplete="off">
+                        <input type="text" name="icon_color" class="form-control" value="#ffffff" data-mandatory="no" autocomplete="off">
                         <small class="text-muted">{{ __('Foreground color of the Module icon') }}</small>
                     </div>
                 </div>
@@ -214,7 +214,7 @@
                 <div class="form-group">
                     <label class="control-label">{{ __('Sort Field') }}</label>
                     <div>
-                        <input type="text" name="sort_field" class="form-control" data-mandatory="no" autocomplete="off" val="id">
+                        <input type="text" name="sort_field" class="form-control" value="id" data-mandatory="no" autocomplete="off" val="id">
                     </div>
                 </div>
             </div>

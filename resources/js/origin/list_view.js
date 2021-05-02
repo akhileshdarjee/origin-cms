@@ -46,7 +46,7 @@ $(document).ready(function() {
     $("body").on("click", ".sort-list-by-name", function(e) {
         e.preventDefault();
         var sort_field = $(this).data("value");
-        var field_label = trim($(this).html());
+        var field_label = $.trim($(this).html());
 
         $("body").find("#sort-field").attr("data-value", sort_field);
         $("body").find("#sort-field").data("value", sort_field);

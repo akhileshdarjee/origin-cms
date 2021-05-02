@@ -6,32 +6,24 @@ $(document).ready(function() {
         }
     });
 
-    $('body').on('change', '[name="name"]' function() {
+    $('body').on('change', '[name="name"]', function() {
         var module_name = $(this).val().replace(/\s/g, "");
         var slug = module_name.slugify();
 
-        if (!$('body').find('[name="display_name"]').val()) {
-            $('body').find('[name="display_name"]').val(module_name);
+        if (!$.trim($('body').find('[name="display_name"]').val())) {
+            $('body').find('[name="display_name"]').val(module_name).trigger('change');
         }
 
-        if (!$('body').find('[name="controller_name"]').val()) {
-            $('body').find('[name="controller_name"]').val(module_name + 'Controller');
+        if (!$.trim($('body').find('[name="controller_name"]').val())) {
+            $('body').find('[name="controller_name"]').val(module_name + 'Controller').trigger('change');
         }
 
-        if (!$('body').find('[name="table_name"]').val()) {
-            $('body').find('[name="table_name"]').val(slug);
+        if (!$.trim($('body').find('[name="table_name"]').val())) {
+            $('body').find('[name="table_name"]').val(slug).trigger('change');
         }
 
-        if (!$('body').find('[name="slug"]').val()) {
-            $('body').find('[name="slug"]').val(slug);
-        }
-
-        if (!$('body').find('[name="sort_field"]').val()) {
-            $('body').find('[name="sort_field"]').val('id');
-        }
-
-        if (!$('body').find('[name="icon_color"]').val()) {
-            $('body').find('[name="icon_color"]').val('#ffffff');
+        if (!$.trim($('body').find('[name="slug"]').val())) {
+            $('body').find('[name="slug"]').val(slug).trigger('change');
         }
     });
 });

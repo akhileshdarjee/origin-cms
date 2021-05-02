@@ -202,7 +202,7 @@ a.back-to-top:hover {
 	max-height: 236px;
 	overflow-y: auto;
 	overflow-x: auto;
-	border: 1px solid #dee2e6;
+	border: 1px solid rgba(0,0,0,.15);
 	position: absolute;
 	top: 0;
 	border-bottom-left-radius: .2rem;
@@ -1051,7 +1051,6 @@ table > tbody > tr > td > a:hover {
 .dark-mode .ui-autocomplete {
 	background-color: #343a40;
 	color: #fff;
-	border-color: #6c757d;
 }
 .dark-mode .ui-menu .ui-menu-item {
 	background-color: #343a40;
@@ -1197,8 +1196,8 @@ table > tbody > tr > td > a:hover {
 		margin-top: -6px;
 	}
 	.user-menu .default-picture i {
-		top: 56%;
-		font-size: 12px;
+		top: 49%;
+		font-size: 14px;
 	}
 	.content {
 		padding: 15px 0 15px 0;

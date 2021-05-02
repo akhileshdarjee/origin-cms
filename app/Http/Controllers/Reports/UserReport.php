@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Reports;
 
 use DB;
-use App\User;
 use App\Http\Controllers\Controller;
 
 class UserReport extends Controller
@@ -11,7 +10,10 @@ class UserReport extends Controller
     // get all rows & colummns for report
     public function getData($request, $per_page, $download)
     {
-        $rows = User::select(
+        $table_name = cache('app_modules')['User']['table_name'];
+
+        $rows = DB::table($table_name)
+            ->select(
                 'id', 'username', 'title', 'first_name', 'last_name', 'full_name', 
                 'email', 'email_verified_at', 'role', 'locale', 'time_zone',
                 DB::raw("if(active, 'Yes', 'No') as active"), 

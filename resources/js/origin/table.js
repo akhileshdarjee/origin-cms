@@ -139,7 +139,7 @@ function addRow(table, idx, action) {
                     <select class="custom-select custom-select-sm" name="' + table_name + '[' + (idx - 1) + '][' + field_name + ']">';
 
                 $.each($(heads).data("options").split(","), function(index, option) {
-                    option = trim(option);
+                    option = $.trim(option);
                     option = option.split(":");
 
                     if (option.length == 2) {
@@ -369,7 +369,7 @@ function addNewRows(table_name, records) {
                         <select class="custom-select custom-select-sm" name="' + table_name + '[' + idx + '][' + field_name + ']">';
 
                     $.each($(heads).data("options").split(","), function(index, option) {
-                        option = trim(option);
+                        option = $.trim(option);
                         option = option.split(":");
 
                         if (option.length == 2) {
@@ -504,7 +504,7 @@ function setPickersInTable(table_name, table, field_types) {
 
                 var tab_records = $(table).find("tbody > tr").length;
 
-                if (trim($('body').find('[name="id"]').val()) && doc_records == tab_records) {
+                if ($.trim($('body').find('[name="id"]').val()) && doc_records == tab_records) {
                     $(element).closest("tr").find("td.action > input").val("update");
                 }
 
@@ -535,7 +535,7 @@ function setPickersInTable(table_name, table, field_types) {
 
                 var tab_records = $(table).find("tbody > tr").length;
 
-                if (trim($('body').find('[name="id"]').val()) && doc_records == tab_records) {
+                if ($.trim($('body').find('[name="id"]').val()) && doc_records == tab_records) {
                     $(element).closest("tr").find("td.action > input").val("update");
                 }
 
@@ -573,7 +573,7 @@ function setPickersInTable(table_name, table, field_types) {
 
                 var tab_records = $(table).find("tbody > tr").length;
 
-                if (trim($('body').find('[name="id"]').val()) && doc_records == tab_records) {
+                if ($.trim($('body').find('[name="id"]').val()) && doc_records == tab_records) {
                     $(element).closest("tr").find("td.action > input").val("update");
                 }
 

@@ -107,7 +107,7 @@ class ReportController extends Controller
     }
 
     // download report in xls, xlsx, csv formats
-    public function downloadReport($report_name, $columns, $rows, $format, $action = null)
+    public function downloadReport($report_name, $columns, $rows, $format)
     {
         if ($format) {
             if (!in_array($format, ['xls', 'xlsx', 'csv'])) {
@@ -121,7 +121,7 @@ class ReportController extends Controller
         foreach($rows as $index => $row) {
             foreach ($row as $key => $value) {
                 if (!in_array($key, $columns)) {
-                    unset($rows[$index]->$key);
+                    unset($rows[$index]->{$key});
                 }
             }
         }

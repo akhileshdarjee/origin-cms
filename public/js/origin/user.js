@@ -23,8 +23,8 @@ $(document).ready(function() {
 
     function setFullName() {
         var title = $('body').find('[name="title"]').val();
-        var first_name = trim($('body').find('[name="first_name"]').val());
-        var last_name = trim($('body').find('[name="last_name"]').val());
+        var first_name = $.trim($('body').find('[name="first_name"]').val());
+        var last_name = $.trim($('body').find('[name="last_name"]').val());
         var full_name = first_name;
 
         if (title) {

@@ -122,7 +122,7 @@ $(document).ready(function() {
                                 if (data['module'] && data['link_field'] && data['form_title'] && (data['form_title'] == column_name) && column_value) {
                                     column_value = '<a href="' + form_link + '/' + grid_data[data["link_field"]] + '">' + column_value + '</a>';
                                 }
-                                else if (column_value && typeof column_value == "string" && trim(column_value).isURL()) {
+                                else if (column_value && typeof column_value == "string" && $.trim(column_value).isURL()) {
                                     column_value = '<a href="' + column_value + '" target="_blank">' + column_value + '</a>';
                                 }
 

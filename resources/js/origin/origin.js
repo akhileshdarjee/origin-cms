@@ -379,7 +379,7 @@ function enableAutocomplete() {
                                     label_value = item[label_field[0]];
                                 }
 
-                                item['label'] = trim(label_value);
+                                item['label'] = $.trim(label_value);
                                 return item;
                             }));
                         }
@@ -448,11 +448,11 @@ function enableAutocomplete() {
             open: function(event, ui) {
                 if (data_module == 'Universe') {
                     var left = $(this).closest('.input-group').innerWidth() - $(this).innerWidth();
-                    $(".ui-autocomplete").css({"z-index": 1050, "position": "fixed", "padding": "0px", "top": "+=2", "left": "-=" + left});
+                    $(".ui-autocomplete").css({"z-index": 1050, "padding": "0px", "top": "+=2", "left": "-=" + left});
                     $(".ui-autocomplete").width($(this).closest('.form-group').innerWidth());
                 }
                 else {
-                    $(".ui-autocomplete").css({"z-index": 1050, "position": "absolute", "padding": "0px", "top": "+=2"});
+                    $(".ui-autocomplete").css({"z-index": 1050, "padding": "0px", "top": "+=2"});
                     $(".ui-autocomplete").width($(this).innerWidth());
                 }
             }
@@ -475,7 +475,7 @@ function enableAutocomplete() {
                         var ignore_links = ['http://', 'https://'];
 
                         if (ignore_links.contains(item[data_image].substring(0, 7)) || ignore_links.contains(item[data_image].substring(0, 8))) {
-                            var image_url = trim(item[data_image]);
+                            var image_url = $.trim(item[data_image]);
                         }
                         else {
                             var image_url = getImage(item[data_image], '36', '36');
@@ -511,7 +511,7 @@ function enableAutocomplete() {
         };
 
         $(this).on('focus', function() {
-            if(!$(this).val().trim()) {
+            if (!$(this).val().trim()) {
                 $(this).keydown(); 
             }
         });
@@ -749,9 +749,9 @@ function beautifyListView(list_view) {
         $.each($(list_view_items).find(".clickable_row > td"), function() {
             if ($(this).attr("data-field-name")) {
                 var column_name = $(this).attr("data-field-name");
-                var column_value = trim($(this).html());
+                var column_value = $.trim($(this).html());
 
-                if (trim(column_value) != "") {
+                if (column_value) {
                     if (money_list.contains(column_name)) {
                         $(this).html('<i class="fas fa-rupee-sign mr-1"></i> ' + column_value);
                     }

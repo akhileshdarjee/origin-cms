@@ -62,11 +62,11 @@ $(document).ready(function() {
     $('form#' + origin.slug).submit(function(e) {
         var validated = true;
 
-        $.each(mandatory_fields, function(index, field) {
-            if (!trim($(field).val())) {
+        $.each(mandatory_fields, function(idx, field) {
+            if (!$.trim($(field).val())) {
                 e.preventDefault();
                 validated = false;
-                var field_label = trim($(field).closest('.form-group').find('.control-label').html());
+                var field_label = $.trim($(field).closest('.form-group').find('.control-label').html());
 
                 if ($(field).closest('.table_record').length) {
                     var table_record = $(field).closest('.table_record');
@@ -118,9 +118,9 @@ function getMandatoryFields() {
     var mandatory_fields = [];
     $form_elements = $("form").find("input, select, textarea");
 
-    $.each($form_elements, function(index, element) {
-        if ($(this).data("mandatory") == "yes") {
-            mandatory_fields.push($(element)[0]);
+    $.each($form_elements, function(idx, field) {
+        if ($(field).data("mandatory") == "yes") {
+            mandatory_fields.push($(field)[0]);
         }
     });
 
@@ -133,8 +133,8 @@ function highlightMandatoryFields(mandatory_fields) {
         mandatory_fields = getMandatoryFields();
     }
 
-    $.each(mandatory_fields, function(index, field) {
-        if (trim($(this).val()) == "") {
+    $.each(mandatory_fields, function(idx, field) {
+        if (!$.trim($(field).val()) && $.trim($(field).val()) != '0') {
             // if not child table field
             if (!$(field).closest('.table_record').length) {
                 $(field).closest(".form-group").addClass("is-invalid");
@@ -151,24 +151,24 @@ function removeMandatoryHighlight(mandatory_fields) {
         mandatory_fields = getMandatoryFields();
     }
 
-    $.each(mandatory_fields, function() {
-        $parent_div = $(this).closest(".form-group");
+    $.each(mandatory_fields, function(idx, field) {
+        $parent_div = $(field).closest(".form-group");
 
-        if (trim($(this).val())) {
+        if ($.trim($(field).val())) {
             // if not child table field
-            if (!$(this).closest('.table_record').length) {
+            if (!$(field).closest('.table_record').length) {
                 $($parent_div).removeClass("is-invalid");
             }
 
-            $(this).removeClass("is-invalid");
+            $(field).removeClass("is-invalid");
         }
         else {
             // if not child table field
-            if (!$(this).closest('.table_record').length) {
+            if (!$(field).closest('.table_record').length) {
                 $($parent_div).addClass("is-invalid");
             }
 
-            $(this).addClass("is-invalid");
+            $(field).addClass("is-invalid");
         }
     });
 }
@@ -206,10 +206,10 @@ function makeFieldsReadable() {
                     var input_group = $(element).closest('.form-group').find('.input-group');
 
                     if ($(input_group).find('.input-group-append').length) {
-                        ele_val = '<span class="mr-2">' + ele_val + '</span>' + trim($(input_group).find('.input-group-text').html());
+                        ele_val = '<span class="mr-2">' + ele_val + '</span>' + $.trim($(input_group).find('.input-group-text').html());
                     }
                     else {
-                        ele_val = trim($(input_group).find('.input-group-text').html()) + '<span class="ml-2">' + ele_val + '</span>';
+                        ele_val = $.trim($(input_group).find('.input-group-text').html()) + '<span class="ml-2">' + ele_val + '</span>';
                     }
 
                     new_control = '<p class="form-control-static origin-static">' + ele_val + '</p>';

@@ -13,13 +13,13 @@ $(document).ready(function() {
         $(password).removeClass("is-invalid");
         $('body').find('.invalid-feedback').hide();
 
-        if (!trim($(username).val())) {
+        if (!$.trim($(username).val())) {
             $(username).addClass("is-invalid");
             $(username).closest('.form-group').find('.invalid-feedback').show();
             e.preventDefault();
         }
 
-        if (!trim($(password).val())) {
+        if (!$.trim($(password).val())) {
             $(password).addClass("is-invalid");
             $(password).closest('.form-group').find('.invalid-feedback').show();
             e.preventDefault();

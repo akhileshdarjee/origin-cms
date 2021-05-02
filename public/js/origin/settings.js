@@ -1,6 +1,6 @@
 $(document).ready(function() {
     $('body').on('change', '[name="theme"]', function() {
-        applyTheme(trim($(this).val()));
+        applyTheme($.trim($(this).val()));
     });
 
     $('form#change-password-form').on('change input', 'input', function() {
@@ -19,19 +19,19 @@ $(document).ready(function() {
         $(new_password_confirmation).removeClass("is-invalid");
         $(password_form).find('.invalid-feedback').hide();
 
-        if (!trim($(current_password).val())) {
+        if (!$.trim($(current_password).val())) {
             $(current_password).addClass("is-invalid");
             $(current_password).closest('.form-group').find('.invalid-feedback').show();
             e.preventDefault();
         }
 
-        if (!trim($(new_password).val())) {
+        if (!$.trim($(new_password).val())) {
             $(new_password).addClass("is-invalid");
             $(new_password).closest('.form-group').find('.invalid-feedback').show();
             e.preventDefault();
         }
 
-        if (!trim($(new_password_confirmation).val())) {
+        if (!$.trim($(new_password_confirmation).val())) {
             $(new_password_confirmation).addClass("is-invalid");
             $(new_password_confirmation).closest('.form-group').find('.invalid-feedback').show();
             e.preventDefault();
