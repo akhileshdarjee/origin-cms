@@ -48,7 +48,7 @@
                                     <label class="custom-control-label remember-me" for="remember-me"> {{ __('Remember Me') }}</label>
                                 </div>
                             </div>
-                            <div class="col-5">
+                            <div class="col-5 text-right">
                                 <a href="{{ route('password.request') }}" class="text-sm">
                                     {{ __('Forgot password') }}?
                                 </a>

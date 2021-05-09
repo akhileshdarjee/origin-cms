@@ -39,14 +39,14 @@ class UserController extends Controller
     {
         // set full name
         if ($request->filled('first_name')) {
-            $full_name = $request->get('first_name');
+            $full_name = trim($request->get('first_name'));
 
             if ($request->filled('title')) {
-                $full_name = $request->get('title') . ' ' . $full_name;
+                $full_name = trim($request->get('title')) . ' ' . $full_name;
             }
 
             if ($request->filled('last_name')) {
-                $full_name = $full_name . ' ' . $request->get('last_name');
+                $full_name = $full_name . ' ' . trim($request->get('last_name'));
             }
 
             $request->offsetSet('full_name', $full_name);
@@ -83,25 +83,27 @@ class UserController extends Controller
     // check if username is already registered
     public function validateUsername($request)
     {
-        if ($request->get('username')) {
+        if ($request->filled('username')) {
+            $username = trim($request->get('username'));
+            $email = $request->filled('email') ? trim($request->get('email')) : null;
             $user_details = User::select('username', 'email');
 
-            if ($request->id) {
-                $user_details = $user_details->where('id', '!=', $request->get('id'));
+            if ($request->filled('id')) {
+                $user_details = $user_details->where('id', '!=', trim($request->get('id')));
             }
 
-            $user_details = $user_details->where(function($query) use ($request) {
-                    $query->where('username', $request->get('username'))
-                        ->orWhere('email', $request->get('email'));
+            $user_details = $user_details->where(function($query) use ($username, $email) {
+                    $query->where('username', $username)
+                        ->orWhere('email', $email);
                 })
                 ->first();
 
             if ($user_details) {
                 session()->flash('success', false);
 
-                if ($user_details->username == $request->get('username')) {
+                if ($user_details->username == $username) {
                     $msg = __('Username') . ': "' . $user_details->username . '" ' . __('is already registered') . '.';
-                } elseif ($user_details->email == $request->get('email')) {
+                } elseif ($user_details->email == $email) {
                     $msg = __('Email') . ': "' . $user_details->email . '" ' . __('is already registered') . '.';
                 }
 

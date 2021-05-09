@@ -179,6 +179,7 @@ function makeFieldsReadable() {
 
     $.each($form_elements, function(index, element) {
         var ele_type = $(element).attr("type");
+        var ele_name = $(element).attr("name");
         var is_input_group = false;
 
         if (!["hidden", "file"].contains(ele_type)) {
@@ -212,10 +213,10 @@ function makeFieldsReadable() {
                         ele_val = $.trim($(input_group).find('.input-group-text').html()) + '<span class="ml-2">' + ele_val + '</span>';
                     }
 
-                    new_control = '<p class="form-control-static origin-static">' + ele_val + '</p>';
+                    new_control = '<p class="form-control-static origin-static" data-name="' + ele_name + '">' + ele_val + '</p>';
                 }
                 else {
-                    new_control = '<p class="form-control-static origin-static">' + ele_val + '</p>';
+                    new_control = '<p class="form-control-static origin-static" data-name="' + ele_name + '">' + ele_val + '</p>';
                 }
             }
 

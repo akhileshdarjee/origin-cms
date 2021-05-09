@@ -8,7 +8,7 @@ $(document).ready(function() {
 
     $('body').on('change', '[name="name"]', function() {
         var module_name = $(this).val().replace(/\s/g, "");
-        var slug = module_name.slugify();
+        var slug = module_name.replace(/(?:^|\.?)([A-Z])/g, function (x,y){return "_" + y.toLowerCase()}).replace(/^_/, "");
 
         if (!$.trim($('body').find('[name="display_name"]').val())) {
             $('body').find('[name="display_name"]').val(module_name).trigger('change');

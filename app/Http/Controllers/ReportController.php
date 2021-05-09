@@ -23,7 +23,13 @@ class ReportController extends Controller
             $app_reports = config('reports');
 
             foreach ($app_reports as $report_name => $report) {
-                if (isset($report['allowed_roles']) && $report['allowed_roles'] && !in_array(auth()->user()->role, $report['allowed_roles'])) {
+                $allowed_roles = ['Administrator', 'System Administrator'];
+
+                if (isset($report['allowed_roles']) && $report['allowed_roles']) {
+                    $allowed_roles = array_merge($allowed_roles, $report['allowed_roles']);
+                }
+
+                if (!in_array(auth()->user()->role, $allowed_roles)) {
                     unset($app_reports[$report_name]);
                 }
             }
@@ -46,7 +52,13 @@ class ReportController extends Controller
                 return redirect()->route('home')->with('msg', __('No such report found'));
             }
 
-            if (isset($report_config['allowed_roles']) && !in_array($user_role, $report_config['allowed_roles'])) {
+            $allowed_roles = ['Administrator', 'System Administrator'];
+
+            if (isset($report_config['allowed_roles']) && $report_config['allowed_roles']) {
+                $allowed_roles = array_merge($allowed_roles, $report_config['allowed_roles']);
+            }
+
+            if (!in_array($user_role, $allowed_roles)) {
                 return redirect()->route('home')->with('msg', __('You are not authorized to view') . ' "' . __(awesome_case($report_name)) . '"');
             }
 

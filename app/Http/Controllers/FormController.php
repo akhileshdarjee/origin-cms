@@ -43,9 +43,14 @@ trait FormController
             $perms = ['create' => true, 'update' => true, 'delete' => true];
         } else {
             $perms = [];
-            $perms['create'] = $this->roleWiseModules($user_role, "Create", $module['name']);
-            $perms['update'] = $this->roleWiseModules($user_role, "Update", $module['name']);
-            $perms['delete'] = $this->roleWiseModules($user_role, "Delete", $module['name']);
+
+            if ($module['link_field_value']) {
+                $perms['create'] = $this->roleWiseModules($user_role, "Create", $module['name']);
+            } else {
+                $perms['create'] = $this->roleWiseModules($user_role, "Create", $module['name']);
+                $perms['update'] = $this->roleWiseModules($user_role, "Update", $module['name']);
+                $perms['delete'] = $this->roleWiseModules($user_role, "Delete", $module['name']);
+            }
         }
 
         // Shows an existing record
@@ -177,6 +182,53 @@ trait FormController
                                 ->get();
                         }
                     }
+                }
+
+                $update_perms = $this->moduleWisePermissions($user_role, "Update", $module['name']);
+                $delete_perms = $this->moduleWisePermissions($user_role, "Delete", $module['name']);
+
+                if ($update_perms) {
+                    $can_update = true;
+
+                    foreach ($update_perms as $column_name => $column_value) {
+                        if (is_array($column_value)) {
+                            if (!in_array($data[$module['table_name']]->{$column_name}, $column_value)) {
+                                $can_update = false;
+                                break;
+                            }
+                        } else {
+                            if ($data[$module['table_name']]->{$column_name} != $column_value) {
+                                $can_update = false;
+                                break;
+                            }
+                        }
+                    }
+
+                    $perms['update'] = $can_update;
+                } else {
+                    $perms['update'] = false;
+                }
+
+                if ($delete_perms) {
+                    $can_delete = true;
+
+                    foreach ($delete_perms as $column_name => $column_value) {
+                        if (is_array($column_value)) {
+                            if (!in_array($data[$module['table_name']]->{$column_name}, $column_value)) {
+                                $can_delete = false;
+                                break;
+                            }
+                        } else {
+                            if ($data[$module['table_name']]->{$column_name} != $column_value) {
+                                $can_delete = false;
+                                break;
+                            }
+                        }
+                    }
+
+                    $perms['delete'] = $can_delete;
+                } else {
+                    $perms['delete'] = false;
                 }
             } else {
                 session()->flash('success', false);
@@ -372,8 +424,8 @@ trait FormController
 
         // save parent data and child table data if found
         foreach ($form_data as $form_table => $form_table_data) {
+            // this is parent table
             if ($form_table == $module['table_name']) {
-                // this is parent table
                 if ($action == "create") {
                     $can_create = true;
 
@@ -483,10 +535,7 @@ trait FormController
                         unset($child_record['action']);
 
                         if (count($child_record)) {
-                            if (!isset($child_record[$module['child_foreign_key']])) {
-                                $child_record[$module['child_foreign_key']] = $module['link_field_value'];
-                            }
-
+                            $child_record[$module['child_foreign_key']] = $module['link_field_value'];
                             $result = DB::table($form_table)->insertGetId($child_record);
                             $form_data[$form_table][$idx]['id'] = $result;
                         }
