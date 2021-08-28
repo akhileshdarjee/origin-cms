@@ -170,7 +170,7 @@
                         <div class="row page-info">
                             <div class="col-sm-7 col-7">
                                 {{ __('Page') }} :
-                                <strong><span class="list-page-no mr-1"></span></strong> • 
+                                <strong><span class="page-no mr-1"></span></strong> • 
                                 <span class="item-from ml-1"></span> -
                                 <span class="item-to"></span> {{ __('of') }} 
                                 <span class="badge badge-primary item-count"></span>

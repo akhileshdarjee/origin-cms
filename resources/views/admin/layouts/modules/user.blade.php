@@ -14,11 +14,15 @@
                     <label class="control-label">{{ __('Avatar') }}</label>
                     <div class="media">
                         <div class="pull-left text-center avatar-box">
-                        @if (isset($form_data[$table_name]['avatar']) && $form_data[$table_name]['avatar'])
-                            <img src="{{ getImage($form_data[$table_name]['avatar'], '100', '100') }}" class="fancyimg" alt="{{ $form_data[$table_name][$form_title] }}" data-big="{{ getImage($form_data[$table_name]['avatar']) }}">
-                        @else
-                            <i class="fas fa-image fa-2x avatar"></i>
-                        @endif
+                            @if (isset($form_data[$table_name]['avatar']) && $form_data[$table_name]['avatar'])
+                                <img src="{{ getImage($form_data[$table_name]['avatar'], '100', '100') }}" class="fancyimg" alt="{{ $form_data[$table_name][$form_title] }}" data-big="{{ getImage($form_data[$table_name]['avatar']) }}">
+                            @else
+                                @if (isset($form_data[$table_name]['id']))
+                                    <div class="avatar-initials elevation-1" data-name="{{ $form_data[$table_name]['full_name'] }}"></div>
+                                @else
+                                    <i class="fas fa-image fa-2x avatar"></i>
+                                @endif
+                            @endif
                         </div>
                         <div class="media-body">
                             <label for="avatar" class="btn bg-gradient-secondary btn-sm ml-3 text-xs">

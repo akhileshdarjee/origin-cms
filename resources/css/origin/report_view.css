@@ -25,6 +25,23 @@
 	padding: .5rem;
 	vertical-align: middle;
 }
+#report-table .report-columns-search {
+	position: sticky;
+	top: 0;
+	background-color: #fff;
+}
+.dark-mode #report-table .report-columns-search {
+	background-color: #343a40;
+}
+#report-table .report-columns-search td {
+	border-bottom: 1px solid #dee2e6;
+}
+.dark-mode #report-table .report-columns-search td {
+	border-bottom: 1px solid #6c757d;
+}
+#report-table .report-columns-search.no-border td {
+	border-bottom: 0;
+}
 table.dataTable>thead>tr>td:not(.sorting_disabled), table.dataTable>thead>tr>th:not(.sorting_disabled) {
 	background-color: #f8f8f8;
 }

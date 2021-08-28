@@ -13,7 +13,7 @@ class ModuleSeeder extends Seeder
      */
     public function run()
     {
-        $modules = array(
+        $modules = [
             [
                 'name' => 'Module', 'display_name' => 'Module', 'table_name' => 'oc_modules', 'sequence_no' => 1, 
                 'controller_name' => 'ModuleController', 'slug' => 'module', 'show' => 1, 'bg_color' => '#1ab394', 
@@ -44,7 +44,7 @@ class ModuleSeeder extends Seeder
                 'form_title' => 'from', 'image_field' => null, 'owner' => 'admin', 'last_updated_by' => 'admin', 
                 'created_at' => Carbon::now('UTC')->format('Y-m-d H:i:s'), 'updated_at' => Carbon::now('UTC')->format('Y-m-d H:i:s')
             ],
-        );
+        ];
 
         Module::insert($modules);
     }

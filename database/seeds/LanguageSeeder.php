@@ -13,7 +13,7 @@ class LanguageSeeder extends Seeder
      */
     public function run()
     {
-        $languages = array(
+        $languages = [
             ['name' => 'English', 'locale' =>'en', 'active' => 1, 'owner' => 'admin', 'last_updated_by' => 'admin', 'created_at' => Carbon::now('UTC')->format('Y-m-d H:i:s'), 'updated_at' => Carbon::now('UTC')->format('Y-m-d H:i:s')],
             ['name' => 'Hindi', 'locale' =>'hi', 'active' => 1, 'owner' => 'admin', 'last_updated_by' => 'admin', 'created_at' => Carbon::now('UTC')->format('Y-m-d H:i:s'), 'updated_at' => Carbon::now('UTC')->format('Y-m-d H:i:s')],
             ['name' => 'Punjabi', 'locale' =>'pa', 'active' => 1, 'owner' => 'admin', 'last_updated_by' => 'admin', 'created_at' => Carbon::now('UTC')->format('Y-m-d H:i:s'), 'updated_at' => Carbon::now('UTC')->format('Y-m-d H:i:s')],
@@ -25,7 +25,7 @@ class LanguageSeeder extends Seeder
             ['name' => 'Italian', 'locale' =>'it', 'active' => 1, 'owner' => 'admin', 'last_updated_by' => 'admin', 'created_at' => Carbon::now('UTC')->format('Y-m-d H:i:s'), 'updated_at' => Carbon::now('UTC')->format('Y-m-d H:i:s')],
             ['name' => 'Russian', 'locale' =>'ru', 'active' => 1, 'owner' => 'admin', 'last_updated_by' => 'admin', 'created_at' => Carbon::now('UTC')->format('Y-m-d H:i:s'), 'updated_at' => Carbon::now('UTC')->format('Y-m-d H:i:s')],
             ['name' => 'Portuguese', 'locale' =>'pt', 'active' => 1, 'owner' => 'admin', 'last_updated_by' => 'admin', 'created_at' => Carbon::now('UTC')->format('Y-m-d H:i:s'), 'updated_at' => Carbon::now('UTC')->format('Y-m-d H:i:s')],
-        );
+        ];
 
         Language::insert($languages);
     }

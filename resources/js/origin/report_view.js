@@ -1,38 +1,20 @@
 $(document).ready(function() {
     var current_page = 1;
-    var filters_applied = false;
-    var report_table = '';
+    var search_timer;
+    var report_table = false;
+    var report_columns = [];
+    var data_loaded = false;
 
     refreshGridView(current_page);
     enableAutocomplete();
 
-    if ($("body").find("#from_date") && $("body").find("#to_date")) {
+    if ($('body').find("#from_date") && $('body').find("#to_date")) {
         $(function () {
-            $("body").on("dp.change", "#fromdate", function (e) {
-                $("body").find("#todate").data("DateTimePicker").minDate(e.date);
+            $('body').on("dp.change", "#fromdate", function (e) {
+                $('body').find("#todate").data("DateTimePicker").minDate(e.date);
             });
         });
     }
-
-    // refresh the grid view of report
-    $("body").on("click", "#filter_report", function() {
-        var filter_found = false;
-
-        $.each($("#report-filters").find("input, select"), function() {
-            if ($(this).val()) {
-                filter_found = true;
-            }
-        });
-
-        if (filter_found) {
-            filters_applied = true;
-            current_page = 1;
-            refreshGridView(current_page);
-        }
-        else {
-            refreshGridView(1);
-        }
-    });
 
     // refresh grid view if record length is changed
     $('body').on("change", '[name="report-table_length"]', function() {
@@ -42,6 +24,26 @@ $(document).ready(function() {
     // refresh grid view if search is changed
     $('body').on("input change", 'input[type="search"]', function() {
         if ($(this).val() == "") {
+            current_page = 1;
+            refreshGridView(current_page);
+        }
+    });
+
+    // refresh table data on individual column search
+    $('body').on("keyup", '.column-search', function() {
+        current_page = 1;
+        clearTimeout(search_timer);
+        search_timer = setTimeout(refreshGridView, 450);
+    });
+
+    $('body').on("keydown", '.column-search', function() {
+        clearTimeout(search_timer);
+    });
+
+    // refresh table data on individual column sorting
+    $('#report-table').on('order.dt', function(e) {
+        if (data_loaded) {
+            e.preventDefault();
             current_page = 1;
             refreshGridView(current_page);
         }
@@ -58,47 +60,45 @@ $(document).ready(function() {
     });
 
     // download the report
-    $("body").on("click", ".download-report", function(e) {
+    $('body').on("click", ".download-report", function(e) {
         e.preventDefault();
-        var filters = "";
+        var filters = $.param({'filters': getReportFilters()});
         var format = $(this).data('format');
+        var filters_section = $('body').find('.report-columns-search');
 
-        $.each($("#report-filters").find("input, select"), function() {
-            if ($(this).attr("name") && $(this).val()) {
-                filters += '&filters[' + $(this).attr("name") + ']=' + encodeURIComponent($(this).val().toString());
-            }
-        });
-
-        window.location = app_route + "?download=Yes&format=" + format + filters;
+        window.location = app_route + "?download=Yes&format=" + format + "&" + filters;
     });
 
     function refreshGridView(page) {
-        $("body").find(".data-loader").show();
+        $('body').find(".data-loader").show();
         var filters = getReportFilters();
         var per_page = $('body').find('[name="report-table_length"]').val();
+        page = page ? page : current_page;
 
         $.ajax({
             type: 'GET',
             url: app_route + '?page=' + page,
-            data: { 'filters': filters, 'per_page': per_page },
+            data: {'filters': filters, 'per_page': per_page},
             dataType: 'json',
             success: function(data) {
+                report_columns = data['columns'];
+
                 if (!(report_table instanceof $.fn.dataTable.Api)) {
-                    createTableHeaders(data['columns']);
+                    createTableHeaders();
                 }
 
                 var grid_rows = data['rows']['data'];
                 var from = data['rows']['from'] ? data['rows']['from'] : 0;
                 var to = data['rows']['to'] ? data['rows']['to'] : 0;
                 var total = data['rows']['total'];
-                var columns = data['columns'];
+                var page_no = data['rows']['current_page'] ? data['rows']['current_page'] : 0;
                 var rows = [];
                 var table_rows = [];
 
                 $.each(grid_rows, function(grid_index, grid_data) {
                     var row = {};
 
-                    $.each(columns, function(idx, column) {
+                    $.each(report_columns, function(idx, column) {
                         row[column] = grid_data[column];
                     });
 
@@ -129,26 +129,29 @@ $(document).ready(function() {
                                 if (['image', 'photo', 'picture', 'profile_picture', 'profile_photo', 'logo', 'avatar'].contains(column_name)) {
                                     if (column_value) {
                                         img_path = getImage(column_value, 32, 32, 95, 0, 'b');
-                                        column_value = '<div class="text-center"><img src="' + img_path + '" data-big="' + getImage(column_value) + '" class="fancyimg" alt="' + grid_data[data["form_title"]] + '"></div>';
-                                    }
-                                    else {
-                                        if (data['module'] == 'User') {
-                                            var default_icon = 'fas fa-user';
-                                        }
-                                        else {
-                                            var default_icon = 'fas fa-image';
-                                        }
 
                                         column_value = '<div class="text-center">\
-                                            <span class="default-picture default-picture-rounded">\
-                                                <i class="' + default_icon + '"></i>\
-                                            </span>\
+                                            <img src="' + img_path + '" data-big="' + getImage(column_value) + '" class="fancyimg" alt="' + grid_data[data["form_title"]] + '">\
                                         </div>';
+                                    }
+                                    else {
+                                        column_value = '<div class="text-center">';
+
+                                        if (data['module'] == 'User') {
+                                            column_value += '<div class="avatar-initials avatar-initials-xs avatar-initials-circle" data-name="' + grid_data["full_name"] + '"></div>';
+                                        }
+                                        else {
+                                            column_value += '<span class="default-picture default-picture-rounded">\
+                                                <i class="fas fa-image"></i>\
+                                            </span>';
+                                        }
+
+                                        column_value += '</div>';
                                     }
                                 }
                             }
 
-                            if (columns.contains(column_name)) {
+                            if (report_columns.contains(column_name)) {
                                 if (typeof column_value === 'string' && (column_value.isDate() || column_value.isDateTime() || column_value.isTime())) {
                                     if (column_value.isDate()) {
                                         column_value = moment.utc(column_value).tz(origin.time_zone).format('DD-MM-YYYY');
@@ -171,23 +174,32 @@ $(document).ready(function() {
                     // add multiple rows to datatable using api
                     report_table.rows.add(table_rows).draw('false');
 
-                    var report_info = '<span class="item-from">' + from + '</span> -\
+                    var report_info = __('Page') + ' :\
+                        <strong><span class="page-no mr-1">' + page_no + '</span></strong> • \
+                        <span class="item-from ml-1">' + from + '</span> -\
                         <span class="item-to">' + to + '</span> ' + __("of") + ' \
-                        <span class="badge badge-primary item-count">' + total + '</span>';
+                        <span class="badge badge-primary item-count">' + total + '</span>\
+                        ' + __('records');
 
                     $('body').find('.not-found').hide();
-                    $("body").find(".report-actions").show();
-                    $("body").find("#report-table_wrapper").show();
-                    $("body").find(".list-actions").show();
-                    $("body").find("#report-table_info").html(report_info);
-                    $("body").find("#report-table_paginate").empty().append(makePagination(data['rows']));
-                    report_table.columns.adjust();
+                    $('body').find(".report-data").show();
+                    $('body').find(".list-actions").show();
+                    $('body').find(".dataTables_scrollBody").css({'overflow': 'auto', 'height': '450px'});
+                    $('body').find(".report-columns-search").removeClass('no-border');
+                    $('body').find("#report-table_info").html(report_info);
+                    $('body').find("#report-table_paginate").empty().append(makePagination(data['rows']));
+
                     enableFancyBox();
+                    createAvatarWithInitials();
+                    addIndividualColumnSearching(data['module']);
+                    report_table.columns.adjust().draw();
+                    data_loaded = true;
                 }
                 else {
-                    $("body").find(".report-actions").hide();
-                    $("body").find("#report-table_wrapper").hide();
-                    $("body").find(".list-actions").hide();
+                    $('body').find(".report-data").hide();
+                    $('body').find(".list-actions").hide();
+                    $('body').find(".dataTables_scrollBody").css({'overflow': 'hidden', 'height': 'auto'});
+                    $('body').find(".report-columns-search").addClass('no-border');
 
                     if (Object.keys(filters).length) {
                         $('body').find('.not-found').html(getNoResults());
@@ -210,7 +222,7 @@ $(document).ready(function() {
                     $('body').find('.not-found').show();
                 }
 
-                $("body").find(".data-loader").hide();
+                $('body').find(".data-loader").hide();
             },
             error: function(e) {
                 if (typeof JSON.parse(e.responseText)['message'] !== 'undefined') {
@@ -221,17 +233,17 @@ $(document).ready(function() {
                 }
 
                 notify(error_msg, "error");
-                $("body").find(".data-loader").hide();
+                $('body').find(".data-loader").hide();
             }
         });
     }
 
     // append columns to table headers and initiliaze datatables
-    function createTableHeaders(columns) {
+    function createTableHeaders() {
         var headers = '<tr>\
             <th>#</th>';
 
-        $.each(columns, function(idx, column) {
+        $.each(report_columns, function(idx, column) {
             var label = column.replace(/_/g, " ");
             label = label.toProperCase();
             label = label.replace("Id", "ID");
@@ -242,39 +254,80 @@ $(document).ready(function() {
         headers += '</tr>';
 
         $('#report-table').find('thead').empty().append(headers);
+        initDatatables();
+    }
 
+    // initialize Datatables
+    function initDatatables() {
         report_table = $('#report-table').DataTable({
-            "bProcessing": true,
             "sDom": "<'row report-actions'<'col-sm-6'l><'col-sm-6'f>r>t",
+            "bFilter": false,
+            "aLengthMenu": [20, 50, 100],
             "iDisplayLength": 50,
             "sPaginationType": "full_numbers",
             "bAutoWidth": false,
             "oLanguage": {
                 "sLengthMenu": __('Show') + " _MENU_ " + __('records'),
-                "sSearch": __('Search') + ": ",
-                "sEmptyTable": __('No Data'),
-                "sProcessing": '<div class="text-center>' + __("Processing") + '...</div>'
+                "sSearch": "",
+                "sSearchPlaceholder": __('Search in table'),
+                "sEmptyTable": "",
+                "sInfoEmpty": "",
+                "sZeroRecords": "" 
             },
-            "scrollY": 380,
+            "scrollY": 450,
             "scrollX": true
         });
     }
 
+    // add search box for each column
+    function addIndividualColumnSearching(module_name) {
+        var table_search_columns = $('body').find('.report-columns-search');
+
+        if (!$(table_search_columns).length) {
+            var search_columns = '<tbody class="report-columns-search">\
+                <tr class="even">\
+                    <td></td>';
+
+            $.each(report_columns, function(idx, column) {
+                search_columns += '<td>\
+                    <input type="text" name="' + column + '" class="form-control form-control-sm column-search" autocomplete="off">\
+                </td>';
+            });
+
+            search_columns += '</tr>\
+                </tbody>';
+
+            $('body').find('#report-table tbody').before(search_columns);
+        }
+    }
+
     // returns the filters for report
     function getReportFilters() {
-        var filters = {};
+        var filters = {
+            'columns': {},
+            'sort': {}
+        };
 
-        $.each($("#report-filters").find("input, select"), function() {
+        var filters_section = $('body').find('.report-columns-search');
+
+        $.each($(filters_section).find("input, select"), function() {
             if ($(this).attr("name") && $(this).val()) {
-                filters[$(this).attr("name")] = $(this).val();
+                filters['columns'][$(this).attr("name")] = $(this).val();
             }
         });
 
-        if (Object.keys(filters).length > 0) {
-            filters_applied = true;
-        }
-        else {
-            filters_applied = false;
+        if (report_table instanceof $.fn.dataTable.Api) {
+            var order = report_table.order();
+
+            if (order[0][0] > 0) {
+                var col = report_columns[order[0][0] - 1];
+                var dir = order[0][1];
+
+                filters['sort'][col] = dir;
+            }
+
+            // data loaded is set to false because .order() hits ordering callback function which calls AJAX infinitely
+            data_loaded = false;
         }
 
         return filters;

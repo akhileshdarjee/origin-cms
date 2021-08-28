@@ -186,6 +186,7 @@ $(document).ready(function() {
                 if (Object.keys(list_rows).length > 0) {
                     $("body").find(".list-header").show();
                     $("body").find(".list-actions").show();
+                    $("body").find(".page-no").html(data['backups']['current_page'] || '0');
                     $("body").find(".item-count").html(data['backups']['total'] || '0');
                     $("body").find(".item-from").html(data['backups']['from'] || '0');
                     $("body").find(".item-to").html(data['backups']['to'] || '0');

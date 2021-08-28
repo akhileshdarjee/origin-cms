@@ -94,10 +94,7 @@ class ReportController extends Controller
 
                     return $report_data;
                 } else {
-                    return view('admin.templates.report_view', [
-                        'title' => $report_config['label'],
-                        'file' => 'admin.layouts.reports.' . $report_name
-                    ]);
+                    return view('admin.templates.report_view')->with(['title' => $report_config['label']]);
                 }
             }
         } else {
@@ -115,7 +112,24 @@ class ReportController extends Controller
             $per_page = 50;
         }
 
-        return $report_controller->getData($request, $per_page, $download);
+        if ($request->filled('filters')) {
+            $filters = $request->get('filters');
+        } else {
+            $filters = [];
+        }
+
+        $sort = ['id' => 'desc'];
+
+        if ($filters && count($filters) && isset($filters['sort']) && $filters['sort'] && count($filters['sort'])) {
+            $sort_column = key($filters['sort']);
+            $sort_order = reset($filters['sort']);
+
+            if ($sort_column && $sort_order) {
+                $sort = [$sort_column => $sort_order];
+            }
+        }
+
+        return $report_controller->getData($filters, $sort, $per_page, $download);
     }
 
     // download report in xls, xlsx, csv formats

@@ -79,9 +79,12 @@
                     <div class="card-body list-actions with-border-top">
                         <div class="row page-info">
                             <div class="col-sm-7 col-7">
-                                <span class="item-from"></span> -
+                                {{ __('Page') }} :
+                                <strong><span class="page-no mr-1"></span></strong> • 
+                                <span class="item-from ml-1"></span> -
                                 <span class="item-to"></span> {{ __('of') }} 
                                 <span class="badge badge-primary item-count"></span>
+                                {{ __('records') }}
                             </div>
                             <div class="col-sm-5 col-5">
                                 <div class="origin-pagination-content"></div>

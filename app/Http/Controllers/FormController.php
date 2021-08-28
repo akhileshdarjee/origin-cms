@@ -184,51 +184,53 @@ trait FormController
                     }
                 }
 
-                $update_perms = $this->moduleWisePermissions($user_role, "Update", $module['name']);
-                $delete_perms = $this->moduleWisePermissions($user_role, "Delete", $module['name']);
+                if ($user_role != 'System Administrator') {
+                    $update_perms = $this->moduleWisePermissions($user_role, "Update", $module['name']);
+                    $delete_perms = $this->moduleWisePermissions($user_role, "Delete", $module['name']);
 
-                if ($update_perms) {
-                    $can_update = true;
+                    if ($update_perms) {
+                        $can_update = true;
 
-                    foreach ($update_perms as $column_name => $column_value) {
-                        if (is_array($column_value)) {
-                            if (!in_array($data[$module['table_name']]->{$column_name}, $column_value)) {
-                                $can_update = false;
-                                break;
-                            }
-                        } else {
-                            if ($data[$module['table_name']]->{$column_name} != $column_value) {
-                                $can_update = false;
-                                break;
-                            }
-                        }
-                    }
-
-                    $perms['update'] = $can_update;
-                } else {
-                    $perms['update'] = false;
-                }
-
-                if ($delete_perms) {
-                    $can_delete = true;
-
-                    foreach ($delete_perms as $column_name => $column_value) {
-                        if (is_array($column_value)) {
-                            if (!in_array($data[$module['table_name']]->{$column_name}, $column_value)) {
-                                $can_delete = false;
-                                break;
-                            }
-                        } else {
-                            if ($data[$module['table_name']]->{$column_name} != $column_value) {
-                                $can_delete = false;
-                                break;
+                        foreach ($update_perms as $column_name => $column_value) {
+                            if (is_array($column_value)) {
+                                if (!in_array($data[$module['table_name']]->{$column_name}, $column_value)) {
+                                    $can_update = false;
+                                    break;
+                                }
+                            } else {
+                                if ($data[$module['table_name']]->{$column_name} != $column_value) {
+                                    $can_update = false;
+                                    break;
+                                }
                             }
                         }
+
+                        $perms['update'] = $can_update;
+                    } else {
+                        $perms['update'] = false;
                     }
 
-                    $perms['delete'] = $can_delete;
-                } else {
-                    $perms['delete'] = false;
+                    if ($delete_perms) {
+                        $can_delete = true;
+
+                        foreach ($delete_perms as $column_name => $column_value) {
+                            if (is_array($column_value)) {
+                                if (!in_array($data[$module['table_name']]->{$column_name}, $column_value)) {
+                                    $can_delete = false;
+                                    break;
+                                }
+                            } else {
+                                if ($data[$module['table_name']]->{$column_name} != $column_value) {
+                                    $can_delete = false;
+                                    break;
+                                }
+                            }
+                        }
+
+                        $perms['delete'] = $can_delete;
+                    } else {
+                        $perms['delete'] = false;
+                    }
                 }
             } else {
                 session()->flash('success', false);

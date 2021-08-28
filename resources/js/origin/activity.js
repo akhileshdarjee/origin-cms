@@ -7,7 +7,6 @@ $(document).ready(function() {
         refreshActivity(current_page);
     });
 
-    // get records when click on pagination links
     $('body').on('change', '.activity-filter', function (e) {
         current_page = 1;
         refreshActivity(current_page);
@@ -122,6 +121,7 @@ $(document).ready(function() {
 
                     $("body").find(".list-actions").show();
                     $('body').find(".origin-activities").empty().append(activities);
+                    $("body").find(".page-no").html(data['activities']['current_page'] || '0');
                     $("body").find(".item-count").html(data['activities']['total'] || '0');
                     $("body").find(".item-from").html(data['activities']['from'] || '0');
                     $("body").find(".item-to").html(data['activities']['to'] || '0');

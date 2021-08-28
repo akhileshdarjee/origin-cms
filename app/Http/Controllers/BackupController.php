@@ -62,7 +62,7 @@ class BackupController extends Controller
 
             $backups = collect($backups)->values();
             $page = (int) $request->get('page') ?: 1;
-            $perPage = 15;
+            $perPage = 20;
             $slice = $backups->slice(($page - 1) * $perPage, $perPage);
             $paginator = new LengthAwarePaginator($slice, $backups->count(), $perPage, $page, [
                 'path' => Paginator::resolveCurrentPath()

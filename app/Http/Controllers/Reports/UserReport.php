@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 class UserReport extends Controller
 {
     // get all rows & colummns for report
-    public function getData($request, $per_page, $download)
+    public function getData($filters, $sort, $per_page, $download)
     {
         $table_name = cache('app_modules')['User']['table_name'];
 
@@ -20,23 +20,11 @@ class UserReport extends Controller
                 'created_at', 'updated_at'
             );
 
-        if ($request->filled('filters')) {
-            $filters = $request->get('filters');
-
-            if (isset($filters['full_name']) && $filters['full_name']) {
-                $rows = $rows->where('full_name', $filters['full_name']);
-            }
-            if (isset($filters['username']) && $filters['username']) {
-                $rows = $rows->where('username', $filters['username']);
-            }
-            if (isset($filters['email']) && $filters['email']) {
-                $rows = $rows->where('email', $filters['email']);
-            }
-            if (isset($filters['role']) && $filters['role']) {
-                $rows = $rows->where('role', $filters['role']);
-            }
-            if (isset($filters['active'])) {
-                $rows = $rows->where('active', intval($filters['active']));
+        if ($filters && count($filters) && isset($filters['columns']) && $filters['columns']) {
+            foreach ($filters['columns'] as $column => $value) {
+                if ($value || $value == '0') {
+                    $rows = $rows->where($table_name . '.' . trim($column), 'like', '%' . trim($value) . '%');
+                }
             }
         }
 
@@ -45,9 +33,9 @@ class UserReport extends Controller
         }
 
         if ($download) {
-            $rows = $rows->orderBy('id', 'desc')->get();
+            $rows = $rows->orderBy($table_name . '.' . key($sort), reset($sort))->get();
         } else {
-            $rows = $rows->orderBy('id', 'desc')->paginate($per_page);
+            $rows = $rows->orderBy($table_name . '.' . key($sort), reset($sort))->paginate($per_page);
         }
 
         return array(

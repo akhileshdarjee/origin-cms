@@ -3,6 +3,7 @@
 @section('title', __('Backups') . ' - ' . config('app.brand.name'))
 
 @section('title_section')
+    <div id="sticky-anchor"></div>
     <div class="content-header" id="sticky">
         <div class="container">
             <div class="row">
@@ -66,9 +67,12 @@
                     <div class="card-body list-actions">
                         <div class="row page-info">
                             <div class="col-sm-7 col-7">
-                                <span class="item-from"></span> -
+                                {{ __('Page') }} :
+                                <strong><span class="page-no mr-1"></span></strong> • 
+                                <span class="item-from ml-1"></span> -
                                 <span class="item-to"></span> {{ __('of') }} 
                                 <span class="badge badge-primary item-count"></span>
+                                {{ __('records') }}
                             </div>
                             <div class="col-sm-5 col-5">
                                 <div class="origin-pagination-content"></div>

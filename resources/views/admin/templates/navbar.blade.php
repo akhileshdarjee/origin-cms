@@ -72,9 +72,7 @@
                     @if (auth()->user()->avatar)
                         <img class="user-image img-circle elevation-2" src="{{ getImage(auth()->user()->avatar, 50, 50) }}" alt="{{ auth()->user()->full_name }}" />
                     @else
-                        <span class="default-picture user-image elevation-2">
-                            <i class="fas fa-user"></i>
-                        </span>
+                        <div class="avatar-initials avatar-initials-xs avatar-initials-circle elevation-1" data-name="{{ auth()->user()->full_name }}"></div>
                     @endif
                 </a>
                 <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu dropdown-menu-right border-0 shadow">

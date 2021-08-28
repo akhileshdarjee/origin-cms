@@ -124,6 +124,7 @@ Storage.prototype.setObject = function(key, value) {
 // set common global variables
 var app_route = window.location.href;
 var base_url = $('body').attr('data-base-url');
+var avatar_colors = ['indigo', 'lightblue', 'purple', 'fuchsia', 'pink', 'maroon', 'orange', 'teal', 'olive'];
 
 var isMobile = false;
 // device detection
@@ -225,6 +226,7 @@ $(document).ready(function() {
     enableTextEditor();
     enableAdvancedTextEditor();
     enableFancyBox();
+    createAvatarWithInitials();
 
     // allow only numbers to text box
     $('body').on('input change', '.numbers-only', function() {
@@ -455,6 +457,8 @@ function enableAutocomplete() {
                     $(".ui-autocomplete").css({"z-index": 1050, "padding": "0px", "top": "+=2"});
                     $(".ui-autocomplete").width($(this).innerWidth());
                 }
+
+                createAvatarWithInitials();
             }
         }).autocomplete("instance")._renderItem = function(ul, item) {
             if (item["label_title"] == 'No matches found' || item["label_title"] == 'No Data') {
@@ -484,18 +488,25 @@ function enableAutocomplete() {
                         list_item += '<img src="' + image_url + '" class="ui-menu-item-image img-circle" />';
                     }
                     else {
+                        list_item += '<div class="ui-menu-item-image">';
+
                         if (data_module == 'User') {
-                            var default_icon = 'fas fa-user';
+                            if (typeof item['full_name'] !== 'undefined') {
+                                var avatar_label = item['full_name'];
+                            }
+                            else {
+                                var avatar_label = item['label'];
+                            }
+
+                            list_item += '<div class="avatar-initials avatar-initials-xs avatar-initials-circle" data-name="' + avatar_label + '"></div>';
                         }
                         else {
-                            var default_icon = 'fas fa-image';
+                            list_item += '<span class="default-avatar img-circle">\
+                                <i class="fas fa-image"></i>\
+                            </span>';
                         }
 
-                        list_item += '<div class="ui-menu-item-image">\
-                            <span class="default-avatar img-circle">\
-                                <i class="' + default_icon + '"></i>\
-                            </span>\
-                        </div>';
+                        list_item += '</div>';
                     }
 
                     list_item += '<span class="ui-menu-item-text">' + item["label"] + '</span>';
@@ -806,6 +817,31 @@ function enableFancyBox() {
 
     $("body").on("click", ".fancybox-close", function() {
         $("body").find("#fancybox").hide();
+    });
+}
+
+// create avatar boxes with custom background color and color their name initials
+function createAvatarWithInitials() {
+    var avatar_initials = $('body').find('.avatar-initials');
+
+    $.each(avatar_initials, function(idx, avatar) {
+        var name = $(avatar).data('name');
+
+        if (name) {
+            var name_array = name.split(' ');
+            var initials = name_array[0].charAt(0).toUpperCase();
+
+            if (name_array.length > 1) {
+                initials += name_array[name_array.length - 1].charAt(0).toUpperCase();
+            }
+
+            var char_index = initials.charCodeAt(0) - 65;
+            var color_index = char_index % avatar_colors.length;
+            var avatar_color = avatar_colors[color_index];
+
+            $(avatar).addClass('avatar-initials-' + avatar_color);
+            $(avatar).html(initials);
+        }
     });
 }
 

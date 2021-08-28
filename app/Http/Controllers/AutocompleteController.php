@@ -44,16 +44,16 @@ class AutocompleteController extends Controller
             }
 
             $list_view = $this->checkListView($request);
-            $report_view = $this->checkReportView($request);
 
             if ($unique || $list_view) {
                 $fetch_fields = $field;
             }
-            elseif ($report_view) {
-                $fetch_fields = array_merge($field, ['id']);
-            }
             else {
                 $fetch_fields = count($fetch_fields) ? $fetch_fields : $field;
+            }
+
+            if ($module == 'User' && !in_array('full_name', $fetch_fields) && !$unique) {
+                $fetch_fields = array_merge($field, ['full_name']);
             }
 
             if ($request->has('image_field') && $request->get('image_field')) {

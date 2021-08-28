@@ -407,18 +407,18 @@ $(document).ready(function() {
                                         </td>';
                                     }
                                     else {
+                                        list_records += '<td data-field-name="' + column_name + '" class="client-avatar">';
+
                                         if (module_name == 'User') {
-                                            var default_icon = 'fas fa-user';
+                                            list_records += '<div class="avatar-initials avatar-initials-xs avatar-initials-circle" data-name="' + row_data["full_name"] + '"></div>';
                                         }
                                         else {
-                                            var default_icon = 'fas fa-image';
+                                            var default_icon = '<span class="default-picture default-picture-rounded">\
+                                                <i class="fas fa-image"></i>\
+                                            </span>';
                                         }
 
-                                        list_records += '<td data-field-name="' + column_name + '" class="client-avatar">\
-                                            <span class="default-picture default-picture-rounded">\
-                                                <i class="' + default_icon + '"></i>\
-                                            </span>\
-                                        </td>';
+                                        list_records += '</td>';
                                     }
                                 }
                                 else if (column_name == form_title) {
@@ -472,7 +472,7 @@ $(document).ready(function() {
                         $("body").find(".list-filter-sorting").show();
                         $("body").find(".list-header").show();
                         $("body").find(".list-actions").show();
-                        $("body").find(".list-page-no").html(data['rows']['current_page'] || '0');
+                        $("body").find(".page-no").html(data['rows']['current_page'] || '0');
                         $("body").find(".item-count").html(data['rows']['total'] || '0');
                         $("body").find(".item-from").html(data['rows']['from'] || '0');
                         $("body").find(".item-to").html(data['rows']['to'] || '0');
@@ -480,6 +480,7 @@ $(document).ready(function() {
 
                         toggleActionButton();
                         beautifyListView();
+                        createAvatarWithInitials();
                     }
                     else {
                         $("body").find(".list-header").hide();

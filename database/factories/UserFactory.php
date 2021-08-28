@@ -22,19 +22,17 @@ $factory->define(User::class, function (Faker $faker) {
     $roles = ['Administrator', 'Guest']; // dummy roles
     $active = [1, 0];
     $active = $active[array_rand($active)];
-    $title = $faker->title;
-    $first_name = $faker->firstName;
-    $last_name = $faker->lastName;
-    $full_name = $title . ' ' . $first_name . ' ' . $last_name;
+    $first_name = $faker->firstName();
+    $last_name = $faker->lastName();
+    $full_name = $first_name . ' ' . $last_name;
     $now_time = Carbon::now('UTC')->format('Y-m-d H:i:s');
 
     return [
-        'title' => $title,
         'first_name' => $first_name,
         'last_name' => $last_name,
         'full_name' => $full_name,
-        'username' => $faker->unique()->userName,
-        'email' => $faker->unique()->safeEmail,
+        'username' => $faker->unique()->userName(),
+        'email' => $faker->unique()->safeEmail(),
         'email_verified_at' => $active ? $now_time : null,
         'password' => bcrypt(Str::random(10)),
         'role' => $roles[array_rand($roles)],
