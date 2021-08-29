@@ -1,9 +1,9 @@
 $(document).ready(function() {
     if ($('[name="id"]').val()) {
-        var email_verified = '<span class="badge badge-danger">' + __("No") + '</span>';
+        var email_verified = '<span class="indicator-pill indicator-danger ml-2">' + __("No") + '</span>';
 
         if (origin.data[origin.table_name]['email_verified_at']) {
-            var email_verified = '<span class="badge badge-success">' + __("Yes") + '</span>';
+            var email_verified = '<span class="indicator-pill indicator-success ml-2">' + __("Yes") + '</span>';
         }
 
         addFormStatic(__("Email Verified"), email_verified);

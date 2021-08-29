@@ -8,7 +8,7 @@
                 </button>
             </div>
             <div class="modal-body"></div>
-            <div class="modal-footer justify-content-between"></div>
+            <div class="modal-footer"></div>
         </div>
     </div>
 </div>

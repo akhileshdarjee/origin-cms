@@ -1,3 +1,7 @@
+kbd {
+	color: #212529;
+	background-color: #f4f6f9;
+}
 .control-label, label:not(.form-check-label):not(.custom-file-label) {
 	font-weight: 400 !important;
 	font-size: .9rem;
@@ -557,6 +561,9 @@ table > tbody > tr > td > a:hover {
 	text-align: center;
 	line-height: 1.42857 !important;
 }
+.backups-view tbody tr td {
+	white-space: nowrap;
+}
 .import-progress {
 	border-radius: 3px;
 	margin-bottom: 0px;
@@ -659,6 +666,10 @@ table > tbody > tr > td > a:hover {
 .form-statics {
 	font-size: .9rem;
 }
+.form-statics .form-info-box {
+	display: flex;
+	align-items: center;
+}
 .form-section .card-header:not(.form-statics) {
 	border-bottom: 0;
 }
@@ -725,9 +736,10 @@ table > tbody > tr > td > a:hover {
 	font-weight: normal;
 	text-align: center;
 	color: #212529;
-	background: #adb5bd;
+	background: #d5dbe2;
+	height: 24px;
 }
-.indicator-pill:before {
+.indicator-pill:not(.no-indicator):before {
 	content: "";
 	display: inline-table;
 	height: 5px;
@@ -736,19 +748,68 @@ table > tbody > tr > td > a:hover {
 	margin-right: 6px;
 	background: #212529;
 }
-.indicator-pill.indicator-success {
-	color: #28a745;
-	background: #d4f1d4;
+.indicator-primary {
+	color: #007bff !important;
+	background: #d5e9ff !important;
 }
-.indicator-pill.indicator-success:before {
-	background: #28a745;
+.indicator-primary:not(.timeline-icon):before {
+	background: #007bff !important;
 }
-.indicator-pill.indicator-warning {
-	color: #ffc107;
-	background: #fff8e1;
+.indicator-success {
+	color: #28a745 !important;
+	background: #d4f1d4 !important;
 }
-.indicator-pill.indicator-warning:before {
-	background: #ffc107;
+.indicator-success:not(.timeline-icon):before {
+	background: #28a745 !important;
+}
+.indicator-warning {
+	color: #ffc107 !important;
+	background: #fff8e1 !important;
+}
+.indicator-warning:not(.timeline-icon):before {
+	background: #ffc107 !important;
+}
+.indicator-info {
+	color: #17a2b8 !important;
+	background: #cef8ff !important;
+}
+.indicator-info:not(.timeline-icon):before {
+	background: #17a2b8 !important;
+}
+.indicator-danger {
+	color: #dc3545 !important;
+	background: #ffcfd3 !important;
+}
+.indicator-danger:not(.timeline-icon):before {
+	background: #dc3545 !important;
+}
+.indicator-indigo {
+	color: #6610f2 !important;
+	background: #e6d7ff !important;
+}
+.indicator-indigo:not(.timeline-icon):before {
+	background: #6610f2 !important;
+}
+.indicator-purple {
+	color: #6f42c1 !important;
+	background: #ede2ff !important;
+}
+.indicator-purple:not(.timeline-icon):before {
+	background: #6f42c1 !important;
+}
+.indicator-pink {
+	color: #e83e8c !important;
+	background: #ffd4e8 !important;
+}
+.indicator-pink:not(.timeline-icon):before {
+	background: #e83e8c !important;
+}
+.indicator-teal {
+	color: #20c997 !important;
+	background: #d0fff1 !important;
+}
+.indicator-teal:not(.timeline-icon):before {
+	background: #20c997 !important;
 }
 /* Report */
 .report-btn {
@@ -800,6 +861,10 @@ table > tbody > tr > td > a:hover {
 }
 .timeline>div>.fa, .timeline>div>.fab, .timeline>div>.fad, .timeline>div>.fal, .timeline>div>.far, .timeline>div>.fas, .timeline>div>.ion, .timeline>div>.svg-inline--fa {
 	font-size: 14px;
+	height: 34px;
+	width: 34px;
+	line-height: 34px;
+	left: 16px;
 }
 .data-loader {
 	position: absolute;
@@ -941,7 +1006,16 @@ table > tbody > tr > td > a:hover {
 }
 /* FancyBox end */
 .modal-header {
-	padding: .6rem 1rem .6rem 1rem;
+	padding: 1.2rem 1.2rem 0 1.2rem;
+	border-bottom: 0;
+}
+.modal-body {
+	padding: 1.2rem;
+}
+.modal-footer {
+	padding-left: 1.2rem;
+	padding-right: 1.2rem;
+	border-top: 0;
 }
 .toast-header {
 	color: #212529;
@@ -1051,6 +1125,10 @@ table > tbody > tr > td > a:hover {
 }
 /* switch input end */
 /* dark mode start */
+.dark-mode kbd {
+	color: #f4f6f9;
+	background-color: #212529;
+}
 .dark-mode img {
 	filter: brightness(.8) contrast(1.2);
 }
@@ -1136,19 +1214,71 @@ table > tbody > tr > td > a:hover {
 .dark-mode .badge-danger {
 	background-color: #e74c3c !important;
 }
-.dark-mode .indicator-pill.indicator-success {
+.dark-mode .indicator-primary {
+	color: #fff !important;
+	background: #3f6791 !important;
+}
+.dark-mode .indicator-primary:not(.timeline-icon):before {
+	background: #fff !important;
+}
+.dark-mode .indicator-success {
+	color: #fff !important;
+	background: #00bc8c !important;
+}
+.dark-mode .indicator-success:not(.timeline-icon):before {
+	background: #fff !important;
+}
+.dark-mode .indicator-warning {
+	color: #fff !important;
+	background: #f39c12 !important;
+}
+.dark-mode .indicator-warning:not(.timeline-icon):before {
+	background: #fff !important;
+}
+.dark-mode .indicator-info {
+	color: #fff !important;
+	background: #3498db !important;
+}
+.dark-mode .indicator-info:not(.timeline-icon):before {
+	background: #fff !important;
+}
+.dark-mode .indicator-danger {
+	color: #fff !important;
+	background: #e74c3c !important;
+}
+.dark-mode .indicator-danger:not(.timeline-icon):before {
+	background: #fff !important;
+}
+.dark-mode .indicator-indigo {
+	color: #fff !important;
+	background: #6610f2 !important;
+}
+.dark-mode .indicator-indigo:not(.timeline-icon):before {
+	background: #fff !important;
+}
+.dark-mode .indicator-purple {
+	color: #fff !important;
+	background: #6f42c1 !important;
+}
+.dark-mode .indicator-purple:not(.timeline-icon):before {
+	background: #fff !important;
+}
+.dark-mode .indicator-pink {
+	color: #fff !important;
+	background: #e83e8c !important;
+}
+.dark-mode .indicator-pink:not(.timeline-icon):before {
+	background: #fff !important;
+}
+.dark-mode .indicator-teal {
+	color: #fff !important;
+	background: #20c997 !important;
+}
+.dark-mode .indicator-teal:not(.timeline-icon):before {
+	background: #fff !important;
+}
+.dark-mode .btn-group.show .btn-tool, .dark-mode .btn-tool:hover {
 	color: #fff;
-	background: #00bc8c;
-}
-.dark-mode .indicator-pill.indicator-success:before {
-	background: #fff;
-}
-.dark-mode .indicator-pill.indicator-warning {
-	color: #fff;
-	background: #f39c12;
-}
-.dark-mode .indicator-pill.indicator-warning:before {
-	background: #fff;
 }
 .dark-mode .report-list .report .report-title {
 	color: #fff;

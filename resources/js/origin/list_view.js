@@ -532,10 +532,13 @@ $(document).ready(function() {
         var checked_rows = getCheckedRows();
 
         if (checked_rows.length > 0) {
-            var modal_footer = '<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">' + __("No") + '</button>\
-                <button type="button" class="btn btn-danger btn-sm" id="delete-records">' + __("Yes") + '</button>';
+            var title = __('Delete');
+            var modal_body = '<p>' + __('Sure you want to delete selected records permanently') + '?</p>';
 
-            msgbox(__('Sure you want to delete selected records permanently') + "?", modal_footer);
+            var modal_footer = '<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">' + __("No") + '</button>\
+                <button type="button" class="btn bg-gradient-danger btn-sm" id="delete-records">' + __("Yes") + '</button>';
+
+            msgbox(modal_body, modal_footer, title);
         }
         else {
             notify(__('Please select any record to delete'), "error");

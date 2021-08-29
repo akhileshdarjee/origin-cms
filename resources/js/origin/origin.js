@@ -172,6 +172,11 @@ $(document).ready(function() {
         }
     });
 
+    $('body').on('click', '.show-keyboard-shortcuts', function(e) {
+        e.preventDefault();
+        showKeyboardShortcuts();
+    });
+
     $('body').on('click', '.change-theme', function(e) {
         e.stopPropagation();
 
@@ -227,12 +232,17 @@ $(document).ready(function() {
     enableAdvancedTextEditor();
     enableFancyBox();
     createAvatarWithInitials();
+    bindKeyboardShortcuts();
 
     // allow only numbers to text box
     $('body').on('input change', '.numbers-only', function() {
         this.value = this.value.replace(/[^0-9\.]/g,'');
     });
 });
+
+function showKeyboardShortcuts() {
+    $('body').find('#keyboardShortcutsModal').modal('show');
+}
 
 function applyTheme(theme) {
     if (theme == 'dark') {
@@ -717,10 +727,10 @@ function beautifyListView(list_view) {
     var email_list = ['email_id', 'email'];
     var label_list = ['active', 'verified', 'show_in_module_section', 'role'];
     var label_bg = {
-        'active' : { '1' : {'value': __('Yes'), 'label': 'badge-success'}, '0' : {'value': __('No'), 'label': 'badge-danger'} }, 
-        'verified' : { '1' : {'value': __('Yes'), 'label': 'badge-success'}, '0' : {'value': __('No'), 'label': 'badge-danger'} }, 
-        'show_in_module_section' : { '1' : {'value': __('Yes'), 'label': 'badge-success'}, '0' : {'value': __('No'), 'label': 'badge-danger'} }, 
-        'role' : { 'System Administrator' : 'badge-light', 'Administrator' : 'badge-dark', 'Guest' : 'badge-info' }, 
+        'active' : { '1' : {'value': __('Yes'), 'label': 'indicator-success'}, '0' : {'value': __('No'), 'label': 'indicator-danger'} }, 
+        'verified' : { '1' : {'value': __('Yes'), 'label': 'indicator-success'}, '0' : {'value': __('No'), 'label': 'indicator-danger'} }, 
+        'show_in_module_section' : { '1' : {'value': __('Yes'), 'label': 'indicator-success'}, '0' : {'value': __('No'), 'label': 'indicator-danger'} }, 
+        'role' : { 'System Administrator' : 'indicator-info', 'Administrator' : 'indicator-primary', 'Guest' : 'indicator-warning' }, 
     }
 
     var list_view = list_view ? list_view : ".list-view";
@@ -777,10 +787,10 @@ function beautifyListView(list_view) {
                     }
                     else if (label_list.contains(column_name)) {
                         if (typeof label_bg[column_name][column_value] === "object") {
-                            $(this).html('<span class="badge ' + label_bg[column_name][column_value]["label"] + '">' + __(label_bg[column_name][column_value]["value"]) + '</span>');
+                            $(this).html('<span class="indicator-pill ' + label_bg[column_name][column_value]["label"] + '">' + __(label_bg[column_name][column_value]["value"]) + '</span>');
                         }
                         else {
-                            $(this).html('<span class="badge ' + label_bg[column_name][column_value] + '">' + __(column_value) + '</span>');
+                            $(this).html('<span class="indicator-pill ' + label_bg[column_name][column_value] + '">' + __(column_value) + '</span>');
                         }
                     }
                     else if (column_value.isDate()) {
@@ -1091,6 +1101,44 @@ function luminance(hex, percent) {
     }
 
     return new_hex;
+}
+
+function bindKeyboardShortcuts() {
+    document.onkeydown = function(e) {
+        var shortcut_found = false;
+
+        if (e.ctrlKey && e.which == 71) { // Ctrl + G (Open Universal Search)
+            $('body').find('[name="top-search"]').focus();
+            shortcut_found = true;
+        } else if (e.ctrlKey && e.which == 83) { // Ctrl + S (Save Record)
+            if ($('body').find('#save_form').length) {
+                $('body').find('#save_form').trigger('click');
+                shortcut_found = true;
+            }
+        } else if (e.ctrlKey && e.which == 72) { // Ctrl + H (Navigate Home)
+            window.location = base_url + '/home';
+            shortcut_found = true;
+        } else if (e.altKey && e.which == 77) { // Alt + M (Show Modules)
+            window.location = $('body').find('.modules-link').attr('href');
+            shortcut_found = true;
+        } else if (e.altKey && e.which == 65) { // Alt + A (See All Activity)
+            window.location = $('body').find('.activity-link').attr('href');
+            shortcut_found = true;
+        } else if (e.altKey && e.which == 80) { // Alt + P (Open Profile)
+            window.location = $('body').find('.profile-link').attr('href');
+            shortcut_found = true;
+        } else if (e.altKey && e.which == 83) { // Alt + S (Open Settings)
+            window.location = $('body').find('.settings-link').attr('href');
+            shortcut_found = true;
+        } else if (e.shiftKey && e.which == 191) { // Shift + / (Show Keyboard Shortcuts)
+            showKeyboardShortcuts();
+            shortcut_found = true;
+        }
+
+        if (shortcut_found) {
+            e.preventDefault();
+        }
+    };
 }
 
 // Removes any white space to the right and left of the string

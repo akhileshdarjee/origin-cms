@@ -57,22 +57,22 @@ $(document).ready(function() {
                         var user = (current_user["id"] == row["user_id"]) ? __('You') : row["user"];
                         user = '<strong>' + __(user) + '</strong>';
                         var from_now_time = moment.utc(row['created_at']).tz(origin.time_zone).fromNow();
-                        var actual_time = moment.utc(row['created_at']).tz(origin.time_zone).format("MMM D, YYYY • hh:mm A");
+                        var actual_time = moment.utc(row['created_at']).tz(origin.time_zone).format("D MMM YYYY • hh:mm A");
 
                         if (row['action'] == "Create") {
-                            var icon_bg = "bg-green"
+                            var icon_bg = "indicator-success"
                         }
                         else if (row['action'] == "Update") {
-                            var icon_bg = "bg-yellow"
+                            var icon_bg = "indicator-warning"
                         }
                         else if (row['action'] == "Delete") {
-                            var icon_bg = "bg-red"
+                            var icon_bg = "indicator-danger"
                         }
                         else if (row["module"] == "Auth") {
-                            var icon_bg = "bg-blue"
+                            var icon_bg = "indicator-primary"
                         }
                         else {
-                            var icon_bg = "bg-purple"
+                            var icon_bg = "indicator-purple"
                         }
 
                         if (row["module"] == "Auth") {
@@ -107,7 +107,7 @@ $(document).ready(function() {
                         }
 
                         activities += '<div>\
-                            <i class="' + row["icon"] + ' ' + icon_bg + '"></i>\
+                            <i class="' + row["icon"] + ' timeline-icon ' + icon_bg + '"></i>\
                             <div class="timeline-item">\
                                 <span class="time">\
                                     <i class="fas fa-clock"></i> ' + from_now_time + '\

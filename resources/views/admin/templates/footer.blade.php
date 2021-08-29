@@ -19,3 +19,4 @@
     <img class="fancybox-content" id="fancybox-img">
     <div id="fancybox-caption"></div>
 </div>
+@include('admin.templates.keyboard_shortcuts')

@@ -150,6 +150,6 @@
 @push('scripts')
     <script type="text/javascript" src="{{ asset(mix('js/origin/form.js')) }}"></script>
     @if (file_exists(public_path('/js/origin/' . $slug . '.js')))
-        <script type="text/javascript" src="{{ asset('js/origin') }}/{{ $slug }}.js"></script>
+        <script type="text/javascript" src="{{ asset('js/origin') }}/{{ $slug }}.js?id={{ md5(uniqid(mt_rand(), true)) }}"></script>
     @endif
 @endpush

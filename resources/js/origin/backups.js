@@ -11,11 +11,13 @@ $(document).ready(function() {
 
     $("body").on("click", ".delete-backup",  function() {
         var href = $(this).data("href");
+        var title = __('Delete');
+        var modal_body = '<p>' + __('Sure you want to delete this backup permanently') + '?</p>';
 
         var modal_footer = '<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">' + __("No") + '</button>\
-            <button type="button" class="btn btn-danger btn-sm confirm-delete-backup" data-href="' + href + '">' + __("Yes") + '</button>';
+            <button type="button" class="btn bg-gradient-danger btn-sm confirm-delete-backup" data-href="' + href + '">' + __("Yes") + '</button>';
 
-        msgbox(__('Sure you want to delete this backup permanently') + "?", modal_footer);
+        msgbox(modal_body, modal_footer, title);
     });
 
     $("body").on("click", ".confirm-delete-backup", function() {
@@ -122,7 +124,7 @@ $(document).ready(function() {
                 recently_deleted = false;
                 var list_columns = ['name', 'date', 'size', 'type', 'download', 'delete'];
                 var list_rows = data['backups']['data'];
-                var list_table = $("body").find(".list-view");
+                var list_table = $("body").find(".backups-view");
                 var list_records = "";
 
                 if (Object.keys(list_rows).length > 0) {
@@ -136,33 +138,39 @@ $(document).ready(function() {
                             if (column_name == "download") {
                                 list_records += '<td data-field-name="' + column_name + '">\
                                     <a href="' + field_value + '" class="btn btn-success btn-xs" data-toggle="tooltip" data-placement="bottom" title="' + __("Download backup") + '">\
-                                        ' + __("Download") + '\
+                                        <span class="d-none d-sm-none d-md-inline-block">' + __("Download") + '</span>\
+                                        <span class="d-md-none d-lg-none d-xl-none"><i class="fas fa-download"></i></span>\
                                     </a>\
                                 </td>';
                             }
                             else if (column_name == "delete") {
                                 list_records += '<td data-field-name="' + column_name + '">\
                                     <button class="btn btn-danger btn-xs delete-backup" data-toggle="tooltip" data-placement="bottom" title="' + __("Delete backup") + '" data-href="' + field_value + '">\
-                                        ' + __("Delete") + '\
+                                        <span class="d-none d-sm-none d-md-inline-block">' + __("Delete") + '</span>\
+                                        <span class="d-md-none d-lg-none d-xl-none"><i class="fas fa-trash"></i></span>\
                                     </button>\
                                 </td>';
                             }
                             else if (column_name == "type") {
                                 if (field_value == "Database") {
                                     list_records += '<td data-field-name="' + column_name + '">\
-                                        <span class="label label-info">' + __("Database") + '</span>\
+                                        <span class="indicator-pill indicator-info">' + __("Database") + '</span>\
                                     </td>';
                                 }
                                 else if (field_value == "Files") {
                                     list_records += '<td data-field-name="' + column_name + '">\
-                                        <span class="label label-warning">' + __("Files") + '</span>\
+                                        <span class="indicator-pill indicator-pink">' + __("Files") + '</span>\
                                     </td>';
                                 }
                                 else if (field_value == "Database + Files") {
                                     list_records += '<td data-field-name="' + column_name + '">\
-                                        <span class="label label-primary">' + __("Database") + ' + ' + __("Files") + '</span>\
+                                        <span class="indicator-pill indicator-purple">' + __("Database") + ' + ' + __("Files") + '</span>\
                                     </td>';
                                 }
+                            }
+                            else if (column_name == "date") {
+                                field_value = moment(row_data['date']).format("D MMM YYYY • hh:mm A");
+                                list_records += '<td data-field-name="' + column_name + '">' + field_value + '</td>';
                             }
                             else {
                                 list_records += '<td data-field-name="' + column_name + '">' + field_value + '</td>';

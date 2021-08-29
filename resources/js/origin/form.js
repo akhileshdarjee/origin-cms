@@ -16,17 +16,21 @@ $(document).ready(function() {
     });
 
     // shows msgbox to delete the record permanently
-    $("body").on("click", "#delete", function() {
+    $("body").on("click", "#delete", function(e) {
+        e.preventDefault();
+
         var current_url = app_route;
         var link_field_value = current_url.split('/').pop();
         var delete_path = current_url.replace("/" + link_field_value, "/delete/" + link_field_value);
+        var title = __('Delete');
+        var modal_body = '<p>' + __('Sure you want to delete this record permanently') + '?</p>';
 
-        var footer = '<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">' + __("No") + '</button>\
-            <a class="btn btn-danger btn-sm" href="' + delete_path + '">\
+        var modal_footer = '<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">' + __("No") + '</button>\
+            <a class="btn bg-gradient-danger btn-sm" href="' + delete_path + '">\
                 ' + __("Delete") + '\
             </a>';
 
-        msgbox(__('Sure you want to delete this record permanently') + "?", footer);
+        msgbox(modal_body, modal_footer, title);
     });
 
     // bind save and reset button to form
@@ -363,7 +367,7 @@ window.origin.make = {
 };
 
 function addFormStatic(label, value) {
-    var form_static = '<div class="col-md-3"><span class="control-label">' + label + '</span>: ' + value + '</div>';
+    var form_static = '<div class="col-md-3 form-info-box"><span class="control-label">' + label + ':</span> ' + value + '</div>';
 
     if ($('body').find('.form-statics').length) {
         var form_static_container = $('body').find('.form-statics');

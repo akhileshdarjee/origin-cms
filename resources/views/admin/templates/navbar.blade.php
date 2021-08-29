@@ -13,7 +13,7 @@
         <div class="collapse navbar-collapse order-5 order-md-2" id="navbarCollapse">
             <ul class="navbar-nav">
                 <li class="nav-item app-nav text-center">
-                    <a class="nav-link" href="{{ route('show.app.modules') }}" title="{{ __('Modules') }}">
+                    <a class="nav-link modules-link" href="{{ route('show.app.modules') }}" title="{{ __('Modules') }}">
                         <i class="fas fa-gem fa-sm"></i> {{ __('Modules') }}
                     </a>
                 </li>
@@ -61,7 +61,7 @@
                         </a>
                         <div class="dropdown-divider"></div>
                     @endforeach
-                    <a href="{{ route('show.app.activity') }}" class="dropdown-item dropdown-footer">
+                    <a href="{{ route('show.app.activity') }}" class="dropdown-item dropdown-footer activity-link">
                         {{ __('See All Activity') }}
                         <i class="fas fa-angle-right"></i>
                     </a>
@@ -77,13 +77,18 @@
                 </a>
                 <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu dropdown-menu-right border-0 shadow">
                     <li>
-                        <a href="{{ route('show.doc', ['slug' => 'user', 'id' => auth()->user()->id]) }}" class="dropdown-item">
+                        <a href="{{ route('show.doc', ['slug' => 'user', 'id' => auth()->user()->id]) }}" class="dropdown-item profile-link">
                             {{ __('Profile') }}
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('show.app.settings') }}" class="dropdown-item">
+                        <a href="{{ route('show.app.settings') }}" class="dropdown-item settings-link">
                             {{ __('Settings') }}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="dropdown-item show-keyboard-shortcuts">
+                            {{ __('Keyboard Shortcuts') }}
                         </a>
                     </li>
                     <li class="dropdown-divider"></li>

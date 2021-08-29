@@ -174,11 +174,11 @@ $(document).ready(function() {
                     // add multiple rows to datatable using api
                     report_table.rows.add(table_rows).draw('false');
 
-                    var report_info = __('Page') + ' :\
-                        <strong><span class="page-no mr-1">' + page_no + '</span></strong> • \
+                    var report_info = __('Page') + ':\
+                        <span class="page-no indicator-pill indicator-primary no-indicator mr-1">' + page_no + '</span> • \
                         <span class="item-from ml-1">' + from + '</span> -\
                         <span class="item-to">' + to + '</span> ' + __("of") + ' \
-                        <span class="badge badge-primary item-count">' + total + '</span>\
+                        <span class="indicator-pill indicator-primary no-indicator item-count">' + total + '</span>\
                         ' + __('records');
 
                     $('body').find('.not-found').hide();
