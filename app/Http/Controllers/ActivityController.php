@@ -179,26 +179,28 @@ class ActivityController extends Controller
 
         foreach ($activities as $act) {
             $icon = $act->icon;
+            $action = $act->action;
+            $module = $act->module;
             $description = '';
             $user = (auth()->user()->id == $act->user_id) ? __('You') : $act->user;
             $time_diff = Carbon::parse($act->created_at, 'UTC')->setTimezone(auth()->user()->time_zone)->diffForHumans();
 
             if ($act->module == "Auth") {
-                if ($act->action == "Login") {
+                if ($action == "Login") {
                     $description = $user . " " . __('logged in');
-                } elseif ($act->action == "Logout") {
+                } elseif ($action == "Logout") {
                     $description = $user . " " . __('logged out');
                 }
             } else {
                 $activity_link = __($act->module) . ': ' . $act->form_title;
 
-                if ($act->action == "Create") {
+                if ($action == "Create") {
                     $description = __('New') . " " . $activity_link . " " . __('created by') . " " . $user;
-                } else if ($act->action == "Update") {
+                } else if ($action == "Update") {
                     $description = $activity_link . " " . __('updated by') . " " . $user;
-                } else if ($act->action == "Delete") {
+                } else if ($action == "Delete") {
                     $description = $activity_link . " " . __('deleted by') . " " . $user;
-                } else if ($act->action == "Download") {
+                } else if ($action == "Download") {
                     if ($act->module == "Report") {
                         $description = $act->form_title . " " . __('was downloaded by') . " " . $user;
                     } else {
@@ -207,7 +209,7 @@ class ActivityController extends Controller
                 }
             }
 
-            array_push($activity_list, compact('icon', 'description', 'time_diff'));
+            array_push($activity_list, compact('icon', 'action', 'module', 'description', 'time_diff'));
         }
 
         return $activity_list;

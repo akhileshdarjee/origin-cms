@@ -39,7 +39,7 @@
                             <i class="fas fa-search fa-sm"></i>
                         </span>
                     </div>
-                    <input type="text" name="top-search" id="top-search" class="form-control form-control-sm form-control-navbar autocomplete" data-ac-module="Universe" data-ac-field="label" placeholder="{{ __('Search') }}" aria-label="Search" autocomplete="off">
+                    <input type="text" name="top-search" id="top-search" class="form-control form-control-sm form-control-navbar autocomplete" data-ac-module="Universe" data-ac-field="label" placeholder="{{ __('Search') }} (Ctrl + G)" aria-label="Search" autocomplete="off">
                 </div>
             </div>
         </form>
@@ -53,11 +53,27 @@
                 <div class="dropdown-menu dropdown-menu-xl dropdown-menu-right">
                     @foreach($latest_activities as $idx => $act)
                         <a href="#" class="dropdown-item">
-                            <i class="{{ $act['icon'] }} mr-1 activity-icon"></i>
-                            {{ $act['description'] }}
-                            <span class="float-right text-muted activity-time">
-                                <i class="far fa-clock"></i> {{ $act['time_diff'] }}
-                            </span>
+                            <div class="media">
+                                @if ($act['action'] == 'Create')
+                                    <div class="avatar-initials avatar-initials-xs avatar-initials-circle mr-2 indicator-success">
+                                @elseif ($act['action'] == 'Update')
+                                    <div class="avatar-initials avatar-initials-xs avatar-initials-circle mr-2 indicator-warning">
+                                @elseif ($act['action'] == 'Delete')
+                                    <div class="avatar-initials avatar-initials-xs avatar-initials-circle mr-2 indicator-danger">
+                                @elseif ($act['module'] == 'Auth')
+                                    <div class="avatar-initials avatar-initials-xs avatar-initials-circle mr-2 indicator-primary">
+                                @else
+                                    <div class="avatar-initials avatar-initials-xs avatar-initials-circle mr-2 indicator-purple">
+                                @endif
+                                    <i class="{{ $act['icon'] }} activity-icon"></i>
+                                </div>
+                                <div class="media-body">
+                                    <p class="text-sm">{{ $act['description'] }}</p>
+                                    <p class="text-sm text-muted activity-time">
+                                        <i class="far fa-clock mr-1"></i> {{ $act['time_diff'] }}
+                                    </p>
+                                </div>
+                            </div>
                         </a>
                         <div class="dropdown-divider"></div>
                     @endforeach
