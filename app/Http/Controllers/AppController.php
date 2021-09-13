@@ -64,7 +64,7 @@ class AppController extends Controller
                 }
             }
         } else {
-            $data['msg'] = __('Please provide Current Password, New Password and Confirm New Password');
+            $data['msg'] = __('Please enter Current Password, New Password and Confirm New Password');
         }
 
         if ($request->ajax()) {

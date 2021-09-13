@@ -63,7 +63,7 @@ $(document).ready(function() {
                             var icon_bg = "indicator-success"
                         }
                         else if (row['action'] == "Update") {
-                            var icon_bg = "indicator-warning"
+                            var icon_bg = "indicator-orange"
                         }
                         else if (row['action'] == "Delete") {
                             var icon_bg = "indicator-danger"

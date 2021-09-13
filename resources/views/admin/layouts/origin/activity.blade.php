@@ -29,8 +29,8 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card elevation-2">
-                    <div class="card-header report-filter-sec">
-                        <div class="row" id="report-filters">
+                    <div class="card-header list-column-filters">
+                        <div class="row">
                             <div class="col-md-4 col-sm-6 col-6">
                                 <div class="form-group">
                                     <input type="text" name="owner" class="form-control autocomplete activity-filter" placeholder="{{ __('Select User') }}..." autocomplete="off" data-ac-module="User" data-ac-field="username" data-ac-image="avatar">
@@ -79,7 +79,7 @@
                     </div>
                     <div class="card-body list-actions with-border-top">
                         <div class="row page-info">
-                            <div class="col-sm-7 col-7">
+                            <div class="col-sm-7 col-7 p-0">
                                 {{ __('Page') }}:
                                 <span class="page-no indicator-pill indicator-primary no-indicator mr-1"></span> • 
                                 <span class="item-from ml-1"></span> -
@@ -87,7 +87,7 @@
                                 <span class="indicator-pill indicator-primary no-indicator item-count"></span>
                                 {{ __('records') }}
                             </div>
-                            <div class="col-sm-5 col-5">
+                            <div class="col-sm-5 col-5 p-0">
                                 <div class="origin-pagination-content"></div>
                             </div>
                         </div>

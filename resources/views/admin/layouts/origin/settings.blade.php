@@ -114,7 +114,7 @@
                         <div>
                             <input type="password" name="current_password" class="form-control" autocomplete="off">
                             <small class="invalid-feedback">
-                                {{ __('Current Password field is required') }}
+                                {{ __('Please enter Current Password') }}
                             </small>
                         </div>
                     </div>
@@ -129,7 +129,7 @@
                         <div>
                             <input type="password" name="new_password" class="form-control" autocomplete="off">
                             <small class="invalid-feedback">
-                                {{ __('New Password field is required') }}
+                                {{ __('Please enter New Password') }}
                             </small>
                         </div>
                     </div>
@@ -144,7 +144,7 @@
                         <div>
                             <input type="password" name="new_password_confirmation" class="form-control" autocomplete="off">
                             <small class="invalid-feedback">
-                                {{ __('Confirm New Password field is required') }}
+                                {{ __('Please enter Confirm New Password') }}
                             </small>
                         </div>
                     </div>

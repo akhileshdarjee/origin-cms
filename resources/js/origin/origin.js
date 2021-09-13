@@ -693,7 +693,7 @@ function msgbox(msg, footer, title, size) {
 // toastr notification
 function notify(msg, type) {
     if (type == 'warning') {
-        var icon = 'fas fa-exclamation-triangle text-warning';
+        var icon = 'fas fa-exclamation-triangle text-orange';
         var title = __('Warning');
     }
     else if (type == 'info') {
@@ -730,7 +730,7 @@ function beautifyListView(list_view) {
         'active' : { '1' : {'value': __('Yes'), 'label': 'indicator-success'}, '0' : {'value': __('No'), 'label': 'indicator-danger'} }, 
         'verified' : { '1' : {'value': __('Yes'), 'label': 'indicator-success'}, '0' : {'value': __('No'), 'label': 'indicator-danger'} }, 
         'show_in_module_section' : { '1' : {'value': __('Yes'), 'label': 'indicator-success'}, '0' : {'value': __('No'), 'label': 'indicator-danger'} }, 
-        'role' : { 'System Administrator' : 'indicator-info', 'Administrator' : 'indicator-primary', 'Guest' : 'indicator-warning' }, 
+        'role' : { 'System Administrator' : 'indicator-info', 'Administrator' : 'indicator-primary', 'Guest' : 'indicator-orange' }, 
     }
 
     var list_view = list_view ? list_view : ".list-view";

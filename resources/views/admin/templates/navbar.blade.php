@@ -52,12 +52,12 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-xl dropdown-menu-right">
                     @foreach($latest_activities as $idx => $act)
-                        <a href="#" class="dropdown-item">
+                        <a href="javascript:void()" class="dropdown-item">
                             <div class="media">
                                 @if ($act['action'] == 'Create')
                                     <div class="avatar-initials avatar-initials-xs avatar-initials-circle mr-2 indicator-success">
                                 @elseif ($act['action'] == 'Update')
-                                    <div class="avatar-initials avatar-initials-xs avatar-initials-circle mr-2 indicator-warning">
+                                    <div class="avatar-initials avatar-initials-xs avatar-initials-circle mr-2 indicator-orange">
                                 @elseif ($act['action'] == 'Delete')
                                     <div class="avatar-initials avatar-initials-xs avatar-initials-circle mr-2 indicator-danger">
                                 @elseif ($act['module'] == 'Auth')

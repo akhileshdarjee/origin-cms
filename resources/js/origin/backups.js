@@ -129,24 +129,24 @@ $(document).ready(function() {
 
                 if (Object.keys(list_rows).length > 0) {
                     $.each(list_rows, function(index, row_data) {
-                        list_records += '<tr class="clickable_row">\
+                        list_records += '<tr>\
                             <td class="text-center">' + (parseInt(index) + 1) + '</td>';
 
                         $.each(list_columns, function(idx, column_name) {
                             var field_value = row_data[column_name];
 
                             if (column_name == "download") {
-                                list_records += '<td data-field-name="' + column_name + '">\
-                                    <a href="' + field_value + '" class="btn btn-success btn-xs" data-toggle="tooltip" data-placement="bottom" title="' + __("Download backup") + '">\
-                                        <span class="d-none d-sm-none d-md-inline-block">' + __("Download") + '</span>\
+                                list_records += '<td class="text-center" data-field-name="' + column_name + '">\
+                                    <a href="' + field_value + '" class="btn btn-success' + (isMobile ? " btn-sm" : " btn-xs") + '" data-toggle="tooltip" data-placement="bottom" title="' + __("Download backup") + '">\
+                                        <span class="d-none d-sm-none d-md-inline-block pl-1 pr-1">' + __("Download") + '</span>\
                                         <span class="d-md-none d-lg-none d-xl-none"><i class="fas fa-download"></i></span>\
                                     </a>\
                                 </td>';
                             }
                             else if (column_name == "delete") {
-                                list_records += '<td data-field-name="' + column_name + '">\
-                                    <button class="btn btn-danger btn-xs delete-backup" data-toggle="tooltip" data-placement="bottom" title="' + __("Delete backup") + '" data-href="' + field_value + '">\
-                                        <span class="d-none d-sm-none d-md-inline-block">' + __("Delete") + '</span>\
+                                list_records += '<td class="text-center" data-field-name="' + column_name + '">\
+                                    <button class="btn btn-danger delete-backup' + (isMobile ? " btn-sm" : " btn-xs") + '" data-toggle="tooltip" data-placement="bottom" title="' + __("Delete backup") + '" data-href="' + field_value + '">\
+                                        <span class="d-none d-sm-none d-md-inline-block pl-1 pr-1">' + __("Delete") + '</span>\
                                         <span class="d-md-none d-lg-none d-xl-none"><i class="fas fa-trash"></i></span>\
                                     </button>\
                                 </td>';

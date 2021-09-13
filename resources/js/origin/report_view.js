@@ -30,7 +30,7 @@ $(document).ready(function() {
     });
 
     // refresh table data on individual column search
-    $('body').on("keyup", '.column-search', function() {
+    $('body').on("input change", '.column-search', function() {
         current_page = 1;
         clearTimeout(search_timer);
         search_timer = setTimeout(refreshGridView, 450);

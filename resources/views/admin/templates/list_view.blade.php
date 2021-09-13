@@ -40,10 +40,7 @@
 
                     @if ($can_delete)
                         <button class="btn bg-gradient-danger btn-sm elevation-2 delete-selected" style="display: none;" data-toggle="tooltip" data-placement="bottom" title="{{ __('Delete selected records') }}">
-                            <span class="d-none d-sm-none d-md-inline-block">
-                                <i class="fas fa-trash fa-sm pr-1"></i>
-                                {{ __('Delete') }}
-                            </span>
+                            <span class="d-none d-sm-none d-md-inline-block">{{ __('Delete') }}</span>
                             <span class="d-md-none d-lg-none d-xl-none"><i class="fas fa-trash"></i></span>
                         </button>
                     @endif
@@ -94,7 +91,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-header list-column-filters" data-filter-no="1" style="display: none;">
+                    <div class="card-header list-column-filters" style="display: none;">
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="form-group">
@@ -168,7 +165,7 @@
                     </div>
                     <div class="card-body list-actions">
                         <div class="row page-info">
-                            <div class="col-sm-7 col-7">
+                            <div class="col-sm-7 col-7 p-0">
                                 {{ __('Page') }}:
                                 <span class="page-no indicator-pill indicator-primary no-indicator mr-1"></span> • 
                                 <span class="item-from ml-1"></span> -
@@ -176,7 +173,7 @@
                                 <span class="indicator-pill indicator-primary no-indicator item-count"></span>
                                 {{ __('records') }}
                             </div>
-                            <div class="col-sm-5 col-5">
+                            <div class="col-sm-5 col-5 p-0">
                                 <div class="origin-pagination-content text-right"></div>
                             </div>
                         </div>

@@ -48,7 +48,7 @@
                 <div class="card elevation-2">
                     <div class="card-body list-content">
                         <div class="table-responsive list-responsive">
-                            <table class="table table-hover list-view backups-view">
+                            <table class="table list-view backups-view">
                                 <thead>
                                     <tr class="list-header">
                                         <th class="text-center" valign="middle">#</th>
@@ -56,8 +56,8 @@
                                         <th name="date" valign="middle">{{ __('Date') }}</th>
                                         <th name="size" valign="middle">{{ __('Size') }}</th>
                                         <th name="size" valign="middle">{{ __('Type') }}</th>
-                                        <th name="download" valign="middle">{{ __('Download') }}</th>
-                                        <th name="delete" valign="middle">{{ __('Delete') }}</th>
+                                        <th class="text-center" name="download" valign="middle">{{ __('Download') }}</th>
+                                        <th class="text-center" name="delete" valign="middle">{{ __('Delete') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody class="list-view-items text-nowrap"></tbody>
@@ -66,7 +66,7 @@
                     </div>
                     <div class="card-body list-actions">
                         <div class="row page-info">
-                            <div class="col-sm-7 col-7">
+                            <div class="col-sm-7 col-7 p-0">
                                 {{ __('Page') }}:
                                 <span class="page-no indicator-pill indicator-primary no-indicator mr-1"></span> • 
                                 <span class="item-from ml-1"></span> -
@@ -74,7 +74,7 @@
                                 <span class="indicator-pill indicator-primary no-indicator item-count"></span>
                                 {{ __('records') }}
                             </div>
-                            <div class="col-sm-5 col-5">
+                            <div class="col-sm-5 col-5 p-0">
                                 <div class="origin-pagination-content"></div>
                             </div>
                         </div>

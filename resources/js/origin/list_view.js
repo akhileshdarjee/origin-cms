@@ -104,7 +104,7 @@ $(document).ready(function() {
             var tag_text = column_label + ' ' + column_operator + ' ' + (column_value_label || "Null");
 
             var filter_tag = '<div class="btn-group filter-tag" data-cn="' + column_name + '" data-co="' + column_operator + '" data-cv="' + column_value + '">\
-                <button class="btn btn-light btn-sm elevation-1" type="button">' + tag_text + '</button>\
+                <button class="btn btn-light btn-sm elevation-1 filter-text" type="button">' + tag_text + '</button>\
                 <button class="btn btn-light btn-sm elevation-1 remove-filter" type="button" data-toggle="tooltip" data-placement="right" title="' + __("Remove filter") + '">\
                     <i class="fas fa-times"></i>\
                 </button>\

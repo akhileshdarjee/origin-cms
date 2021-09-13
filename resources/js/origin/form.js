@@ -269,7 +269,7 @@ function enableSaveButton() {
     $('body').find('#save_form').removeClass("disabled");
     $('body').find('#save_form').prop("disabled", false);
     $('body').find('.status-indicator').removeClass('indicator-success');
-    $('body').find('.status-indicator').addClass('indicator-warning');
+    $('body').find('.status-indicator').addClass('indicator-orange');
     $('body').find('.status-indicator').html(__('Not Saved'));
 }
 

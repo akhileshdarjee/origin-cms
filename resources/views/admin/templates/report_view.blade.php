@@ -74,10 +74,10 @@
                     </div>
                     <div class="card-body list-actions with-border-top">
                         <div class="row page-info">
-                            <div class="col-sm-7 col-7">
+                            <div class="col-sm-7 col-7 p-0">
                                 <div class="dataTables_info" id="report-table_info" role="status" aria-live="polite"></div>
                             </div>
-                            <div class="col-sm-5 col-5 text-right">
+                            <div class="col-sm-5 col-5 p-0 text-right">
                                 <div class="dataTables_paginate" id="report-table_paginate"></div>
                             </div>
                         </div>

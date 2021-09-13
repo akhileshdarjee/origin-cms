@@ -183,6 +183,10 @@ trait CommonController
     // get app setting value
     public function getAppSetting($name = null)
     {
+        if (!session()->has('app_settings')) {
+            $this->putAppSettingsInSession();
+        }
+
         if ($name) {
             return session('app_settings')[$name];
         } else {
