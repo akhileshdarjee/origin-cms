@@ -66,19 +66,6 @@ Now, you've completed the configuration step :v:
 
 11. Serve it on your local server, `php artisan serve --port=8081`
   
-12. Hit the URL: http://localhost:8081/admin  
-  
-## Login Credentials:
-  
-System Administrator
-  
-**Login ID**: sysadmin  
-**Password**: sysadmin@111  
-  
-Administrator
-  
-**Login ID**: admin  
-**Password**: admin@111  
-  
+12. Hit the URL: http://localhost:8081/admin
   
 Enjoy...!!! :thumbsup:
