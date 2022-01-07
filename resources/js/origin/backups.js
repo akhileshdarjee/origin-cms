@@ -35,7 +35,7 @@ $(document).ready(function() {
                     refreshBackups(current_page);
                 }
                 else {
-                    notify(data['msg'], "error");
+                    notify(data['message'], "error");
                 }
             },
             error: function(e) {
@@ -66,11 +66,11 @@ $(document).ready(function() {
                 $("body").find(".data-loader-full").hide();
 
                 if (data['success']) {
-                    notify(data['msg'], "info");
+                    notify(data['message'], "info");
                     refreshBackups(current_page);
                 }
                 else {
-                    notify(data['msg'], "error");
+                    notify(data['message'], "error");
                 }
             },
             error: function(e) {

@@ -97,6 +97,42 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
+                    <label class="control-label">
+                        {{ __('Username') }} <span class="text-danger">*</span>
+                    </label>
+                    <div>
+                        <input type="text" name="username" class="form-control" data-mandatory="yes" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+            @if (!isset($form_data[$table_name]['id']))
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">
+                            {{ __('Password') }} <span class="text-danger">*</span>
+                        </label>
+                        <div>
+                            <input type="password" name="password" class="form-control" data-mandatory="yes" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+            @endif
+        </div>
+    </div>
+</div>
+<div class="card form-section elevation-2" id="other-details">
+    <div class="card-header">
+        <h3 class="card-title">{{ __('Other Details') }}</h3>
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-angle-up fa-lg"></i>
+            </button>
+        </div>
+    </div>
+    <div class="card-body form-content">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
                     <label class="control-label">{{ __('Language') }}</label>
                     <div>
                         <input type="text" name="language" class="form-control autocomplete" data-ac-module="Language" data-ac-field="name" data-mandatory="yes" autocomplete="off">
@@ -123,30 +159,6 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label class="control-label">
-                        {{ __('Username') }} <span class="text-danger">*</span>
-                    </label>
-                    <div>
-                        <input type="text" name="username" class="form-control" data-mandatory="yes" autocomplete="off">
-                    </div>
-                </div>
-            </div>
-            @if (!isset($form_data[$table_name]['id']))
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="control-label">
-                            {{ __('Password') }} <span class="text-danger">*</span>
-                        </label>
-                        <div>
-                            <input type="password" name="password" class="form-control" data-mandatory="yes" autocomplete="off">
-                        </div>
-                    </div>
-                </div>
-            @endif
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label class="control-label">
                         {{ __('Role') }} <span class="text-danger">*</span>
                     </label>
                     <div>
@@ -154,6 +166,16 @@
                             <option value="Administrator">{{ __('Administrator') }}</option>
                             <option value="Guest">{{ __('Guest') }}</option>
                         </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label">
+                        {{ __('Banned Until') }}
+                    </label>
+                    <div>
+                        <input type="text" name="banned_until" class="form-control datetimepicker" data-mandatory="no" autocomplete="off">
                     </div>
                 </div>
             </div>

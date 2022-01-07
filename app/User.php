@@ -20,7 +20,7 @@ class User extends Authenticatable
     protected $fillable = [
         'title', 'first_name', 'last_name', 'full_name', 'avatar', 'username', 'password', 'email', 
         'email_verified_at', 'email_verification_code', 'role', 'locale', 'time_zone', 'first_login', 
-        'active', 'owner', 'last_updated_by'
+        'banned_until', 'active', 'owner', 'last_updated_by'
     ];
 
     /**
@@ -39,5 +39,11 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'banned_until' => 'datetime'
     ];
+
+    public function activities()
+    {
+        return $this->belongsTo('App\Activity', 'id');
+    }
 }

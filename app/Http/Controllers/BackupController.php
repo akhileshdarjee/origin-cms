@@ -75,7 +75,7 @@ class BackupController extends Controller
             }
         }
 
-        $data = ['msg' => __('You are not authorized to view this page')];
+        $data = ['message' => __('You are not authorized to view this page')];
 
         if ($request->ajax()) {
             return response()->json($data, 200);
@@ -114,15 +114,15 @@ class BackupController extends Controller
         }
 
         if ($request->ajax()) {
-            return response()->json(['msg' => $msg], 200);
+            return response()->json(['message' => $msg], 200);
         } else {
-            return redirect()->route('home')->with(['msg' => $msg]);
+            return redirect()->route('home')->with(['message' => $msg]);
         }
     }
 
     public function delete(Request $request, $name)
     {
-        $msg = __('You are not authorized to delete backups');
+        $message = __('You are not authorized to delete backups');
         $success = false;
 
         if (auth()->user()->role == "Administrator" && auth()->user()->username == "admin") {
@@ -136,7 +136,7 @@ class BackupController extends Controller
                     Storage::delete(storage_path('app/backups/' . $name . '.sql'));
                     unlink(storage_path('app/backups/' . $name . '.sql'));
 
-                    $msg = __('Backup deleted successfully');
+                    $message = __('Backup deleted successfully');
                     $success = true;
 
                     $activity_data['form_title'] = $name . '.sql';
@@ -145,30 +145,30 @@ class BackupController extends Controller
                     Storage::delete(storage_path('app/backups/' . $name . '.zip'));
                     unlink(storage_path('app/backups/' . $name . '.zip'));
 
-                    $msg = __('Backup deleted successfully');
+                    $message = __('Backup deleted successfully');
                     $success = true;
 
                     $activity_data['form_title'] = $name . '.zip';
                     $this->saveActivity($activity_data, "Delete");
                 } else {
-                    $msg = __('No such backup exists');
+                    $message = __('No such backup exists');
                     $success = false;
                 }
             } else {
-                $msg = __('Please provide backup filename to delete');
+                $message = __('Please provide backup filename to delete');
             }
         }
 
         if ($request->ajax()) {
-            return response()->json(compact('msg', 'success'), 200);
+            return response()->json(compact('message', 'success'), 200);
         } else {
-            return redirect()->route('home')->with(compact('msg', 'success'));
+            return redirect()->route('home')->with(compact('message', 'success'));
         }
     }
 
     public function create(Request $request)
     {
-        $msg = __('You are not authorized to create backups');
+        $message = __('You are not authorized to create backups');
         $success = false;
 
         if (auth()->user()->role == "Administrator" && auth()->user()->username == "admin") {
@@ -184,7 +184,7 @@ class BackupController extends Controller
                 $exit_code = Artisan::call('origin:backup');
             }
 
-            $msg = Artisan::output();
+            $message = Artisan::output();
 
             if ($exit_code == "0") {
                 $type = (isset($backup_type) && $backup_type) ? $backup_type : "Database + Files";
@@ -209,9 +209,9 @@ class BackupController extends Controller
         }
 
         if ($request->ajax()) {
-            return response()->json(compact('msg', 'success'), 200);
+            return response()->json(compact('message', 'success'), 200);
         } else {
-            return redirect()->route('home')->with(compact('msg', 'success'));
+            return redirect()->route('home')->with(compact('message', 'success'));
         }
     }
 }

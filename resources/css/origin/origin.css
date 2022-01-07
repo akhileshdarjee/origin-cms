@@ -866,6 +866,13 @@ table > tbody > tr > td > a:hover {
 	overflow: hidden;
 	border-bottom: 0 !important;
 }
+.no-notifications {
+	height: 300px;
+	vertical-align: middle !important;
+	text-align: center;
+	overflow: hidden;
+	border-bottom: 0 !important;
+}
 .page-info {
 	align-items: center;
 	margin: 0;

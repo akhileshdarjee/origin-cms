@@ -7,6 +7,7 @@ use Exception;
 use File;
 use Artisan;
 use Str;
+use App\User;
 use Carbon\Carbon;
 use App\Module;
 use App\Http\Controllers\CommonController;
@@ -197,7 +198,7 @@ class ModuleController extends Controller
     {
         $data = [
             'success' => false,
-            'msg' => __('Please provide module data')
+            'message' => __('Please provide module data')
         ];
 
         if (in_array(auth()->user()->role, ["System Administrator", "Administrator"])) {
@@ -216,13 +217,13 @@ class ModuleController extends Controller
 
                     if ($updated) {
                         $data['success'] = true;
-                        $data['msg'] = __('Module sequence updated successfully');
+                        $data['message'] = __('Module sequence updated successfully');
                         cache()->forget('app_modules');
                     }
                 }
             }
         } else {
-            $data['msg'] = __('You are not authorized to change Module sequence');
+            $data['message'] = __('You are not authorized to change Module sequence');
         }
 
         return response()->json($data, 200);

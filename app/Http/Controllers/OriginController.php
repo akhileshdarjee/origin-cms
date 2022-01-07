@@ -28,12 +28,12 @@ class OriginController extends Controller
         } catch(Exception $e) {
             if ($request->is('api/*')) {
                 return response()->json([
-                    'status_code' => 500,
-                    'status' => 'Internal Server Error',
+                    'success' => false,
+                    'data' => [],
                     'message' => str_replace("'", "", $e->getMessage())
                 ], 500);
             } else {
-                return back()->withInput()->with(['msg' => str_replace("'", "", $e->getMessage())]);
+                return back()->withInput()->with(['message' => str_replace("'", "", $e->getMessage())]);
             }
         }
 
@@ -61,12 +61,12 @@ class OriginController extends Controller
         } catch(Exception $e) {
             if ($request->is('api/*')) {
                 return response()->json([
-                    'status_code' => 500,
-                    'status' => 'Internal Server Error',
+                    'success' => false,
+                    'data' => [],
                     'message' => str_replace("'", "", $e->getMessage())
                 ], 500);
             } else {
-                return back()->withInput()->with(['msg' => str_replace("'", "", $e->getMessage())]);
+                return back()->withInput()->with(['message' => str_replace("'", "", $e->getMessage())]);
             }
         }
 
@@ -106,7 +106,7 @@ class OriginController extends Controller
                     'message' => str_replace("'", "", $e->getMessage())
                 ], 500);
             } else {
-                return back()->withInput()->with(['msg' => str_replace("'", "", $e->getMessage())]);
+                return back()->withInput()->with(['message' => str_replace("'", "", $e->getMessage())]);
             }
         }
 
@@ -124,7 +124,7 @@ class OriginController extends Controller
                         'message' => str_replace("'", "", $e->getMessage())
                     ], 500);
                 } else {
-                    return back()->withInput()->with(['msg' => str_replace("'", "", $e->getMessage())]);
+                    return back()->withInput()->with(['message' => str_replace("'", "", $e->getMessage())]);
                 }
             }
         }
@@ -163,7 +163,7 @@ class OriginController extends Controller
                     'message' => str_replace("'", "", $e->getMessage())
                 ], 500);
             } else {
-                return back()->withInput()->with(['msg' => str_replace("'", "", $e->getMessage())]);
+                return back()->withInput()->with(['message' => str_replace("'", "", $e->getMessage())]);
             }
         }
 
@@ -181,7 +181,7 @@ class OriginController extends Controller
                         'message' => str_replace("'", "", $e->getMessage())
                     ], 500);
                 } else {
-                    return back()->withInput()->with(['msg' => str_replace("'", "", $e->getMessage())]);
+                    return back()->withInput()->with(['message' => str_replace("'", "", $e->getMessage())]);
                 }
             }
         }
@@ -212,12 +212,12 @@ class OriginController extends Controller
         if (isset($response['status_code']) && $response['status_code'] == 200) {
             if ($view_type && $view_type == 'list_view') {
                 return redirect()->route('show.list', array('slug' => $module_slug))
-                    ->with(['msg' => $response['message']]);
+                    ->with(['message' => $response['message']]);
             } elseif ($view_type && $view_type == 'form_view') {
                 $form_link_field_value = $form_data[$this->module['table_name']][$this->module['link_field']];
 
                 return redirect()->route('show.doc', array('slug' => $module_slug, 'id' => $form_link_field_value))
-                    ->with(['msg' => $response['message']]);
+                    ->with(['message' => $response['message']]);
             } else {
                 if (debug_backtrace()[1]['function'] === "copy") {
                     // remove link field value from parent table
@@ -242,47 +242,47 @@ class OriginController extends Controller
             }
         } elseif (isset($response['status_code']) && $response['status_code'] == 400) {
             session()->flash('success', false);
-            return back()->withInput()->with(['msg' => $response['message']]);
+            return back()->withInput()->with(['message' => $response['message']]);
         } elseif (isset($response['status_code']) && $response['status_code'] == 401) {
             session()->flash('success', false);
 
             if ($view_type && $view_type == 'list_view') {
                 return redirect()->route('show.list', array('slug' => $module_slug))
-                    ->with(['msg' => $response['message']]);
+                    ->with(['message' => $response['message']]);
             } elseif ($view_type && $view_type == 'form_view') {
-                return back()->withInput()->with(['msg' => $response['message']]);
+                return back()->withInput()->with(['message' => $response['message']]);
             } else {
-                return redirect()->route('home')->with('msg', $response['message']);
+                return redirect()->route('home')->with('message', $response['message']);
             }
         } elseif (isset($response['status_code']) && $response['status_code'] == 404) {
             session()->flash('success', false);
 
             if ($view_type && $view_type == 'list_view') {
                 return redirect()->route('show.list', array('slug' => $module_slug))
-                    ->with(['msg' => $response['message']]);
+                    ->with(['message' => $response['message']]);
             } elseif ($view_type && $view_type == 'form_view') {
                 $form_link_field_value = $form_data[$this->module['table_name']][$this->module['link_field']];
 
                 return redirect()->route('show.doc', array('slug' => $module_slug, 'id' => $form_link_field_value))
-                    ->with(['msg' => $response['message']]);
+                    ->with(['message' => $response['message']]);
             } else {
-                return redirect()->route('home')->with('msg', $response['message']);
+                return redirect()->route('home')->with('message', $response['message']);
             }
         } elseif (isset($response['status_code']) && $response['status_code'] == 500) {
             session()->flash('success', false);
 
             if ($view_type && $view_type == 'list_view') {
                 return redirect()->route('show.list', array('slug' => $module_slug))
-                    ->with(['msg' => $response['message']]);
+                    ->with(['message' => $response['message']]);
             } elseif ($view_type && $view_type == 'form_view') {
                 if (isset($form_data[$this->module['table_name']]) && 
                     isset($form_data[$this->module['table_name']][$this->module['link_field']])) {
                         $form_link_field_value = $form_data[$this->module['table_name']][$this->module['link_field']];
 
                         return redirect()->route('show.doc', array('slug' => $module_slug, 'id' => $form_link_field_value))
-                            ->with(['msg' => $response['message']]);
+                            ->with(['message' => $response['message']]);
                 } else {
-                    return back()->withInput()->with(['msg' => $response['message']]);
+                    return back()->withInput()->with(['message' => $response['message']]);
                 }
             }
         }

@@ -30,9 +30,11 @@ Route::group(['middleware' => ['web']], function () {
 
     // Request that requires authorization...
     Route::group(['middleware' => 'auth'], function () {
-
         // App routes...
         Route::get('/home', 'AppController@showHome')->name('home');
+        Route::get('/latest-notifications', 'ActivityController@getLatestActivities')->name('latest.notifications');
+        Route::post('/editor-upload', 'AppController@editorUpload')->name('editor.upload');
+        Route::post('/change-theme', 'SettingsController@changeTheme')->name('change.theme');
 
         // App Home page module routes...
         Route::get('/app/modules', 'ModuleController@show')->name('show.app.modules');
@@ -43,9 +45,6 @@ Route::group(['middleware' => ['web']], function () {
         Route::post('/app/change-password', 'AppController@changePassword')->name('password.change');
         Route::post('/update-module-sequence', 'ModuleController@updateSequence')->name('update.module.sequence');
         Route::post('/import-from-csv', 'ImportController@import')->name('import.from.csv');
-        Route::post('/update-list-sorting', 'ListViewController@updateSorting')->name('update.list.sorting');
-        Route::post('/editor-upload', 'AppController@editorUpload')->name('editor.upload');
-        Route::post('/change-theme', 'SettingsController@changeTheme')->name('change.theme');
 
         // Backup routes...
         Route::get('/app/backups', 'BackupController@show')->name('show.app.backups');
@@ -55,6 +54,7 @@ Route::group(['middleware' => ['web']], function () {
 
         // List View...
         Route::get('/list/{slug}', 'ListViewController@showList')->name('show.list');
+        Route::post('/list/{slug}/update-sorting', 'ListViewController@updateSorting')->name('update.list.sorting');
 
         // Report View...
         Route::get('/app/report/{report_name}', 'ReportController@showReport')->name('show.report');

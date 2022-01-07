@@ -22,7 +22,7 @@ class ListViewController extends Controller
         try {
             $this->module = $this->setModule($slug);
         } catch(Exception $e) {
-            return back()->with(['msg' => str_replace("'", "", $e->getMessage())]);
+            return back()->with(['message' => str_replace("'", "", $e->getMessage())]);
         }
 
         if ($slug == "report") {
@@ -37,9 +37,9 @@ class ListViewController extends Controller
                     $msg = __('You are not authorized to view') . ' "'. __($this->module["display_name"]) . '" ' . __('records');
 
                     if (url()->current() === url()->previous()) {
-                        return redirect()->route('home')->with(['msg' => $msg]);
+                        return redirect()->route('home')->with(['message' => $msg]);
                     } else {
-                        return back()->with(['msg' => $msg]);
+                        return back()->with(['message' => $msg]);
                     }
                 }
             }
@@ -60,7 +60,7 @@ class ListViewController extends Controller
                 $list_view_data = $this->prepareListViewData($request);
                 return $list_view_data;
             } catch(Exception $e) {
-                return response()->json(['msg' => str_replace("'", "", $e->getMessage())], 200);
+                return response()->json(['message' => str_replace("'", "", $e->getMessage())], 200);
             }
         }
         else {
@@ -71,14 +71,14 @@ class ListViewController extends Controller
                     ->select($columns)
                     ->first();
             } catch(Exception $e) {
-                return back()->with(['msg' => str_replace("'", "", $e->getMessage())]);
+                return back()->with(['message' => str_replace("'", "", $e->getMessage())]);
             }
 
             try {
                 $list_view_data = $this->prepareListViewData($request);
                 return view('admin.templates.list_view', $list_view_data);
             } catch(Exception $e) {
-                return back()->with(['msg' => str_replace("'", "", $e->getMessage())]);
+                return back()->with(['message' => str_replace("'", "", $e->getMessage())]);
             }
         }
     }
@@ -150,7 +150,7 @@ class ListViewController extends Controller
 
             array_push($result, [
                 'success' => session()->pull('success'),
-                'msg' => session()->pull('msg'),
+                'message' => session()->pull('message'),
                 'id' => $id
             ]);
         }
@@ -270,44 +270,42 @@ class ListViewController extends Controller
         return $rows;
     }
 
-    public function updateSorting(Request $request)
+    public function updateSorting(Request $request, $slug)
     {
         $data = [
             'success' => false,
-            'msg' => __('Some error occured. Please try again')
+            'message' => __('Some error occured. Please try again')
         ];
 
-        if ($request->filled('module') && $request->filled('sort_field') && $request->filled('sort_order')) {
-            $module = trim($request->get('module'));
+        try {
+            $this->module = $this->setModule($slug);
+        } catch(Exception $e) {
+            $data['message'] = str_replace("'", "", $e->getMessage());
+            return back()->with($data);
+        }
+
+        if ($request->filled('sort_field') && $request->filled('sort_order')) {
             $sort_field = trim($request->get('sort_field'));
             $sort_order = trim($request->get('sort_order'));
 
-            $module_exists = Module::select('id', 'name')
-                ->where('name', $module)
-                ->first();
+            $updated = Module::where('name', $this->module['name'])
+                ->update([
+                    'sort_field' => $sort_field, 
+                    'sort_order' => $sort_order, 
+                    'updated_at' => Carbon::now('UTC')->format('Y-m-d H:i:s')
+                ]);
 
-            if ($module_exists) {
-                $updated = Module::where('name', $module)
-                    ->update([
-                        'sort_field' => $sort_field, 
-                        'sort_order' => $sort_order, 
-                        'updated_at' => Carbon::now('UTC')->format('Y-m-d H:i:s')
-                    ]);
+            if ($updated) {
+                cache()->forget('app_modules');
+                $this->getAppModules();
 
-                if ($updated) {
-                    cache()->forget('app_modules');
-                    $this->getAppModules();
-
-                    $data = [
-                        'success' => true,
-                        'msg' => __('Sorting fields has been updated')
-                    ];
-                }
-            } else {
-                $data['msg'] = __('No such module found');
+                $data = [
+                    'success' => true,
+                    'message' => __('Sorting fields has been updated')
+                ];
             }
         } else {
-            $data['msg'] = __('Please provide module, sort field and sort order');
+            $data['message'] = __('Please provide sort field and sort order');
         }
 
         return response()->json($data, 200);

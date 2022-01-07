@@ -20,11 +20,15 @@
                 <div class="card-body">
                     <p class="login-box-msg">{{ __('Login to start your session') }}</p>
                     <form action="{{ route('submit.login') }}" method="POST" name="login-form" id="login-form">
+                        @if (session('message'))
+                            <div class="alert alert-danger">
+                                <i class="icon fas fa-ban"></i>{{ __(session('message')) }}
+                            </div>
+                        @endif
                         @if (count($errors) > 0)
                             @foreach ($errors->all() as $error)
                                 <div class="alert alert-danger">
-                                    <i class="icon fas fa-ban"></i>
-                                    {{ __($error) }}
+                                    <i class="icon fas fa-ban"></i>{{ __($error) }}
                                 </div>
                             @endforeach
                         @endif

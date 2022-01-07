@@ -64,7 +64,7 @@
                                 </button>
                                 <div class="list-active-filters" style="display: none;"></div>
                             </div>
-                            <div class="col-md-3 col-sm-6 col-6 text-right sorting-fields" data-action="{{ route('update.list.sorting') }}">
+                            <div class="col-md-3 col-sm-6 col-6 text-right sorting-fields" data-action="{{ route('update.list.sorting', ['slug' => $module['slug']]) }}">
                                 <div class="btn-group">
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">

@@ -60,7 +60,7 @@
                                         @if (auth()->user()->role == "Administrator" && auth()->user()->username == "admin")
                                             <option value="Backup">{{ __('Backup') }}</option>
                                         @endif
-                                        @foreach($modules as $module)
+                                        @foreach($data['modules'] as $module)
                                             <option value="{{ $module['display_name'] }}">
                                                 {{ __($module['display_name']) }}
                                             </option>

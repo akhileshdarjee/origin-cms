@@ -48,7 +48,11 @@ class LoginController extends Controller
      */
     public function showLoginForm()
     {
-        return redirect()->route('show.app.login');
+        if (session('message')) {
+            return redirect()->route('show.app.login')->withMessage(session('message'));
+        } else {
+            return redirect()->route('show.app.login');
+        }
     }
 
     /**
@@ -61,7 +65,11 @@ class LoginController extends Controller
         if (auth()->check()) {
             return redirect()->route('home');
         } else {
-            return view('auth.login');
+            if (session('message')) {
+                return view('auth.login')->withMessage(session('message'));
+            } else {
+                return view('auth.login');
+            }
         }
     }
 
@@ -114,7 +122,8 @@ class LoginController extends Controller
         if ($request->ajax()) {
             return response()->json([
                 'success' => true,
-                'msg' => __('Successfully logged in')
+                'data' => [],
+                'message' => __('Successfully logged in')
             ], 200);
         } else {
             if ($request->filled('redirect_to')) {

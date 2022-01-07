@@ -29,6 +29,7 @@ class CreateUsersTable extends Migration
             $table->string('locale')->default('en');
             $table->string('time_zone')->default('UTC');
             $table->boolean('first_login')->default('0')->nullable();
+            $table->timestamp('banned_until')->nullable();
             $table->rememberToken();
             $table->boolean('active')->default('1');
             $table->string('owner');

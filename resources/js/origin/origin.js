@@ -224,6 +224,7 @@ $(document).ready(function() {
         }
     });
 
+    getLatestActivities();
     enableAutocomplete();
     enableDatePicker();
     enableTimePicker();
@@ -311,7 +312,7 @@ function changeTheme(theme) {
             success: function(data) {
                 if (!data['success']) {
                     applyTheme(theme_alt);
-                    notify(data['msg'], "error");
+                    notify(data['message'], "error");
                 }
             },
             error: function(e) {
@@ -330,6 +331,78 @@ function changeTheme(theme) {
     }
     else {
         notify(__('Please refresh the page and try again'), "error");
+    }
+}
+
+function getLatestActivities() {
+    var app_notifications = $('body').find('#app-notifications');
+    var action = $(app_notifications).data('action');
+
+    if (action) {
+        $.ajax({
+            type: 'GET',
+            url: action,
+            dataType: 'json',
+            success: function(data) {
+                if (data['success']) {
+                    var notifications = '';
+
+                    $.each(data['data']['notifications'], function(idx, activity) {
+                        notifications += '<a href="javascript:void()" class="dropdown-item">\
+                            <div class="media">';
+
+                        if (activity['action'] == 'Create') {
+                            notifications += '<div class="avatar-initials avatar-initials-xs avatar-initials-circle mr-2 indicator-success">';
+                        }
+                        else if (activity['action'] == 'Update') {
+                            notifications += '<div class="avatar-initials avatar-initials-xs avatar-initials-circle mr-2 indicator-orange">';
+                        }
+                        else if (activity['action'] == 'Delete') {
+                            notifications += '<div class="avatar-initials avatar-initials-xs avatar-initials-circle mr-2 indicator-danger">';
+                        }
+                        else if (activity['module'] == 'Auth') {
+                            notifications += '<div class="avatar-initials avatar-initials-xs avatar-initials-circle mr-2 indicator-primary">';
+                        }
+                        else {
+                            notifications += '<div class="avatar-initials avatar-initials-xs avatar-initials-circle mr-2 indicator-purple">';
+                        }
+
+                        notifications += '<i class="' + activity["icon"] + ' activity-icon"></i>\
+                                </div>\
+                                <div class="media-body">\
+                                    <p class="text-sm">' + activity["description"] + '</p>\
+                                    <p class="text-sm text-muted activity-time">\
+                                        <i class="far fa-clock mr-1"></i> ' + activity["time_diff"] + '\
+                                    </p>\
+                                </div>\
+                            </div>\
+                        </a>';
+                    });
+
+                    if (notifications) {
+                        notifications += '<div class="dropdown-divider"></div>';
+
+                        $(app_notifications).prepend(notifications);
+                        $(app_notifications).find('.no-notifications').hide();
+                        $(app_notifications).find('.activity-link').show();
+                    }
+                    else {
+                        $(app_notifications).find('.no-notifications').show();
+                        $(app_notifications).find('.activity-link').hide();
+                    }
+                }
+            },
+            error: function(e) {
+                if (typeof JSON.parse(e.responseText)['message'] !== 'undefined') {
+                    var error_msg = JSON.parse(e.responseText)['message'];
+                }
+                else {
+                    var error_msg = __('Some error occured. Please try again');
+                }
+
+                console.log(error_msg);
+            }
+        });
     }
 }
 

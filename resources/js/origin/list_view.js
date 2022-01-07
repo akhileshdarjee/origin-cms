@@ -1,6 +1,6 @@
 $(document).ready(function() {
     var current_page = 1;
-    var module_name = '';
+    var module_name = false;
     var recently_deleted = false;
 
     refreshListView(current_page);
@@ -275,14 +275,14 @@ $(document).ready(function() {
                             $(import_form).find('.progress').hide();
                             $(me).show();
 
-                            if (data['msg'].constructor === Array) {
-                                if (data['msg'].length > 1) {
+                            if (data['message'].constructor === Array) {
+                                if (data['message'].length > 1) {
                                     var errors = '';
 
-                                    $.each(data['msg'], function(idx, error) {
+                                    $.each(data['message'], function(idx, error) {
                                         errors += (idx + 1) + '. ' + error;
 
-                                        if (idx !== (data['msg'].length - 1)) {
+                                        if (idx !== (data['message'].length - 1)) {
                                             errors += '<br>';
                                         }
                                     });
@@ -290,11 +290,11 @@ $(document).ready(function() {
                                     $(import_form).find('.import-errors').empty().append(errors);
                                 }
                                 else {
-                                    $(import_form).find('.import-errors').empty().append(data['msg'][0]);
+                                    $(import_form).find('.import-errors').empty().append(data['message'][0]);
                                 }
                             }
                             else {
-                                $(import_form).find('.import-errors').empty().append(data['msg']);
+                                $(import_form).find('.import-errors').empty().append(data['message']);
                             }
 
                             $(import_form).find('.import-errors').show();
@@ -621,7 +621,7 @@ $(document).ready(function() {
 
         $.each(result, function(idx, res) {
             if (!res['success']) {
-                error_data.push(res['msg']);
+                error_data.push(res['message']);
             }
         });
 
@@ -667,7 +667,7 @@ $(document).ready(function() {
             $.ajax({
                 type: 'POST',
                 url: data_action,
-                data: {'sort_order': sort_order, 'sort_field': sort_field, 'module': module_name},
+                data: {'sort_order': sort_order, 'sort_field': sort_field},
                 dataType: 'json',
                 success: function(data) {
                     $("body").find(".data-loader").hide();
@@ -676,7 +676,7 @@ $(document).ready(function() {
                         refreshListView(current_page);
                     }
                     else {
-                        notify(data['msg'], "error");
+                        notify(data['message'], "error");
                     }
                 },
                 error: function(e) {

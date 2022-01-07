@@ -34,15 +34,15 @@
             @include('admin.templates.msgbox')
         </div>
         <script type="text/javascript" src="{{ asset(mix('js/all.js')) }}"></script>
-        @if (session()->exists('msg'))
+        @if (session()->exists('message'))
             <script type="text/javascript">
-                @if (session()->has('msg'))
+                @if (session()->has('message'))
                     @if (session('success'))
-                        notify('{!! nl2br(session("msg")) !!}', 'success');
+                        notify('{!! nl2br(session("message")) !!}', 'success');
                     @elseif (!session('success'))
-                        notify('{!! nl2br(session("msg")) !!}', 'error');
+                        notify('{!! nl2br(session("message")) !!}', 'error');
                     @else
-                        notify('{!! nl2br(session("msg")) !!}', 'info');
+                        notify('{!! nl2br(session("message")) !!}', 'info');
                     @endif
                 @endif
             </script>

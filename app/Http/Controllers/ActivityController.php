@@ -17,11 +17,17 @@ class ActivityController extends Controller
 
     public function show(Request $request)
     {
-        if ($request->ajax()) {
-            $activities = $this->getActivityRecords($request, true, 20);
-            $current_user = auth()->user();
+        $data = [
+            'success' => true,
+            'data' => [],
+            'message' => __('Some error occured. Please try again')
+        ];
 
-            return response()->json(compact('activities', 'current_user'), 200);
+        if ($request->ajax()) {
+            $data['data']['activities'] = $this->getActivityRecords($request, true, 20);
+            $data['data']['current_user_id'] = auth()->user()->id;
+
+            return response()->json($data, 200);
         } else {
             $user_role = auth()->user()->role;
             $modules = $this->getAppModules();
@@ -38,7 +44,8 @@ class ActivityController extends Controller
                 }
             }
 
-            return view('admin.layouts.origin.activity', compact('modules'));
+            $data['data']['modules'] = $modules;
+            return view('admin.layouts.origin.activity')->with($data);
         }
     }
 
@@ -172,8 +179,15 @@ class ActivityController extends Controller
         return $activities;
     }
 
-    public function getLatestActivities($size)
+    public function getLatestActivities(Request $request)
     {
+        $data = [
+            'success' => true,
+            'data' => [],
+            'message' => __('Some error occured. Please try again')
+        ];
+
+        $size = $request->filled('size') ? intval(trim($request->get('size'))) : 5;
         $activities = $this->getActivityRecords(false, false, $size ? $size : 5);
         $activity_list = [];
 
@@ -212,6 +226,7 @@ class ActivityController extends Controller
             array_push($activity_list, compact('icon', 'action', 'module', 'description', 'time_diff'));
         }
 
-        return $activity_list;
+        $data['data']['notifications'] = $activity_list;
+        return response()->json($data, 200);
     }
 }

@@ -149,10 +149,10 @@ class UserController extends Controller
 
         if ($request->ajax()) {
             return response()->json([
-                'msg' => $msg
+                'message' => $msg
             ], 200);
         } else {
-            return redirect()->route('show.app.login')->with(['msg' => $msg]);
+            return redirect()->route('show.app.login')->with(['message' => $msg]);
         }
     }
 

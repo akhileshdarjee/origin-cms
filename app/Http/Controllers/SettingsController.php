@@ -103,7 +103,7 @@ class SettingsController extends Controller
 
         $data = [
             'success' => true,
-            'msg' => __('App settings successfully saved')
+            'message' => __('App settings successfully saved')
         ];
 
         if ($request->ajax()) {
@@ -117,7 +117,7 @@ class SettingsController extends Controller
     {
         $data = [
             'success' => false,
-            'msg' => __('Please provide valid Theme i.e. "light" or "dark"')
+            'message' => __('Please provide valid Theme i.e. "light" or "dark"')
         ];
 
         if ($request->filled('theme')) {
@@ -138,10 +138,10 @@ class SettingsController extends Controller
 
                     $data = [
                         'success' => true,
-                        'msg' => __('Theme changed successfully')
+                        'message' => __('Theme changed successfully')
                     ];
                 } else {
-                    $data['msg'] = __('Some error occured. Please try again');
+                    $data['message'] = __('Some error occured. Please try again');
                 }
             }
         }

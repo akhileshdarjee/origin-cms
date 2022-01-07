@@ -86,25 +86,25 @@ class ImportController extends Controller
                     if ($errors && count($errors)) {
                         return response()->json([
                             'success' => false,
-                            'msg' => $errors
+                            'message' => $errors
                         ], 200);
                     } else {
                         return response()->json([
                             'success' => true,
-                            'msg' => __('Import successful')
+                            'message' => __('Import successful')
                         ], 200);
                     }
                 }
             } else {
                 return response()->json([
                     'success' => false,
-                    'msg' => __('Only .csv, .xls or .xlsx files are allowed')
+                    'message' => __('Only .csv, .xls or .xlsx files are allowed')
                 ], 200);
             }
         } else {
             return response()->json([
                 'success' => false,
-                'msg' => __('Please provide Module')
+                'message' => __('Please provide Module')
             ], 200);
         }
     }

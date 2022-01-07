@@ -36,7 +36,7 @@ class ReportController extends Controller
 
             return view('admin.layouts.origin.reports')->with(['data' => $app_reports]);
         } else {
-            return back()->withInput()->with(['msg' => __('You are not authorized to view "Reports"')]);
+            return back()->withInput()->with(['message' => __('You are not authorized to view "Reports"')]);
         }
     }
 
@@ -49,7 +49,7 @@ class ReportController extends Controller
                 $report_config = config('reports')[Str::studly($report_name)];
             } else {
                 session()->flash('success', false);
-                return redirect()->route('home')->with('msg', __('No such report found'));
+                return redirect()->route('home')->with('message', __('No such report found'));
             }
 
             $allowed_roles = ['Administrator', 'System Administrator'];
@@ -59,7 +59,7 @@ class ReportController extends Controller
             }
 
             if (!in_array($user_role, $allowed_roles)) {
-                return redirect()->route('home')->with('msg', __('You are not authorized to view') . ' "' . __(awesome_case($report_name)) . '"');
+                return redirect()->route('home')->with('message', __('You are not authorized to view') . ' "' . __(awesome_case($report_name)) . '"');
             }
 
             if ($request->filled('download') && $request->get('download') == 'Yes') {
@@ -98,7 +98,7 @@ class ReportController extends Controller
                 }
             }
         } else {
-            return redirect()->route('home')->with('msg', __('You are not authorized to view "Reports"'));
+            return redirect()->route('home')->with('message', __('You are not authorized to view "Reports"'));
         }
     }
 

@@ -55,7 +55,7 @@
                         dataType: 'json',
                         success: function(data) {
                             if (!data['success']) {
-                                notify(data['msg'], 'error');
+                                notify(data['message'], 'error');
                             }
                         },
                         error: function(e) {
